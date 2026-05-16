@@ -1,0 +1,32 @@
+# BasicAgentUserDetailFlow
+
+main: kit: flow: BasicAgentUserDetailFlow:
+{
+  entity: "agent_user_detail",
+  kind: "basic",
+  name: "BasicAgentUserDetailFlow",
+  step: [
+    {
+      input: {
+        ref: "agent_user_detail_ref01",
+        srcdatavar: "agent_user_detail_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "agent_user_detail01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-agent_user_detail_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicAgentUserDetailFlow"
+}

@@ -1,0 +1,33 @@
+{
+  "existing": {
+    "register": {
+      "REGISTER00": {
+        "email": "s28",
+        "id": "REGISTER00",
+        "password": "s2a",
+        "token": "s2b"
+      },
+      "REGISTER01": {
+        "email": "s50",
+        "id": "REGISTER01",
+        "password": "s52",
+        "token": "s53"
+      },
+      "REGISTER02": {
+        "email": "s78",
+        "id": "REGISTER02",
+        "password": "s7a",
+        "token": "s7b"
+      }
+    }
+  },
+  "new": {
+    "register": {
+      "register_ref01": {
+        "email": "sa0",
+        "password": "sa2",
+        "token": "sa3"
+      }
+    }
+  }
+}

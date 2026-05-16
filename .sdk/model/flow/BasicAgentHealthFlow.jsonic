@@ -1,0 +1,28 @@
+# BasicAgentHealthFlow
+
+main: kit: flow: BasicAgentHealthFlow:
+{
+  entity: "agent_health",
+  kind: "basic",
+  name: "BasicAgentHealthFlow",
+  step: [
+    {
+      input: {
+        ref: "agent_health_ref01",
+        srcdatavar: "agent_health_ref01_data",
+        suffix: "_dt0"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-agent_health_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicAgentHealthFlow"
+}

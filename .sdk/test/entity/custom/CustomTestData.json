@@ -1,0 +1,20 @@
+{
+  "existing": {
+    "custom": {
+      "CUSTOM00": {
+        "id": "CUSTOM00"
+      },
+      "CUSTOM01": {
+        "id": "CUSTOM01"
+      },
+      "CUSTOM02": {
+        "id": "CUSTOM02"
+      }
+    }
+  },
+  "new": {
+    "custom": {
+      "custom_ref01": {}
+    }
+  }
+}

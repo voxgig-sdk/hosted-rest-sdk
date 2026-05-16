@@ -1,0 +1,44 @@
+# Entity: app_user_verify
+
+main: kit: entity: app_user_verify: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "data"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "token"
+      req: true
+      type: "`$STRING`"
+    }
+  ]
+
+  name: "app_user_verify"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/api/app-users/verify"
+          parts: [
+            "api"
+            "app-users"
+            "verify"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

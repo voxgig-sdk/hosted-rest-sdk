@@ -1,0 +1,36 @@
+# BasicAgentSandboxFlow
+
+main: kit: flow: BasicAgentSandboxFlow:
+{
+  entity: "agent_sandbox",
+  kind: "basic",
+  name: "BasicAgentSandboxFlow",
+  step: [
+    {
+      input: {
+        ref: "agent_sandbox_ref01"
+      }
+
+      op: "create"
+    }
+
+    {
+      input: {
+        ref: "agent_sandbox_ref01",
+        srcdatavar: "agent_sandbox_ref01_data",
+        suffix: "_dt0"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-agent_sandbox_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicAgentSandboxFlow"
+}

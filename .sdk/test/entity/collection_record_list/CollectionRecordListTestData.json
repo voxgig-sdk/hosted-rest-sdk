@@ -1,0 +1,56 @@
+{
+  "existing": {
+    "collection_record_list": {
+      "COLLECTION_RECORD_LIST00": {
+        "app_user_id": "APP_USER01",
+        "collection_id": "COLLECTION01",
+        "created_at": "s5c",
+        "created_by": "s5d",
+        "data": {},
+        "deleted_at": "s5f",
+        "id": "COLLECTION_RECORD_LIST00",
+        "project_id": "PROJECT01",
+        "updated_at": "s62",
+        "slug": "SLUG01"
+      },
+      "COLLECTION_RECORD_LIST01": {
+        "app_user_id": "APP_USER01",
+        "collection_id": "COLLECTION01",
+        "created_at": "sb6",
+        "created_by": "sb7",
+        "data": {},
+        "deleted_at": "sb9",
+        "id": "COLLECTION_RECORD_LIST01",
+        "project_id": "PROJECT01",
+        "updated_at": "sbc",
+        "slug": "SLUG01"
+      },
+      "COLLECTION_RECORD_LIST02": {
+        "app_user_id": "APP_USER01",
+        "collection_id": "COLLECTION01",
+        "created_at": "s110",
+        "created_by": "s111",
+        "data": {},
+        "deleted_at": "s113",
+        "id": "COLLECTION_RECORD_LIST02",
+        "project_id": "PROJECT01",
+        "updated_at": "s116",
+        "slug": "SLUG01"
+      }
+    }
+  },
+  "new": {
+    "collection_record_list": {
+      "collection_record_list_ref01": {
+        "app_user_id": "APP_USER01",
+        "collection_id": "COLLECTION01",
+        "created_at": "s16a",
+        "created_by": "s16b",
+        "data": {},
+        "deleted_at": "s16d",
+        "project_id": "PROJECT01",
+        "updated_at": "s170"
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+# BasicLegacyUserFlow
+
+main: kit: flow: BasicLegacyUserFlow:
+{
+  entity: "legacy_user",
+  kind: "basic",
+  name: "BasicLegacyUserFlow",
+  step: [
+    {
+      input: {
+        ref: "legacy_user_ref01",
+        srcdatavar: "legacy_user_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "legacy_user01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-legacy_user_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicLegacyUserFlow"
+}

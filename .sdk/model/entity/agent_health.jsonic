@@ -1,0 +1,39 @@
+# Entity: agent_health
+
+main: kit: entity: agent_health: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "data"
+      req: true
+      type: "`$OBJECT`"
+    }
+  ]
+
+  name: "agent_health"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          method: "GET"
+          orig: "/agent/v1/health"
+          parts: [
+            "agent"
+            "v1"
+            "health"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

@@ -1,0 +1,32 @@
+# BasicLegacyUnknownFlow
+
+main: kit: flow: BasicLegacyUnknownFlow:
+{
+  entity: "legacy_unknown",
+  kind: "basic",
+  name: "BasicLegacyUnknownFlow",
+  step: [
+    {
+      input: {
+        ref: "legacy_unknown_ref01",
+        srcdatavar: "legacy_unknown_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "legacy_unknown01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-legacy_unknown_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicLegacyUnknownFlow"
+}

@@ -1,0 +1,63 @@
+{
+  "existing": {
+    "collection": {
+      "COLLECTION00": {
+        "created_at": "s64",
+        "data": {},
+        "id": "COLLECTION00",
+        "name": "s67",
+        "project_id": "PROJECT01",
+        "schema": {},
+        "slug": "s6a",
+        "updated_at": "s6b",
+        "user_id": "USER01",
+        "visibility": "s6d",
+        "collection_id": "COLLECTION01",
+        "record_id": "RECORD01"
+      },
+      "COLLECTION01": {
+        "created_at": "sc8",
+        "data": {},
+        "id": "COLLECTION01",
+        "name": "scb",
+        "project_id": "PROJECT01",
+        "schema": {},
+        "slug": "sce",
+        "updated_at": "scf",
+        "user_id": "USER01",
+        "visibility": "sd1",
+        "collection_id": "COLLECTION01",
+        "record_id": "RECORD01"
+      },
+      "COLLECTION02": {
+        "created_at": "s12c",
+        "data": {},
+        "id": "COLLECTION02",
+        "name": "s12f",
+        "project_id": "PROJECT01",
+        "schema": {},
+        "slug": "s132",
+        "updated_at": "s133",
+        "user_id": "USER01",
+        "visibility": "s135",
+        "collection_id": "COLLECTION01",
+        "record_id": "RECORD01"
+      }
+    }
+  },
+  "new": {
+    "collection": {
+      "collection_ref01": {
+        "created_at": "s190",
+        "data": {},
+        "name": "s193",
+        "project_id": "PROJECT01",
+        "schema": {},
+        "slug": "s196",
+        "updated_at": "s197",
+        "user_id": "USER01",
+        "visibility": "s199"
+      }
+    }
+  }
+}

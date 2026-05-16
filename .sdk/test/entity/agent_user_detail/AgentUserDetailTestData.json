@@ -1,0 +1,25 @@
+{
+  "existing": {
+    "agent_user_detail": {
+      "AGENT_USER_DETAIL00": {
+        "data": {},
+        "id": "AGENT_USER_DETAIL00"
+      },
+      "AGENT_USER_DETAIL01": {
+        "data": {},
+        "id": "AGENT_USER_DETAIL01"
+      },
+      "AGENT_USER_DETAIL02": {
+        "data": {},
+        "id": "AGENT_USER_DETAIL02"
+      }
+    }
+  },
+  "new": {
+    "agent_user_detail": {
+      "agent_user_detail_ref01": {
+        "data": {}
+      }
+    }
+  }
+}

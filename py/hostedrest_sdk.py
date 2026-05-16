@@ -1,0 +1,347 @@
+# HostedRest SDK
+
+from utility.voxgig_struct import voxgig_struct as vs
+from core.utility_type import HostedRestUtility
+from core.spec import HostedRestSpec
+from core import helpers
+
+# Load utility registration (populates Utility._registrar)
+from utility import register
+
+# Load features
+from feature.base_feature import HostedRestBaseFeature
+from features import _make_feature
+
+
+class HostedRestSDK:
+
+    def __init__(self, options=None):
+        self.mode = "live"
+        self.features = []
+        self.options = None
+
+        utility = HostedRestUtility()
+        self._utility = utility
+
+        from config import make_config
+        config = make_config()
+
+        self._rootctx = utility.make_context({
+            "client": self,
+            "utility": utility,
+            "config": config,
+            "options": options if options is not None else {},
+            "shared": {},
+        }, None)
+
+        self.options = utility.make_options(self._rootctx)
+
+        if vs.getpath(self.options, "feature.test.active") is True:
+            self.mode = "test"
+
+        self._rootctx.options = self.options
+
+        # Add features from config.
+        feature_opts = helpers.to_map(vs.getprop(self.options, "feature"))
+        if feature_opts is not None:
+            feature_items = vs.items(feature_opts)
+            if feature_items is not None:
+                for item in feature_items:
+                    fname = item[0]
+                    fopts = helpers.to_map(item[1])
+                    if fopts is not None and fopts.get("active") is True:
+                        utility.feature_add(self._rootctx, _make_feature(fname))
+
+        # Add extension features.
+        extend = vs.getprop(self.options, "extend")
+        if isinstance(extend, list):
+            for f in extend:
+                if isinstance(f, dict) or (hasattr(f, "get_name") and callable(f.get_name)):
+                    utility.feature_add(self._rootctx, f)
+
+        # Initialize features.
+        for f in self.features:
+            utility.feature_init(self._rootctx, f)
+
+        utility.feature_hook(self._rootctx, "PostConstruct")
+
+        # #BuildFeatures
+
+    def options_map(self):
+        out = vs.clone(self.options)
+        if isinstance(out, dict):
+            return out
+        return {}
+
+    def get_utility(self):
+        return HostedRestUtility.copy(self._utility)
+
+    def get_root_ctx(self):
+        return self._rootctx
+
+    def prepare(self, fetchargs=None):
+        utility = self._utility
+
+        if fetchargs is None:
+            fetchargs = {}
+
+        ctrl = helpers.to_map(vs.getprop(fetchargs, "ctrl"))
+        if ctrl is None:
+            ctrl = {}
+
+        ctx = utility.make_context({
+            "opname": "prepare",
+            "ctrl": ctrl,
+        }, self._rootctx)
+
+        options = self.options
+
+        path = vs.getprop(fetchargs, "path") or ""
+        if not isinstance(path, str):
+            path = ""
+
+        method = vs.getprop(fetchargs, "method") or "GET"
+        if not isinstance(method, str):
+            method = "GET"
+
+        params = helpers.to_map(vs.getprop(fetchargs, "params"))
+        if params is None:
+            params = {}
+        query = helpers.to_map(vs.getprop(fetchargs, "query"))
+        if query is None:
+            query = {}
+
+        headers = utility.prepare_headers(ctx)
+
+        base = vs.getprop(options, "base") or ""
+        if not isinstance(base, str):
+            base = ""
+        prefix = vs.getprop(options, "prefix") or ""
+        if not isinstance(prefix, str):
+            prefix = ""
+        suffix = vs.getprop(options, "suffix") or ""
+        if not isinstance(suffix, str):
+            suffix = ""
+
+        ctx.spec = HostedRestSpec({
+            "base": base,
+            "prefix": prefix,
+            "suffix": suffix,
+            "path": path,
+            "method": method,
+            "params": params,
+            "query": query,
+            "headers": headers,
+            "body": vs.getprop(fetchargs, "body"),
+            "step": "start",
+        })
+
+        # Merge user-provided headers.
+        uh = vs.getprop(fetchargs, "headers")
+        if isinstance(uh, dict):
+            for k, v in uh.items():
+                ctx.spec.headers[k] = v
+
+        _, err = utility.prepare_auth(ctx)
+        if err is not None:
+            return None, err
+
+        return utility.make_fetch_def(ctx)
+
+    def direct(self, fetchargs=None):
+        utility = self._utility
+
+        fetchdef, err = self.prepare(fetchargs)
+        if err is not None:
+            return {"ok": False, "err": err}, None
+
+        if fetchargs is None:
+            fetchargs = {}
+        ctrl = helpers.to_map(vs.getprop(fetchargs, "ctrl"))
+        if ctrl is None:
+            ctrl = {}
+
+        ctx = utility.make_context({
+            "opname": "direct",
+            "ctrl": ctrl,
+        }, self._rootctx)
+
+        url = fetchdef.get("url", "")
+        fetched, fetch_err = utility.fetcher(ctx, url, fetchdef)
+
+        if fetch_err is not None:
+            return {"ok": False, "err": fetch_err}, None
+
+        if fetched is None:
+            return {
+                "ok": False,
+                "err": ctx.make_error("direct_no_response", "response: undefined"),
+            }, None
+
+        if isinstance(fetched, dict):
+            status = helpers.to_int(vs.getprop(fetched, "status"))
+            headers = vs.getprop(fetched, "headers") or {}
+
+            # No-body responses (204, 304) and explicit zero content-length
+            # must skip JSON parsing — calling json() on an empty body raises.
+            content_length = None
+            if isinstance(headers, dict):
+                content_length = headers.get("content-length")
+            no_body = status in (204, 304) or str(content_length) == "0"
+
+            json_data = None
+            if not no_body:
+                jf = vs.getprop(fetched, "json")
+                if callable(jf):
+                    try:
+                        json_data = jf()
+                    except Exception:
+                        # Non-JSON body (e.g. text/plain, text/html). Surface
+                        # status + headers but leave data as None.
+                        json_data = None
+
+            return {
+                "ok": status >= 200 and status < 300,
+                "status": status,
+                "headers": headers,
+                "data": json_data,
+            }, None
+
+        return {
+            "ok": False,
+            "err": ctx.make_error("direct_invalid", "invalid response type"),
+        }, None
+
+
+    def AgentHealth(self, data=None):
+        from entity.agent_health_entity import AgentHealthEntity
+        return AgentHealthEntity(self, data)
+
+
+    def AgentSandbox(self, data=None):
+        from entity.agent_sandbox_entity import AgentSandboxEntity
+        return AgentSandboxEntity(self, data)
+
+
+    def AgentUserDetail(self, data=None):
+        from entity.agent_user_detail_entity import AgentUserDetailEntity
+        return AgentUserDetailEntity(self, data)
+
+
+    def AgentUserList(self, data=None):
+        from entity.agent_user_list_entity import AgentUserListEntity
+        return AgentUserListEntity(self, data)
+
+
+    def AppUser(self, data=None):
+        from entity.app_user_entity import AppUserEntity
+        return AppUserEntity(self, data)
+
+
+    def AppUserLogin(self, data=None):
+        from entity.app_user_login_entity import AppUserLoginEntity
+        return AppUserLoginEntity(self, data)
+
+
+    def AppUserSession(self, data=None):
+        from entity.app_user_session_entity import AppUserSessionEntity
+        return AppUserSessionEntity(self, data)
+
+
+    def AppUserTotal(self, data=None):
+        from entity.app_user_total_entity import AppUserTotalEntity
+        return AppUserTotalEntity(self, data)
+
+
+    def AppUserVerify(self, data=None):
+        from entity.app_user_verify_entity import AppUserVerifyEntity
+        return AppUserVerifyEntity(self, data)
+
+
+    def Authentication(self, data=None):
+        from entity.authentication_entity import AuthenticationEntity
+        return AuthenticationEntity(self, data)
+
+
+    def Collection(self, data=None):
+        from entity.collection_entity import CollectionEntity
+        return CollectionEntity(self, data)
+
+
+    def CollectionRecord(self, data=None):
+        from entity.collection_record_entity import CollectionRecordEntity
+        return CollectionRecordEntity(self, data)
+
+
+    def CollectionRecordList(self, data=None):
+        from entity.collection_record_list_entity import CollectionRecordListEntity
+        return CollectionRecordListEntity(self, data)
+
+
+    def Custom(self, data=None):
+        from entity.custom_entity import CustomEntity
+        return CustomEntity(self, data)
+
+
+    def Legacy(self, data=None):
+        from entity.legacy_entity import LegacyEntity
+        return LegacyEntity(self, data)
+
+
+    def LegacyMutation(self, data=None):
+        from entity.legacy_mutation_entity import LegacyMutationEntity
+        return LegacyMutationEntity(self, data)
+
+
+    def LegacyUnknown(self, data=None):
+        from entity.legacy_unknown_entity import LegacyUnknownEntity
+        return LegacyUnknownEntity(self, data)
+
+
+    def LegacyUnknownList(self, data=None):
+        from entity.legacy_unknown_list_entity import LegacyUnknownListEntity
+        return LegacyUnknownListEntity(self, data)
+
+
+    def LegacyUser(self, data=None):
+        from entity.legacy_user_entity import LegacyUserEntity
+        return LegacyUserEntity(self, data)
+
+
+    def LegacyUserList(self, data=None):
+        from entity.legacy_user_list_entity import LegacyUserListEntity
+        return LegacyUserListEntity(self, data)
+
+
+    def Login(self, data=None):
+        from entity.login_entity import LoginEntity
+        return LoginEntity(self, data)
+
+
+    def Register(self, data=None):
+        from entity.register_entity import RegisterEntity
+        return RegisterEntity(self, data)
+
+
+
+    @classmethod
+    def test(cls, testopts=None, sdkopts=None):
+        if sdkopts is None:
+            sdkopts = {}
+        sdkopts = vs.clone(sdkopts)
+        if not isinstance(sdkopts, dict):
+            sdkopts = {}
+
+        if testopts is None:
+            testopts = {}
+        testopts = vs.clone(testopts)
+        if not isinstance(testopts, dict):
+            testopts = {}
+        testopts["active"] = True
+
+        vs.setpath(sdkopts, "feature.test", testopts)
+
+        sdk = cls(sdkopts)
+        sdk.mode = "test"
+
+        return sdk

@@ -1,0 +1,37 @@
+{
+  "existing": {
+    "legacy_user_list": {
+      "LEGACY_USER_LIST00": {
+        "avatar": "s32",
+        "email": "s33",
+        "first_name": "s34",
+        "id": "LEGACY_USER_LIST00",
+        "last_name": "s36"
+      },
+      "LEGACY_USER_LIST01": {
+        "avatar": "s64",
+        "email": "s65",
+        "first_name": "s66",
+        "id": "LEGACY_USER_LIST01",
+        "last_name": "s68"
+      },
+      "LEGACY_USER_LIST02": {
+        "avatar": "s96",
+        "email": "s97",
+        "first_name": "s98",
+        "id": "LEGACY_USER_LIST02",
+        "last_name": "s9a"
+      }
+    }
+  },
+  "new": {
+    "legacy_user_list": {
+      "legacy_user_list_ref01": {
+        "avatar": "sc8",
+        "email": "sc9",
+        "first_name": "sca",
+        "last_name": "scc"
+      }
+    }
+  }
+}

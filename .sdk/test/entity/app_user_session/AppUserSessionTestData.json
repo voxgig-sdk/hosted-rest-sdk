@@ -1,0 +1,22 @@
+{
+  "existing": {
+    "app_user_session": {
+      "APP_USER_SESSION00": {
+        "data": {}
+      },
+      "APP_USER_SESSION01": {
+        "data": {}
+      },
+      "APP_USER_SESSION02": {
+        "data": {}
+      }
+    }
+  },
+  "new": {
+    "app_user_session": {
+      "app_user_session_ref01": {
+        "data": {}
+      }
+    }
+  }
+}

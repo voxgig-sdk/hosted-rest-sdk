@@ -1,0 +1,66 @@
+# Entity: agent_user_detail
+
+main: kit: entity: agent_user_detail: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "data"
+      req: true
+      type: "`$OBJECT`"
+    }
+  ]
+
+  name: "agent_user_detail"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                kind: "query"
+                name: "expand"
+                orig: "expand"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/agent/v1/users/{id}"
+          parts: [
+            "agent"
+            "v1"
+            "users"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "expand"
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

@@ -1,0 +1,25 @@
+{
+  "existing": {
+    "app_user_total": {
+      "APP_USER_TOTAL00": {
+        "total": "sa",
+        "project_id": "PROJECT01"
+      },
+      "APP_USER_TOTAL01": {
+        "total": "s14",
+        "project_id": "PROJECT01"
+      },
+      "APP_USER_TOTAL02": {
+        "total": "s1e",
+        "project_id": "PROJECT01"
+      }
+    }
+  },
+  "new": {
+    "app_user_total": {
+      "app_user_total_ref01": {
+        "total": "s28"
+      }
+    }
+  }
+}

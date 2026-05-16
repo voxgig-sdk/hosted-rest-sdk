@@ -1,0 +1,57 @@
+{
+  "existing": {
+    "agent_user_list": {
+      "AGENT_USER_LIST00": {
+        "created_at": "s64",
+        "email": "s65",
+        "full_name": "s66",
+        "id": "AGENT_USER_LIST00",
+        "locale": "s68",
+        "preference": {},
+        "profile": {},
+        "status": "s6b",
+        "timezone": "s6c",
+        "updated_at": "s6d"
+      },
+      "AGENT_USER_LIST01": {
+        "created_at": "sc8",
+        "email": "sc9",
+        "full_name": "sca",
+        "id": "AGENT_USER_LIST01",
+        "locale": "scc",
+        "preference": {},
+        "profile": {},
+        "status": "scf",
+        "timezone": "sd0",
+        "updated_at": "sd1"
+      },
+      "AGENT_USER_LIST02": {
+        "created_at": "s12c",
+        "email": "s12d",
+        "full_name": "s12e",
+        "id": "AGENT_USER_LIST02",
+        "locale": "s130",
+        "preference": {},
+        "profile": {},
+        "status": "s133",
+        "timezone": "s134",
+        "updated_at": "s135"
+      }
+    }
+  },
+  "new": {
+    "agent_user_list": {
+      "agent_user_list_ref01": {
+        "created_at": "s190",
+        "email": "s191",
+        "full_name": "s192",
+        "locale": "s194",
+        "preference": {},
+        "profile": {},
+        "status": "s197",
+        "timezone": "s198",
+        "updated_at": "s199"
+      }
+    }
+  }
+}

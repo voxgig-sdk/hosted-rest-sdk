@@ -1,0 +1,54 @@
+{
+  "existing": {
+    "app_user": {
+      "APP_USER00": {
+        "created_at": "s46",
+        "data": {},
+        "email": "s48",
+        "id": "APP_USER00",
+        "last_login_at": "s4a",
+        "metadata": {},
+        "status": "s4c",
+        "project_id": "PROJECT01",
+        "collection_id": "COLLECTION01",
+        "record_id": "RECORD01"
+      },
+      "APP_USER01": {
+        "created_at": "s8c",
+        "data": {},
+        "email": "s8e",
+        "id": "APP_USER01",
+        "last_login_at": "s90",
+        "metadata": {},
+        "status": "s92",
+        "project_id": "PROJECT01",
+        "collection_id": "COLLECTION01",
+        "record_id": "RECORD01"
+      },
+      "APP_USER02": {
+        "created_at": "sd2",
+        "data": {},
+        "email": "sd4",
+        "id": "APP_USER02",
+        "last_login_at": "sd6",
+        "metadata": {},
+        "status": "sd8",
+        "project_id": "PROJECT01",
+        "collection_id": "COLLECTION01",
+        "record_id": "RECORD01"
+      }
+    }
+  },
+  "new": {
+    "app_user": {
+      "app_user_ref01": {
+        "created_at": "s118",
+        "data": {},
+        "email": "s11a",
+        "last_login_at": "s11c",
+        "metadata": {},
+        "status": "s11e"
+      }
+    }
+  }
+}

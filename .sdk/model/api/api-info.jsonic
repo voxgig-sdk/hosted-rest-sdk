@@ -1,0 +1,33 @@
+# API Information
+
+
+main: {
+  kit: {
+    info: {
+      contact: {
+        email: "hello@reqres.in"
+        name: "ReqRes Support"
+        url: "https://reqres.in"
+      }
+      description: "OpenAPI specification for the ReqRes API. Covers legacy demo endpoints, collections, app-user auth flows, custom endpoints, and the Agent Sandbox (/agent/v1/*) for AI coding agents. All /api/* endpoints require x-api-key. All /app/* endpoints require Authorization: Bearer <session_token>. /agent/v1/* endpoints are open in v1 (IP-based rate limiting)."
+      license: {
+        name: "MIT"
+        url: "https://opensource.org/licenses/MIT"
+      }
+      servers: [
+        {
+          description: "Production server"
+          url: "https://reqres.in"
+        }
+        {
+          description: "Development server"
+          url: "http://localhost:8000"
+        }
+      ]
+      title: "ReqRes API"
+      version: "2.1.0"
+    }
+  }
+}
+
+}

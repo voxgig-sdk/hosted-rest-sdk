@@ -1,0 +1,26 @@
+{
+  "existing": {
+    "app_user_verify": {
+      "APP_USER_VERIFY00": {
+        "data": {},
+        "token": "s15"
+      },
+      "APP_USER_VERIFY01": {
+        "data": {},
+        "token": "s29"
+      },
+      "APP_USER_VERIFY02": {
+        "data": {},
+        "token": "s3d"
+      }
+    }
+  },
+  "new": {
+    "app_user_verify": {
+      "app_user_verify_ref01": {
+        "data": {},
+        "token": "s51"
+      }
+    }
+  }
+}

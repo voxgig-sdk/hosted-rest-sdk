@@ -1,0 +1,32 @@
+# BasicAppUserTotalFlow
+
+main: kit: flow: BasicAppUserTotalFlow:
+{
+  entity: "app_user_total",
+  kind: "basic",
+  name: "BasicAppUserTotalFlow",
+  step: [
+    {
+      input: {
+        ref: "app_user_total_ref01",
+        srcdatavar: "app_user_total_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "app_user_total01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-app_user_total_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicAppUserTotalFlow"
+}

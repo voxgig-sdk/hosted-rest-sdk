@@ -1,0 +1,68 @@
+# BasicCollectionRecordFlow
+
+main: kit: flow: BasicCollectionRecordFlow:
+{
+  entity: "collection_record",
+  kind: "basic",
+  name: "BasicCollectionRecordFlow",
+  step: [
+    {
+      input: {
+        ref: "collection_record_ref01"
+      }
+
+      match: {
+        collection_id: "collection01",
+        slug: "slug01"
+      }
+
+      op: "create"
+    }
+
+    {
+      data: {
+        collection_id: "collection01"
+      }
+
+      input: {
+        ref: "collection_record_ref01",
+        srcdatavar: "collection_record_ref01_data",
+        suffix: "_up0"
+      }
+
+      op: "update",
+      spec: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-collection_record_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "collection_record_ref01",
+        srcdatavar: "collection_record_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        collection_id: "collection01",
+        id: "collection_record01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-collection_record_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicCollectionRecordFlow"
+}

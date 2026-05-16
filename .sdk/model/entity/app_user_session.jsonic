@@ -1,0 +1,51 @@
+# Entity: app_user_session
+
+main: kit: entity: app_user_session: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "data"
+      req: true
+      type: "`$OBJECT`"
+    }
+  ]
+
+  name: "app_user_session"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          method: "GET"
+          orig: "/api/app-users/me"
+          parts: [
+            "api"
+            "app-users"
+            "me"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "GET"
+          orig: "/app/me"
+          parts: [
+            "app"
+            "me"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

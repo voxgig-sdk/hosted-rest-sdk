@@ -1,0 +1,14 @@
+{
+  "existing": {
+    "authentication": {
+      "AUTHENTICATION00": {},
+      "AUTHENTICATION01": {},
+      "AUTHENTICATION02": {}
+    }
+  },
+  "new": {
+    "authentication": {
+      "authentication_ref01": {}
+    }
+  }
+}

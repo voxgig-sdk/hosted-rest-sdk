@@ -1,0 +1,22 @@
+# BasicLegacyUnknownListFlow
+
+main: kit: flow: BasicLegacyUnknownListFlow:
+{
+  entity: "legacy_unknown_list",
+  kind: "basic",
+  name: "BasicLegacyUnknownListFlow",
+  step: [
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "legacy_unknown_list_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicLegacyUnknownListFlow"
+}

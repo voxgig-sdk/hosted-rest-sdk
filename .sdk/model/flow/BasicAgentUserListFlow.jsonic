@@ -1,0 +1,22 @@
+# BasicAgentUserListFlow
+
+main: kit: flow: BasicAgentUserListFlow:
+{
+  entity: "agent_user_list",
+  kind: "basic",
+  name: "BasicAgentUserListFlow",
+  step: [
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "agent_user_list_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicAgentUserListFlow"
+}

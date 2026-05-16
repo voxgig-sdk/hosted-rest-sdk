@@ -1,0 +1,80 @@
+# Entity: app_user_total
+
+main: kit: entity: app_user_total: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "total"
+      req: true
+      type: "`$INTEGER`"
+    }
+  ]
+
+  name: "app_user_total"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            header: [
+              {
+                kind: "header"
+                name: "x_reqres_env"
+                orig: "x_reqres_env"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
+            params: [
+              {
+                kind: "param"
+                name: "project_id"
+                orig: "project_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/api/projects/{projectId}/app-users/total"
+          parts: [
+            "api"
+            "projects"
+            "{project_id}"
+            "app-users"
+            "total"
+          ]
+          rename: {
+            param: {
+              projectId: "project_id"
+            }
+          }
+          select: {
+            exist: [
+              "project_id"
+              "x_reqres_env"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "project"
+      ]
+    ]
+  }
+
+
+
+}

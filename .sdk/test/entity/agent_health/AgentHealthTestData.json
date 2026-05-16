@@ -1,0 +1,22 @@
+{
+  "existing": {
+    "agent_health": {
+      "AGENT_HEALTH00": {
+        "data": {}
+      },
+      "AGENT_HEALTH01": {
+        "data": {}
+      },
+      "AGENT_HEALTH02": {
+        "data": {}
+      }
+    }
+  },
+  "new": {
+    "agent_health": {
+      "agent_health_ref01": {
+        "data": {}
+      }
+    }
+  }
+}

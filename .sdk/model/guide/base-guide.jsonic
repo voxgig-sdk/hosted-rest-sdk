@@ -1,0 +1,218 @@
+# Guide
+
+guide: {
+  metrics: count: entity: 22
+  metrics: count: path: 32
+  metrics: count: method: 52
+
+  entity: agent_health: {
+    path: "/agent/v1/health": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: agent_sandbox: {
+    path: "/agent/v1/auth/login": {
+      op: create: method: *POST
+    }
+    path: "/agent/v1/orders": {
+      op: load: method: *GET
+    }
+    path: "/agent/v1/scenarios": {
+      op: load: method: *GET
+    }
+    path: "/agent/v1/scenarios/{scenario}": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: agent_user_detail: {
+    path: "/agent/v1/users/{id}": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: agent_user_list: {
+    path: "/agent/v1/users": {
+      op: list: method: *GET
+    }
+  }
+
+  entity: app_user: {
+    path: "/api/app-users": {
+      op: create: method: *POST
+      op: list: method: *GET
+    }
+    path: "/api/app-users/{id}": {
+      op: load: method: *GET
+      op: remove: method: *DELETE
+      op: update: method: *PUT
+    }
+    path: "/api/app-users/{id}/sessions/simulate": {
+      action: "session_simulate": {}
+      op: create: method: *POST
+    }
+    path: "/api/projects/{projectId}/app-users": {
+      rename: param: "projectId": *"project_id"
+      op: list: method: *GET
+    }
+    path: "/app/collections/{slug}/records/{recordId}": {
+      rename: param: "recordId": *"record_id"
+      rename: param: "slug": *"collection_id"
+      op: remove: method: *DELETE
+    }
+  }
+
+  entity: app_user_login: {
+    path: "/api/app-users/login": {
+      op: create: method: *POST
+    }
+  }
+
+  entity: app_user_session: {
+    path: "/api/app-users/me": {
+      op: load: method: *GET
+    }
+    path: "/app/me": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: app_user_total: {
+    path: "/api/projects/{projectId}/app-users/total": {
+      rename: param: "projectId": *"project_id"
+      op: load: method: *GET
+    }
+  }
+
+  entity: app_user_verify: {
+    path: "/api/app-users/verify": {
+      op: create: method: *POST
+    }
+  }
+
+  entity: authentication: {
+    path: "/api/logout": {
+      op: create: method: *POST
+    }
+  }
+
+  entity: collection: {
+    path: "/api/collections": {
+      op: create: method: *POST
+      op: list: method: *GET
+    }
+    path: "/api/collections/{slug}": {
+      rename: param: "slug": *"id"
+      op: load: method: *GET
+      op: remove: method: *DELETE
+      op: update: method: *PUT
+    }
+    path: "/api/collections/{slug}/records/{recordId}": {
+      rename: param: "recordId": *"record_id"
+      rename: param: "slug": *"collection_id"
+      op: remove: method: *DELETE
+    }
+    path: "/app/collections": {
+      op: list: method: *GET
+    }
+    path: "/app/collections/{slug}": {
+      rename: param: "slug": *"id"
+      op: load: method: *GET
+    }
+  }
+
+  entity: collection_record: {
+    path: "/api/collections/{slug}/records": {
+      op: create: method: *POST
+    }
+    path: "/api/collections/{slug}/records/{recordId}": {
+      rename: param: "recordId": *"id"
+      rename: param: "slug": *"collection_id"
+      op: load: method: *GET
+      op: update: method: *PUT
+    }
+    path: "/app/collections/{slug}/records": {
+      op: create: method: *POST
+    }
+    path: "/app/collections/{slug}/records/{recordId}": {
+      rename: param: "recordId": *"id"
+      rename: param: "slug": *"collection_id"
+      op: load: method: *GET
+      op: update: method: *PUT
+    }
+  }
+
+  entity: collection_record_list: {
+    path: "/api/collections/{slug}/records": {
+      op: list: method: *GET
+    }
+    path: "/app/collections/{slug}/records": {
+      op: list: method: *GET
+    }
+  }
+
+  entity: custom: {
+    path: "/api/custom/{path}": {
+      rename: param: "path": *"id"
+      op: create: method: *POST
+      op: load: method: *GET
+      op: patch: method: *PATCH
+      op: remove: method: *DELETE
+      op: update: method: *PUT
+    }
+  }
+
+  entity: legacy: {
+    path: "/api/users/{id}": {
+      op: remove: method: *DELETE
+    }
+  }
+
+  entity: legacy_mutation: {
+    path: "/api/users": {
+      op: create: method: *POST
+    }
+    path: "/api/users/{id}": {
+      op: patch: method: *PATCH
+      op: update: method: *PUT
+    }
+  }
+
+  entity: legacy_unknown: {
+    path: "/api/unknown/{id}": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: legacy_unknown_list: {
+    path: "/api/unknown": {
+      op: list: method: *GET
+    }
+  }
+
+  entity: legacy_user: {
+    path: "/api/users/{id}": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: legacy_user_list: {
+    path: "/api/users": {
+      op: list: method: *GET
+    }
+  }
+
+  entity: login: {
+    path: "/api/login": {
+      op: create: method: *POST
+    }
+  }
+
+  entity: register: {
+    path: "/api/register": {
+      op: create: method: *POST
+    }
+  }
+
+}

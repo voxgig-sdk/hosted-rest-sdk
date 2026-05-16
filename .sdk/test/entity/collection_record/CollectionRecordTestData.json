@@ -1,0 +1,31 @@
+{
+  "existing": {
+    "collection_record": {
+      "COLLECTION_RECORD00": {
+        "data": {},
+        "slug": "SLUG01",
+        "collection_id": "COLLECTION01",
+        "id": "COLLECTION_RECORD00"
+      },
+      "COLLECTION_RECORD01": {
+        "data": {},
+        "slug": "SLUG01",
+        "collection_id": "COLLECTION01",
+        "id": "COLLECTION_RECORD01"
+      },
+      "COLLECTION_RECORD02": {
+        "data": {},
+        "slug": "SLUG01",
+        "collection_id": "COLLECTION01",
+        "id": "COLLECTION_RECORD02"
+      }
+    }
+  },
+  "new": {
+    "collection_record": {
+      "collection_record_ref01": {
+        "data": {}
+      }
+    }
+  }
+}

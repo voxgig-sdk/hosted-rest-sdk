@@ -1,0 +1,22 @@
+# BasicLegacyUserListFlow
+
+main: kit: flow: BasicLegacyUserListFlow:
+{
+  entity: "legacy_user_list",
+  kind: "basic",
+  name: "BasicLegacyUserListFlow",
+  step: [
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "legacy_user_list_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicLegacyUserListFlow"
+}

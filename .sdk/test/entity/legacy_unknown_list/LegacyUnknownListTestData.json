@@ -1,0 +1,37 @@
+{
+  "existing": {
+    "legacy_unknown_list": {
+      "LEGACY_UNKNOWN_LIST00": {
+        "color": "s32",
+        "id": "LEGACY_UNKNOWN_LIST00",
+        "name": "s34",
+        "pantone_value": "s35",
+        "year": "s36"
+      },
+      "LEGACY_UNKNOWN_LIST01": {
+        "color": "s64",
+        "id": "LEGACY_UNKNOWN_LIST01",
+        "name": "s66",
+        "pantone_value": "s67",
+        "year": "s68"
+      },
+      "LEGACY_UNKNOWN_LIST02": {
+        "color": "s96",
+        "id": "LEGACY_UNKNOWN_LIST02",
+        "name": "s98",
+        "pantone_value": "s99",
+        "year": "s9a"
+      }
+    }
+  },
+  "new": {
+    "legacy_unknown_list": {
+      "legacy_unknown_list_ref01": {
+        "color": "sc8",
+        "name": "sca",
+        "pantone_value": "scb",
+        "year": "scc"
+      }
+    }
+  }
+}

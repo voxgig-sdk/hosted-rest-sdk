@@ -1,0 +1,314 @@
+# Entity: collection_record
+
+main: kit: entity: collection_record: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "data"
+      req: true
+      type: "`$OBJECT`"
+    }
+  ]
+
+  name: "collection_record"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          args: {
+            header: [
+              {
+                kind: "header"
+                name: "x_reqres_env"
+                orig: "x_reqres_env"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
+            params: [
+              {
+                kind: "param"
+                name: "slug"
+                orig: "slug"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "POST"
+          orig: "/api/collections/{slug}/records"
+          parts: [
+            "api"
+            "collections"
+            "{slug}"
+            "records"
+          ]
+          select: {
+            exist: [
+              "slug"
+              "x_reqres_env"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "slug"
+                orig: "slug"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "POST"
+          orig: "/app/collections/{slug}/records"
+          parts: [
+            "app"
+            "collections"
+            "{slug}"
+            "records"
+          ]
+          select: {
+            exist: [
+              "slug"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            header: [
+              {
+                kind: "header"
+                name: "x_reqres_env"
+                orig: "x_reqres_env"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
+            params: [
+              {
+                kind: "param"
+                name: "collection_id"
+                orig: "slug"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                kind: "param"
+                name: "id"
+                orig: "record_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/api/collections/{slug}/records/{recordId}"
+          parts: [
+            "api"
+            "collections"
+            "{collection_id}"
+            "records"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              recordId: "id"
+              slug: "collection_id"
+            }
+          }
+          select: {
+            exist: [
+              "collection_id"
+              "id"
+              "x_reqres_env"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "collection_id"
+                orig: "slug"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                kind: "param"
+                name: "id"
+                orig: "record_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/app/collections/{slug}/records/{recordId}"
+          parts: [
+            "app"
+            "collections"
+            "{collection_id}"
+            "records"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              recordId: "id"
+              slug: "collection_id"
+            }
+          }
+          select: {
+            exist: [
+              "collection_id"
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    update: {
+      name: "update"
+      points: [
+        {
+          args: {
+            header: [
+              {
+                kind: "header"
+                name: "x_reqres_env"
+                orig: "x_reqres_env"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
+            params: [
+              {
+                kind: "param"
+                name: "collection_id"
+                orig: "slug"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                kind: "param"
+                name: "id"
+                orig: "record_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "PUT"
+          orig: "/api/collections/{slug}/records/{recordId}"
+          parts: [
+            "api"
+            "collections"
+            "{collection_id}"
+            "records"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              recordId: "id"
+              slug: "collection_id"
+            }
+          }
+          select: {
+            exist: [
+              "collection_id"
+              "id"
+              "x_reqres_env"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "collection_id"
+                orig: "slug"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                kind: "param"
+                name: "id"
+                orig: "record_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "PUT"
+          orig: "/app/collections/{slug}/records/{recordId}"
+          parts: [
+            "app"
+            "collections"
+            "{collection_id}"
+            "records"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              recordId: "id"
+              slug: "collection_id"
+            }
+          }
+          select: {
+            exist: [
+              "collection_id"
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "collection"
+      ]
+    ]
+  }
+
+
+
+}

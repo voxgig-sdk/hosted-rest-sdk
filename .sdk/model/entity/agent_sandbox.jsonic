@@ -1,0 +1,156 @@
+# Entity: agent_sandbox
+
+main: kit: entity: agent_sandbox: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "email"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "password"
+      req: true
+      type: "`$STRING`"
+    }
+  ]
+
+  name: "agent_sandbox"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/agent/v1/auth/login"
+          parts: [
+            "agent"
+            "v1"
+            "auth"
+            "login"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "cursor"
+                orig: "cursor"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                example: 20
+                kind: "query"
+                name: "limit"
+                orig: "limit"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                example: 42
+                kind: "query"
+                name: "seed"
+                orig: "seed"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                kind: "query"
+                name: "status"
+                orig: "status"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/agent/v1/orders"
+          parts: [
+            "agent"
+            "v1"
+            "orders"
+          ]
+          select: {
+            exist: [
+              "cursor"
+              "limit"
+              "seed"
+              "status"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "scenario"
+                orig: "scenario"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/agent/v1/scenarios/{scenario}"
+          parts: [
+            "agent"
+            "v1"
+            "scenarios"
+            "{scenario}"
+          ]
+          select: {
+            exist: [
+              "scenario"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "GET"
+          orig: "/agent/v1/scenarios"
+          parts: [
+            "agent"
+            "v1"
+            "scenarios"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "scenario"
+      ]
+    ]
+  }
+
+
+
+}

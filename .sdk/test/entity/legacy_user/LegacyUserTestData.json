@@ -1,0 +1,29 @@
+{
+  "existing": {
+    "legacy_user": {
+      "LEGACY_USER00": {
+        "data": {},
+        "support": {},
+        "id": "LEGACY_USER00"
+      },
+      "LEGACY_USER01": {
+        "data": {},
+        "support": {},
+        "id": "LEGACY_USER01"
+      },
+      "LEGACY_USER02": {
+        "data": {},
+        "support": {},
+        "id": "LEGACY_USER02"
+      }
+    }
+  },
+  "new": {
+    "legacy_user": {
+      "legacy_user_ref01": {
+        "data": {},
+        "support": {}
+      }
+    }
+  }
+}

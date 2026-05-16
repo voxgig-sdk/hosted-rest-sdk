@@ -1,0 +1,18 @@
+# BasicAppUserVerifyFlow
+
+main: kit: flow: BasicAppUserVerifyFlow:
+{
+  entity: "app_user_verify",
+  kind: "basic",
+  name: "BasicAppUserVerifyFlow",
+  step: [
+    {
+      input: {
+        ref: "app_user_verify_ref01"
+      }
+
+      op: "create"
+    }
+  ],
+  "key$": "BasicAppUserVerifyFlow"
+}

@@ -1,0 +1,29 @@
+{
+  "existing": {
+    "legacy_unknown": {
+      "LEGACY_UNKNOWN00": {
+        "data": {},
+        "support": {},
+        "id": "LEGACY_UNKNOWN00"
+      },
+      "LEGACY_UNKNOWN01": {
+        "data": {},
+        "support": {},
+        "id": "LEGACY_UNKNOWN01"
+      },
+      "LEGACY_UNKNOWN02": {
+        "data": {},
+        "support": {},
+        "id": "LEGACY_UNKNOWN02"
+      }
+    }
+  },
+  "new": {
+    "legacy_unknown": {
+      "legacy_unknown_ref01": {
+        "data": {},
+        "support": {}
+      }
+    }
+  }
+}

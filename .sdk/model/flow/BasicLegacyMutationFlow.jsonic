@@ -1,0 +1,37 @@
+# BasicLegacyMutationFlow
+
+main: kit: flow: BasicLegacyMutationFlow:
+{
+  entity: "legacy_mutation",
+  kind: "basic",
+  name: "BasicLegacyMutationFlow",
+  step: [
+    {
+      input: {
+        ref: "legacy_mutation_ref01"
+      }
+
+      op: "create"
+    }
+
+    {
+      input: {
+        ref: "legacy_mutation_ref01",
+        srcdatavar: "legacy_mutation_ref01_data",
+        suffix: "_up0",
+        textfield: "created_at"
+      }
+
+      op: "update",
+      spec: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-legacy_mutation_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicLegacyMutationFlow"
+}

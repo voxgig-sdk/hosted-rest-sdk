@@ -1,0 +1,4084 @@
+{
+  "name": "hosted-rest",
+  "origin": "voxgig-sdk",
+  "def": "hosted-rest_0.1.0.json",
+  "main": {
+    "kit": {
+      "info": {
+        "contact": {
+          "email": "hello@reqres.in",
+          "name": "ReqRes Support",
+          "url": "https://reqres.in"
+        },
+        "description": "OpenAPI specification for the ReqRes API. Covers legacy demo endpoints, collections, app-user auth flows, custom endpoints, and the Agent Sandbox (/agent/v1/*) for AI coding agents. All /api/* endpoints require x-api-key. All /app/* endpoints require Authorization: Bearer <session_token>. /agent/v1/* endpoints are open in v1 (IP-based rate limiting).",
+        "license": {
+          "name": "MIT",
+          "url": "https://opensource.org/licenses/MIT"
+        },
+        "servers": [
+          {
+            "description": "Production server",
+            "url": "https://reqres.in"
+          },
+          {
+            "description": "Development server",
+            "url": "http://localhost:8000"
+          }
+        ],
+        "title": "ReqRes API",
+        "version": "2.1.0"
+      },
+      "config": {
+        "auth": {
+          "prefix": "Bearer"
+        },
+        "headers": {
+          "content-type": "application/json"
+        }
+      },
+      "entity": {
+        "agent_health": {
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "name": "data",
+              "req": true,
+              "type": "`$OBJECT`",
+              "active": true
+            }
+          ],
+          "name": "agent_health",
+          "op": {
+            "load": {
+              "name": "load",
+              "points": [
+                {
+                  "method": "GET",
+                  "orig": "/agent/v1/health",
+                  "parts": [
+                    "agent",
+                    "v1",
+                    "health"
+                  ],
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true,
+                  "args": {},
+                  "select": {}
+                }
+              ],
+              "input": "data"
+            }
+          },
+          "active": true,
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "agent_sandbox": {
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "name": "email",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "password",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            }
+          ],
+          "name": "agent_sandbox",
+          "op": {
+            "create": {
+              "name": "create",
+              "points": [
+                {
+                  "method": "POST",
+                  "orig": "/agent/v1/auth/login",
+                  "parts": [
+                    "agent",
+                    "v1",
+                    "auth",
+                    "login"
+                  ],
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true,
+                  "args": {},
+                  "select": {}
+                }
+              ],
+              "input": "data"
+            },
+            "load": {
+              "name": "load",
+              "points": [
+                {
+                  "args": {
+                    "query": [
+                      {
+                        "kind": "query",
+                        "name": "cursor",
+                        "orig": "cursor",
+                        "reqd": false,
+                        "type": "`$STRING`",
+                        "active": true
+                      },
+                      {
+                        "example": 20,
+                        "kind": "query",
+                        "name": "limit",
+                        "orig": "limit",
+                        "reqd": false,
+                        "type": "`$INTEGER`",
+                        "active": true
+                      },
+                      {
+                        "example": 42,
+                        "kind": "query",
+                        "name": "seed",
+                        "orig": "seed",
+                        "reqd": false,
+                        "type": "`$INTEGER`",
+                        "active": true
+                      },
+                      {
+                        "kind": "query",
+                        "name": "status",
+                        "orig": "status",
+                        "reqd": false,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/agent/v1/orders",
+                  "parts": [
+                    "agent",
+                    "v1",
+                    "orders"
+                  ],
+                  "select": {
+                    "exist": [
+                      "cursor",
+                      "limit",
+                      "seed",
+                      "status"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                },
+                {
+                  "args": {
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "scenario",
+                        "orig": "scenario",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/agent/v1/scenarios/{scenario}",
+                  "parts": [
+                    "agent",
+                    "v1",
+                    "scenarios",
+                    "{scenario}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "scenario"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                },
+                {
+                  "method": "GET",
+                  "orig": "/agent/v1/scenarios",
+                  "parts": [
+                    "agent",
+                    "v1",
+                    "scenarios"
+                  ],
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true,
+                  "args": {},
+                  "select": {}
+                }
+              ],
+              "input": "data"
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "scenario"
+              ]
+            ]
+          },
+          "active": true
+        },
+        "agent_user_detail": {
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "name": "data",
+              "req": true,
+              "type": "`$OBJECT`",
+              "active": true
+            }
+          ],
+          "name": "agent_user_detail",
+          "op": {
+            "load": {
+              "name": "load",
+              "points": [
+                {
+                  "args": {
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ],
+                    "query": [
+                      {
+                        "kind": "query",
+                        "name": "expand",
+                        "orig": "expand",
+                        "reqd": false,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/agent/v1/users/{id}",
+                  "parts": [
+                    "agent",
+                    "v1",
+                    "users",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "expand",
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            }
+          },
+          "active": true,
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "agent_user_list": {
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "name": "created_at",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "email",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "full_name",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "id",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "locale",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "preference",
+              "req": true,
+              "type": "`$OBJECT`",
+              "active": true
+            },
+            {
+              "name": "profile",
+              "req": true,
+              "type": "`$OBJECT`",
+              "active": true
+            },
+            {
+              "name": "status",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "timezone",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "updated_at",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "agent_user_list",
+          "op": {
+            "list": {
+              "name": "list",
+              "points": [
+                {
+                  "args": {
+                    "query": [
+                      {
+                        "kind": "query",
+                        "name": "cursor",
+                        "orig": "cursor",
+                        "reqd": false,
+                        "type": "`$STRING`",
+                        "active": true
+                      },
+                      {
+                        "kind": "query",
+                        "name": "field",
+                        "orig": "field",
+                        "reqd": false,
+                        "type": "`$STRING`",
+                        "active": true
+                      },
+                      {
+                        "example": 20,
+                        "kind": "query",
+                        "name": "limit",
+                        "orig": "limit",
+                        "reqd": false,
+                        "type": "`$INTEGER`",
+                        "active": true
+                      },
+                      {
+                        "example": 42,
+                        "kind": "query",
+                        "name": "seed",
+                        "orig": "seed",
+                        "reqd": false,
+                        "type": "`$INTEGER`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/agent/v1/users",
+                  "parts": [
+                    "agent",
+                    "v1",
+                    "users"
+                  ],
+                  "select": {
+                    "exist": [
+                      "cursor",
+                      "field",
+                      "limit",
+                      "seed"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            }
+          },
+          "active": true,
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "app_user": {
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "name": "created_at",
+              "req": false,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "data",
+              "req": true,
+              "type": "`$OBJECT`",
+              "active": true
+            },
+            {
+              "name": "email",
+              "op": {
+                "update": {
+                  "req": false,
+                  "type": "`$STRING`"
+                }
+              },
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "id",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "last_login_at",
+              "req": false,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "metadata",
+              "req": false,
+              "type": "`$OBJECT`",
+              "active": true
+            },
+            {
+              "name": "status",
+              "req": false,
+              "type": "`$STRING`",
+              "active": true
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "app_user",
+          "op": {
+            "create": {
+              "name": "create",
+              "points": [
+                {
+                  "args": {
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "POST",
+                  "orig": "/api/app-users/{id}/sessions/simulate",
+                  "parts": [
+                    "api",
+                    "app-users",
+                    "{id}",
+                    "sessions",
+                    "simulate"
+                  ],
+                  "select": {
+                    "$action": "session_simulate",
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                },
+                {
+                  "method": "POST",
+                  "orig": "/api/app-users",
+                  "parts": [
+                    "api",
+                    "app-users"
+                  ],
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true,
+                  "args": {},
+                  "select": {}
+                }
+              ],
+              "input": "data"
+            },
+            "list": {
+              "name": "list",
+              "points": [
+                {
+                  "args": {
+                    "header": [
+                      {
+                        "kind": "header",
+                        "name": "x_reqres_env",
+                        "orig": "x_reqres_env",
+                        "reqd": false,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ],
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "project_id",
+                        "orig": "project_id",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ],
+                    "query": [
+                      {
+                        "kind": "query",
+                        "name": "status",
+                        "orig": "status",
+                        "reqd": false,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/api/projects/{projectId}/app-users",
+                  "parts": [
+                    "api",
+                    "projects",
+                    "{project_id}",
+                    "app-users"
+                  ],
+                  "rename": {
+                    "param": {
+                      "projectId": "project_id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "project_id",
+                      "status",
+                      "x_reqres_env"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                },
+                {
+                  "args": {
+                    "header": [
+                      {
+                        "kind": "header",
+                        "name": "x_reqres_env",
+                        "orig": "x_reqres_env",
+                        "reqd": false,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ],
+                    "query": [
+                      {
+                        "kind": "query",
+                        "name": "limit",
+                        "orig": "limit",
+                        "reqd": false,
+                        "type": "`$INTEGER`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/api/app-users",
+                  "parts": [
+                    "api",
+                    "app-users"
+                  ],
+                  "select": {
+                    "exist": [
+                      "limit",
+                      "x_reqres_env"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            },
+            "load": {
+              "name": "load",
+              "points": [
+                {
+                  "args": {
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/api/app-users/{id}",
+                  "parts": [
+                    "api",
+                    "app-users",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            },
+            "remove": {
+              "name": "remove",
+              "points": [
+                {
+                  "args": {
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "collection_id",
+                        "orig": "slug",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      },
+                      {
+                        "kind": "param",
+                        "name": "record_id",
+                        "orig": "record_id",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "DELETE",
+                  "orig": "/app/collections/{slug}/records/{recordId}",
+                  "parts": [
+                    "app",
+                    "collections",
+                    "{collection_id}",
+                    "records",
+                    "{record_id}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "recordId": "record_id",
+                      "slug": "collection_id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "collection_id",
+                      "record_id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                },
+                {
+                  "args": {
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "DELETE",
+                  "orig": "/api/app-users/{id}",
+                  "parts": [
+                    "api",
+                    "app-users",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            },
+            "update": {
+              "name": "update",
+              "points": [
+                {
+                  "args": {
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "PUT",
+                  "orig": "/api/app-users/{id}",
+                  "parts": [
+                    "api",
+                    "app-users",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "project"
+              ],
+              [
+                "collection",
+                "record"
+              ]
+            ]
+          },
+          "active": true
+        },
+        "app_user_login": {
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "name": "data",
+              "req": true,
+              "type": "`$OBJECT`",
+              "active": true
+            },
+            {
+              "name": "email",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "metadata",
+              "req": false,
+              "type": "`$OBJECT`",
+              "active": true
+            },
+            {
+              "name": "project_id",
+              "req": false,
+              "type": "`$STRING`",
+              "active": true
+            }
+          ],
+          "name": "app_user_login",
+          "op": {
+            "create": {
+              "name": "create",
+              "points": [
+                {
+                  "method": "POST",
+                  "orig": "/api/app-users/login",
+                  "parts": [
+                    "api",
+                    "app-users",
+                    "login"
+                  ],
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true,
+                  "args": {},
+                  "select": {}
+                }
+              ],
+              "input": "data"
+            }
+          },
+          "active": true,
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "app_user_session": {
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "name": "data",
+              "req": true,
+              "type": "`$OBJECT`",
+              "active": true
+            }
+          ],
+          "name": "app_user_session",
+          "op": {
+            "load": {
+              "name": "load",
+              "points": [
+                {
+                  "method": "GET",
+                  "orig": "/api/app-users/me",
+                  "parts": [
+                    "api",
+                    "app-users",
+                    "me"
+                  ],
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true,
+                  "args": {},
+                  "select": {}
+                },
+                {
+                  "method": "GET",
+                  "orig": "/app/me",
+                  "parts": [
+                    "app",
+                    "me"
+                  ],
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true,
+                  "args": {},
+                  "select": {}
+                }
+              ],
+              "input": "data"
+            }
+          },
+          "active": true,
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "app_user_total": {
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "name": "total",
+              "req": true,
+              "type": "`$INTEGER`",
+              "active": true
+            }
+          ],
+          "name": "app_user_total",
+          "op": {
+            "load": {
+              "name": "load",
+              "points": [
+                {
+                  "args": {
+                    "header": [
+                      {
+                        "kind": "header",
+                        "name": "x_reqres_env",
+                        "orig": "x_reqres_env",
+                        "reqd": false,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ],
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "project_id",
+                        "orig": "project_id",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/api/projects/{projectId}/app-users/total",
+                  "parts": [
+                    "api",
+                    "projects",
+                    "{project_id}",
+                    "app-users",
+                    "total"
+                  ],
+                  "rename": {
+                    "param": {
+                      "projectId": "project_id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "project_id",
+                      "x_reqres_env"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "project"
+              ]
+            ]
+          },
+          "active": true
+        },
+        "app_user_verify": {
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "name": "data",
+              "req": true,
+              "type": "`$OBJECT`",
+              "active": true
+            },
+            {
+              "name": "token",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            }
+          ],
+          "name": "app_user_verify",
+          "op": {
+            "create": {
+              "name": "create",
+              "points": [
+                {
+                  "method": "POST",
+                  "orig": "/api/app-users/verify",
+                  "parts": [
+                    "api",
+                    "app-users",
+                    "verify"
+                  ],
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true,
+                  "args": {},
+                  "select": {}
+                }
+              ],
+              "input": "data"
+            }
+          },
+          "active": true,
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "authentication": {
+          "alias": {
+            "field": {}
+          },
+          "name": "authentication",
+          "op": {
+            "create": {
+              "name": "create",
+              "points": [
+                {
+                  "method": "POST",
+                  "orig": "/api/logout",
+                  "parts": [
+                    "api",
+                    "logout"
+                  ],
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true,
+                  "args": {},
+                  "select": {}
+                }
+              ],
+              "input": "data"
+            }
+          },
+          "active": true,
+          "fields": [],
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "collection": {
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "name": "created_at",
+              "req": false,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "data",
+              "req": true,
+              "type": "`$OBJECT`",
+              "active": true
+            },
+            {
+              "name": "id",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "name",
+              "op": {
+                "update": {
+                  "req": false,
+                  "type": "`$STRING`"
+                }
+              },
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "project_id",
+              "req": false,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "schema",
+              "req": false,
+              "type": "`$OBJECT`",
+              "active": true
+            },
+            {
+              "name": "slug",
+              "op": {
+                "list": {
+                  "req": true,
+                  "type": "`$STRING`"
+                }
+              },
+              "req": false,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "updated_at",
+              "req": false,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "user_id",
+              "req": false,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "visibility",
+              "req": false,
+              "type": "`$STRING`",
+              "active": true
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "collection",
+          "op": {
+            "create": {
+              "name": "create",
+              "points": [
+                {
+                  "args": {
+                    "header": [
+                      {
+                        "kind": "header",
+                        "name": "x_reqres_env",
+                        "orig": "x_reqres_env",
+                        "reqd": false,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "POST",
+                  "orig": "/api/collections",
+                  "parts": [
+                    "api",
+                    "collections"
+                  ],
+                  "select": {
+                    "exist": [
+                      "x_reqres_env"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            },
+            "list": {
+              "name": "list",
+              "points": [
+                {
+                  "args": {
+                    "header": [
+                      {
+                        "kind": "header",
+                        "name": "x_reqres_env",
+                        "orig": "x_reqres_env",
+                        "reqd": false,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/api/collections",
+                  "parts": [
+                    "api",
+                    "collections"
+                  ],
+                  "select": {
+                    "exist": [
+                      "x_reqres_env"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                },
+                {
+                  "method": "GET",
+                  "orig": "/app/collections",
+                  "parts": [
+                    "app",
+                    "collections"
+                  ],
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true,
+                  "args": {},
+                  "select": {}
+                }
+              ],
+              "input": "data"
+            },
+            "load": {
+              "name": "load",
+              "points": [
+                {
+                  "args": {
+                    "header": [
+                      {
+                        "kind": "header",
+                        "name": "x_reqres_env",
+                        "orig": "x_reqres_env",
+                        "reqd": false,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ],
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "slug",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/api/collections/{slug}",
+                  "parts": [
+                    "api",
+                    "collections",
+                    "{id}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "slug": "id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "id",
+                      "x_reqres_env"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                },
+                {
+                  "args": {
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "slug",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/app/collections/{slug}",
+                  "parts": [
+                    "app",
+                    "collections",
+                    "{id}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "slug": "id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            },
+            "remove": {
+              "name": "remove",
+              "points": [
+                {
+                  "args": {
+                    "header": [
+                      {
+                        "kind": "header",
+                        "name": "x_reqres_env",
+                        "orig": "x_reqres_env",
+                        "reqd": false,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ],
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "collection_id",
+                        "orig": "slug",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      },
+                      {
+                        "kind": "param",
+                        "name": "record_id",
+                        "orig": "record_id",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "DELETE",
+                  "orig": "/api/collections/{slug}/records/{recordId}",
+                  "parts": [
+                    "api",
+                    "collections",
+                    "{collection_id}",
+                    "records",
+                    "{record_id}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "recordId": "record_id",
+                      "slug": "collection_id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "collection_id",
+                      "record_id",
+                      "x_reqres_env"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                },
+                {
+                  "args": {
+                    "header": [
+                      {
+                        "kind": "header",
+                        "name": "x_reqres_env",
+                        "orig": "x_reqres_env",
+                        "reqd": false,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ],
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "slug",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "DELETE",
+                  "orig": "/api/collections/{slug}",
+                  "parts": [
+                    "api",
+                    "collections",
+                    "{id}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "slug": "id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "id",
+                      "x_reqres_env"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            },
+            "update": {
+              "name": "update",
+              "points": [
+                {
+                  "args": {
+                    "header": [
+                      {
+                        "kind": "header",
+                        "name": "x_reqres_env",
+                        "orig": "x_reqres_env",
+                        "reqd": false,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ],
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "slug",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "PUT",
+                  "orig": "/api/collections/{slug}",
+                  "parts": [
+                    "api",
+                    "collections",
+                    "{id}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "slug": "id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "id",
+                      "x_reqres_env"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "collection",
+                "record"
+              ]
+            ]
+          },
+          "active": true
+        },
+        "collection_record": {
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "name": "data",
+              "req": true,
+              "type": "`$OBJECT`",
+              "active": true
+            }
+          ],
+          "name": "collection_record",
+          "op": {
+            "create": {
+              "name": "create",
+              "points": [
+                {
+                  "args": {
+                    "header": [
+                      {
+                        "kind": "header",
+                        "name": "x_reqres_env",
+                        "orig": "x_reqres_env",
+                        "reqd": false,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ],
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "slug",
+                        "orig": "slug",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "POST",
+                  "orig": "/api/collections/{slug}/records",
+                  "parts": [
+                    "api",
+                    "collections",
+                    "{slug}",
+                    "records"
+                  ],
+                  "select": {
+                    "exist": [
+                      "slug",
+                      "x_reqres_env"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                },
+                {
+                  "args": {
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "slug",
+                        "orig": "slug",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "POST",
+                  "orig": "/app/collections/{slug}/records",
+                  "parts": [
+                    "app",
+                    "collections",
+                    "{slug}",
+                    "records"
+                  ],
+                  "select": {
+                    "exist": [
+                      "slug"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            },
+            "load": {
+              "name": "load",
+              "points": [
+                {
+                  "args": {
+                    "header": [
+                      {
+                        "kind": "header",
+                        "name": "x_reqres_env",
+                        "orig": "x_reqres_env",
+                        "reqd": false,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ],
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "collection_id",
+                        "orig": "slug",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      },
+                      {
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "record_id",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/api/collections/{slug}/records/{recordId}",
+                  "parts": [
+                    "api",
+                    "collections",
+                    "{collection_id}",
+                    "records",
+                    "{id}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "recordId": "id",
+                      "slug": "collection_id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "collection_id",
+                      "id",
+                      "x_reqres_env"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                },
+                {
+                  "args": {
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "collection_id",
+                        "orig": "slug",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      },
+                      {
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "record_id",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/app/collections/{slug}/records/{recordId}",
+                  "parts": [
+                    "app",
+                    "collections",
+                    "{collection_id}",
+                    "records",
+                    "{id}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "recordId": "id",
+                      "slug": "collection_id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "collection_id",
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            },
+            "update": {
+              "name": "update",
+              "points": [
+                {
+                  "args": {
+                    "header": [
+                      {
+                        "kind": "header",
+                        "name": "x_reqres_env",
+                        "orig": "x_reqres_env",
+                        "reqd": false,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ],
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "collection_id",
+                        "orig": "slug",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      },
+                      {
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "record_id",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "PUT",
+                  "orig": "/api/collections/{slug}/records/{recordId}",
+                  "parts": [
+                    "api",
+                    "collections",
+                    "{collection_id}",
+                    "records",
+                    "{id}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "recordId": "id",
+                      "slug": "collection_id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "collection_id",
+                      "id",
+                      "x_reqres_env"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                },
+                {
+                  "args": {
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "collection_id",
+                        "orig": "slug",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      },
+                      {
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "record_id",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "PUT",
+                  "orig": "/app/collections/{slug}/records/{recordId}",
+                  "parts": [
+                    "app",
+                    "collections",
+                    "{collection_id}",
+                    "records",
+                    "{id}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "recordId": "id",
+                      "slug": "collection_id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "collection_id",
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "collection"
+              ]
+            ]
+          },
+          "active": true
+        },
+        "collection_record_list": {
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "name": "app_user_id",
+              "req": false,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "collection_id",
+              "req": false,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "created_at",
+              "req": false,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "created_by",
+              "req": false,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "data",
+              "req": true,
+              "type": "`$OBJECT`",
+              "active": true
+            },
+            {
+              "name": "deleted_at",
+              "req": false,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "id",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "project_id",
+              "req": false,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "updated_at",
+              "req": false,
+              "type": "`$STRING`",
+              "active": true
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "collection_record_list",
+          "op": {
+            "list": {
+              "name": "list",
+              "points": [
+                {
+                  "args": {
+                    "header": [
+                      {
+                        "kind": "header",
+                        "name": "x_reqres_env",
+                        "orig": "x_reqres_env",
+                        "reqd": false,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ],
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "slug",
+                        "orig": "slug",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ],
+                    "query": [
+                      {
+                        "kind": "query",
+                        "name": "created_after",
+                        "orig": "created_after",
+                        "reqd": false,
+                        "type": "`$STRING`",
+                        "active": true
+                      },
+                      {
+                        "kind": "query",
+                        "name": "created_before",
+                        "orig": "created_before",
+                        "reqd": false,
+                        "type": "`$STRING`",
+                        "active": true
+                      },
+                      {
+                        "kind": "query",
+                        "name": "data_contain",
+                        "orig": "data_contain",
+                        "reqd": false,
+                        "type": "`$STRING`",
+                        "active": true
+                      },
+                      {
+                        "kind": "query",
+                        "name": "include_deleted",
+                        "orig": "include_deleted",
+                        "reqd": false,
+                        "type": "`$BOOLEAN`",
+                        "active": true
+                      },
+                      {
+                        "kind": "query",
+                        "name": "limit",
+                        "orig": "limit",
+                        "reqd": false,
+                        "type": "`$INTEGER`",
+                        "active": true
+                      },
+                      {
+                        "kind": "query",
+                        "name": "order",
+                        "orig": "order",
+                        "reqd": false,
+                        "type": "`$STRING`",
+                        "active": true
+                      },
+                      {
+                        "kind": "query",
+                        "name": "page",
+                        "orig": "page",
+                        "reqd": false,
+                        "type": "`$INTEGER`",
+                        "active": true
+                      },
+                      {
+                        "kind": "query",
+                        "name": "search",
+                        "orig": "search",
+                        "reqd": false,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/api/collections/{slug}/records",
+                  "parts": [
+                    "api",
+                    "collections",
+                    "{slug}",
+                    "records"
+                  ],
+                  "select": {
+                    "exist": [
+                      "created_after",
+                      "created_before",
+                      "data_contain",
+                      "include_deleted",
+                      "limit",
+                      "order",
+                      "page",
+                      "search",
+                      "slug",
+                      "x_reqres_env"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                },
+                {
+                  "args": {
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "slug",
+                        "orig": "slug",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/app/collections/{slug}/records",
+                  "parts": [
+                    "app",
+                    "collections",
+                    "{slug}",
+                    "records"
+                  ],
+                  "select": {
+                    "exist": [
+                      "slug"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "collection"
+              ]
+            ]
+          },
+          "active": true
+        },
+        "custom": {
+          "alias": {
+            "field": {}
+          },
+          "name": "custom",
+          "op": {
+            "create": {
+              "name": "create",
+              "points": [
+                {
+                  "args": {
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "path",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "POST",
+                  "orig": "/api/custom/{path}",
+                  "parts": [
+                    "api",
+                    "custom",
+                    "{id}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "path": "id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            },
+            "load": {
+              "name": "load",
+              "points": [
+                {
+                  "args": {
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "path",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/api/custom/{path}",
+                  "parts": [
+                    "api",
+                    "custom",
+                    "{id}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "path": "id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            },
+            "patch": {
+              "name": "patch",
+              "points": [
+                {
+                  "args": {
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "path",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "PATCH",
+                  "orig": "/api/custom/{path}",
+                  "parts": [
+                    "api",
+                    "custom",
+                    "{id}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "path": "id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            },
+            "remove": {
+              "name": "remove",
+              "points": [
+                {
+                  "args": {
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "path",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "DELETE",
+                  "orig": "/api/custom/{path}",
+                  "parts": [
+                    "api",
+                    "custom",
+                    "{id}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "path": "id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            },
+            "update": {
+              "name": "update",
+              "points": [
+                {
+                  "args": {
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "path",
+                        "reqd": true,
+                        "type": "`$STRING`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "PUT",
+                  "orig": "/api/custom/{path}",
+                  "parts": [
+                    "api",
+                    "custom",
+                    "{id}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "path": "id"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            }
+          },
+          "active": true,
+          "fields": [],
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "legacy": {
+          "alias": {
+            "field": {}
+          },
+          "name": "legacy",
+          "op": {
+            "remove": {
+              "name": "remove",
+              "points": [
+                {
+                  "args": {
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$INTEGER`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "DELETE",
+                  "orig": "/api/users/{id}",
+                  "parts": [
+                    "api",
+                    "users",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            }
+          },
+          "active": true,
+          "fields": [],
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "legacy_mutation": {
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "name": "created_at",
+              "req": false,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "id",
+              "req": false,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "updated_at",
+              "req": false,
+              "type": "`$STRING`",
+              "active": true
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "legacy_mutation",
+          "op": {
+            "create": {
+              "name": "create",
+              "points": [
+                {
+                  "method": "POST",
+                  "orig": "/api/users",
+                  "parts": [
+                    "api",
+                    "users"
+                  ],
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true,
+                  "args": {},
+                  "select": {}
+                }
+              ],
+              "input": "data"
+            },
+            "patch": {
+              "name": "patch",
+              "points": [
+                {
+                  "args": {
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$INTEGER`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "PATCH",
+                  "orig": "/api/users/{id}",
+                  "parts": [
+                    "api",
+                    "users",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            },
+            "update": {
+              "name": "update",
+              "points": [
+                {
+                  "args": {
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$INTEGER`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "PUT",
+                  "orig": "/api/users/{id}",
+                  "parts": [
+                    "api",
+                    "users",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            }
+          },
+          "active": true,
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "legacy_unknown": {
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "name": "data",
+              "req": true,
+              "type": "`$OBJECT`",
+              "active": true
+            },
+            {
+              "name": "support",
+              "req": false,
+              "type": "`$OBJECT`",
+              "active": true
+            }
+          ],
+          "name": "legacy_unknown",
+          "op": {
+            "load": {
+              "name": "load",
+              "points": [
+                {
+                  "args": {
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$INTEGER`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/api/unknown/{id}",
+                  "parts": [
+                    "api",
+                    "unknown",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            }
+          },
+          "active": true,
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "legacy_unknown_list": {
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "name": "color",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "id",
+              "req": true,
+              "type": "`$INTEGER`",
+              "active": true
+            },
+            {
+              "name": "name",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "pantone_value",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "year",
+              "req": true,
+              "type": "`$INTEGER`",
+              "active": true
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "legacy_unknown_list",
+          "op": {
+            "list": {
+              "name": "list",
+              "points": [
+                {
+                  "args": {
+                    "query": [
+                      {
+                        "example": 1,
+                        "kind": "query",
+                        "name": "page",
+                        "orig": "page",
+                        "reqd": false,
+                        "type": "`$INTEGER`",
+                        "active": true
+                      },
+                      {
+                        "kind": "query",
+                        "name": "per_page",
+                        "orig": "per_page",
+                        "reqd": false,
+                        "type": "`$INTEGER`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/api/unknown",
+                  "parts": [
+                    "api",
+                    "unknown"
+                  ],
+                  "select": {
+                    "exist": [
+                      "page",
+                      "per_page"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            }
+          },
+          "active": true,
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "legacy_user": {
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "name": "data",
+              "req": true,
+              "type": "`$OBJECT`",
+              "active": true
+            },
+            {
+              "name": "support",
+              "req": false,
+              "type": "`$OBJECT`",
+              "active": true
+            }
+          ],
+          "name": "legacy_user",
+          "op": {
+            "load": {
+              "name": "load",
+              "points": [
+                {
+                  "args": {
+                    "params": [
+                      {
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$INTEGER`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/api/users/{id}",
+                  "parts": [
+                    "api",
+                    "users",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            }
+          },
+          "active": true,
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "legacy_user_list": {
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "name": "avatar",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "email",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "first_name",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "id",
+              "req": true,
+              "type": "`$INTEGER`",
+              "active": true
+            },
+            {
+              "name": "last_name",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "legacy_user_list",
+          "op": {
+            "list": {
+              "name": "list",
+              "points": [
+                {
+                  "args": {
+                    "query": [
+                      {
+                        "example": 1,
+                        "kind": "query",
+                        "name": "page",
+                        "orig": "page",
+                        "reqd": false,
+                        "type": "`$INTEGER`",
+                        "active": true
+                      },
+                      {
+                        "kind": "query",
+                        "name": "per_page",
+                        "orig": "per_page",
+                        "reqd": false,
+                        "type": "`$INTEGER`",
+                        "active": true
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/api/users",
+                  "parts": [
+                    "api",
+                    "users"
+                  ],
+                  "select": {
+                    "exist": [
+                      "page",
+                      "per_page"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true
+                }
+              ],
+              "input": "data"
+            }
+          },
+          "active": true,
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "login": {
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "name": "email",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "password",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "token",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            }
+          ],
+          "name": "login",
+          "op": {
+            "create": {
+              "name": "create",
+              "points": [
+                {
+                  "method": "POST",
+                  "orig": "/api/login",
+                  "parts": [
+                    "api",
+                    "login"
+                  ],
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true,
+                  "args": {},
+                  "select": {}
+                }
+              ],
+              "input": "data"
+            }
+          },
+          "active": true,
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "register": {
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "name": "email",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "id",
+              "req": false,
+              "type": "`$INTEGER`",
+              "active": true
+            },
+            {
+              "name": "password",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            },
+            {
+              "name": "token",
+              "req": true,
+              "type": "`$STRING`",
+              "active": true
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "register",
+          "op": {
+            "create": {
+              "name": "create",
+              "points": [
+                {
+                  "method": "POST",
+                  "orig": "/api/register",
+                  "parts": [
+                    "api",
+                    "register"
+                  ],
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  },
+                  "active": true,
+                  "args": {},
+                  "select": {}
+                }
+              ],
+              "input": "data"
+            }
+          },
+          "active": true,
+          "relations": {
+            "ancestors": []
+          }
+        }
+      },
+      "feature": {
+        "test": {
+          "name": "test",
+          "title": "In-memory mock transport for testing without a live server",
+          "version": "0.0.1",
+          "active": true,
+          "config": {
+            "options": {
+              "active": false
+            }
+          },
+          "hook": {
+            "PostConstruct": {
+              "active": true,
+              "await": false
+            },
+            "PostConstructEntity": {
+              "active": true,
+              "await": false
+            },
+            "SetData": {
+              "active": true,
+              "await": false
+            },
+            "GetData": {
+              "active": true,
+              "await": false
+            },
+            "SetMatch": {
+              "active": true
+            },
+            "GetMatch": {
+              "active": true,
+              "await": false
+            },
+            "PrePoint": {
+              "active": true
+            },
+            "PreSpec": {
+              "active": true,
+              "await": false
+            },
+            "PreRequest": {
+              "active": true,
+              "await": false
+            },
+            "PreResponse": {
+              "active": true,
+              "await": false
+            },
+            "PreResult": {
+              "active": true,
+              "await": false
+            },
+            "PreTarget": {
+              "active": false,
+              "await": false
+            },
+            "PostOperation": {
+              "active": false,
+              "await": false
+            }
+          },
+          "target": {
+            "ts": {
+              "deps": {}
+            },
+            "go": {
+              "deps": {}
+            },
+            "lua": {
+              "deps": {}
+            },
+            "php": {
+              "deps": {}
+            },
+            "py": {
+              "deps": {}
+            },
+            "rb": {
+              "deps": {}
+            }
+          }
+        }
+      },
+      "flow": {
+        "BasicAgentHealthFlow": {
+          "entity": "agent_health",
+          "kind": "basic",
+          "name": "BasicAgentHealthFlow",
+          "step": [
+            {
+              "input": {
+                "ref": "agent_health_ref01",
+                "srcdatavar": "agent_health_ref01_data",
+                "suffix": "_dt0"
+              },
+              "op": "load",
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-agent_health_ref01"
+                  }
+                }
+              ],
+              "active": true,
+              "match": {},
+              "data": {},
+              "spec": []
+            }
+          ],
+          "key$": "BasicAgentHealthFlow",
+          "active": true,
+          "param": {}
+        },
+        "BasicAgentSandboxFlow": {
+          "entity": "agent_sandbox",
+          "kind": "basic",
+          "name": "BasicAgentSandboxFlow",
+          "step": [
+            {
+              "input": {
+                "ref": "agent_sandbox_ref01"
+              },
+              "op": "create",
+              "active": true,
+              "match": {},
+              "data": {},
+              "spec": [],
+              "valid": []
+            },
+            {
+              "input": {
+                "ref": "agent_sandbox_ref01",
+                "srcdatavar": "agent_sandbox_ref01_data",
+                "suffix": "_dt0"
+              },
+              "op": "load",
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-agent_sandbox_ref01"
+                  }
+                }
+              ],
+              "active": true,
+              "match": {},
+              "data": {},
+              "spec": []
+            }
+          ],
+          "key$": "BasicAgentSandboxFlow",
+          "active": true,
+          "param": {}
+        },
+        "BasicAgentUserDetailFlow": {
+          "entity": "agent_user_detail",
+          "kind": "basic",
+          "name": "BasicAgentUserDetailFlow",
+          "step": [
+            {
+              "input": {
+                "ref": "agent_user_detail_ref01",
+                "srcdatavar": "agent_user_detail_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "agent_user_detail01"
+              },
+              "op": "load",
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-agent_user_detail_ref01"
+                  }
+                }
+              ],
+              "active": true,
+              "data": {},
+              "spec": []
+            }
+          ],
+          "key$": "BasicAgentUserDetailFlow",
+          "active": true,
+          "param": {}
+        },
+        "BasicAgentUserListFlow": {
+          "entity": "agent_user_list",
+          "kind": "basic",
+          "name": "BasicAgentUserListFlow",
+          "step": [
+            {
+              "op": "list",
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "agent_user_list_ref01"
+                  }
+                }
+              ],
+              "active": true,
+              "match": {},
+              "data": {},
+              "input": {},
+              "spec": []
+            }
+          ],
+          "key$": "BasicAgentUserListFlow",
+          "active": true,
+          "param": {}
+        },
+        "BasicAppUserFlow": {
+          "entity": "app_user",
+          "kind": "basic",
+          "name": "BasicAppUserFlow",
+          "step": [
+            {
+              "input": {
+                "ref": "app_user_ref01"
+              },
+              "match": {
+                "collection_id": "collection01",
+                "project_id": "project01"
+              },
+              "op": "create",
+              "active": true,
+              "data": {},
+              "spec": [],
+              "valid": []
+            },
+            {
+              "op": "list",
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "app_user_ref01"
+                  }
+                }
+              ],
+              "active": true,
+              "match": {},
+              "data": {},
+              "input": {},
+              "spec": []
+            },
+            {
+              "input": {
+                "ref": "app_user_ref01",
+                "srcdatavar": "app_user_ref01_data",
+                "suffix": "_up0",
+                "textfield": "created_at"
+              },
+              "op": "update",
+              "spec": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-app_user_ref01"
+                  }
+                }
+              ],
+              "active": true,
+              "match": {},
+              "data": {},
+              "valid": []
+            },
+            {
+              "input": {
+                "ref": "app_user_ref01",
+                "srcdatavar": "app_user_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "app_user01"
+              },
+              "op": "load",
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-app_user_ref01"
+                  }
+                }
+              ],
+              "active": true,
+              "data": {},
+              "spec": []
+            },
+            {
+              "input": {
+                "ref": "app_user_ref01",
+                "suffix": "_rm0"
+              },
+              "match": {
+                "id": "app_user01"
+              },
+              "op": "remove",
+              "active": true,
+              "data": {},
+              "spec": [],
+              "valid": []
+            },
+            {
+              "input": {
+                "suffix": "_rt0"
+              },
+              "op": "list",
+              "valid": [
+                {
+                  "apply": "ItemNotExists",
+                  "def": {
+                    "ref": "app_user_ref01"
+                  }
+                }
+              ],
+              "active": true,
+              "match": {},
+              "data": {},
+              "spec": []
+            }
+          ],
+          "key$": "BasicAppUserFlow",
+          "active": true,
+          "param": {}
+        },
+        "BasicAppUserLoginFlow": {
+          "entity": "app_user_login",
+          "kind": "basic",
+          "name": "BasicAppUserLoginFlow",
+          "step": [
+            {
+              "input": {
+                "ref": "app_user_login_ref01"
+              },
+              "op": "create",
+              "active": true,
+              "match": {},
+              "data": {},
+              "spec": [],
+              "valid": []
+            }
+          ],
+          "key$": "BasicAppUserLoginFlow",
+          "active": true,
+          "param": {}
+        },
+        "BasicAppUserSessionFlow": {
+          "entity": "app_user_session",
+          "kind": "basic",
+          "name": "BasicAppUserSessionFlow",
+          "step": [
+            {
+              "input": {
+                "ref": "app_user_session_ref01",
+                "srcdatavar": "app_user_session_ref01_data",
+                "suffix": "_dt0"
+              },
+              "op": "load",
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-app_user_session_ref01"
+                  }
+                }
+              ],
+              "active": true,
+              "match": {},
+              "data": {},
+              "spec": []
+            }
+          ],
+          "key$": "BasicAppUserSessionFlow",
+          "active": true,
+          "param": {}
+        },
+        "BasicAppUserTotalFlow": {
+          "entity": "app_user_total",
+          "kind": "basic",
+          "name": "BasicAppUserTotalFlow",
+          "step": [
+            {
+              "input": {
+                "ref": "app_user_total_ref01",
+                "srcdatavar": "app_user_total_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "app_user_total01"
+              },
+              "op": "load",
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-app_user_total_ref01"
+                  }
+                }
+              ],
+              "active": true,
+              "data": {},
+              "spec": []
+            }
+          ],
+          "key$": "BasicAppUserTotalFlow",
+          "active": true,
+          "param": {}
+        },
+        "BasicAppUserVerifyFlow": {
+          "entity": "app_user_verify",
+          "kind": "basic",
+          "name": "BasicAppUserVerifyFlow",
+          "step": [
+            {
+              "input": {
+                "ref": "app_user_verify_ref01"
+              },
+              "op": "create",
+              "active": true,
+              "match": {},
+              "data": {},
+              "spec": [],
+              "valid": []
+            }
+          ],
+          "key$": "BasicAppUserVerifyFlow",
+          "active": true,
+          "param": {}
+        },
+        "BasicAuthenticationFlow": {
+          "entity": "authentication",
+          "kind": "basic",
+          "name": "BasicAuthenticationFlow",
+          "step": [
+            {
+              "input": {
+                "ref": "authentication_ref01"
+              },
+              "op": "create",
+              "active": true,
+              "match": {},
+              "data": {},
+              "spec": [],
+              "valid": []
+            }
+          ],
+          "key$": "BasicAuthenticationFlow",
+          "active": true,
+          "param": {}
+        },
+        "BasicCollectionFlow": {
+          "entity": "collection",
+          "kind": "basic",
+          "name": "BasicCollectionFlow",
+          "step": [
+            {
+              "input": {
+                "ref": "collection_ref01"
+              },
+              "match": {
+                "collection_id": "collection01"
+              },
+              "op": "create",
+              "active": true,
+              "data": {},
+              "spec": [],
+              "valid": []
+            },
+            {
+              "op": "list",
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "collection_ref01"
+                  }
+                }
+              ],
+              "active": true,
+              "match": {},
+              "data": {},
+              "input": {},
+              "spec": []
+            },
+            {
+              "input": {
+                "ref": "collection_ref01",
+                "srcdatavar": "collection_ref01_data",
+                "suffix": "_up0",
+                "textfield": "created_at"
+              },
+              "op": "update",
+              "spec": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-collection_ref01"
+                  }
+                }
+              ],
+              "active": true,
+              "match": {},
+              "data": {},
+              "valid": []
+            },
+            {
+              "input": {
+                "ref": "collection_ref01",
+                "srcdatavar": "collection_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "collection01"
+              },
+              "op": "load",
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-collection_ref01"
+                  }
+                }
+              ],
+              "active": true,
+              "data": {},
+              "spec": []
+            },
+            {
+              "input": {
+                "ref": "collection_ref01",
+                "suffix": "_rm0"
+              },
+              "match": {
+                "id": "collection01"
+              },
+              "op": "remove",
+              "active": true,
+              "data": {},
+              "spec": [],
+              "valid": []
+            },
+            {
+              "input": {
+                "suffix": "_rt0"
+              },
+              "op": "list",
+              "valid": [
+                {
+                  "apply": "ItemNotExists",
+                  "def": {
+                    "ref": "collection_ref01"
+                  }
+                }
+              ],
+              "active": true,
+              "match": {},
+              "data": {},
+              "spec": []
+            }
+          ],
+          "key$": "BasicCollectionFlow",
+          "active": true,
+          "param": {}
+        },
+        "BasicCollectionRecordFlow": {
+          "entity": "collection_record",
+          "kind": "basic",
+          "name": "BasicCollectionRecordFlow",
+          "step": [
+            {
+              "input": {
+                "ref": "collection_record_ref01"
+              },
+              "match": {
+                "collection_id": "collection01",
+                "slug": "slug01"
+              },
+              "op": "create",
+              "active": true,
+              "data": {},
+              "spec": [],
+              "valid": []
+            },
+            {
+              "data": {
+                "collection_id": "collection01"
+              },
+              "input": {
+                "ref": "collection_record_ref01",
+                "srcdatavar": "collection_record_ref01_data",
+                "suffix": "_up0"
+              },
+              "op": "update",
+              "spec": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-collection_record_ref01"
+                  }
+                }
+              ],
+              "active": true,
+              "match": {},
+              "valid": []
+            },
+            {
+              "input": {
+                "ref": "collection_record_ref01",
+                "srcdatavar": "collection_record_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "collection_id": "collection01",
+                "id": "collection_record01"
+              },
+              "op": "load",
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-collection_record_ref01"
+                  }
+                }
+              ],
+              "active": true,
+              "data": {},
+              "spec": []
+            }
+          ],
+          "key$": "BasicCollectionRecordFlow",
+          "active": true,
+          "param": {}
+        },
+        "BasicCollectionRecordListFlow": {
+          "entity": "collection_record_list",
+          "kind": "basic",
+          "name": "BasicCollectionRecordListFlow",
+          "step": [
+            {
+              "match": {
+                "slug": "slug01"
+              },
+              "op": "list",
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "collection_record_list_ref01"
+                  }
+                }
+              ],
+              "active": true,
+              "data": {},
+              "input": {},
+              "spec": []
+            }
+          ],
+          "key$": "BasicCollectionRecordListFlow",
+          "active": true,
+          "param": {}
+        },
+        "BasicCustomFlow": {
+          "entity": "custom",
+          "kind": "basic",
+          "name": "BasicCustomFlow",
+          "step": [
+            {
+              "input": {
+                "ref": "custom_ref01"
+              },
+              "match": {
+                "path": "path01"
+              },
+              "op": "create",
+              "active": true,
+              "data": {},
+              "spec": [],
+              "valid": []
+            },
+            {
+              "input": {
+                "ref": "custom_ref01",
+                "srcdatavar": "custom_ref01_data",
+                "suffix": "_up0"
+              },
+              "op": "update",
+              "spec": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-custom_ref01"
+                  }
+                }
+              ],
+              "active": true,
+              "match": {},
+              "data": {},
+              "valid": []
+            },
+            {
+              "input": {
+                "ref": "custom_ref01",
+                "srcdatavar": "custom_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "custom01"
+              },
+              "op": "load",
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-custom_ref01"
+                  }
+                }
+              ],
+              "active": true,
+              "data": {},
+              "spec": []
+            },
+            {
+              "input": {
+                "ref": "custom_ref01",
+                "suffix": "_rm0"
+              },
+              "match": {
+                "id": "custom01"
+              },
+              "op": "remove",
+              "active": true,
+              "data": {},
+              "spec": [],
+              "valid": []
+            }
+          ],
+          "key$": "BasicCustomFlow",
+          "active": true,
+          "param": {}
+        },
+        "BasicLegacyFlow": {
+          "entity": "legacy",
+          "kind": "basic",
+          "name": "BasicLegacyFlow",
+          "step": [
+            {
+              "input": {
+                "ref": "legacy_ref01",
+                "suffix": "_rm0"
+              },
+              "match": {
+                "id": "legacy01"
+              },
+              "op": "remove",
+              "active": true,
+              "data": {},
+              "spec": [],
+              "valid": []
+            }
+          ],
+          "key$": "BasicLegacyFlow",
+          "active": true,
+          "param": {}
+        },
+        "BasicLegacyMutationFlow": {
+          "entity": "legacy_mutation",
+          "kind": "basic",
+          "name": "BasicLegacyMutationFlow",
+          "step": [
+            {
+              "input": {
+                "ref": "legacy_mutation_ref01"
+              },
+              "op": "create",
+              "active": true,
+              "match": {},
+              "data": {},
+              "spec": [],
+              "valid": []
+            },
+            {
+              "input": {
+                "ref": "legacy_mutation_ref01",
+                "srcdatavar": "legacy_mutation_ref01_data",
+                "suffix": "_up0",
+                "textfield": "created_at"
+              },
+              "op": "update",
+              "spec": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-legacy_mutation_ref01"
+                  }
+                }
+              ],
+              "active": true,
+              "match": {},
+              "data": {},
+              "valid": []
+            }
+          ],
+          "key$": "BasicLegacyMutationFlow",
+          "active": true,
+          "param": {}
+        },
+        "BasicLegacyUnknownFlow": {
+          "entity": "legacy_unknown",
+          "kind": "basic",
+          "name": "BasicLegacyUnknownFlow",
+          "step": [
+            {
+              "input": {
+                "ref": "legacy_unknown_ref01",
+                "srcdatavar": "legacy_unknown_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "legacy_unknown01"
+              },
+              "op": "load",
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-legacy_unknown_ref01"
+                  }
+                }
+              ],
+              "active": true,
+              "data": {},
+              "spec": []
+            }
+          ],
+          "key$": "BasicLegacyUnknownFlow",
+          "active": true,
+          "param": {}
+        },
+        "BasicLegacyUnknownListFlow": {
+          "entity": "legacy_unknown_list",
+          "kind": "basic",
+          "name": "BasicLegacyUnknownListFlow",
+          "step": [
+            {
+              "op": "list",
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "legacy_unknown_list_ref01"
+                  }
+                }
+              ],
+              "active": true,
+              "match": {},
+              "data": {},
+              "input": {},
+              "spec": []
+            }
+          ],
+          "key$": "BasicLegacyUnknownListFlow",
+          "active": true,
+          "param": {}
+        },
+        "BasicLegacyUserFlow": {
+          "entity": "legacy_user",
+          "kind": "basic",
+          "name": "BasicLegacyUserFlow",
+          "step": [
+            {
+              "input": {
+                "ref": "legacy_user_ref01",
+                "srcdatavar": "legacy_user_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "legacy_user01"
+              },
+              "op": "load",
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-legacy_user_ref01"
+                  }
+                }
+              ],
+              "active": true,
+              "data": {},
+              "spec": []
+            }
+          ],
+          "key$": "BasicLegacyUserFlow",
+          "active": true,
+          "param": {}
+        },
+        "BasicLegacyUserListFlow": {
+          "entity": "legacy_user_list",
+          "kind": "basic",
+          "name": "BasicLegacyUserListFlow",
+          "step": [
+            {
+              "op": "list",
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "legacy_user_list_ref01"
+                  }
+                }
+              ],
+              "active": true,
+              "match": {},
+              "data": {},
+              "input": {},
+              "spec": []
+            }
+          ],
+          "key$": "BasicLegacyUserListFlow",
+          "active": true,
+          "param": {}
+        },
+        "BasicLoginFlow": {
+          "entity": "login",
+          "kind": "basic",
+          "name": "BasicLoginFlow",
+          "step": [
+            {
+              "input": {
+                "ref": "login_ref01"
+              },
+              "op": "create",
+              "active": true,
+              "match": {},
+              "data": {},
+              "spec": [],
+              "valid": []
+            }
+          ],
+          "key$": "BasicLoginFlow",
+          "active": true,
+          "param": {}
+        },
+        "BasicRegisterFlow": {
+          "entity": "register",
+          "kind": "basic",
+          "name": "BasicRegisterFlow",
+          "step": [
+            {
+              "input": {
+                "ref": "register_ref01"
+              },
+              "op": "create",
+              "active": true,
+              "match": {},
+              "data": {},
+              "spec": [],
+              "valid": []
+            }
+          ],
+          "key$": "BasicRegisterFlow",
+          "active": true,
+          "param": {}
+        }
+      },
+      "target": {
+        "ts": {
+          "title": "TypeScript",
+          "ext": "ts",
+          "comment": {
+            "line": "//"
+          },
+          "module": {
+            "name": "hosted-rest"
+          },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
+          "deps": {
+            "dotenv": {
+              "active": true,
+              "version": "^17.4.2",
+              "kind": "dev"
+            },
+            "typescript": {
+              "active": true,
+              "version": "^5.9.3",
+              "kind": "dev"
+            },
+            "@types/node": {
+              "active": true,
+              "version": "^25.6.0",
+              "kind": "dev"
+            }
+          },
+          "name": "ts",
+          "active": true
+        },
+        "go": {
+          "title": "Golang",
+          "ext": "go",
+          "comment": {
+            "line": "//"
+          },
+          "module": {
+            "name": "hosted-rest"
+          },
+          "srcfeature": false,
+          "deps": {
+            "github.com/voxgig/struct": {
+              "active": true,
+              "version": "v0.0.0",
+              "replace": "./utility/struct",
+              "kind": "prod"
+            }
+          },
+          "name": "go",
+          "active": true
+        },
+        "lua": {
+          "title": "Lua",
+          "ext": "lua",
+          "comment": {
+            "line": "--"
+          },
+          "module": {
+            "name": "hosted-rest"
+          },
+          "srcfeature": false,
+          "deps": {
+            "dkjson": {
+              "active": true,
+              "version": "2.5",
+              "kind": "prod"
+            }
+          },
+          "name": "lua",
+          "active": true
+        },
+        "php": {
+          "title": "PHP",
+          "ext": "php",
+          "comment": {
+            "line": "//"
+          },
+          "module": {
+            "name": "hosted-rest"
+          },
+          "srcfeature": false,
+          "deps": {},
+          "name": "php",
+          "active": true
+        },
+        "py": {
+          "title": "Python",
+          "ext": "py",
+          "comment": {
+            "line": "#"
+          },
+          "module": {
+            "name": "hosted-rest"
+          },
+          "srcfeature": false,
+          "deps": {
+            "requests": {
+              "active": true,
+              "version": "2.33",
+              "kind": "prod"
+            }
+          },
+          "name": "py",
+          "active": true
+        },
+        "rb": {
+          "title": "Ruby",
+          "ext": "rb",
+          "comment": {
+            "line": "#"
+          },
+          "module": {
+            "name": "hosted-rest"
+          },
+          "srcfeature": false,
+          "deps": {
+            "voxgig-struct": {
+              "active": true,
+              "version": "0.0.10",
+              "kind": "prod"
+            },
+            "json": {
+              "active": true,
+              "version": "0",
+              "kind": "prod"
+            }
+          },
+          "name": "rb",
+          "active": true
+        }
+      },
+      "option": {}
+    },
+    "def": {
+      "desc": ""
+    },
+    "api": {
+      "guide": {},
+      "entity": {}
+    }
+  },
+  "name__orig": "hosted-rest",
+  "Name": "HostedRest",
+  "name_": "hosted_rest",
+  "name-": "hosted-rest",
+  "NAME": "HOSTED-REST"
+}
