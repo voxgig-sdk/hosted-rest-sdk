@@ -3,15 +3,18 @@
     "app_user_total": {
       "APP_USER_TOTAL00": {
         "total": "sa",
-        "project_id": "PROJECT01"
+        "project_id": "PROJECT01",
+        "id": "APP_USER_TOTAL00"
       },
       "APP_USER_TOTAL01": {
         "total": "s14",
-        "project_id": "PROJECT01"
+        "project_id": "PROJECT01",
+        "id": "APP_USER_TOTAL01"
       },
       "APP_USER_TOTAL02": {
         "total": "s1e",
-        "project_id": "PROJECT01"
+        "project_id": "PROJECT01",
+        "id": "APP_USER_TOTAL02"
       }
     }
   },

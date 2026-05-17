@@ -1,10 +1,10 @@
 package voxgighostedrestsdk
 
 import (
-	"github.com/voxgig-sdk/hosted-rest-sdk/core"
-	"github.com/voxgig-sdk/hosted-rest-sdk/entity"
-	"github.com/voxgig-sdk/hosted-rest-sdk/feature"
-	_ "github.com/voxgig-sdk/hosted-rest-sdk/utility"
+	"github.com/voxgig-sdk/hosted-rest-sdk/go/core"
+	"github.com/voxgig-sdk/hosted-rest-sdk/go/entity"
+	"github.com/voxgig-sdk/hosted-rest-sdk/go/feature"
+	_ "github.com/voxgig-sdk/hosted-rest-sdk/go/utility"
 )
 
 // Type aliases preserve external API.

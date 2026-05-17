@@ -5,19 +5,22 @@
         "data": {},
         "email": "s29",
         "metadata": {},
-        "project_id": "PROJECT01"
+        "project_id": "PROJECT01",
+        "id": "APP_USER_LOGIN00"
       },
       "APP_USER_LOGIN01": {
         "data": {},
         "email": "s51",
         "metadata": {},
-        "project_id": "PROJECT01"
+        "project_id": "PROJECT01",
+        "id": "APP_USER_LOGIN01"
       },
       "APP_USER_LOGIN02": {
         "data": {},
         "email": "s79",
         "metadata": {},
-        "project_id": "PROJECT01"
+        "project_id": "PROJECT01",
+        "id": "APP_USER_LOGIN02"
       }
     }
   },

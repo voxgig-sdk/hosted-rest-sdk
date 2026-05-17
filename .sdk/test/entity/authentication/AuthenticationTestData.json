@@ -1,9 +1,15 @@
 {
   "existing": {
     "authentication": {
-      "AUTHENTICATION00": {},
-      "AUTHENTICATION01": {},
-      "AUTHENTICATION02": {}
+      "AUTHENTICATION00": {
+        "id": "AUTHENTICATION00"
+      },
+      "AUTHENTICATION01": {
+        "id": "AUTHENTICATION01"
+      },
+      "AUTHENTICATION02": {
+        "id": "AUTHENTICATION02"
+      }
     }
   },
   "new": {

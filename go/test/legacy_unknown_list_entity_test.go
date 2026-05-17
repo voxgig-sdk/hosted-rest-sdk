@@ -9,10 +9,10 @@ import (
 	"testing"
 	"time"
 
-	sdk "github.com/voxgig-sdk/hosted-rest-sdk"
-	"github.com/voxgig-sdk/hosted-rest-sdk/core"
+	sdk "github.com/voxgig-sdk/hosted-rest-sdk/go"
+	"github.com/voxgig-sdk/hosted-rest-sdk/go/core"
 
-	vs "github.com/voxgig/struct"
+	vs "github.com/voxgig-sdk/hosted-rest-sdk/go/utility/struct"
 )
 
 func TestLegacyUnknownListEntity(t *testing.T) {

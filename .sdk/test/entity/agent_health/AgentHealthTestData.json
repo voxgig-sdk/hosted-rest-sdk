@@ -2,13 +2,16 @@
   "existing": {
     "agent_health": {
       "AGENT_HEALTH00": {
-        "data": {}
+        "data": {},
+        "id": "AGENT_HEALTH00"
       },
       "AGENT_HEALTH01": {
-        "data": {}
+        "data": {},
+        "id": "AGENT_HEALTH01"
       },
       "AGENT_HEALTH02": {
-        "data": {}
+        "data": {},
+        "id": "AGENT_HEALTH02"
       }
     }
   },

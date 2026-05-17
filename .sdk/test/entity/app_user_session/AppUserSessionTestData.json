@@ -2,13 +2,16 @@
   "existing": {
     "app_user_session": {
       "APP_USER_SESSION00": {
-        "data": {}
+        "data": {},
+        "id": "APP_USER_SESSION00"
       },
       "APP_USER_SESSION01": {
-        "data": {}
+        "data": {},
+        "id": "APP_USER_SESSION01"
       },
       "APP_USER_SESSION02": {
-        "data": {}
+        "data": {},
+        "id": "APP_USER_SESSION02"
       }
     }
   },

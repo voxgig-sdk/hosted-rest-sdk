@@ -4,17 +4,20 @@
       "AGENT_SANDBOX00": {
         "email": "s14",
         "password": "s15",
-        "scenario": "SCENARIO01"
+        "scenario": "SCENARIO01",
+        "id": "AGENT_SANDBOX00"
       },
       "AGENT_SANDBOX01": {
         "email": "s28",
         "password": "s29",
-        "scenario": "SCENARIO01"
+        "scenario": "SCENARIO01",
+        "id": "AGENT_SANDBOX01"
       },
       "AGENT_SANDBOX02": {
         "email": "s3c",
         "password": "s3d",
-        "scenario": "SCENARIO01"
+        "scenario": "SCENARIO01",
+        "id": "AGENT_SANDBOX02"
       }
     }
   },

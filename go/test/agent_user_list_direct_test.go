@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	sdk "github.com/voxgig-sdk/hosted-rest-sdk"
-	"github.com/voxgig-sdk/hosted-rest-sdk/core"
+	sdk "github.com/voxgig-sdk/hosted-rest-sdk/go"
+	"github.com/voxgig-sdk/hosted-rest-sdk/go/core"
 )
 
 func TestAgentUserListDirect(t *testing.T) {
