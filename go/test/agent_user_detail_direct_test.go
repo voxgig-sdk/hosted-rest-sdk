@@ -117,14 +117,12 @@ func agent_user_detailDirectSetup(mockres any) *agent_user_detailDirectSetupResu
 	env := envOverride(map[string]any{
 		"HOSTEDREST_TEST_AGENT_USER_DETAIL_ENTID": map[string]any{},
 		"HOSTEDREST_TEST_LIVE":    "FALSE",
-		"HOSTEDREST_APIKEY":       "NONE",
 	})
 
 	live := env["HOSTEDREST_TEST_LIVE"] == "TRUE"
 
 	if live {
 		mergedOpts := map[string]any{
-			"apikey": env["HOSTEDREST_APIKEY"],
 		}
 		client := sdk.NewHostedRestSDK(mergedOpts)
 

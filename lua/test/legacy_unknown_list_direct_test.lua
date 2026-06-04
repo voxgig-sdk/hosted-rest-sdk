@@ -63,14 +63,12 @@ function legacy_unknown_list_direct_setup(mockres)
   local env = runner.env_override({
     ["HOSTEDREST_TEST_LEGACY_UNKNOWN_LIST_ENTID"] = {},
     ["HOSTEDREST_TEST_LIVE"] = "FALSE",
-    ["HOSTEDREST_APIKEY"] = "NONE",
   })
 
   local live = env["HOSTEDREST_TEST_LIVE"] == "TRUE"
 
   if live then
     local merged_opts = {
-      apikey = env["HOSTEDREST_APIKEY"],
     }
     local client = sdk.new(merged_opts)
     return {

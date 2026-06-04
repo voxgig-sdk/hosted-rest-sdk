@@ -78,14 +78,12 @@ function collection_record_direct_setup($mockres)
     $env = Runner::env_override([
         "HOSTEDREST_TEST_COLLECTION_RECORD_ENTID" => [],
         "HOSTEDREST_TEST_LIVE" => "FALSE",
-        "HOSTEDREST_APIKEY" => "NONE",
     ]);
 
     $live = $env["HOSTEDREST_TEST_LIVE"] === "TRUE";
 
     if ($live) {
         $merged_opts = [
-            "apikey" => $env["HOSTEDREST_APIKEY"],
         ];
         $client = new HostedRestSDK($merged_opts);
         return [

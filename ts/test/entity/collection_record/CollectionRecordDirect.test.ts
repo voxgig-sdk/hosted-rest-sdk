@@ -82,14 +82,12 @@ function directSetup(mockres?: any) {
   const env = envOverride({
     'HOSTEDREST_TEST_COLLECTION_RECORD_ENTID': {},
     'HOSTEDREST_TEST_LIVE': 'FALSE',
-    'HOSTEDREST_APIKEY': 'NONE',
   })
 
   const live = 'TRUE' === env.HOSTEDREST_TEST_LIVE
 
   if (live) {
     const client = new HostedRestSDK({
-      apikey: env.HOSTEDREST_APIKEY,
     })
 
     let idmap: any = env['HOSTEDREST_TEST_COLLECTION_RECORD_ENTID']

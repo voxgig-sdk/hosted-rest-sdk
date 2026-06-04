@@ -117,7 +117,6 @@ func legacy_unknownBasicSetup(extra map[string]any) *entityTestSetup {
 		"HOSTEDREST_TEST_LEGACY_UNKNOWN_ENTID": idmap,
 		"HOSTEDREST_TEST_LIVE":      "FALSE",
 		"HOSTEDREST_TEST_EXPLAIN":   "FALSE",
-		"HOSTEDREST_APIKEY":         "NONE",
 	})
 
 	idmapResolved := core.ToMapAny(env["HOSTEDREST_TEST_LEGACY_UNKNOWN_ENTID"])
@@ -128,7 +127,6 @@ func legacy_unknownBasicSetup(extra map[string]any) *entityTestSetup {
 	if env["HOSTEDREST_TEST_LIVE"] == "TRUE" {
 		mergedOpts := vs.Merge([]any{
 			map[string]any{
-				"apikey": env["HOSTEDREST_APIKEY"],
 			},
 			extra,
 		})

@@ -72,14 +72,12 @@ function app_user_total_direct_setup(mockres)
   local env = runner.env_override({
     ["HOSTEDREST_TEST_APP_USER_TOTAL_ENTID"] = {},
     ["HOSTEDREST_TEST_LIVE"] = "FALSE",
-    ["HOSTEDREST_APIKEY"] = "NONE",
   })
 
   local live = env["HOSTEDREST_TEST_LIVE"] == "TRUE"
 
   if live then
     local merged_opts = {
-      apikey = env["HOSTEDREST_APIKEY"],
     }
     local client = sdk.new(merged_opts)
     return {

@@ -26,8 +26,50 @@ main: {
       ]
       title: "ReqRes API"
       version: "2.1.0"
+      tagline: "Hosted REST API with real endpoints, persistent data, and request logs for front-end and agent testing"
+      homepage: "https://reqres.in"
+      docs_url: "https://reqres.in/api-docs"
+      license_short: "Proprietary commercial service (free tier available); SDK distributed under MIT"
+      license_md: `- ReqRes.in is a proprietary, commercial service operated by ReqRes (founded by Ben Howdle).
+- A free tier is available; paid plans add higher request quotas and custom auth.
+- This SDK package itself is distributed under the MIT license.
+- Check the ReqRes terms of service for usage restrictions before relying on it in production.`
+      about_md: `[ReqRes](https://reqres.in) is a hosted RESTful sandbox that responds to AJAX/HTTP requests with simulated and persistent data. It is intended for prototyping front-end code, demoing client libraries, and exercising agent workflows without standing up a real backend.
+
+What you get from the API:
+
+- Classic demo endpoints for paginated user lists, single user lookups, login, and registration.
+- Collection-style CRUD endpoints (\`/api/collections/{collection}/records\`) for creating and reading arbitrary records.
+- Per-user session endpoints under \`/app/...\` that isolate data using a session bearer token.
+- Agent-focused endpoints under \`/agent/v1/*\` for sandboxed agent testing and health checks.
+- Machine-readable references at \`/openapi.json\` and \`/llm.txt\`.
+
+Operational notes: requests typically require an \`x-api-key\` header, and per-user data uses \`Authorization: Bearer {session_token}\`. CORS is enabled. Free usage is rate-limited; paid plans raise the daily/monthly quotas. API keys and projects are managed at \`app.reqres.in\`.`
+      entity_desc: {
+        agent_health: "Health-check endpoints for the agent sandbox under `/agent/v1/*`."
+        agent_sandbox: "Agent-focused sandbox endpoints under `/agent/v1/*` for exercising agent workflows."
+        agent_user_detail: "Single-user detail endpoints exposed to the agent sandbox."
+        agent_user_list: "Paginated user list endpoints exposed to the agent sandbox."
+        app_user: "Per-user application records accessed through the authenticated `/app/...` surface."
+        app_user_login: "Login endpoint that issues a session token for the per-user `/app/...` surface."
+        app_user_session: "Session resources tied to an authenticated user, used with `Authorization: Bearer {session_token}`."
+        app_user_total: "Aggregate count of app users for the current key/session."
+        app_user_verify: "Endpoint for verifying an app user's credentials or token."
+        authentication: "Authentication-related operations (API key and session bearer token handling)."
+        collection: "Top-level collection resources under `/api/collections/{collection}`."
+        collection_record: "Individual records within a collection: `GET`/`POST` `/api/collections/{collection}/records`."
+        collection_record_list: "Listing of records inside a collection via `GET /api/collections/{collection}/records`."
+        custom: "Custom user-defined schemas/endpoints configured for a project."
+        legacy: "Legacy ReqRes demo endpoints retained for backwards compatibility."
+        legacy_mutation: "Legacy POST/PUT/DELETE demo endpoints that simulate writes against demo data."
+        legacy_unknown: "Legacy `/api/unknown/{id}` style resource representing the colour-palette demo."
+        legacy_unknown_list: "Legacy `/api/unknown` list endpoint returning the paginated colour-palette demo."
+        legacy_user: "Legacy `/api/users/{id}` single-user demo endpoint."
+        legacy_user_list: "Legacy `/api/users?page=N` paginated user list demo endpoint."
+        login: "Demo `/api/login` endpoint that returns a token for valid credentials."
+        register: "Demo `/api/register` endpoint that returns a token for new account creation."
+      }
+      auth: false
     }
   }
-}
-
 }

@@ -87,7 +87,6 @@ function register_basic_setup(extra)
     ["HOSTEDREST_TEST_REGISTER_ENTID"] = idmap,
     ["HOSTEDREST_TEST_LIVE"] = "FALSE",
     ["HOSTEDREST_TEST_EXPLAIN"] = "FALSE",
-    ["HOSTEDREST_APIKEY"] = "NONE",
   })
 
   local idmap_resolved = helpers.to_map(
@@ -99,7 +98,6 @@ function register_basic_setup(extra)
   if env["HOSTEDREST_TEST_LIVE"] == "TRUE" then
     local merged_opts = vs.merge({
       {
-        apikey = env["HOSTEDREST_APIKEY"],
       },
       extra or {},
     })

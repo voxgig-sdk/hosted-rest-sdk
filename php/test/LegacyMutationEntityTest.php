@@ -97,7 +97,6 @@ function legacy_mutation_basic_setup($extra)
         "HOSTEDREST_TEST_LEGACY_MUTATION_ENTID" => $idmap,
         "HOSTEDREST_TEST_LIVE" => "FALSE",
         "HOSTEDREST_TEST_EXPLAIN" => "FALSE",
-        "HOSTEDREST_APIKEY" => "NONE",
     ]);
 
     $idmap_resolved = Helpers::to_map(
@@ -109,7 +108,6 @@ function legacy_mutation_basic_setup($extra)
     if ($env["HOSTEDREST_TEST_LIVE"] === "TRUE") {
         $merged_opts = Vs::merge([
             [
-                "apikey" => $env["HOSTEDREST_APIKEY"],
             ],
             $extra ?? [],
         ]);

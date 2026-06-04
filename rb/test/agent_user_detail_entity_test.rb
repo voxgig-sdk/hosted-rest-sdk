@@ -82,7 +82,6 @@ def agent_user_detail_basic_setup(extra)
     "HOSTEDREST_TEST_AGENT_USER_DETAIL_ENTID" => idmap,
     "HOSTEDREST_TEST_LIVE" => "FALSE",
     "HOSTEDREST_TEST_EXPLAIN" => "FALSE",
-    "HOSTEDREST_APIKEY" => "NONE",
   })
 
   idmap_resolved = Helpers.to_map(
@@ -94,7 +93,6 @@ def agent_user_detail_basic_setup(extra)
   if env["HOSTEDREST_TEST_LIVE"] == "TRUE"
     merged_opts = Vs.merge([
       {
-        "apikey" => env["HOSTEDREST_APIKEY"],
       },
       extra || {},
     ])

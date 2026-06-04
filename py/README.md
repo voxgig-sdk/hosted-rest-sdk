@@ -23,12 +23,9 @@ loading a specific record.
 ### 1. Create a client
 
 ```python
-import os
 from hostedrest_sdk import HostedRestSDK
 
-client = HostedRestSDK({
-    "apikey": os.environ.get("HOSTED-REST_APIKEY"),
-})
+client = HostedRestSDK({})
 ```
 
 ### 3. Load a agenthealth
@@ -117,7 +114,6 @@ Create a `.env.local` file at the project root:
 
 ```
 HOSTED-REST_TEST_LIVE=TRUE
-HOSTED-REST_APIKEY=<your-key>
 ```
 
 Then run:
@@ -141,7 +137,6 @@ Creates a new SDK client.
 
 | Option | Type | Description |
 | --- | --- | --- |
-| `apikey` | `str` | API key for authentication. |
 | `base` | `str` | Base URL of the API server. |
 | `prefix` | `str` | URL path prefix prepended to all requests. |
 | `suffix` | `str` | URL path suffix appended to all requests. |

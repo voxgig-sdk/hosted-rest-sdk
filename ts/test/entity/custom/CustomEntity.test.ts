@@ -127,7 +127,6 @@ function basicSetup(extra?: any) {
     'HOSTED_REST_TEST_CUSTOM_ENTID': idmap,
     'HOSTED_REST_TEST_LIVE': 'FALSE',
     'HOSTED_REST_TEST_EXPLAIN': 'FALSE',
-    'HOSTED_REST_APIKEY': 'NONE',
   })
 
   idmap = env['HOSTED_REST_TEST_CUSTOM_ENTID']
@@ -137,7 +136,6 @@ function basicSetup(extra?: any) {
   if (live) {
     client = new HostedRestSDK(merge([
       {
-        apikey: env.HOSTED_REST_APIKEY,
       },
       extra
     ]))
