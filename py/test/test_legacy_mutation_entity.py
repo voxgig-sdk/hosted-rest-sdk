@@ -104,6 +104,7 @@ def _legacy_mutation_basic_setup(extra):
         "HOSTEDREST_TEST_LEGACY_MUTATION_ENTID": idmap,
         "HOSTEDREST_TEST_LIVE": "FALSE",
         "HOSTEDREST_TEST_EXPLAIN": "FALSE",
+        "HOSTEDREST_APIKEY": "NONE",
     })
 
     idmap_resolved = helpers.to_map(
@@ -114,6 +115,7 @@ def _legacy_mutation_basic_setup(extra):
     if env.get("HOSTEDREST_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
             {
+                "apikey": env.get("HOSTEDREST_APIKEY"),
             },
             extra or {},
         ])

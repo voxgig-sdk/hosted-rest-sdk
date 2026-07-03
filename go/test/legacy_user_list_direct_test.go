@@ -93,12 +93,14 @@ func legacy_user_listDirectSetup(mockres any) *legacy_user_listDirectSetupResult
 	env := envOverride(map[string]any{
 		"HOSTEDREST_TEST_LEGACY_USER_LIST_ENTID": map[string]any{},
 		"HOSTEDREST_TEST_LIVE":    "FALSE",
+		"HOSTEDREST_APIKEY":       "NONE",
 	})
 
 	live := env["HOSTEDREST_TEST_LIVE"] == "TRUE"
 
 	if live {
 		mergedOpts := map[string]any{
+			"apikey": env["HOSTEDREST_APIKEY"],
 		}
 		client := sdk.NewHostedRestSDK(mergedOpts)
 

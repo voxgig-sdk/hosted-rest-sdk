@@ -1,22 +1,8 @@
 # HostedRest SDK
 
-Hosted REST API with real endpoints, persistent data, and request logs for front-end and agent testing
+ReqRes API client, generated from the OpenAPI spec.
 
 > TypeScript, Python, PHP, Golang, Ruby, Lua SDKs, a CLI, an interactive REPL, and an MCP server for AI agents — all generated from one OpenAPI spec by [@voxgig/sdkgen](https://github.com/voxgig/sdkgen).
-
-## About ReqRes API
-
-[ReqRes](https://reqres.in) is a hosted RESTful sandbox that responds to AJAX/HTTP requests with simulated and persistent data. It is intended for prototyping front-end code, demoing client libraries, and exercising agent workflows without standing up a real backend.
-
-What you get from the API:
-
-- Classic demo endpoints for paginated user lists, single user lookups, login, and registration.
-- Collection-style CRUD endpoints (`/api/collections/{collection}/records`) for creating and reading arbitrary records.
-- Per-user session endpoints under `/app/...` that isolate data using a session bearer token.
-- Agent-focused endpoints under `/agent/v1/*` for sandboxed agent testing and health checks.
-- Machine-readable references at `/openapi.json` and `/llm.txt`.
-
-Operational notes: requests typically require an `x-api-key` header, and per-user data uses `Authorization: Bearer {session_token}`. CORS is enabled. Free usage is rate-limited; paid plans raise the daily/monthly quotas. API keys and projects are managed at `app.reqres.in`.
 
 ## Try it
 
@@ -50,27 +36,31 @@ gem install hosted-rest-sdk
 luarocks install hosted-rest-sdk
 ```
 
-## 30-second quickstart
+## Quickstart
 
 ### TypeScript
 
 ```ts
 import { HostedRestSDK } from 'hosted-rest'
 
-const client = new HostedRestSDK({})
+const client = new HostedRestSDK({
+  apikey: process.env.HOSTED-REST_APIKEY,
+})
 
+// Load agenthealth data
+const agenthealth = await client.AgentHealth().load({})
+console.log(agenthealth.data)
 ```
 
-See the [TypeScript README](ts/README.md) for the
-full guide, or scroll down for the same example in other languages.
+See the [TypeScript README](ts/README.md) for the full guide.
 
-## What's in the box
+## Surfaces
 
-| Surface | Use it for | Path |
-| --- | --- | --- |
-| **SDK** (TypeScript, Python, PHP, Golang, Ruby, Lua) | App integration | `ts/` `py/` `php/` `go/` `rb/` `lua/` |
-| **CLI** | Scripts, CI, ops, one-off API calls | `go-cli/` |
-| **MCP server** | AI agents (Claude, Cursor, Cline) | `go-mcp/` |
+| Surface | Path |
+| --- | --- |
+| **SDK** (TypeScript, Python, PHP, Golang, Ruby, Lua) | `ts/` `py/` `php/` `go/` `rb/` `lua/` |
+| **CLI** | `go-cli/` |
+| **MCP server** | `go-mcp/` |
 
 ## Use it from an AI agent (MCP)
 
@@ -100,28 +90,28 @@ The API exposes 22 entities:
 
 | Entity | Description | API path |
 | --- | --- | --- |
-| **AgentHealth** | Health-check endpoints for the agent sandbox under `/agent/v1/*`. | `/agent/v1/health` |
-| **AgentSandbox** | Agent-focused sandbox endpoints under `/agent/v1/*` for exercising agent workflows. | `/agent/v1/auth/login` |
-| **AgentUserDetail** | Single-user detail endpoints exposed to the agent sandbox. | `/agent/v1/users/{id}` |
-| **AgentUserList** | Paginated user list endpoints exposed to the agent sandbox. | `/agent/v1/users` |
-| **AppUser** | Per-user application records accessed through the authenticated `/app/...` surface. | `/api/app-users/{id}/sessions/simulate` |
-| **AppUserLogin** | Login endpoint that issues a session token for the per-user `/app/...` surface. | `/api/app-users/login` |
-| **AppUserSession** | Session resources tied to an authenticated user, used with `Authorization: Bearer {session_token}`. | `/api/app-users/me` |
-| **AppUserTotal** | Aggregate count of app users for the current key/session. | `/api/projects/{projectId}/app-users/total` |
-| **AppUserVerify** | Endpoint for verifying an app user's credentials or token. | `/api/app-users/verify` |
-| **Authentication** | Authentication-related operations (API key and session bearer token handling). | `/api/logout` |
-| **Collection** | Top-level collection resources under `/api/collections/{collection}`. | `/api/collections` |
-| **CollectionRecord** | Individual records within a collection: `GET`/`POST` `/api/collections/{collection}/records`. | `/api/collections/{slug}/records` |
-| **CollectionRecordList** | Listing of records inside a collection via `GET /api/collections/{collection}/records`. | `/api/collections/{slug}/records` |
-| **Custom** | Custom user-defined schemas/endpoints configured for a project. | `/api/custom/{path}` |
-| **Legacy** | Legacy ReqRes demo endpoints retained for backwards compatibility. | `/api/users/{id}` |
-| **LegacyMutation** | Legacy POST/PUT/DELETE demo endpoints that simulate writes against demo data. | `/api/users` |
-| **LegacyUnknown** | Legacy `/api/unknown/{id}` style resource representing the colour-palette demo. | `/api/unknown/{id}` |
-| **LegacyUnknownList** | Legacy `/api/unknown` list endpoint returning the paginated colour-palette demo. | `/api/unknown` |
-| **LegacyUser** | Legacy `/api/users/{id}` single-user demo endpoint. | `/api/users/{id}` |
-| **LegacyUserList** | Legacy `/api/users?page=N` paginated user list demo endpoint. | `/api/users` |
-| **Login** | Demo `/api/login` endpoint that returns a token for valid credentials. | `/api/login` |
-| **Register** | Demo `/api/register` endpoint that returns a token for new account creation. | `/api/register` |
+| **AgentHealth** |  | `/agent/v1/health` |
+| **AgentSandbox** |  | `/agent/v1/auth/login` |
+| **AgentUserDetail** |  | `/agent/v1/users/{id}` |
+| **AgentUserList** |  | `/agent/v1/users` |
+| **AppUser** |  | `/api/app-users/{id}/sessions/simulate` |
+| **AppUserLogin** |  | `/api/app-users/login` |
+| **AppUserSession** |  | `/api/app-users/me` |
+| **AppUserTotal** |  | `/api/projects/{projectId}/app-users/total` |
+| **AppUserVerify** |  | `/api/app-users/verify` |
+| **Authentication** |  | `/api/logout` |
+| **Collection** |  | `/api/collections` |
+| **CollectionRecord** |  | `/api/collections/{slug}/records` |
+| **CollectionRecordList** |  | `/api/collections/{slug}/records` |
+| **Custom** |  | `/api/custom/{path}` |
+| **Legacy** |  | `/api/users/{id}` |
+| **LegacyMutation** |  | `/api/users` |
+| **LegacyUnknown** |  | `/api/unknown/{id}` |
+| **LegacyUnknownList** |  | `/api/unknown` |
+| **LegacyUser** |  | `/api/users/{id}` |
+| **LegacyUserList** |  | `/api/users` |
+| **Login** |  | `/api/login` |
+| **Register** |  | `/api/register` |
 
 Each entity supports the following operations where available: **load**,
 **list**, **create**, **update**, and **remove**.
@@ -131,15 +121,17 @@ Each entity supports the following operations where available: **load**,
 ### Python
 
 ```python
+import os
 from hostedrest_sdk import HostedRestSDK
 
-client = HostedRestSDK({})
+client = HostedRestSDK({
+    "apikey": os.environ.get("HOSTED-REST_APIKEY"),
+})
 
 
 # Load a specific agenthealth
-agenthealth, err = client.AgentHealth(None).load(
-    {"id": "example_id"}, None
-)
+agenthealth, err = client.AgentHealth().load({"id": "example_id"})
+print(agenthealth)
 ```
 
 ### PHP
@@ -148,13 +140,14 @@ agenthealth, err = client.AgentHealth(None).load(
 <?php
 require_once 'hostedrest_sdk.php';
 
-$client = new HostedRestSDK([]);
+$client = new HostedRestSDK([
+    "apikey" => getenv("HOSTED-REST_APIKEY"),
+]);
 
 
 // Load a specific agenthealth
-[$agenthealth, $err] = $client->AgentHealth(null)->load(
-    ["id" => "example_id"], null
-);
+[$agenthealth, $err] = $client->AgentHealth()->load(["id" => "example_id"]);
+print_r($agenthealth);
 ```
 
 ### Golang
@@ -162,8 +155,13 @@ $client = new HostedRestSDK([]);
 ```go
 import sdk "github.com/voxgig-sdk/hosted-rest-sdk/go"
 
-client := sdk.NewHostedRestSDK(map[string]any{})
+client := sdk.NewHostedRestSDK(map[string]any{
+    "apikey": os.Getenv("HOSTED-REST_APIKEY"),
+})
 
+// Load agenthealth data
+agenthealth, err := client.AgentHealth(nil).Load(map[string]any{}, nil)
+fmt.Println(agenthealth)
 ```
 
 ### Ruby
@@ -171,13 +169,14 @@ client := sdk.NewHostedRestSDK(map[string]any{})
 ```ruby
 require_relative "HostedRest_sdk"
 
-client = HostedRestSDK.new({})
+client = HostedRestSDK.new({
+  "apikey" => ENV["HOSTED-REST_APIKEY"],
+})
 
 
 # Load a specific agenthealth
-agenthealth, err = client.AgentHealth(nil).load(
-  { "id" => "example_id" }, nil
-)
+agenthealth, err = client.AgentHealth().load({ "id" => "example_id" })
+puts agenthealth
 ```
 
 ### Lua
@@ -185,13 +184,14 @@ agenthealth, err = client.AgentHealth(nil).load(
 ```lua
 local sdk = require("hosted-rest_sdk")
 
-local client = sdk.new({})
+local client = sdk.new({
+  apikey = os.getenv("HOSTED-REST_APIKEY"),
+})
 
 
 -- Load a specific agenthealth
-local agenthealth, err = client:AgentHealth(nil):load(
-  { id = "example_id" }, nil
-)
+local agenthealth, err = client:AgentHealth():load({ id = "example_id" })
+print(agenthealth)
 ```
 
 ## Unit testing in offline mode
@@ -210,25 +210,21 @@ const result = await client.AgentHealth().load({ id: 'test01' })
 ### Python
 
 ```python
-client = HostedRestSDK.test(None, None)
-result, err = client.AgentHealth(None).load(
-    {"id": "test01"}, None
-)
+client = HostedRestSDK.test()
+result, err = client.AgentHealth().load({"id": "test01"})
 ```
 
 ### PHP
 
 ```php
-$client = HostedRestSDK::test(null, null);
-[$result, $err] = $client->AgentHealth(null)->load(
-    ["id" => "test01"], null
-);
+$client = HostedRestSDK::test();
+[$result, $err] = $client->AgentHealth()->load(["id" => "test01"]);
 ```
 
 ### Golang
 
 ```go
-client := sdk.TestSDK(nil, nil)
+client := sdk.Test()
 result, err := client.AgentHealth(nil).Load(
     map[string]any{"id": "test01"}, nil,
 )
@@ -237,19 +233,15 @@ result, err := client.AgentHealth(nil).Load(
 ### Ruby
 
 ```ruby
-client = HostedRestSDK.test(nil, nil)
-result, err = client.AgentHealth(nil).load(
-  { "id" => "test01" }, nil
-)
+client = HostedRestSDK.test
+result, err = client.AgentHealth().load({ "id" => "test01" })
 ```
 
 ### Lua
 
 ```lua
-local client = sdk.test(nil, nil)
-local result, err = client:AgentHealth(nil):load(
-  { id = "test01" }, nil
-)
+local client = sdk.test()
+local result, err = client:AgentHealth():load({ id = "test01" })
 ```
 
 ## How it works
@@ -353,16 +345,6 @@ local result, err = client:direct({
 - [Golang](go/README.md)
 - [Ruby](rb/README.md)
 - [Lua](lua/README.md)
-
-## Using the ReqRes API
-
-- Upstream: [https://reqres.in](https://reqres.in)
-- API docs: [https://reqres.in/api-docs](https://reqres.in/api-docs)
-
-- ReqRes.in is a proprietary, commercial service operated by ReqRes (founded by Ben Howdle).
-- A free tier is available; paid plans add higher request quotas and custom auth.
-- This SDK package itself is distributed under the MIT license.
-- Check the ReqRes terms of service for usage restrictions before relying on it in production.
 
 ---
 

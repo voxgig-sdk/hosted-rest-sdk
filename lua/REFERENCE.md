@@ -30,12 +30,12 @@ Create a new SDK client instance.
 
 ### Static Methods
 
-#### `sdk.test(testopts, sdkopts)`
+#### `sdk.test(testopts?, sdkopts?)`
 
-Create a test client with mock features active. Both arguments may be `nil`.
+Create a test client with mock features active. Both arguments are optional.
 
 ```lua
-local client = sdk.test(nil, nil)
+local client = sdk.test()
 ```
 
 
@@ -184,7 +184,7 @@ local agent_health = client:AgentHealth(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:AgentHealth(nil):load({ id = "agent_health_id" }, nil)
+local result, err = client:AgentHealth():load({ id = "agent_health_id" })
 ```
 
 ### Common Methods
@@ -237,10 +237,10 @@ local agent_sandbox = client:AgentSandbox(nil)
 Create a new entity with the given data.
 
 ```lua
-local result, err = client:AgentSandbox(nil):create({
+local result, err = client:AgentSandbox():create({
   email = --[[ `$STRING` ]],
   password = --[[ `$STRING` ]],
-}, nil)
+})
 ```
 
 #### `load(reqmatch, ctrl) -> any, err`
@@ -248,7 +248,7 @@ local result, err = client:AgentSandbox(nil):create({
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:AgentSandbox(nil):load({ id = "agent_sandbox_id" }, nil)
+local result, err = client:AgentSandbox():load({ id = "agent_sandbox_id" })
 ```
 
 ### Common Methods
@@ -300,7 +300,7 @@ local agent_user_detail = client:AgentUserDetail(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:AgentUserDetail(nil):load({ id = "agent_user_detail_id" }, nil)
+local result, err = client:AgentUserDetail():load({ id = "agent_user_detail_id" })
 ```
 
 ### Common Methods
@@ -361,7 +361,7 @@ local agent_user_list = client:AgentUserList(nil)
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:AgentUserList(nil):list(nil, nil)
+local results, err = client:AgentUserList():list()
 ```
 
 ### Common Methods
@@ -431,10 +431,10 @@ local app_user = client:AppUser(nil)
 Create a new entity with the given data.
 
 ```lua
-local result, err = client:AppUser(nil):create({
+local result, err = client:AppUser():create({
   data = --[[ `$OBJECT` ]],
   email = --[[ `$STRING` ]],
-}, nil)
+})
 ```
 
 #### `list(reqmatch, ctrl) -> any, err`
@@ -442,7 +442,7 @@ local result, err = client:AppUser(nil):create({
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:AppUser(nil):list(nil, nil)
+local results, err = client:AppUser():list()
 ```
 
 #### `load(reqmatch, ctrl) -> any, err`
@@ -450,7 +450,7 @@ local results, err = client:AppUser(nil):list(nil, nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:AppUser(nil):load({ id = "app_user_id" }, nil)
+local result, err = client:AppUser():load({ id = "app_user_id" })
 ```
 
 #### `remove(reqmatch, ctrl) -> any, err`
@@ -458,7 +458,7 @@ local result, err = client:AppUser(nil):load({ id = "app_user_id" }, nil)
 Remove the entity matching the given criteria.
 
 ```lua
-local result, err = client:AppUser(nil):remove({ id = "app_user_id" }, nil)
+local result, err = client:AppUser():remove({ id = "app_user_id" })
 ```
 
 #### `update(reqdata, ctrl) -> any, err`
@@ -466,10 +466,10 @@ local result, err = client:AppUser(nil):remove({ id = "app_user_id" }, nil)
 Update an existing entity. The data must include the entity `id`.
 
 ```lua
-local result, err = client:AppUser(nil):update({
+local result, err = client:AppUser():update({
   id = "app_user_id",
   -- Fields to update
-}, nil)
+})
 ```
 
 ### Common Methods
@@ -524,10 +524,10 @@ local app_user_login = client:AppUserLogin(nil)
 Create a new entity with the given data.
 
 ```lua
-local result, err = client:AppUserLogin(nil):create({
+local result, err = client:AppUserLogin():create({
   data = --[[ `$OBJECT` ]],
   email = --[[ `$STRING` ]],
-}, nil)
+})
 ```
 
 ### Common Methods
@@ -579,7 +579,7 @@ local app_user_session = client:AppUserSession(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:AppUserSession(nil):load({ id = "app_user_session_id" }, nil)
+local result, err = client:AppUserSession():load({ id = "app_user_session_id" })
 ```
 
 ### Common Methods
@@ -631,7 +631,7 @@ local app_user_total = client:AppUserTotal(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:AppUserTotal(nil):load({ id = "app_user_total_id" }, nil)
+local result, err = client:AppUserTotal():load({ id = "app_user_total_id" })
 ```
 
 ### Common Methods
@@ -684,10 +684,10 @@ local app_user_verify = client:AppUserVerify(nil)
 Create a new entity with the given data.
 
 ```lua
-local result, err = client:AppUserVerify(nil):create({
+local result, err = client:AppUserVerify():create({
   data = --[[ `$OBJECT` ]],
   token = --[[ `$STRING` ]],
-}, nil)
+})
 ```
 
 ### Common Methods
@@ -733,8 +733,8 @@ local authentication = client:Authentication(nil)
 Create a new entity with the given data.
 
 ```lua
-local result, err = client:Authentication(nil):create({
-}, nil)
+local result, err = client:Authentication():create({
+})
 ```
 
 ### Common Methods
@@ -810,10 +810,10 @@ local collection = client:Collection(nil)
 Create a new entity with the given data.
 
 ```lua
-local result, err = client:Collection(nil):create({
+local result, err = client:Collection():create({
   data = --[[ `$OBJECT` ]],
   name = --[[ `$STRING` ]],
-}, nil)
+})
 ```
 
 #### `list(reqmatch, ctrl) -> any, err`
@@ -821,7 +821,7 @@ local result, err = client:Collection(nil):create({
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:Collection(nil):list(nil, nil)
+local results, err = client:Collection():list()
 ```
 
 #### `load(reqmatch, ctrl) -> any, err`
@@ -829,7 +829,7 @@ local results, err = client:Collection(nil):list(nil, nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Collection(nil):load({ id = "collection_id" }, nil)
+local result, err = client:Collection():load({ id = "collection_id" })
 ```
 
 #### `remove(reqmatch, ctrl) -> any, err`
@@ -837,7 +837,7 @@ local result, err = client:Collection(nil):load({ id = "collection_id" }, nil)
 Remove the entity matching the given criteria.
 
 ```lua
-local result, err = client:Collection(nil):remove({ id = "collection_id" }, nil)
+local result, err = client:Collection():remove({ id = "collection_id" })
 ```
 
 #### `update(reqdata, ctrl) -> any, err`
@@ -845,10 +845,10 @@ local result, err = client:Collection(nil):remove({ id = "collection_id" }, nil)
 Update an existing entity. The data must include the entity `id`.
 
 ```lua
-local result, err = client:Collection(nil):update({
+local result, err = client:Collection():update({
   id = "collection_id",
   -- Fields to update
-}, nil)
+})
 ```
 
 ### Common Methods
@@ -900,9 +900,9 @@ local collection_record = client:CollectionRecord(nil)
 Create a new entity with the given data.
 
 ```lua
-local result, err = client:CollectionRecord(nil):create({
+local result, err = client:CollectionRecord():create({
   data = --[[ `$OBJECT` ]],
-}, nil)
+})
 ```
 
 #### `load(reqmatch, ctrl) -> any, err`
@@ -910,7 +910,7 @@ local result, err = client:CollectionRecord(nil):create({
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:CollectionRecord(nil):load({ id = "collection_record_id" }, nil)
+local result, err = client:CollectionRecord():load({ id = "collection_record_id" })
 ```
 
 #### `update(reqdata, ctrl) -> any, err`
@@ -918,10 +918,10 @@ local result, err = client:CollectionRecord(nil):load({ id = "collection_record_
 Update an existing entity. The data must include the entity `id`.
 
 ```lua
-local result, err = client:CollectionRecord(nil):update({
+local result, err = client:CollectionRecord():update({
   id = "collection_record_id",
   -- Fields to update
-}, nil)
+})
 ```
 
 ### Common Methods
@@ -981,7 +981,7 @@ local collection_record_list = client:CollectionRecordList(nil)
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:CollectionRecordList(nil):list(nil, nil)
+local results, err = client:CollectionRecordList():list()
 ```
 
 ### Common Methods
@@ -1027,8 +1027,8 @@ local custom = client:Custom(nil)
 Create a new entity with the given data.
 
 ```lua
-local result, err = client:Custom(nil):create({
-}, nil)
+local result, err = client:Custom():create({
+})
 ```
 
 #### `load(reqmatch, ctrl) -> any, err`
@@ -1036,7 +1036,7 @@ local result, err = client:Custom(nil):create({
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Custom(nil):load({ id = "custom_id" }, nil)
+local result, err = client:Custom():load({ id = "custom_id" })
 ```
 
 #### `remove(reqmatch, ctrl) -> any, err`
@@ -1044,7 +1044,7 @@ local result, err = client:Custom(nil):load({ id = "custom_id" }, nil)
 Remove the entity matching the given criteria.
 
 ```lua
-local result, err = client:Custom(nil):remove({ id = "custom_id" }, nil)
+local result, err = client:Custom():remove({ id = "custom_id" })
 ```
 
 #### `update(reqdata, ctrl) -> any, err`
@@ -1052,10 +1052,10 @@ local result, err = client:Custom(nil):remove({ id = "custom_id" }, nil)
 Update an existing entity. The data must include the entity `id`.
 
 ```lua
-local result, err = client:Custom(nil):update({
+local result, err = client:Custom():update({
   id = "custom_id",
   -- Fields to update
-}, nil)
+})
 ```
 
 ### Common Methods
@@ -1101,7 +1101,7 @@ local legacy = client:Legacy(nil)
 Remove the entity matching the given criteria.
 
 ```lua
-local result, err = client:Legacy(nil):remove({ id = "legacy_id" }, nil)
+local result, err = client:Legacy():remove({ id = "legacy_id" })
 ```
 
 ### Common Methods
@@ -1155,8 +1155,8 @@ local legacy_mutation = client:LegacyMutation(nil)
 Create a new entity with the given data.
 
 ```lua
-local result, err = client:LegacyMutation(nil):create({
-}, nil)
+local result, err = client:LegacyMutation():create({
+})
 ```
 
 #### `update(reqdata, ctrl) -> any, err`
@@ -1164,10 +1164,10 @@ local result, err = client:LegacyMutation(nil):create({
 Update an existing entity. The data must include the entity `id`.
 
 ```lua
-local result, err = client:LegacyMutation(nil):update({
+local result, err = client:LegacyMutation():update({
   id = "legacy_mutation_id",
   -- Fields to update
-}, nil)
+})
 ```
 
 ### Common Methods
@@ -1220,7 +1220,7 @@ local legacy_unknown = client:LegacyUnknown(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:LegacyUnknown(nil):load({ id = "legacy_unknown_id" }, nil)
+local result, err = client:LegacyUnknown():load({ id = "legacy_unknown_id" })
 ```
 
 ### Common Methods
@@ -1276,7 +1276,7 @@ local legacy_unknown_list = client:LegacyUnknownList(nil)
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:LegacyUnknownList(nil):list(nil, nil)
+local results, err = client:LegacyUnknownList():list()
 ```
 
 ### Common Methods
@@ -1329,7 +1329,7 @@ local legacy_user = client:LegacyUser(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:LegacyUser(nil):load({ id = "legacy_user_id" }, nil)
+local result, err = client:LegacyUser():load({ id = "legacy_user_id" })
 ```
 
 ### Common Methods
@@ -1385,7 +1385,7 @@ local legacy_user_list = client:LegacyUserList(nil)
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:LegacyUserList(nil):list(nil, nil)
+local results, err = client:LegacyUserList():list()
 ```
 
 ### Common Methods
@@ -1439,11 +1439,11 @@ local login = client:Login(nil)
 Create a new entity with the given data.
 
 ```lua
-local result, err = client:Login(nil):create({
+local result, err = client:Login():create({
   email = --[[ `$STRING` ]],
   password = --[[ `$STRING` ]],
   token = --[[ `$STRING` ]],
-}, nil)
+})
 ```
 
 ### Common Methods
@@ -1498,11 +1498,11 @@ local register = client:Register(nil)
 Create a new entity with the given data.
 
 ```lua
-local result, err = client:Register(nil):create({
+local result, err = client:Register():create({
   email = --[[ `$STRING` ]],
   password = --[[ `$STRING` ]],
   token = --[[ `$STRING` ]],
-}, nil)
+})
 ```
 
 ### Common Methods

@@ -117,12 +117,14 @@ func customDirectSetup(mockres any) *customDirectSetupResult {
 	env := envOverride(map[string]any{
 		"HOSTEDREST_TEST_CUSTOM_ENTID": map[string]any{},
 		"HOSTEDREST_TEST_LIVE":    "FALSE",
+		"HOSTEDREST_APIKEY":       "NONE",
 	})
 
 	live := env["HOSTEDREST_TEST_LIVE"] == "TRUE"
 
 	if live {
 		mergedOpts := map[string]any{
+			"apikey": env["HOSTEDREST_APIKEY"],
 		}
 		client := sdk.NewHostedRestSDK(mergedOpts)
 

@@ -69,12 +69,14 @@ def _app_user_total_direct_setup(mockres):
     env = runner.env_override({
         "HOSTEDREST_TEST_APP_USER_TOTAL_ENTID": {},
         "HOSTEDREST_TEST_LIVE": "FALSE",
+        "HOSTEDREST_APIKEY": "NONE",
     })
 
     live = env.get("HOSTEDREST_TEST_LIVE") == "TRUE"
 
     if live:
         merged_opts = {
+            "apikey": env.get("HOSTEDREST_APIKEY"),
         }
         client = HostedRestSDK(merged_opts)
         return {

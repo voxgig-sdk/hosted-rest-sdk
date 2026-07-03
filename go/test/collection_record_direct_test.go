@@ -121,12 +121,14 @@ func collection_recordDirectSetup(mockres any) *collection_recordDirectSetupResu
 	env := envOverride(map[string]any{
 		"HOSTEDREST_TEST_COLLECTION_RECORD_ENTID": map[string]any{},
 		"HOSTEDREST_TEST_LIVE":    "FALSE",
+		"HOSTEDREST_APIKEY":       "NONE",
 	})
 
 	live := env["HOSTEDREST_TEST_LIVE"] == "TRUE"
 
 	if live {
 		mergedOpts := map[string]any{
+			"apikey": env["HOSTEDREST_APIKEY"],
 		}
 		client := sdk.NewHostedRestSDK(mergedOpts)
 
