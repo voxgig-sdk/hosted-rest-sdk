@@ -10,7 +10,7 @@ The Lua SDK for the HostedRest API — an entity-oriented client using Lua conve
 
 ## Install
 ```bash
-luarocks install hosted-rest-sdk
+luarocks install voxgig-sdk-hosted-rest
 ```
 
 If the module is not yet published, add the source directory to

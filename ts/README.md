@@ -10,7 +10,7 @@ The TypeScript SDK for the HostedRest API — a type-safe, entity-oriented clien
 
 ## Install
 ```bash
-npm install hosted-rest
+npm install @voxgig-sdk/hosted-rest
 ```
 ## Tutorial: your first API call
 

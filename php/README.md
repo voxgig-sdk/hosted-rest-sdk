@@ -10,7 +10,7 @@ The PHP SDK for the HostedRest API — an entity-oriented client using PHP conve
 
 ## Install
 ```bash
-composer require voxgig/hosted-rest-sdk
+composer require voxgig-sdk/hosted-rest
 ```
 
 

@@ -10,13 +10,13 @@ The Ruby SDK for the HostedRest API — an entity-oriented client using idiomati
 
 ## Install
 ```bash
-gem install hosted-rest-sdk
+gem install voxgig-sdk-hosted-rest
 ```
 
 Or add to your `Gemfile`:
 
 ```ruby
-gem "hosted-rest-sdk"
+gem "voxgig-sdk-hosted-rest"
 ```
 
 Then run:

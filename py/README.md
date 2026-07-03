@@ -10,7 +10,7 @@ The Python SDK for the HostedRest API — an entity-oriented client following Py
 
 ## Install
 ```bash
-pip install hosted-rest-sdk
+pip install voxgig-sdk-hosted-rest
 ```
 
 Or install from source:
