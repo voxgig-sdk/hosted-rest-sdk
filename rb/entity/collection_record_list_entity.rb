@@ -45,6 +45,7 @@ class CollectionRecordListEntity
     end
   end
 
+  # @return [CollectionRecordList, Hash] the current CollectionRecordList data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,6 +58,7 @@ class CollectionRecordListEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of CollectionRecordList fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
@@ -65,6 +67,11 @@ class CollectionRecordListEntity
   
 
   
+  # List CollectionRecordList items matching the given filter.
+  #
+  # @param reqmatch [CollectionRecordListListMatch, Hash, nil] match filter (any subset of CollectionRecordList fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Array<CollectionRecordList>, Array] the matching CollectionRecordList items; raises HostedRestError on failure
   def list(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({

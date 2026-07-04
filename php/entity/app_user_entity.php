@@ -55,6 +55,9 @@ class AppUserEntity
         return new AppUserEntity($this->_client, $opts);
     }
 
+    /**
+     * @param AppUser|array $args AppUser data (assoc-array) to store.
+     */
     public function data_set($args): void
     {
         if ($args) {
@@ -63,12 +66,18 @@ class AppUserEntity
         }
     }
 
+    /**
+     * @return AppUser|array The current AppUser data as an assoc-array.
+     */
     public function data_get()
     {
         ($this->_utility->feature_hook)($this->_entctx, "GetData");
         return Struct::clone($this->_data);
     }
 
+    /**
+     * @param array $args Match filter (any subset of AppUser fields).
+     */
     public function match_set($args): void
     {
         if ($args) {
@@ -77,6 +86,9 @@ class AppUserEntity
         }
     }
 
+    /**
+     * @return array The current match filter (any subset of AppUser fields).
+     */
     public function match_get()
     {
         ($this->_utility->feature_hook)($this->_entctx, "GetMatch");
@@ -84,7 +96,16 @@ class AppUserEntity
     }
 
     
-    public function load($reqmatch, $ctrl = null): array
+    /**
+     * Load a single AppUser.
+     *
+     * @param AppUserLoadMatch|array|null $reqmatch Match criteria (id/query
+     *   fields) as an assoc-array; a typed AppUserLoadMatch names the shape.
+     * @param mixed $ctrl Optional per-call control overrides.
+     * @return AppUser|array The loaded AppUser as an assoc-array at the
+     *   SDK boundary; throws HostedRestError on failure (item-5 convention).
+     */
+    public function load(?array $reqmatch = null, $ctrl = null): mixed
     {
         $utility = $this->_utility;
         $ctx = ($utility->make_context)([
@@ -110,7 +131,16 @@ class AppUserEntity
 
 
     
-    public function list($reqmatch, $ctrl = null): array
+    /**
+     * List AppUser items matching the given filter.
+     *
+     * @param AppUserListMatch|array|null $reqmatch Match filter (any subset
+     *   of AppUser fields) as an assoc-array; AppUserListMatch names the shape.
+     * @param mixed $ctrl Optional per-call control overrides.
+     * @return AppUser[]|array A list of AppUser items as assoc-arrays at
+     *   the SDK boundary; throws HostedRestError on failure (item-5 convention).
+     */
+    public function list(?array $reqmatch = null, $ctrl = null): mixed
     {
         $utility = $this->_utility;
         $ctx = ($utility->make_context)([
@@ -133,7 +163,16 @@ class AppUserEntity
 
 
     
-    public function create($reqdata, $ctrl = null): array
+    /**
+     * Create a new AppUser.
+     *
+     * @param AppUserCreateData|array|null $reqdata Body data as an assoc-array;
+     *   a typed AppUserCreateData names the shape.
+     * @param mixed $ctrl Optional per-call control overrides.
+     * @return AppUser|array The created AppUser as an assoc-array at the
+     *   SDK boundary; throws HostedRestError on failure (item-5 convention).
+     */
+    public function create(?array $reqdata = null, $ctrl = null): mixed
     {
         $utility = $this->_utility;
         $ctx = ($utility->make_context)([
@@ -156,7 +195,16 @@ class AppUserEntity
 
 
     
-    public function update($reqdata, $ctrl = null): array
+    /**
+     * Update an existing AppUser.
+     *
+     * @param AppUserUpdateData|array|null $reqdata Body data as an assoc-array;
+     *   a typed AppUserUpdateData names the shape.
+     * @param mixed $ctrl Optional per-call control overrides.
+     * @return AppUser|array The updated AppUser as an assoc-array at the
+     *   SDK boundary; throws HostedRestError on failure (item-5 convention).
+     */
+    public function update(?array $reqdata = null, $ctrl = null): mixed
     {
         $utility = $this->_utility;
         $ctx = ($utility->make_context)([
@@ -182,7 +230,16 @@ class AppUserEntity
 
 
     
-    public function remove($reqmatch, $ctrl = null): array
+    /**
+     * Remove an AppUser matching the given criteria.
+     *
+     * @param AppUserRemoveMatch|array|null $reqmatch Match criteria (id/query
+     *   fields) as an assoc-array; AppUserRemoveMatch names the shape.
+     * @param mixed $ctrl Optional per-call control overrides.
+     * @return AppUser|array The removed AppUser as an assoc-array at the
+     *   SDK boundary; throws HostedRestError on failure (item-5 convention).
+     */
+    public function remove(?array $reqmatch = null, $ctrl = null): mixed
     {
         $utility = $this->_utility;
         $ctx = ($utility->make_context)([
@@ -207,7 +264,7 @@ class AppUserEntity
 
 
 
-    private function _run_op($ctx, callable $post_done): array
+    private function _run_op($ctx, callable $post_done): mixed
     {
         $utility = $this->_utility;
 

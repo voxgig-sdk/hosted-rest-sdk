@@ -44,9 +44,7 @@ class TestLoginEntity:
         login_ref01_data = helpers.to_map(vs.getprop(
             vs.getpath(setup["data"], "new.login"), "login_ref01"))
 
-        login_ref01_data_result, err = login_ref01_ent.create(login_ref01_data, None)
-        assert err is None
-        login_ref01_data = helpers.to_map(login_ref01_data_result)
+        login_ref01_data = helpers.to_map(login_ref01_ent.create(login_ref01_data, None))
         assert login_ref01_data is not None
 
 

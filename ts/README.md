@@ -9,9 +9,12 @@ The TypeScript SDK for the HostedRest API — a type-safe, entity-oriented clien
 
 
 ## Install
-```bash
-npm install @voxgig-sdk/hosted-rest
-```
+This package is not yet published to npm. Install it from the GitHub
+release tag (`ts/vX.Y.Z`):
+
+- Releases: [https://github.com/voxgig-sdk/hosted-rest-sdk/releases](https://github.com/voxgig-sdk/hosted-rest-sdk/releases)
+
+
 ## Tutorial: your first API call
 
 This tutorial walks through creating a client, listing entities, and
@@ -20,17 +23,17 @@ loading a specific record.
 ### 1. Create a client
 
 ```ts
-import { HostedRestSDK } from 'hosted-rest'
+import { HostedRestSDK } from '@voxgig-sdk/hosted-rest'
 
 const client = new HostedRestSDK({
-  apikey: process.env.HOSTED-REST_APIKEY,
+  apikey: process.env.HOSTED_REST_APIKEY,
 })
 ```
 
-### 3. Load a agenthealth
+### 3. Load an agenthealth
 
 ```ts
-const result = await client.AgentHealth().load({ id: 'example_id' })
+const result = await client.agenthealth.load({ id: 'example_id' })
 
 if (result.ok) {
   console.log(result.data)
@@ -79,7 +82,7 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = HostedRestSDK.test()
 
-const result = await client.Planet().load({ id: 'test01' })
+const result = await client.agenthealth.load({ id: 'test01' })
 // result.ok === true
 // result.data contains mock response data
 ```
@@ -96,7 +99,7 @@ const testClient = client.tester()
 Entity instances remember their last match and data:
 
 ```ts
-const entity = client.Planet()
+const entity = client.agenthealth
 
 // First call sets internal match
 await entity.load({ id: 'example' })
@@ -133,8 +136,8 @@ const client = new HostedRestSDK({
 Create a `.env.local` file at the project root:
 
 ```
-HOSTED-REST_TEST_LIVE=TRUE
-HOSTED-REST_APIKEY=<your-key>
+HOSTED_REST_TEST_LIVE=TRUE
+HOSTED_REST_APIKEY=<your-key>
 ```
 
 Then run:
@@ -548,7 +551,7 @@ API path: `/api/register`
 
 ### AgentHealth
 
-Create an instance: `const agent_health = client.AgentHealth()`
+Create an instance: `const agent_health = client.agent_health`
 
 #### Operations
 
@@ -565,13 +568,13 @@ Create an instance: `const agent_health = client.AgentHealth()`
 #### Example: Load
 
 ```ts
-const agent_health = await client.AgentHealth().load({ id: 'agent_health_id' })
+const agent_health = await client.agent_health.load({ id: 'agent_health_id' })
 ```
 
 
 ### AgentSandbox
 
-Create an instance: `const agent_sandbox = client.AgentSandbox()`
+Create an instance: `const agent_sandbox = client.agent_sandbox`
 
 #### Operations
 
@@ -590,13 +593,13 @@ Create an instance: `const agent_sandbox = client.AgentSandbox()`
 #### Example: Load
 
 ```ts
-const agent_sandbox = await client.AgentSandbox().load({ id: 'agent_sandbox_id' })
+const agent_sandbox = await client.agent_sandbox.load({ id: 'agent_sandbox_id' })
 ```
 
 #### Example: Create
 
 ```ts
-const agent_sandbox = await client.AgentSandbox().create({
+const agent_sandbox = await client.agent_sandbox.create({
   email: /* `$STRING` */,
   password: /* `$STRING` */,
 })
@@ -605,7 +608,7 @@ const agent_sandbox = await client.AgentSandbox().create({
 
 ### AgentUserDetail
 
-Create an instance: `const agent_user_detail = client.AgentUserDetail()`
+Create an instance: `const agent_user_detail = client.agent_user_detail`
 
 #### Operations
 
@@ -622,13 +625,13 @@ Create an instance: `const agent_user_detail = client.AgentUserDetail()`
 #### Example: Load
 
 ```ts
-const agent_user_detail = await client.AgentUserDetail().load({ id: 'agent_user_detail_id' })
+const agent_user_detail = await client.agent_user_detail.load({ id: 'agent_user_detail_id' })
 ```
 
 
 ### AgentUserList
 
-Create an instance: `const agent_user_list = client.AgentUserList()`
+Create an instance: `const agent_user_list = client.agent_user_list`
 
 #### Operations
 
@@ -654,13 +657,13 @@ Create an instance: `const agent_user_list = client.AgentUserList()`
 #### Example: List
 
 ```ts
-const agent_user_lists = await client.AgentUserList().list()
+const agent_user_lists = await client.agent_user_list.list()
 ```
 
 
 ### AppUser
 
-Create an instance: `const app_user = client.AppUser()`
+Create an instance: `const app_user = client.app_user`
 
 #### Operations
 
@@ -687,19 +690,19 @@ Create an instance: `const app_user = client.AppUser()`
 #### Example: Load
 
 ```ts
-const app_user = await client.AppUser().load({ id: 'app_user_id' })
+const app_user = await client.app_user.load({ id: 'app_user_id' })
 ```
 
 #### Example: List
 
 ```ts
-const app_users = await client.AppUser().list()
+const app_users = await client.app_user.list()
 ```
 
 #### Example: Create
 
 ```ts
-const app_user = await client.AppUser().create({
+const app_user = await client.app_user.create({
   data: /* `$OBJECT` */,
   email: /* `$STRING` */,
 })
@@ -708,7 +711,7 @@ const app_user = await client.AppUser().create({
 
 ### AppUserLogin
 
-Create an instance: `const app_user_login = client.AppUserLogin()`
+Create an instance: `const app_user_login = client.app_user_login`
 
 #### Operations
 
@@ -728,7 +731,7 @@ Create an instance: `const app_user_login = client.AppUserLogin()`
 #### Example: Create
 
 ```ts
-const app_user_login = await client.AppUserLogin().create({
+const app_user_login = await client.app_user_login.create({
   data: /* `$OBJECT` */,
   email: /* `$STRING` */,
 })
@@ -737,7 +740,7 @@ const app_user_login = await client.AppUserLogin().create({
 
 ### AppUserSession
 
-Create an instance: `const app_user_session = client.AppUserSession()`
+Create an instance: `const app_user_session = client.app_user_session`
 
 #### Operations
 
@@ -754,13 +757,13 @@ Create an instance: `const app_user_session = client.AppUserSession()`
 #### Example: Load
 
 ```ts
-const app_user_session = await client.AppUserSession().load({ id: 'app_user_session_id' })
+const app_user_session = await client.app_user_session.load({ id: 'app_user_session_id' })
 ```
 
 
 ### AppUserTotal
 
-Create an instance: `const app_user_total = client.AppUserTotal()`
+Create an instance: `const app_user_total = client.app_user_total`
 
 #### Operations
 
@@ -777,13 +780,13 @@ Create an instance: `const app_user_total = client.AppUserTotal()`
 #### Example: Load
 
 ```ts
-const app_user_total = await client.AppUserTotal().load({ id: 'app_user_total_id' })
+const app_user_total = await client.app_user_total.load({ id: 'app_user_total_id' })
 ```
 
 
 ### AppUserVerify
 
-Create an instance: `const app_user_verify = client.AppUserVerify()`
+Create an instance: `const app_user_verify = client.app_user_verify`
 
 #### Operations
 
@@ -801,7 +804,7 @@ Create an instance: `const app_user_verify = client.AppUserVerify()`
 #### Example: Create
 
 ```ts
-const app_user_verify = await client.AppUserVerify().create({
+const app_user_verify = await client.app_user_verify.create({
   data: /* `$OBJECT` */,
   token: /* `$STRING` */,
 })
@@ -810,7 +813,7 @@ const app_user_verify = await client.AppUserVerify().create({
 
 ### Authentication
 
-Create an instance: `const authentication = client.Authentication()`
+Create an instance: `const authentication = client.authentication`
 
 #### Operations
 
@@ -821,14 +824,14 @@ Create an instance: `const authentication = client.Authentication()`
 #### Example: Create
 
 ```ts
-const authentication = await client.Authentication().create({
+const authentication = await client.authentication.create({
 })
 ```
 
 
 ### Collection
 
-Create an instance: `const collection = client.Collection()`
+Create an instance: `const collection = client.collection`
 
 #### Operations
 
@@ -858,19 +861,19 @@ Create an instance: `const collection = client.Collection()`
 #### Example: Load
 
 ```ts
-const collection = await client.Collection().load({ id: 'collection_id' })
+const collection = await client.collection.load({ id: 'collection_id' })
 ```
 
 #### Example: List
 
 ```ts
-const collections = await client.Collection().list()
+const collections = await client.collection.list()
 ```
 
 #### Example: Create
 
 ```ts
-const collection = await client.Collection().create({
+const collection = await client.collection.create({
   data: /* `$OBJECT` */,
   name: /* `$STRING` */,
 })
@@ -879,7 +882,7 @@ const collection = await client.Collection().create({
 
 ### CollectionRecord
 
-Create an instance: `const collection_record = client.CollectionRecord()`
+Create an instance: `const collection_record = client.collection_record`
 
 #### Operations
 
@@ -898,13 +901,13 @@ Create an instance: `const collection_record = client.CollectionRecord()`
 #### Example: Load
 
 ```ts
-const collection_record = await client.CollectionRecord().load({ id: 'collection_record_id' })
+const collection_record = await client.collection_record.load({ id: 'collection_record_id' })
 ```
 
 #### Example: Create
 
 ```ts
-const collection_record = await client.CollectionRecord().create({
+const collection_record = await client.collection_record.create({
   data: /* `$OBJECT` */,
 })
 ```
@@ -912,7 +915,7 @@ const collection_record = await client.CollectionRecord().create({
 
 ### CollectionRecordList
 
-Create an instance: `const collection_record_list = client.CollectionRecordList()`
+Create an instance: `const collection_record_list = client.collection_record_list`
 
 #### Operations
 
@@ -937,13 +940,13 @@ Create an instance: `const collection_record_list = client.CollectionRecordList(
 #### Example: List
 
 ```ts
-const collection_record_lists = await client.CollectionRecordList().list()
+const collection_record_lists = await client.collection_record_list.list()
 ```
 
 
 ### Custom
 
-Create an instance: `const custom = client.Custom()`
+Create an instance: `const custom = client.custom`
 
 #### Operations
 
@@ -957,20 +960,20 @@ Create an instance: `const custom = client.Custom()`
 #### Example: Load
 
 ```ts
-const custom = await client.Custom().load({ id: 'custom_id' })
+const custom = await client.custom.load({ id: 'custom_id' })
 ```
 
 #### Example: Create
 
 ```ts
-const custom = await client.Custom().create({
+const custom = await client.custom.create({
 })
 ```
 
 
 ### Legacy
 
-Create an instance: `const legacy = client.Legacy()`
+Create an instance: `const legacy = client.legacy`
 
 #### Operations
 
@@ -981,7 +984,7 @@ Create an instance: `const legacy = client.Legacy()`
 
 ### LegacyMutation
 
-Create an instance: `const legacy_mutation = client.LegacyMutation()`
+Create an instance: `const legacy_mutation = client.legacy_mutation`
 
 #### Operations
 
@@ -1001,14 +1004,14 @@ Create an instance: `const legacy_mutation = client.LegacyMutation()`
 #### Example: Create
 
 ```ts
-const legacy_mutation = await client.LegacyMutation().create({
+const legacy_mutation = await client.legacy_mutation.create({
 })
 ```
 
 
 ### LegacyUnknown
 
-Create an instance: `const legacy_unknown = client.LegacyUnknown()`
+Create an instance: `const legacy_unknown = client.legacy_unknown`
 
 #### Operations
 
@@ -1026,13 +1029,13 @@ Create an instance: `const legacy_unknown = client.LegacyUnknown()`
 #### Example: Load
 
 ```ts
-const legacy_unknown = await client.LegacyUnknown().load({ id: 'legacy_unknown_id' })
+const legacy_unknown = await client.legacy_unknown.load({ id: 'legacy_unknown_id' })
 ```
 
 
 ### LegacyUnknownList
 
-Create an instance: `const legacy_unknown_list = client.LegacyUnknownList()`
+Create an instance: `const legacy_unknown_list = client.legacy_unknown_list`
 
 #### Operations
 
@@ -1053,13 +1056,13 @@ Create an instance: `const legacy_unknown_list = client.LegacyUnknownList()`
 #### Example: List
 
 ```ts
-const legacy_unknown_lists = await client.LegacyUnknownList().list()
+const legacy_unknown_lists = await client.legacy_unknown_list.list()
 ```
 
 
 ### LegacyUser
 
-Create an instance: `const legacy_user = client.LegacyUser()`
+Create an instance: `const legacy_user = client.legacy_user`
 
 #### Operations
 
@@ -1077,13 +1080,13 @@ Create an instance: `const legacy_user = client.LegacyUser()`
 #### Example: Load
 
 ```ts
-const legacy_user = await client.LegacyUser().load({ id: 'legacy_user_id' })
+const legacy_user = await client.legacy_user.load({ id: 'legacy_user_id' })
 ```
 
 
 ### LegacyUserList
 
-Create an instance: `const legacy_user_list = client.LegacyUserList()`
+Create an instance: `const legacy_user_list = client.legacy_user_list`
 
 #### Operations
 
@@ -1104,13 +1107,13 @@ Create an instance: `const legacy_user_list = client.LegacyUserList()`
 #### Example: List
 
 ```ts
-const legacy_user_lists = await client.LegacyUserList().list()
+const legacy_user_lists = await client.legacy_user_list.list()
 ```
 
 
 ### Login
 
-Create an instance: `const login = client.Login()`
+Create an instance: `const login = client.login`
 
 #### Operations
 
@@ -1129,7 +1132,7 @@ Create an instance: `const login = client.Login()`
 #### Example: Create
 
 ```ts
-const login = await client.Login().create({
+const login = await client.login.create({
   email: /* `$STRING` */,
   password: /* `$STRING` */,
   token: /* `$STRING` */,
@@ -1139,7 +1142,7 @@ const login = await client.Login().create({
 
 ### Register
 
-Create an instance: `const register = client.Register()`
+Create an instance: `const register = client.register`
 
 #### Operations
 
@@ -1159,7 +1162,7 @@ Create an instance: `const register = client.Register()`
 #### Example: Create
 
 ```ts
-const register = await client.Register().create({
+const register = await client.register.create({
   email: /* `$STRING` */,
   password: /* `$STRING` */,
   token: /* `$STRING` */,
@@ -1224,7 +1227,7 @@ hosted-rest/
 Import the SDK from the package root:
 
 ```ts
-import { HostedRestSDK } from 'hosted-rest'
+import { HostedRestSDK } from '@voxgig-sdk/hosted-rest'
 ```
 
 ### Entity state
@@ -1234,11 +1237,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const moon = client.Moon()
-await moon.load({ planet_id: 'earth', id: 'luna' })
+const agenthealth = client.agenthealth
+await agenthealth.load({ id: "example_id" })
 
-// moon.data() now returns the loaded moon data
-// moon.match() returns { planet_id: 'earth', id: 'luna' }
+// agenthealth.data() now returns the loaded agenthealth data
+// agenthealth.match() returns { id: "example_id" }
 ```
 
 Call `make()` to create a fresh instance with the same configuration

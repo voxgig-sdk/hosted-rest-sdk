@@ -45,6 +45,7 @@ class CollectionEntity
     end
   end
 
+  # @return [Collection, Hash] the current Collection data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,12 +58,18 @@ class CollectionEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of Collection fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
   end
 
   
+  # Load a single Collection.
+  #
+  # @param reqmatch [CollectionLoadMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Collection, Hash] the loaded Collection; raises HostedRestError on failure
   def load(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -86,6 +93,11 @@ class CollectionEntity
 
 
   
+  # List Collection items matching the given filter.
+  #
+  # @param reqmatch [CollectionListMatch, Hash, nil] match filter (any subset of Collection fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Array<Collection>, Array] the matching Collection items; raises HostedRestError on failure
   def list(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -106,6 +118,11 @@ class CollectionEntity
 
 
   
+  # Create a new Collection.
+  #
+  # @param reqdata [CollectionCreateData, Hash, nil] body data
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Collection, Hash] the created Collection; raises HostedRestError on failure
   def create(reqdata, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -128,6 +145,11 @@ class CollectionEntity
 
 
   
+  # Update an existing Collection.
+  #
+  # @param reqdata [CollectionUpdateData, Hash, nil] body data
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Collection, Hash] the updated Collection; raises HostedRestError on failure
   def update(reqdata, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -151,6 +173,11 @@ class CollectionEntity
 
 
   
+  # Remove an Collection matching the given criteria.
+  #
+  # @param reqmatch [CollectionRemoveMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Collection, Hash] the removed Collection; raises HostedRestError on failure
   def remove(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({

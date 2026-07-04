@@ -14,9 +14,14 @@ import type {
   Control,
 } from '../types'
 
+import type {
+  AgentSandbox,
+  AgentSandboxLoadMatch,
+  AgentSandboxCreateData,
+} from '../HostedRestTypes'
 
 // TODO: needs Entity superclass
-class AgentSandboxEntity extends HostedRestEntityBase {
+class AgentSandboxEntity extends HostedRestEntityBase<AgentSandbox> {
 
   constructor(client: HostedRestSDK, entopts: any) {
     super(client, entopts)
@@ -32,7 +37,7 @@ class AgentSandboxEntity extends HostedRestEntityBase {
 
 
 
-  async load(this: any, reqmatch?: any, ctrl?: Control) {
+  async load(this: any, reqmatch?: AgentSandboxLoadMatch, ctrl?: Control): Promise<AgentSandbox> {
 
     const utility = this._utility
 
@@ -136,7 +141,9 @@ class AgentSandboxEntity extends HostedRestEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<AgentSandbox> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }
@@ -144,7 +151,7 @@ class AgentSandboxEntity extends HostedRestEntityBase {
 
 
 
-  async create(this: any, reqdata?: any, ctrl?: Control) {
+  async create(this: any, reqdata?: AgentSandboxCreateData, ctrl?: Control): Promise<AgentSandbox> {
 
     const utility = this._utility
     const {
@@ -243,7 +250,9 @@ class AgentSandboxEntity extends HostedRestEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<AgentSandbox> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }

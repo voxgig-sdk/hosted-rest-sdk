@@ -1,7 +1,14 @@
 # HostedRest SDK AgentSandbox entity
 
+from __future__ import annotations
+
 from utility.voxgig_struct import voxgig_struct as vs
 from core import helpers
+from hostedrest_types import (
+    AgentSandbox,
+    AgentSandboxLoadMatch,
+    AgentSandboxCreateData,
+)
 
 
 class AgentSandboxEntity:
@@ -44,7 +51,7 @@ class AgentSandboxEntity:
             self._data = helpers.to_map(vs.clone(args)) or {}
             self._utility.feature_hook(self._entctx, "SetData")
 
-    def data_get(self):
+    def data_get(self) -> AgentSandbox:
         self._utility.feature_hook(self._entctx, "GetData")
         return vs.clone(self._data)
 
@@ -53,12 +60,12 @@ class AgentSandboxEntity:
             self._match = helpers.to_map(vs.clone(args)) or {}
             self._utility.feature_hook(self._entctx, "SetMatch")
 
-    def match_get(self):
+    def match_get(self) -> AgentSandbox:
         self._utility.feature_hook(self._entctx, "GetMatch")
         return vs.clone(self._match)
 
     
-    def load(self, reqmatch, ctrl=None):
+    def load(self, reqmatch: AgentSandboxLoadMatch, ctrl=None) -> AgentSandbox:
         utility = self._utility
         ctx = utility.make_context({
             "opname": "load",
@@ -82,7 +89,7 @@ class AgentSandboxEntity:
     
 
     
-    def create(self, reqdata, ctrl=None):
+    def create(self, reqdata: AgentSandboxCreateData, ctrl=None) -> AgentSandbox:
         utility = self._utility
         ctx = utility.make_context({
             "opname": "create",

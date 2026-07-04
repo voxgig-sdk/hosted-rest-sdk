@@ -44,9 +44,7 @@ class TestAppUserVerifyEntity:
         app_user_verify_ref01_data = helpers.to_map(vs.getprop(
             vs.getpath(setup["data"], "new.app_user_verify"), "app_user_verify_ref01"))
 
-        app_user_verify_ref01_data_result, err = app_user_verify_ref01_ent.create(app_user_verify_ref01_data, None)
-        assert err is None
-        app_user_verify_ref01_data = helpers.to_map(app_user_verify_ref01_data_result)
+        app_user_verify_ref01_data = helpers.to_map(app_user_verify_ref01_ent.create(app_user_verify_ref01_data, None))
         assert app_user_verify_ref01_data is not None
 
 

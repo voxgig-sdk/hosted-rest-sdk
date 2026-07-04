@@ -85,6 +85,27 @@ func (e *AgentSandboxEntity) Match(args ...any) any {
 	return out
 }
 
+// DataTyped is the statically-typed accessor for this entity's data. With no
+// argument it returns the current data as an AgentSandbox; with an argument it
+// sets the data and returns the stored value. It delegates to the untyped Data
+// (identical runtime) and converts at the typed boundary.
+func (e *AgentSandboxEntity) DataTyped(data ...AgentSandbox) AgentSandbox {
+	if len(data) > 0 {
+		return typedFrom[AgentSandbox](e.Data(asMap(data[0])))
+	}
+	return typedFrom[AgentSandbox](e.Data())
+}
+
+// MatchTyped mirrors DataTyped for the entity's match filter. The match is a
+// partial of the entity, so it round-trips through AgentSandbox (all fields
+// optional at the wire level).
+func (e *AgentSandboxEntity) MatchTyped(match ...AgentSandbox) AgentSandbox {
+	if len(match) > 0 {
+		return typedFrom[AgentSandbox](e.Match(asMap(match[0])))
+	}
+	return typedFrom[AgentSandbox](e.Match())
+}
+
 
 func (e *AgentSandboxEntity) Load(reqmatch map[string]any, ctrl map[string]any) (any, error) {
 	utility := e.utility
@@ -109,6 +130,17 @@ func (e *AgentSandboxEntity) Load(reqmatch map[string]any, ctrl map[string]any) 
 			}
 		}
 	})
+}
+
+// LoadTyped is the statically-typed variant of Load: it takes an
+// AgentSandboxLoadMatch and returns an AgentSandbox. It delegates to the untyped
+// Load (identical runtime) and converts at the typed boundary.
+func (e *AgentSandboxEntity) LoadTyped(reqmatch AgentSandboxLoadMatch, ctrl map[string]any) (AgentSandbox, error) {
+	res, err := e.Load(asMap(reqmatch), ctrl)
+	if err != nil {
+		return AgentSandbox{}, err
+	}
+	return typedFrom[AgentSandbox](res), nil
 }
 
 
@@ -139,6 +171,17 @@ func (e *AgentSandboxEntity) Create(reqdata map[string]any, ctrl map[string]any)
 			}
 		}
 	})
+}
+
+// CreateTyped is the statically-typed variant of Create: it takes an
+// AgentSandboxCreateData and returns an AgentSandbox. It delegates to the untyped
+// Create (identical runtime) and converts at the typed boundary.
+func (e *AgentSandboxEntity) CreateTyped(reqdata AgentSandboxCreateData, ctrl map[string]any) (AgentSandbox, error) {
+	res, err := e.Create(asMap(reqdata), ctrl)
+	if err != nil {
+		return AgentSandbox{}, err
+	}
+	return typedFrom[AgentSandbox](res), nil
 }
 
 

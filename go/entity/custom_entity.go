@@ -85,6 +85,27 @@ func (e *CustomEntity) Match(args ...any) any {
 	return out
 }
 
+// DataTyped is the statically-typed accessor for this entity's data. With no
+// argument it returns the current data as an Custom; with an argument it
+// sets the data and returns the stored value. It delegates to the untyped Data
+// (identical runtime) and converts at the typed boundary.
+func (e *CustomEntity) DataTyped(data ...Custom) Custom {
+	if len(data) > 0 {
+		return typedFrom[Custom](e.Data(asMap(data[0])))
+	}
+	return typedFrom[Custom](e.Data())
+}
+
+// MatchTyped mirrors DataTyped for the entity's match filter. The match is a
+// partial of the entity, so it round-trips through Custom (all fields
+// optional at the wire level).
+func (e *CustomEntity) MatchTyped(match ...Custom) Custom {
+	if len(match) > 0 {
+		return typedFrom[Custom](e.Match(asMap(match[0])))
+	}
+	return typedFrom[Custom](e.Match())
+}
+
 
 func (e *CustomEntity) Load(reqmatch map[string]any, ctrl map[string]any) (any, error) {
 	utility := e.utility
@@ -109,6 +130,17 @@ func (e *CustomEntity) Load(reqmatch map[string]any, ctrl map[string]any) (any, 
 			}
 		}
 	})
+}
+
+// LoadTyped is the statically-typed variant of Load: it takes an
+// CustomLoadMatch and returns an Custom. It delegates to the untyped
+// Load (identical runtime) and converts at the typed boundary.
+func (e *CustomEntity) LoadTyped(reqmatch CustomLoadMatch, ctrl map[string]any) (Custom, error) {
+	res, err := e.Load(asMap(reqmatch), ctrl)
+	if err != nil {
+		return Custom{}, err
+	}
+	return typedFrom[Custom](res), nil
 }
 
 
@@ -141,6 +173,17 @@ func (e *CustomEntity) Create(reqdata map[string]any, ctrl map[string]any) (any,
 	})
 }
 
+// CreateTyped is the statically-typed variant of Create: it takes an
+// CustomCreateData and returns an Custom. It delegates to the untyped
+// Create (identical runtime) and converts at the typed boundary.
+func (e *CustomEntity) CreateTyped(reqdata CustomCreateData, ctrl map[string]any) (Custom, error) {
+	res, err := e.Create(asMap(reqdata), ctrl)
+	if err != nil {
+		return Custom{}, err
+	}
+	return typedFrom[Custom](res), nil
+}
+
 
 
 
@@ -169,6 +212,17 @@ func (e *CustomEntity) Update(reqdata map[string]any, ctrl map[string]any) (any,
 	})
 }
 
+// UpdateTyped is the statically-typed variant of Update: it takes an
+// CustomUpdateData and returns an Custom. It delegates to the untyped
+// Update (identical runtime) and converts at the typed boundary.
+func (e *CustomEntity) UpdateTyped(reqdata CustomUpdateData, ctrl map[string]any) (Custom, error) {
+	res, err := e.Update(asMap(reqdata), ctrl)
+	if err != nil {
+		return Custom{}, err
+	}
+	return typedFrom[Custom](res), nil
+}
+
 
 
 
@@ -195,6 +249,17 @@ func (e *CustomEntity) Remove(reqmatch map[string]any, ctrl map[string]any) (any
 			}
 		}
 	})
+}
+
+// RemoveTyped is the statically-typed variant of Remove: it takes an
+// CustomRemoveMatch and returns an Custom. It delegates to the untyped
+// Remove (identical runtime) and converts at the typed boundary.
+func (e *CustomEntity) RemoveTyped(reqmatch CustomRemoveMatch, ctrl map[string]any) (Custom, error) {
+	res, err := e.Remove(asMap(reqmatch), ctrl)
+	if err != nil {
+		return Custom{}, err
+	}
+	return typedFrom[Custom](res), nil
 }
 
 

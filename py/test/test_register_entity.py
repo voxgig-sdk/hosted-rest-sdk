@@ -44,9 +44,7 @@ class TestRegisterEntity:
         register_ref01_data = helpers.to_map(vs.getprop(
             vs.getpath(setup["data"], "new.register"), "register_ref01"))
 
-        register_ref01_data_result, err = register_ref01_ent.create(register_ref01_data, None)
-        assert err is None
-        register_ref01_data = helpers.to_map(register_ref01_data_result)
+        register_ref01_data = helpers.to_map(register_ref01_ent.create(register_ref01_data, None))
         assert register_ref01_data is not None
         assert register_ref01_data["id"] is not None
 

@@ -42,8 +42,7 @@ class LegacyUnknownEntityTest < Minitest::Test
     # LOAD
     legacy_unknown_ref01_ent = client.LegacyUnknown(nil)
     legacy_unknown_ref01_match_dt0 = {}
-    legacy_unknown_ref01_data_dt0_loaded, err = legacy_unknown_ref01_ent.load(legacy_unknown_ref01_match_dt0, nil)
-    assert_nil err
+    legacy_unknown_ref01_data_dt0_loaded = legacy_unknown_ref01_ent.load(legacy_unknown_ref01_match_dt0, nil)
     assert !legacy_unknown_ref01_data_dt0_loaded.nil?
 
   end

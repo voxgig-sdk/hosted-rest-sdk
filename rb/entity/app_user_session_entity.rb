@@ -45,6 +45,7 @@ class AppUserSessionEntity
     end
   end
 
+  # @return [AppUserSession, Hash] the current AppUserSession data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,12 +58,18 @@ class AppUserSessionEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of AppUserSession fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
   end
 
   
+  # Load a single AppUserSession.
+  #
+  # @param reqmatch [AppUserSessionLoadMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [AppUserSession, Hash] the loaded AppUserSession; raises HostedRestError on failure
   def load(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({

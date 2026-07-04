@@ -51,8 +51,7 @@ class LegacyEntityTest extends TestCase
         $legacy_ref01_match_rm0 = [
             "id" => $legacy_ref01_data["id"],
         ];
-        [$_, $err] = $legacy_ref01_ent->remove($legacy_ref01_match_rm0, null);
-        $this->assertNull($err);
+        $legacy_ref01_ent->remove($legacy_ref01_match_rm0, null);
 
     }
 }

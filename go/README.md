@@ -10,14 +10,18 @@ The Golang SDK for the HostedRest API — an entity-oriented client using standa
 
 ## Install
 ```bash
-go get github.com/voxgig-sdk/hosted-rest-sdk/go
+go get github.com/voxgig-sdk/hosted-rest-sdk/go@latest
 ```
 
-If the module is not yet published to a registry, use a `replace` directive
-in your `go.mod` to point to a local checkout:
+The Go module proxy resolves the version from the `go/vX.Y.Z` GitHub
+release tag — see [Releases](https://github.com/voxgig-sdk/hosted-rest-sdk/releases) for the available versions.
+
+To vendor from a local checkout instead, clone this repo alongside your
+project and add a `replace` directive pointing at the checked-out
+`go/` directory:
 
 ```bash
-go mod edit -replace github.com/voxgig-sdk/hosted-rest-sdk/go=../path/to/github.com/voxgig-sdk/hosted-rest-sdk/go
+go mod edit -replace github.com/voxgig-sdk/hosted-rest-sdk/go=../hosted-rest-sdk/go
 ```
 
 
@@ -41,11 +45,11 @@ import (
 
 func main() {
     client := sdk.NewHostedRestSDK(map[string]any{
-        "apikey": os.Getenv("HOSTED-REST_APIKEY"),
+        "apikey": os.Getenv("HOSTED_REST_APIKEY"),
     })
 ```
 
-### 3. Load a agenthealth
+### 3. Load an agenthealth
 
 ```go
     result, err = client.AgentHealth(nil).Load(
@@ -109,7 +113,7 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-result, err := client.Planet(nil).Load(
+result, err := client.AgentHealth(nil).Load(
     map[string]any{"id": "test01"}, nil,
 )
 // result contains mock response data
@@ -144,8 +148,8 @@ client := sdk.NewHostedRestSDK(map[string]any{
 Create a `.env.local` file at the project root:
 
 ```
-HOSTED-REST_TEST_LIVE=TRUE
-HOSTED-REST_APIKEY=<your-key>
+HOSTED_REST_TEST_LIVE=TRUE
+HOSTED_REST_APIKEY=<your-key>
 ```
 
 Then run:
@@ -1212,11 +1216,11 @@ Entity instances are stateful. After a successful `Load`, the entity
 stores the returned data and match criteria internally.
 
 ```go
-moon := client.Moon(nil)
-moon.Load(map[string]any{"planet_id": "earth", "id": "luna"}, nil)
+agenthealth := client.AgentHealth(nil)
+agenthealth.Load(map[string]any{"id": "example_id"}, nil)
 
-// moon.Data() now returns the loaded moon data
-// moon.Match() returns the last match criteria
+// agenthealth.Data() now returns the loaded agenthealth data
+// agenthealth.Match() returns the last match criteria
 ```
 
 Call `Make()` to create a fresh instance with the same configuration

@@ -85,6 +85,27 @@ func (e *AppUserEntity) Match(args ...any) any {
 	return out
 }
 
+// DataTyped is the statically-typed accessor for this entity's data. With no
+// argument it returns the current data as an AppUser; with an argument it
+// sets the data and returns the stored value. It delegates to the untyped Data
+// (identical runtime) and converts at the typed boundary.
+func (e *AppUserEntity) DataTyped(data ...AppUser) AppUser {
+	if len(data) > 0 {
+		return typedFrom[AppUser](e.Data(asMap(data[0])))
+	}
+	return typedFrom[AppUser](e.Data())
+}
+
+// MatchTyped mirrors DataTyped for the entity's match filter. The match is a
+// partial of the entity, so it round-trips through AppUser (all fields
+// optional at the wire level).
+func (e *AppUserEntity) MatchTyped(match ...AppUser) AppUser {
+	if len(match) > 0 {
+		return typedFrom[AppUser](e.Match(asMap(match[0])))
+	}
+	return typedFrom[AppUser](e.Match())
+}
+
 
 func (e *AppUserEntity) Load(reqmatch map[string]any, ctrl map[string]any) (any, error) {
 	utility := e.utility
@@ -111,6 +132,17 @@ func (e *AppUserEntity) Load(reqmatch map[string]any, ctrl map[string]any) (any,
 	})
 }
 
+// LoadTyped is the statically-typed variant of Load: it takes an
+// AppUserLoadMatch and returns an AppUser. It delegates to the untyped
+// Load (identical runtime) and converts at the typed boundary.
+func (e *AppUserEntity) LoadTyped(reqmatch AppUserLoadMatch, ctrl map[string]any) (AppUser, error) {
+	res, err := e.Load(asMap(reqmatch), ctrl)
+	if err != nil {
+		return AppUser{}, err
+	}
+	return typedFrom[AppUser](res), nil
+}
+
 
 
 
@@ -131,6 +163,17 @@ func (e *AppUserEntity) List(reqmatch map[string]any, ctrl map[string]any) (any,
 			}
 		}
 	})
+}
+
+// ListTyped is the statically-typed variant of List: it takes an
+// AppUserListMatch and returns []AppUser. It delegates to the untyped
+// List (identical runtime) and converts at the typed boundary.
+func (e *AppUserEntity) ListTyped(reqmatch AppUserListMatch, ctrl map[string]any) ([]AppUser, error) {
+	res, err := e.List(asMap(reqmatch), ctrl)
+	if err != nil {
+		return nil, err
+	}
+	return typedSliceFrom[AppUser](res), nil
 }
 
 
@@ -156,6 +199,17 @@ func (e *AppUserEntity) Create(reqdata map[string]any, ctrl map[string]any) (any
 			}
 		}
 	})
+}
+
+// CreateTyped is the statically-typed variant of Create: it takes an
+// AppUserCreateData and returns an AppUser. It delegates to the untyped
+// Create (identical runtime) and converts at the typed boundary.
+func (e *AppUserEntity) CreateTyped(reqdata AppUserCreateData, ctrl map[string]any) (AppUser, error) {
+	res, err := e.Create(asMap(reqdata), ctrl)
+	if err != nil {
+		return AppUser{}, err
+	}
+	return typedFrom[AppUser](res), nil
 }
 
 
@@ -186,6 +240,17 @@ func (e *AppUserEntity) Update(reqdata map[string]any, ctrl map[string]any) (any
 	})
 }
 
+// UpdateTyped is the statically-typed variant of Update: it takes an
+// AppUserUpdateData and returns an AppUser. It delegates to the untyped
+// Update (identical runtime) and converts at the typed boundary.
+func (e *AppUserEntity) UpdateTyped(reqdata AppUserUpdateData, ctrl map[string]any) (AppUser, error) {
+	res, err := e.Update(asMap(reqdata), ctrl)
+	if err != nil {
+		return AppUser{}, err
+	}
+	return typedFrom[AppUser](res), nil
+}
+
 
 
 
@@ -212,6 +277,17 @@ func (e *AppUserEntity) Remove(reqmatch map[string]any, ctrl map[string]any) (an
 			}
 		}
 	})
+}
+
+// RemoveTyped is the statically-typed variant of Remove: it takes an
+// AppUserRemoveMatch and returns an AppUser. It delegates to the untyped
+// Remove (identical runtime) and converts at the typed boundary.
+func (e *AppUserEntity) RemoveTyped(reqmatch AppUserRemoveMatch, ctrl map[string]any) (AppUser, error) {
+	res, err := e.Remove(asMap(reqmatch), ctrl)
+	if err != nil {
+		return AppUser{}, err
+	}
+	return typedFrom[AppUser](res), nil
 }
 
 

@@ -45,6 +45,7 @@ class LegacyUnknownListEntity
     end
   end
 
+  # @return [LegacyUnknownList, Hash] the current LegacyUnknownList data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,6 +58,7 @@ class LegacyUnknownListEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of LegacyUnknownList fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
@@ -65,6 +67,11 @@ class LegacyUnknownListEntity
   
 
   
+  # List LegacyUnknownList items matching the given filter.
+  #
+  # @param reqmatch [LegacyUnknownListListMatch, Hash, nil] match filter (any subset of LegacyUnknownList fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Array<LegacyUnknownList>, Array] the matching LegacyUnknownList items; raises HostedRestError on failure
   def list(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({

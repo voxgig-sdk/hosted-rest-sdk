@@ -81,6 +81,10 @@ end
 
 
 
+---@param reqmatch LegacyUnknownListListMatch
+---@param ctrl? table
+---@return LegacyUnknownList[]
+---@return string? err
 function LegacyUnknownListEntity:list(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

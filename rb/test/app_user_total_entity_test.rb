@@ -42,8 +42,7 @@ class AppUserTotalEntityTest < Minitest::Test
     # LOAD
     app_user_total_ref01_ent = client.AppUserTotal(nil)
     app_user_total_ref01_match_dt0 = {}
-    app_user_total_ref01_data_dt0_loaded, err = app_user_total_ref01_ent.load(app_user_total_ref01_match_dt0, nil)
-    assert_nil err
+    app_user_total_ref01_data_dt0_loaded = app_user_total_ref01_ent.load(app_user_total_ref01_match_dt0, nil)
     assert !app_user_total_ref01_data_dt0_loaded.nil?
 
   end

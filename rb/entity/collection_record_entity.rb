@@ -45,6 +45,7 @@ class CollectionRecordEntity
     end
   end
 
+  # @return [CollectionRecord, Hash] the current CollectionRecord data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,12 +58,18 @@ class CollectionRecordEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of CollectionRecord fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
   end
 
   
+  # Load a single CollectionRecord.
+  #
+  # @param reqmatch [CollectionRecordLoadMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [CollectionRecord, Hash] the loaded CollectionRecord; raises HostedRestError on failure
   def load(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -88,6 +95,11 @@ class CollectionRecordEntity
   
 
   
+  # Create a new CollectionRecord.
+  #
+  # @param reqdata [CollectionRecordCreateData, Hash, nil] body data
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [CollectionRecord, Hash] the created CollectionRecord; raises HostedRestError on failure
   def create(reqdata, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -110,6 +122,11 @@ class CollectionRecordEntity
 
 
   
+  # Update an existing CollectionRecord.
+  #
+  # @param reqdata [CollectionRecordUpdateData, Hash, nil] body data
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [CollectionRecord, Hash] the updated CollectionRecord; raises HostedRestError on failure
   def update(reqdata, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({

@@ -45,8 +45,7 @@ class CollectionRecordListEntityTest < Minitest::Test
       "slug" => setup[:idmap]["slug01"],
     }
 
-    collection_record_list_ref01_list_result, err = collection_record_list_ref01_ent.list(collection_record_list_ref01_match, nil)
-    assert_nil err
+    collection_record_list_ref01_list_result = collection_record_list_ref01_ent.list(collection_record_list_ref01_match, nil)
     assert collection_record_list_ref01_list_result.is_a?(Array)
 
   end

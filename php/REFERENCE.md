@@ -140,7 +140,10 @@ Return a copy of the SDK utility object.
 
 #### `direct(array $fetchargs = []): array`
 
-Make a direct HTTP request to any API endpoint. Returns `[$result, $err]`.
+Make a direct HTTP request to any API endpoint. This is the raw-HTTP escape
+hatch: it does **not** throw. It returns a result array
+`["ok" => bool, "status" => int, "headers" => array, "data" => mixed]`, or
+`["ok" => false, "err" => \Exception]` on failure. Branch on `$result["ok"]`.
 
 **Parameters:**
 
@@ -154,11 +157,12 @@ Make a direct HTTP request to any API endpoint. Returns `[$result, $err]`.
 | `$fetchargs["body"]` | `mixed` | Request body (arrays are JSON-serialized). |
 | `$fetchargs["ctrl"]` | `array` | Control options. |
 
-**Returns:** `array [$result, $err]`
+**Returns:** `array` — the result dict (see above); never throws.
 
-#### `prepare(array $fetchargs = []): array`
+#### `prepare(array $fetchargs = []): mixed`
 
-Prepare a fetch definition without sending the request. Returns `[$fetchdef, $err]`.
+Prepare a fetch definition without sending the request. Returns the
+`$fetchdef` array. Throws on error.
 
 
 ---
@@ -166,7 +170,7 @@ Prepare a fetch definition without sending the request. Returns `[$fetchdef, $er
 ## AgentHealthEntity
 
 ```php
-$agent_health = $client->AgentHealth();
+$agent_health = $client->agent_health();
 ```
 
 ### Fields
@@ -177,12 +181,12 @@ $agent_health = $client->AgentHealth();
 
 ### Operations
 
-#### `load(array $reqmatch, ?array $ctrl = null): array`
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Throws on error.
 
 ```php
-[$result, $err] = $client->AgentHealth()->load(["id" => "agent_health_id"]);
+$result = $client->agent_health()->load(["id" => "agent_health_id"]);
 ```
 
 ### Common Methods
@@ -218,7 +222,7 @@ Return the entity name.
 ## AgentSandboxEntity
 
 ```php
-$agent_sandbox = $client->AgentSandbox();
+$agent_sandbox = $client->agent_sandbox();
 ```
 
 ### Fields
@@ -230,23 +234,23 @@ $agent_sandbox = $client->AgentSandbox();
 
 ### Operations
 
-#### `create(array $reqdata, ?array $ctrl = null): array`
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Throws on error.
 
 ```php
-[$result, $err] = $client->AgentSandbox()->create([
+$result = $client->agent_sandbox()->create([
   "email" => /* `$STRING` */,
   "password" => /* `$STRING` */,
 ]);
 ```
 
-#### `load(array $reqmatch, ?array $ctrl = null): array`
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Throws on error.
 
 ```php
-[$result, $err] = $client->AgentSandbox()->load(["id" => "agent_sandbox_id"]);
+$result = $client->agent_sandbox()->load(["id" => "agent_sandbox_id"]);
 ```
 
 ### Common Methods
@@ -282,7 +286,7 @@ Return the entity name.
 ## AgentUserDetailEntity
 
 ```php
-$agent_user_detail = $client->AgentUserDetail();
+$agent_user_detail = $client->agent_user_detail();
 ```
 
 ### Fields
@@ -293,12 +297,12 @@ $agent_user_detail = $client->AgentUserDetail();
 
 ### Operations
 
-#### `load(array $reqmatch, ?array $ctrl = null): array`
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Throws on error.
 
 ```php
-[$result, $err] = $client->AgentUserDetail()->load(["id" => "agent_user_detail_id"]);
+$result = $client->agent_user_detail()->load(["id" => "agent_user_detail_id"]);
 ```
 
 ### Common Methods
@@ -334,7 +338,7 @@ Return the entity name.
 ## AgentUserListEntity
 
 ```php
-$agent_user_list = $client->AgentUserList();
+$agent_user_list = $client->agent_user_list();
 ```
 
 ### Fields
@@ -354,12 +358,12 @@ $agent_user_list = $client->AgentUserList();
 
 ### Operations
 
-#### `list(array $reqmatch, ?array $ctrl = null): array`
+#### `list(array $reqmatch, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-[$results, $err] = $client->AgentUserList()->list([]);
+$results = $client->agent_user_list()->list([]);
 ```
 
 ### Common Methods
@@ -395,7 +399,7 @@ Return the entity name.
 ## AppUserEntity
 
 ```php
-$app_user = $client->AppUser();
+$app_user = $client->app_user();
 ```
 
 ### Fields
@@ -424,47 +428,47 @@ $app_user = $client->AppUser();
 
 ### Operations
 
-#### `create(array $reqdata, ?array $ctrl = null): array`
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Throws on error.
 
 ```php
-[$result, $err] = $client->AppUser()->create([
+$result = $client->app_user()->create([
   "data" => /* `$OBJECT` */,
   "email" => /* `$STRING` */,
 ]);
 ```
 
-#### `list(array $reqmatch, ?array $ctrl = null): array`
+#### `list(array $reqmatch, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-[$results, $err] = $client->AppUser()->list([]);
+$results = $client->app_user()->list([]);
 ```
 
-#### `load(array $reqmatch, ?array $ctrl = null): array`
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Throws on error.
 
 ```php
-[$result, $err] = $client->AppUser()->load(["id" => "app_user_id"]);
+$result = $client->app_user()->load(["id" => "app_user_id"]);
 ```
 
-#### `remove(array $reqmatch, ?array $ctrl = null): array`
+#### `remove(array $reqmatch, ?array $ctrl = null): mixed`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Throws on error.
 
 ```php
-[$result, $err] = $client->AppUser()->remove(["id" => "app_user_id"]);
+$result = $client->app_user()->remove(["id" => "app_user_id"]);
 ```
 
-#### `update(array $reqdata, ?array $ctrl = null): array`
+#### `update(array $reqdata, ?array $ctrl = null): mixed`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Throws on error.
 
 ```php
-[$result, $err] = $client->AppUser()->update([
+$result = $client->app_user()->update([
   "id" => "app_user_id",
   // Fields to update
 ]);
@@ -503,7 +507,7 @@ Return the entity name.
 ## AppUserLoginEntity
 
 ```php
-$app_user_login = $client->AppUserLogin();
+$app_user_login = $client->app_user_login();
 ```
 
 ### Fields
@@ -517,12 +521,12 @@ $app_user_login = $client->AppUserLogin();
 
 ### Operations
 
-#### `create(array $reqdata, ?array $ctrl = null): array`
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Throws on error.
 
 ```php
-[$result, $err] = $client->AppUserLogin()->create([
+$result = $client->app_user_login()->create([
   "data" => /* `$OBJECT` */,
   "email" => /* `$STRING` */,
 ]);
@@ -561,7 +565,7 @@ Return the entity name.
 ## AppUserSessionEntity
 
 ```php
-$app_user_session = $client->AppUserSession();
+$app_user_session = $client->app_user_session();
 ```
 
 ### Fields
@@ -572,12 +576,12 @@ $app_user_session = $client->AppUserSession();
 
 ### Operations
 
-#### `load(array $reqmatch, ?array $ctrl = null): array`
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Throws on error.
 
 ```php
-[$result, $err] = $client->AppUserSession()->load(["id" => "app_user_session_id"]);
+$result = $client->app_user_session()->load(["id" => "app_user_session_id"]);
 ```
 
 ### Common Methods
@@ -613,7 +617,7 @@ Return the entity name.
 ## AppUserTotalEntity
 
 ```php
-$app_user_total = $client->AppUserTotal();
+$app_user_total = $client->app_user_total();
 ```
 
 ### Fields
@@ -624,12 +628,12 @@ $app_user_total = $client->AppUserTotal();
 
 ### Operations
 
-#### `load(array $reqmatch, ?array $ctrl = null): array`
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Throws on error.
 
 ```php
-[$result, $err] = $client->AppUserTotal()->load(["id" => "app_user_total_id"]);
+$result = $client->app_user_total()->load(["id" => "app_user_total_id"]);
 ```
 
 ### Common Methods
@@ -665,7 +669,7 @@ Return the entity name.
 ## AppUserVerifyEntity
 
 ```php
-$app_user_verify = $client->AppUserVerify();
+$app_user_verify = $client->app_user_verify();
 ```
 
 ### Fields
@@ -677,12 +681,12 @@ $app_user_verify = $client->AppUserVerify();
 
 ### Operations
 
-#### `create(array $reqdata, ?array $ctrl = null): array`
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Throws on error.
 
 ```php
-[$result, $err] = $client->AppUserVerify()->create([
+$result = $client->app_user_verify()->create([
   "data" => /* `$OBJECT` */,
   "token" => /* `$STRING` */,
 ]);
@@ -721,17 +725,17 @@ Return the entity name.
 ## AuthenticationEntity
 
 ```php
-$authentication = $client->Authentication();
+$authentication = $client->authentication();
 ```
 
 ### Operations
 
-#### `create(array $reqdata, ?array $ctrl = null): array`
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Throws on error.
 
 ```php
-[$result, $err] = $client->Authentication()->create([
+$result = $client->authentication()->create([
 ]);
 ```
 
@@ -768,7 +772,7 @@ Return the entity name.
 ## CollectionEntity
 
 ```php
-$collection = $client->Collection();
+$collection = $client->collection();
 ```
 
 ### Fields
@@ -803,47 +807,47 @@ $collection = $client->Collection();
 
 ### Operations
 
-#### `create(array $reqdata, ?array $ctrl = null): array`
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Throws on error.
 
 ```php
-[$result, $err] = $client->Collection()->create([
+$result = $client->collection()->create([
   "data" => /* `$OBJECT` */,
   "name" => /* `$STRING` */,
 ]);
 ```
 
-#### `list(array $reqmatch, ?array $ctrl = null): array`
+#### `list(array $reqmatch, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-[$results, $err] = $client->Collection()->list([]);
+$results = $client->collection()->list([]);
 ```
 
-#### `load(array $reqmatch, ?array $ctrl = null): array`
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Throws on error.
 
 ```php
-[$result, $err] = $client->Collection()->load(["id" => "collection_id"]);
+$result = $client->collection()->load(["id" => "collection_id"]);
 ```
 
-#### `remove(array $reqmatch, ?array $ctrl = null): array`
+#### `remove(array $reqmatch, ?array $ctrl = null): mixed`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Throws on error.
 
 ```php
-[$result, $err] = $client->Collection()->remove(["id" => "collection_id"]);
+$result = $client->collection()->remove(["id" => "collection_id"]);
 ```
 
-#### `update(array $reqdata, ?array $ctrl = null): array`
+#### `update(array $reqdata, ?array $ctrl = null): mixed`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Throws on error.
 
 ```php
-[$result, $err] = $client->Collection()->update([
+$result = $client->collection()->update([
   "id" => "collection_id",
   // Fields to update
 ]);
@@ -882,7 +886,7 @@ Return the entity name.
 ## CollectionRecordEntity
 
 ```php
-$collection_record = $client->CollectionRecord();
+$collection_record = $client->collection_record();
 ```
 
 ### Fields
@@ -893,30 +897,30 @@ $collection_record = $client->CollectionRecord();
 
 ### Operations
 
-#### `create(array $reqdata, ?array $ctrl = null): array`
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Throws on error.
 
 ```php
-[$result, $err] = $client->CollectionRecord()->create([
+$result = $client->collection_record()->create([
   "data" => /* `$OBJECT` */,
 ]);
 ```
 
-#### `load(array $reqmatch, ?array $ctrl = null): array`
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Throws on error.
 
 ```php
-[$result, $err] = $client->CollectionRecord()->load(["id" => "collection_record_id"]);
+$result = $client->collection_record()->load(["id" => "collection_record_id"]);
 ```
 
-#### `update(array $reqdata, ?array $ctrl = null): array`
+#### `update(array $reqdata, ?array $ctrl = null): mixed`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Throws on error.
 
 ```php
-[$result, $err] = $client->CollectionRecord()->update([
+$result = $client->collection_record()->update([
   "id" => "collection_record_id",
   // Fields to update
 ]);
@@ -955,7 +959,7 @@ Return the entity name.
 ## CollectionRecordListEntity
 
 ```php
-$collection_record_list = $client->CollectionRecordList();
+$collection_record_list = $client->collection_record_list();
 ```
 
 ### Fields
@@ -974,12 +978,12 @@ $collection_record_list = $client->CollectionRecordList();
 
 ### Operations
 
-#### `list(array $reqmatch, ?array $ctrl = null): array`
+#### `list(array $reqmatch, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-[$results, $err] = $client->CollectionRecordList()->list([]);
+$results = $client->collection_record_list()->list([]);
 ```
 
 ### Common Methods
@@ -1015,42 +1019,42 @@ Return the entity name.
 ## CustomEntity
 
 ```php
-$custom = $client->Custom();
+$custom = $client->custom();
 ```
 
 ### Operations
 
-#### `create(array $reqdata, ?array $ctrl = null): array`
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Throws on error.
 
 ```php
-[$result, $err] = $client->Custom()->create([
+$result = $client->custom()->create([
 ]);
 ```
 
-#### `load(array $reqmatch, ?array $ctrl = null): array`
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Throws on error.
 
 ```php
-[$result, $err] = $client->Custom()->load(["id" => "custom_id"]);
+$result = $client->custom()->load(["id" => "custom_id"]);
 ```
 
-#### `remove(array $reqmatch, ?array $ctrl = null): array`
+#### `remove(array $reqmatch, ?array $ctrl = null): mixed`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Throws on error.
 
 ```php
-[$result, $err] = $client->Custom()->remove(["id" => "custom_id"]);
+$result = $client->custom()->remove(["id" => "custom_id"]);
 ```
 
-#### `update(array $reqdata, ?array $ctrl = null): array`
+#### `update(array $reqdata, ?array $ctrl = null): mixed`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Throws on error.
 
 ```php
-[$result, $err] = $client->Custom()->update([
+$result = $client->custom()->update([
   "id" => "custom_id",
   // Fields to update
 ]);
@@ -1089,17 +1093,17 @@ Return the entity name.
 ## LegacyEntity
 
 ```php
-$legacy = $client->Legacy();
+$legacy = $client->legacy();
 ```
 
 ### Operations
 
-#### `remove(array $reqmatch, ?array $ctrl = null): array`
+#### `remove(array $reqmatch, ?array $ctrl = null): mixed`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Throws on error.
 
 ```php
-[$result, $err] = $client->Legacy()->remove(["id" => "legacy_id"]);
+$result = $client->legacy()->remove(["id" => "legacy_id"]);
 ```
 
 ### Common Methods
@@ -1135,7 +1139,7 @@ Return the entity name.
 ## LegacyMutationEntity
 
 ```php
-$legacy_mutation = $client->LegacyMutation();
+$legacy_mutation = $client->legacy_mutation();
 ```
 
 ### Fields
@@ -1148,21 +1152,21 @@ $legacy_mutation = $client->LegacyMutation();
 
 ### Operations
 
-#### `create(array $reqdata, ?array $ctrl = null): array`
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Throws on error.
 
 ```php
-[$result, $err] = $client->LegacyMutation()->create([
+$result = $client->legacy_mutation()->create([
 ]);
 ```
 
-#### `update(array $reqdata, ?array $ctrl = null): array`
+#### `update(array $reqdata, ?array $ctrl = null): mixed`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Throws on error.
 
 ```php
-[$result, $err] = $client->LegacyMutation()->update([
+$result = $client->legacy_mutation()->update([
   "id" => "legacy_mutation_id",
   // Fields to update
 ]);
@@ -1201,7 +1205,7 @@ Return the entity name.
 ## LegacyUnknownEntity
 
 ```php
-$legacy_unknown = $client->LegacyUnknown();
+$legacy_unknown = $client->legacy_unknown();
 ```
 
 ### Fields
@@ -1213,12 +1217,12 @@ $legacy_unknown = $client->LegacyUnknown();
 
 ### Operations
 
-#### `load(array $reqmatch, ?array $ctrl = null): array`
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Throws on error.
 
 ```php
-[$result, $err] = $client->LegacyUnknown()->load(["id" => "legacy_unknown_id"]);
+$result = $client->legacy_unknown()->load(["id" => "legacy_unknown_id"]);
 ```
 
 ### Common Methods
@@ -1254,7 +1258,7 @@ Return the entity name.
 ## LegacyUnknownListEntity
 
 ```php
-$legacy_unknown_list = $client->LegacyUnknownList();
+$legacy_unknown_list = $client->legacy_unknown_list();
 ```
 
 ### Fields
@@ -1269,12 +1273,12 @@ $legacy_unknown_list = $client->LegacyUnknownList();
 
 ### Operations
 
-#### `list(array $reqmatch, ?array $ctrl = null): array`
+#### `list(array $reqmatch, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-[$results, $err] = $client->LegacyUnknownList()->list([]);
+$results = $client->legacy_unknown_list()->list([]);
 ```
 
 ### Common Methods
@@ -1310,7 +1314,7 @@ Return the entity name.
 ## LegacyUserEntity
 
 ```php
-$legacy_user = $client->LegacyUser();
+$legacy_user = $client->legacy_user();
 ```
 
 ### Fields
@@ -1322,12 +1326,12 @@ $legacy_user = $client->LegacyUser();
 
 ### Operations
 
-#### `load(array $reqmatch, ?array $ctrl = null): array`
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Throws on error.
 
 ```php
-[$result, $err] = $client->LegacyUser()->load(["id" => "legacy_user_id"]);
+$result = $client->legacy_user()->load(["id" => "legacy_user_id"]);
 ```
 
 ### Common Methods
@@ -1363,7 +1367,7 @@ Return the entity name.
 ## LegacyUserListEntity
 
 ```php
-$legacy_user_list = $client->LegacyUserList();
+$legacy_user_list = $client->legacy_user_list();
 ```
 
 ### Fields
@@ -1378,12 +1382,12 @@ $legacy_user_list = $client->LegacyUserList();
 
 ### Operations
 
-#### `list(array $reqmatch, ?array $ctrl = null): array`
+#### `list(array $reqmatch, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-[$results, $err] = $client->LegacyUserList()->list([]);
+$results = $client->legacy_user_list()->list([]);
 ```
 
 ### Common Methods
@@ -1419,7 +1423,7 @@ Return the entity name.
 ## LoginEntity
 
 ```php
-$login = $client->Login();
+$login = $client->login();
 ```
 
 ### Fields
@@ -1432,12 +1436,12 @@ $login = $client->Login();
 
 ### Operations
 
-#### `create(array $reqdata, ?array $ctrl = null): array`
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Throws on error.
 
 ```php
-[$result, $err] = $client->Login()->create([
+$result = $client->login()->create([
   "email" => /* `$STRING` */,
   "password" => /* `$STRING` */,
   "token" => /* `$STRING` */,
@@ -1477,7 +1481,7 @@ Return the entity name.
 ## RegisterEntity
 
 ```php
-$register = $client->Register();
+$register = $client->register();
 ```
 
 ### Fields
@@ -1491,12 +1495,12 @@ $register = $client->Register();
 
 ### Operations
 
-#### `create(array $reqdata, ?array $ctrl = null): array`
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Throws on error.
 
 ```php
-[$result, $err] = $client->Register()->create([
+$result = $client->register()->create([
   "email" => /* `$STRING` */,
   "password" => /* `$STRING` */,
   "token" => /* `$STRING` */,

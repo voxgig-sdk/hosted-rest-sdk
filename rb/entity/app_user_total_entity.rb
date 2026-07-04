@@ -45,6 +45,7 @@ class AppUserTotalEntity
     end
   end
 
+  # @return [AppUserTotal, Hash] the current AppUserTotal data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,12 +58,18 @@ class AppUserTotalEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of AppUserTotal fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
   end
 
   
+  # Load a single AppUserTotal.
+  #
+  # @param reqmatch [AppUserTotalLoadMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [AppUserTotal, Hash] the loaded AppUserTotal; raises HostedRestError on failure
   def load(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({

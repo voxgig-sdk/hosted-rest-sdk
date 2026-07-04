@@ -43,8 +43,7 @@ class AgentUserListEntityTest < Minitest::Test
     agent_user_list_ref01_ent = client.AgentUserList(nil)
     agent_user_list_ref01_match = {}
 
-    agent_user_list_ref01_list_result, err = agent_user_list_ref01_ent.list(agent_user_list_ref01_match, nil)
-    assert_nil err
+    agent_user_list_ref01_list_result = agent_user_list_ref01_ent.list(agent_user_list_ref01_match, nil)
     assert agent_user_list_ref01_list_result.is_a?(Array)
 
   end

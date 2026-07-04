@@ -46,17 +46,14 @@ class TestAppUserEntity:
         app_user_ref01_data["collection_id"] = setup["idmap"]["collection01"]
         app_user_ref01_data["project_id"] = setup["idmap"]["project01"]
 
-        app_user_ref01_data_result, err = app_user_ref01_ent.create(app_user_ref01_data, None)
-        assert err is None
-        app_user_ref01_data = helpers.to_map(app_user_ref01_data_result)
+        app_user_ref01_data = helpers.to_map(app_user_ref01_ent.create(app_user_ref01_data, None))
         assert app_user_ref01_data is not None
         assert app_user_ref01_data["id"] is not None
 
         # LIST
         app_user_ref01_match = {}
 
-        app_user_ref01_list_result, err = app_user_ref01_ent.list(app_user_ref01_match, None)
-        assert err is None
+        app_user_ref01_list_result = app_user_ref01_ent.list(app_user_ref01_match, None)
         assert isinstance(app_user_ref01_list_result, list)
 
         found_item = vs.select(
@@ -73,9 +70,7 @@ class TestAppUserEntity:
         app_user_ref01_markdef_up0_value = "Mark01-app_user_ref01_" + str(setup["now"])
         app_user_ref01_data_up0_up[app_user_ref01_markdef_up0_name] = app_user_ref01_markdef_up0_value
 
-        app_user_ref01_resdata_up0_result, err = app_user_ref01_ent.update(app_user_ref01_data_up0_up, None)
-        assert err is None
-        app_user_ref01_resdata_up0 = helpers.to_map(app_user_ref01_resdata_up0_result)
+        app_user_ref01_resdata_up0 = helpers.to_map(app_user_ref01_ent.update(app_user_ref01_data_up0_up, None))
         assert app_user_ref01_resdata_up0 is not None
         assert app_user_ref01_resdata_up0["id"] == app_user_ref01_data_up0_up["id"]
         assert app_user_ref01_resdata_up0[app_user_ref01_markdef_up0_name] == app_user_ref01_markdef_up0_value
@@ -84,8 +79,7 @@ class TestAppUserEntity:
         app_user_ref01_match_dt0 = {
             "id": app_user_ref01_data["id"],
         }
-        app_user_ref01_data_dt0_loaded, err = app_user_ref01_ent.load(app_user_ref01_match_dt0, None)
-        assert err is None
+        app_user_ref01_data_dt0_loaded = app_user_ref01_ent.load(app_user_ref01_match_dt0, None)
         app_user_ref01_data_dt0_load_result = helpers.to_map(app_user_ref01_data_dt0_loaded)
         assert app_user_ref01_data_dt0_load_result is not None
         assert app_user_ref01_data_dt0_load_result["id"] == app_user_ref01_data["id"]
@@ -94,14 +88,12 @@ class TestAppUserEntity:
         app_user_ref01_match_rm0 = {
             "id": app_user_ref01_data["id"],
         }
-        _, err = app_user_ref01_ent.remove(app_user_ref01_match_rm0, None)
-        assert err is None
+        app_user_ref01_ent.remove(app_user_ref01_match_rm0, None)
 
         # LIST
         app_user_ref01_match_rt0 = {}
 
-        app_user_ref01_list_rt0_result, err = app_user_ref01_ent.list(app_user_ref01_match_rt0, None)
-        assert err is None
+        app_user_ref01_list_rt0_result = app_user_ref01_ent.list(app_user_ref01_match_rt0, None)
         assert isinstance(app_user_ref01_list_rt0_result, list)
 
         not_found_item = vs.select(

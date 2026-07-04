@@ -50,8 +50,7 @@ class TestLegacyUserListEntity:
         legacy_user_list_ref01_ent = client.LegacyUserList(None)
         legacy_user_list_ref01_match = {}
 
-        legacy_user_list_ref01_list_result, err = legacy_user_list_ref01_ent.list(legacy_user_list_ref01_match, None)
-        assert err is None
+        legacy_user_list_ref01_list_result = legacy_user_list_ref01_ent.list(legacy_user_list_ref01_match, None)
         assert isinstance(legacy_user_list_ref01_list_result, list)
 
 

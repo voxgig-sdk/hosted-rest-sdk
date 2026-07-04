@@ -79,6 +79,10 @@ end
 
 
 
+---@param reqmatch AgentSandboxLoadMatch
+---@param ctrl? table
+---@return AgentSandbox
+---@return string? err
 function AgentSandboxEntity:load(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -106,6 +110,10 @@ end
 
 
 
+---@param reqdata AgentSandboxCreateData
+---@param ctrl? table
+---@return AgentSandbox
+---@return string? err
 function AgentSandboxEntity:create(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

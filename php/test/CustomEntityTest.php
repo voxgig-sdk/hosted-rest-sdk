@@ -44,8 +44,7 @@ class CustomEntityTest extends TestCase
             Vs::getpath($setup["data"], "new.custom"), "custom_ref01"));
         $custom_ref01_data["path"] = $setup["idmap"]["path01"];
 
-        [$custom_ref01_data_result, $err] = $custom_ref01_ent->create($custom_ref01_data, null);
-        $this->assertNull($err);
+        $custom_ref01_data_result = $custom_ref01_ent->create($custom_ref01_data, null);
         $custom_ref01_data = Helpers::to_map($custom_ref01_data_result);
         $this->assertNotNull($custom_ref01_data);
 
@@ -53,23 +52,20 @@ class CustomEntityTest extends TestCase
         $custom_ref01_data_up0_up = [
         ];
 
-        [$custom_ref01_resdata_up0_result, $err] = $custom_ref01_ent->update($custom_ref01_data_up0_up, null);
-        $this->assertNull($err);
+        $custom_ref01_resdata_up0_result = $custom_ref01_ent->update($custom_ref01_data_up0_up, null);
         $custom_ref01_resdata_up0 = Helpers::to_map($custom_ref01_resdata_up0_result);
         $this->assertNotNull($custom_ref01_resdata_up0);
 
         // LOAD
         $custom_ref01_match_dt0 = [];
-        [$custom_ref01_data_dt0_loaded, $err] = $custom_ref01_ent->load($custom_ref01_match_dt0, null);
-        $this->assertNull($err);
+        $custom_ref01_data_dt0_loaded = $custom_ref01_ent->load($custom_ref01_match_dt0, null);
         $this->assertNotNull($custom_ref01_data_dt0_loaded);
 
         // REMOVE
         $custom_ref01_match_rm0 = [
             "id" => $custom_ref01_data["id"],
         ];
-        [$_, $err] = $custom_ref01_ent->remove($custom_ref01_match_rm0, null);
-        $this->assertNull($err);
+        $custom_ref01_ent->remove($custom_ref01_match_rm0, null);
 
     }
 }

@@ -244,132 +244,418 @@ end
 
 
 
+-- Idiomatic facade: client:agent_health():list() / client:agent_health():load({ id = ... })
+function HostedRestSDK:agent_health(data)
+  local EntityMod = require("entity.agent_health_entity")
+  if data == nil then
+    if self._agent_health == nil then
+      self._agent_health = EntityMod.new(self, nil)
+    end
+    return self._agent_health
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:agent_health() instead.
 function HostedRestSDK:AgentHealth(data)
   local EntityMod = require("entity.agent_health_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:agent_sandbox():list() / client:agent_sandbox():load({ id = ... })
+function HostedRestSDK:agent_sandbox(data)
+  local EntityMod = require("entity.agent_sandbox_entity")
+  if data == nil then
+    if self._agent_sandbox == nil then
+      self._agent_sandbox = EntityMod.new(self, nil)
+    end
+    return self._agent_sandbox
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:agent_sandbox() instead.
 function HostedRestSDK:AgentSandbox(data)
   local EntityMod = require("entity.agent_sandbox_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:agent_user_detail():list() / client:agent_user_detail():load({ id = ... })
+function HostedRestSDK:agent_user_detail(data)
+  local EntityMod = require("entity.agent_user_detail_entity")
+  if data == nil then
+    if self._agent_user_detail == nil then
+      self._agent_user_detail = EntityMod.new(self, nil)
+    end
+    return self._agent_user_detail
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:agent_user_detail() instead.
 function HostedRestSDK:AgentUserDetail(data)
   local EntityMod = require("entity.agent_user_detail_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:agent_user_list():list() / client:agent_user_list():load({ id = ... })
+function HostedRestSDK:agent_user_list(data)
+  local EntityMod = require("entity.agent_user_list_entity")
+  if data == nil then
+    if self._agent_user_list == nil then
+      self._agent_user_list = EntityMod.new(self, nil)
+    end
+    return self._agent_user_list
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:agent_user_list() instead.
 function HostedRestSDK:AgentUserList(data)
   local EntityMod = require("entity.agent_user_list_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:app_user():list() / client:app_user():load({ id = ... })
+function HostedRestSDK:app_user(data)
+  local EntityMod = require("entity.app_user_entity")
+  if data == nil then
+    if self._app_user == nil then
+      self._app_user = EntityMod.new(self, nil)
+    end
+    return self._app_user
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:app_user() instead.
 function HostedRestSDK:AppUser(data)
   local EntityMod = require("entity.app_user_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:app_user_login():list() / client:app_user_login():load({ id = ... })
+function HostedRestSDK:app_user_login(data)
+  local EntityMod = require("entity.app_user_login_entity")
+  if data == nil then
+    if self._app_user_login == nil then
+      self._app_user_login = EntityMod.new(self, nil)
+    end
+    return self._app_user_login
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:app_user_login() instead.
 function HostedRestSDK:AppUserLogin(data)
   local EntityMod = require("entity.app_user_login_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:app_user_session():list() / client:app_user_session():load({ id = ... })
+function HostedRestSDK:app_user_session(data)
+  local EntityMod = require("entity.app_user_session_entity")
+  if data == nil then
+    if self._app_user_session == nil then
+      self._app_user_session = EntityMod.new(self, nil)
+    end
+    return self._app_user_session
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:app_user_session() instead.
 function HostedRestSDK:AppUserSession(data)
   local EntityMod = require("entity.app_user_session_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:app_user_total():list() / client:app_user_total():load({ id = ... })
+function HostedRestSDK:app_user_total(data)
+  local EntityMod = require("entity.app_user_total_entity")
+  if data == nil then
+    if self._app_user_total == nil then
+      self._app_user_total = EntityMod.new(self, nil)
+    end
+    return self._app_user_total
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:app_user_total() instead.
 function HostedRestSDK:AppUserTotal(data)
   local EntityMod = require("entity.app_user_total_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:app_user_verify():list() / client:app_user_verify():load({ id = ... })
+function HostedRestSDK:app_user_verify(data)
+  local EntityMod = require("entity.app_user_verify_entity")
+  if data == nil then
+    if self._app_user_verify == nil then
+      self._app_user_verify = EntityMod.new(self, nil)
+    end
+    return self._app_user_verify
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:app_user_verify() instead.
 function HostedRestSDK:AppUserVerify(data)
   local EntityMod = require("entity.app_user_verify_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:authentication():list() / client:authentication():load({ id = ... })
+function HostedRestSDK:authentication(data)
+  local EntityMod = require("entity.authentication_entity")
+  if data == nil then
+    if self._authentication == nil then
+      self._authentication = EntityMod.new(self, nil)
+    end
+    return self._authentication
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:authentication() instead.
 function HostedRestSDK:Authentication(data)
   local EntityMod = require("entity.authentication_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:collection():list() / client:collection():load({ id = ... })
+function HostedRestSDK:collection(data)
+  local EntityMod = require("entity.collection_entity")
+  if data == nil then
+    if self._collection == nil then
+      self._collection = EntityMod.new(self, nil)
+    end
+    return self._collection
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:collection() instead.
 function HostedRestSDK:Collection(data)
   local EntityMod = require("entity.collection_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:collection_record():list() / client:collection_record():load({ id = ... })
+function HostedRestSDK:collection_record(data)
+  local EntityMod = require("entity.collection_record_entity")
+  if data == nil then
+    if self._collection_record == nil then
+      self._collection_record = EntityMod.new(self, nil)
+    end
+    return self._collection_record
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:collection_record() instead.
 function HostedRestSDK:CollectionRecord(data)
   local EntityMod = require("entity.collection_record_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:collection_record_list():list() / client:collection_record_list():load({ id = ... })
+function HostedRestSDK:collection_record_list(data)
+  local EntityMod = require("entity.collection_record_list_entity")
+  if data == nil then
+    if self._collection_record_list == nil then
+      self._collection_record_list = EntityMod.new(self, nil)
+    end
+    return self._collection_record_list
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:collection_record_list() instead.
 function HostedRestSDK:CollectionRecordList(data)
   local EntityMod = require("entity.collection_record_list_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:custom():list() / client:custom():load({ id = ... })
+function HostedRestSDK:custom(data)
+  local EntityMod = require("entity.custom_entity")
+  if data == nil then
+    if self._custom == nil then
+      self._custom = EntityMod.new(self, nil)
+    end
+    return self._custom
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:custom() instead.
 function HostedRestSDK:Custom(data)
   local EntityMod = require("entity.custom_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:legacy():list() / client:legacy():load({ id = ... })
+function HostedRestSDK:legacy(data)
+  local EntityMod = require("entity.legacy_entity")
+  if data == nil then
+    if self._legacy == nil then
+      self._legacy = EntityMod.new(self, nil)
+    end
+    return self._legacy
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:legacy() instead.
 function HostedRestSDK:Legacy(data)
   local EntityMod = require("entity.legacy_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:legacy_mutation():list() / client:legacy_mutation():load({ id = ... })
+function HostedRestSDK:legacy_mutation(data)
+  local EntityMod = require("entity.legacy_mutation_entity")
+  if data == nil then
+    if self._legacy_mutation == nil then
+      self._legacy_mutation = EntityMod.new(self, nil)
+    end
+    return self._legacy_mutation
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:legacy_mutation() instead.
 function HostedRestSDK:LegacyMutation(data)
   local EntityMod = require("entity.legacy_mutation_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:legacy_unknown():list() / client:legacy_unknown():load({ id = ... })
+function HostedRestSDK:legacy_unknown(data)
+  local EntityMod = require("entity.legacy_unknown_entity")
+  if data == nil then
+    if self._legacy_unknown == nil then
+      self._legacy_unknown = EntityMod.new(self, nil)
+    end
+    return self._legacy_unknown
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:legacy_unknown() instead.
 function HostedRestSDK:LegacyUnknown(data)
   local EntityMod = require("entity.legacy_unknown_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:legacy_unknown_list():list() / client:legacy_unknown_list():load({ id = ... })
+function HostedRestSDK:legacy_unknown_list(data)
+  local EntityMod = require("entity.legacy_unknown_list_entity")
+  if data == nil then
+    if self._legacy_unknown_list == nil then
+      self._legacy_unknown_list = EntityMod.new(self, nil)
+    end
+    return self._legacy_unknown_list
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:legacy_unknown_list() instead.
 function HostedRestSDK:LegacyUnknownList(data)
   local EntityMod = require("entity.legacy_unknown_list_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:legacy_user():list() / client:legacy_user():load({ id = ... })
+function HostedRestSDK:legacy_user(data)
+  local EntityMod = require("entity.legacy_user_entity")
+  if data == nil then
+    if self._legacy_user == nil then
+      self._legacy_user = EntityMod.new(self, nil)
+    end
+    return self._legacy_user
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:legacy_user() instead.
 function HostedRestSDK:LegacyUser(data)
   local EntityMod = require("entity.legacy_user_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:legacy_user_list():list() / client:legacy_user_list():load({ id = ... })
+function HostedRestSDK:legacy_user_list(data)
+  local EntityMod = require("entity.legacy_user_list_entity")
+  if data == nil then
+    if self._legacy_user_list == nil then
+      self._legacy_user_list = EntityMod.new(self, nil)
+    end
+    return self._legacy_user_list
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:legacy_user_list() instead.
 function HostedRestSDK:LegacyUserList(data)
   local EntityMod = require("entity.legacy_user_list_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:login():list() / client:login():load({ id = ... })
+function HostedRestSDK:login(data)
+  local EntityMod = require("entity.login_entity")
+  if data == nil then
+    if self._login == nil then
+      self._login = EntityMod.new(self, nil)
+    end
+    return self._login
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:login() instead.
 function HostedRestSDK:Login(data)
   local EntityMod = require("entity.login_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:register():list() / client:register():load({ id = ... })
+function HostedRestSDK:register(data)
+  local EntityMod = require("entity.register_entity")
+  if data == nil then
+    if self._register == nil then
+      self._register = EntityMod.new(self, nil)
+    end
+    return self._register
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:register() instead.
 function HostedRestSDK:Register(data)
   local EntityMod = require("entity.register_entity")
   return EntityMod.new(self, data)

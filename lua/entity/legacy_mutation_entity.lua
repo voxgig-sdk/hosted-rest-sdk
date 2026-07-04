@@ -83,6 +83,10 @@ end
 
 
 
+---@param reqdata LegacyMutationCreateData
+---@param ctrl? table
+---@return LegacyMutation
+---@return string? err
 function LegacyMutationEntity:create(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -105,6 +109,10 @@ end
 
 
 
+---@param reqdata LegacyMutationUpdateData
+---@param ctrl? table
+---@return LegacyMutation
+---@return string? err
 function LegacyMutationEntity:update(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

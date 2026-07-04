@@ -138,9 +138,9 @@ Return a deep copy of the current SDK options.
 
 Return a copy of the SDK utility object.
 
-#### `direct(fetchargs=None) -> tuple`
+#### `direct(fetchargs=None) -> dict`
 
-Make a direct HTTP request to any API endpoint. Returns `(result, err)`.
+Make a direct HTTP request to any API endpoint. Returns a result `dict` with `ok`, `status`, `headers`, and `data` (or `err` on failure). This escape hatch never raises — branch on `result["ok"]`.
 
 **Parameters:**
 
@@ -153,11 +153,11 @@ Make a direct HTTP request to any API endpoint. Returns `(result, err)`.
 | `fetchargs["headers"]` | `dict` | Request headers (merged with defaults). |
 | `fetchargs["body"]` | `any` | Request body (dicts are JSON-serialized). |
 
-**Returns:** `(result_dict, err)`
+**Returns:** `result_dict`
 
-#### `prepare(fetchargs=None) -> tuple`
+#### `prepare(fetchargs=None) -> dict`
 
-Prepare a fetch definition without sending. Returns `(fetchdef, err)`.
+Prepare a fetch definition without sending. Returns the `fetchdef` and raises on error.
 
 
 ---
@@ -165,7 +165,7 @@ Prepare a fetch definition without sending. Returns `(fetchdef, err)`.
 ## AgentHealthEntity
 
 ```python
-agent_health = client.AgentHealth()
+agent_health = client.agent_health
 ```
 
 ### Fields
@@ -176,12 +176,12 @@ agent_health = client.AgentHealth()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> tuple`
+#### `load(reqmatch, ctrl=None) -> dict`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result, err = client.AgentHealth().load({"id": "agent_health_id"})
+result = client.agent_health.load({"id": "agent_health_id"})
 ```
 
 ### Common Methods
@@ -216,7 +216,7 @@ Return the entity name.
 ## AgentSandboxEntity
 
 ```python
-agent_sandbox = client.AgentSandbox()
+agent_sandbox = client.agent_sandbox
 ```
 
 ### Fields
@@ -228,23 +228,23 @@ agent_sandbox = client.AgentSandbox()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> tuple`
+#### `create(reqdata, ctrl=None) -> dict`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-result, err = client.AgentSandbox().create({
+result = client.agent_sandbox.create({
     "email": # `$STRING`,
     "password": # `$STRING`,
 })
 ```
 
-#### `load(reqmatch, ctrl=None) -> tuple`
+#### `load(reqmatch, ctrl=None) -> dict`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result, err = client.AgentSandbox().load({"id": "agent_sandbox_id"})
+result = client.agent_sandbox.load({"id": "agent_sandbox_id"})
 ```
 
 ### Common Methods
@@ -279,7 +279,7 @@ Return the entity name.
 ## AgentUserDetailEntity
 
 ```python
-agent_user_detail = client.AgentUserDetail()
+agent_user_detail = client.agent_user_detail
 ```
 
 ### Fields
@@ -290,12 +290,12 @@ agent_user_detail = client.AgentUserDetail()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> tuple`
+#### `load(reqmatch, ctrl=None) -> dict`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result, err = client.AgentUserDetail().load({"id": "agent_user_detail_id"})
+result = client.agent_user_detail.load({"id": "agent_user_detail_id"})
 ```
 
 ### Common Methods
@@ -330,7 +330,7 @@ Return the entity name.
 ## AgentUserListEntity
 
 ```python
-agent_user_list = client.AgentUserList()
+agent_user_list = client.agent_user_list
 ```
 
 ### Fields
@@ -350,12 +350,12 @@ agent_user_list = client.AgentUserList()
 
 ### Operations
 
-#### `list(reqmatch, ctrl=None) -> tuple`
+#### `list(reqmatch, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns a list and raises on error.
 
 ```python
-results, err = client.AgentUserList().list({})
+results = client.agent_user_list.list({})
 ```
 
 ### Common Methods
@@ -390,7 +390,7 @@ Return the entity name.
 ## AppUserEntity
 
 ```python
-app_user = client.AppUser()
+app_user = client.app_user
 ```
 
 ### Fields
@@ -419,47 +419,47 @@ app_user = client.AppUser()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> tuple`
+#### `create(reqdata, ctrl=None) -> dict`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-result, err = client.AppUser().create({
+result = client.app_user.create({
     "data": # `$OBJECT`,
     "email": # `$STRING`,
 })
 ```
 
-#### `list(reqmatch, ctrl=None) -> tuple`
+#### `list(reqmatch, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns a list and raises on error.
 
 ```python
-results, err = client.AppUser().list({})
+results = client.app_user.list({})
 ```
 
-#### `load(reqmatch, ctrl=None) -> tuple`
+#### `load(reqmatch, ctrl=None) -> dict`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result, err = client.AppUser().load({"id": "app_user_id"})
+result = client.app_user.load({"id": "app_user_id"})
 ```
 
-#### `remove(reqmatch, ctrl=None) -> tuple`
+#### `remove(reqmatch, ctrl=None) -> dict`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Raises on error.
 
 ```python
-result, err = client.AppUser().remove({"id": "app_user_id"})
+result = client.app_user.remove({"id": "app_user_id"})
 ```
 
-#### `update(reqdata, ctrl=None) -> tuple`
+#### `update(reqdata, ctrl=None) -> dict`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
 
 ```python
-result, err = client.AppUser().update({
+result = client.app_user.update({
     "id": "app_user_id",
     # Fields to update
 })
@@ -497,7 +497,7 @@ Return the entity name.
 ## AppUserLoginEntity
 
 ```python
-app_user_login = client.AppUserLogin()
+app_user_login = client.app_user_login
 ```
 
 ### Fields
@@ -511,12 +511,12 @@ app_user_login = client.AppUserLogin()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> tuple`
+#### `create(reqdata, ctrl=None) -> dict`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-result, err = client.AppUserLogin().create({
+result = client.app_user_login.create({
     "data": # `$OBJECT`,
     "email": # `$STRING`,
 })
@@ -554,7 +554,7 @@ Return the entity name.
 ## AppUserSessionEntity
 
 ```python
-app_user_session = client.AppUserSession()
+app_user_session = client.app_user_session
 ```
 
 ### Fields
@@ -565,12 +565,12 @@ app_user_session = client.AppUserSession()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> tuple`
+#### `load(reqmatch, ctrl=None) -> dict`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result, err = client.AppUserSession().load({"id": "app_user_session_id"})
+result = client.app_user_session.load({"id": "app_user_session_id"})
 ```
 
 ### Common Methods
@@ -605,7 +605,7 @@ Return the entity name.
 ## AppUserTotalEntity
 
 ```python
-app_user_total = client.AppUserTotal()
+app_user_total = client.app_user_total
 ```
 
 ### Fields
@@ -616,12 +616,12 @@ app_user_total = client.AppUserTotal()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> tuple`
+#### `load(reqmatch, ctrl=None) -> dict`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result, err = client.AppUserTotal().load({"id": "app_user_total_id"})
+result = client.app_user_total.load({"id": "app_user_total_id"})
 ```
 
 ### Common Methods
@@ -656,7 +656,7 @@ Return the entity name.
 ## AppUserVerifyEntity
 
 ```python
-app_user_verify = client.AppUserVerify()
+app_user_verify = client.app_user_verify
 ```
 
 ### Fields
@@ -668,12 +668,12 @@ app_user_verify = client.AppUserVerify()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> tuple`
+#### `create(reqdata, ctrl=None) -> dict`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-result, err = client.AppUserVerify().create({
+result = client.app_user_verify.create({
     "data": # `$OBJECT`,
     "token": # `$STRING`,
 })
@@ -711,17 +711,17 @@ Return the entity name.
 ## AuthenticationEntity
 
 ```python
-authentication = client.Authentication()
+authentication = client.authentication
 ```
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> tuple`
+#### `create(reqdata, ctrl=None) -> dict`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-result, err = client.Authentication().create({
+result = client.authentication.create({
 })
 ```
 
@@ -757,7 +757,7 @@ Return the entity name.
 ## CollectionEntity
 
 ```python
-collection = client.Collection()
+collection = client.collection
 ```
 
 ### Fields
@@ -792,47 +792,47 @@ collection = client.Collection()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> tuple`
+#### `create(reqdata, ctrl=None) -> dict`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-result, err = client.Collection().create({
+result = client.collection.create({
     "data": # `$OBJECT`,
     "name": # `$STRING`,
 })
 ```
 
-#### `list(reqmatch, ctrl=None) -> tuple`
+#### `list(reqmatch, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns a list and raises on error.
 
 ```python
-results, err = client.Collection().list({})
+results = client.collection.list({})
 ```
 
-#### `load(reqmatch, ctrl=None) -> tuple`
+#### `load(reqmatch, ctrl=None) -> dict`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result, err = client.Collection().load({"id": "collection_id"})
+result = client.collection.load({"id": "collection_id"})
 ```
 
-#### `remove(reqmatch, ctrl=None) -> tuple`
+#### `remove(reqmatch, ctrl=None) -> dict`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Raises on error.
 
 ```python
-result, err = client.Collection().remove({"id": "collection_id"})
+result = client.collection.remove({"id": "collection_id"})
 ```
 
-#### `update(reqdata, ctrl=None) -> tuple`
+#### `update(reqdata, ctrl=None) -> dict`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
 
 ```python
-result, err = client.Collection().update({
+result = client.collection.update({
     "id": "collection_id",
     # Fields to update
 })
@@ -870,7 +870,7 @@ Return the entity name.
 ## CollectionRecordEntity
 
 ```python
-collection_record = client.CollectionRecord()
+collection_record = client.collection_record
 ```
 
 ### Fields
@@ -881,30 +881,30 @@ collection_record = client.CollectionRecord()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> tuple`
+#### `create(reqdata, ctrl=None) -> dict`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-result, err = client.CollectionRecord().create({
+result = client.collection_record.create({
     "data": # `$OBJECT`,
 })
 ```
 
-#### `load(reqmatch, ctrl=None) -> tuple`
+#### `load(reqmatch, ctrl=None) -> dict`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result, err = client.CollectionRecord().load({"id": "collection_record_id"})
+result = client.collection_record.load({"id": "collection_record_id"})
 ```
 
-#### `update(reqdata, ctrl=None) -> tuple`
+#### `update(reqdata, ctrl=None) -> dict`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
 
 ```python
-result, err = client.CollectionRecord().update({
+result = client.collection_record.update({
     "id": "collection_record_id",
     # Fields to update
 })
@@ -942,7 +942,7 @@ Return the entity name.
 ## CollectionRecordListEntity
 
 ```python
-collection_record_list = client.CollectionRecordList()
+collection_record_list = client.collection_record_list
 ```
 
 ### Fields
@@ -961,12 +961,12 @@ collection_record_list = client.CollectionRecordList()
 
 ### Operations
 
-#### `list(reqmatch, ctrl=None) -> tuple`
+#### `list(reqmatch, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns a list and raises on error.
 
 ```python
-results, err = client.CollectionRecordList().list({})
+results = client.collection_record_list.list({})
 ```
 
 ### Common Methods
@@ -1001,42 +1001,42 @@ Return the entity name.
 ## CustomEntity
 
 ```python
-custom = client.Custom()
+custom = client.custom
 ```
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> tuple`
+#### `create(reqdata, ctrl=None) -> dict`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-result, err = client.Custom().create({
+result = client.custom.create({
 })
 ```
 
-#### `load(reqmatch, ctrl=None) -> tuple`
+#### `load(reqmatch, ctrl=None) -> dict`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result, err = client.Custom().load({"id": "custom_id"})
+result = client.custom.load({"id": "custom_id"})
 ```
 
-#### `remove(reqmatch, ctrl=None) -> tuple`
+#### `remove(reqmatch, ctrl=None) -> dict`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Raises on error.
 
 ```python
-result, err = client.Custom().remove({"id": "custom_id"})
+result = client.custom.remove({"id": "custom_id"})
 ```
 
-#### `update(reqdata, ctrl=None) -> tuple`
+#### `update(reqdata, ctrl=None) -> dict`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
 
 ```python
-result, err = client.Custom().update({
+result = client.custom.update({
     "id": "custom_id",
     # Fields to update
 })
@@ -1074,17 +1074,17 @@ Return the entity name.
 ## LegacyEntity
 
 ```python
-legacy = client.Legacy()
+legacy = client.legacy
 ```
 
 ### Operations
 
-#### `remove(reqmatch, ctrl=None) -> tuple`
+#### `remove(reqmatch, ctrl=None) -> dict`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Raises on error.
 
 ```python
-result, err = client.Legacy().remove({"id": "legacy_id"})
+result = client.legacy.remove({"id": "legacy_id"})
 ```
 
 ### Common Methods
@@ -1119,7 +1119,7 @@ Return the entity name.
 ## LegacyMutationEntity
 
 ```python
-legacy_mutation = client.LegacyMutation()
+legacy_mutation = client.legacy_mutation
 ```
 
 ### Fields
@@ -1132,21 +1132,21 @@ legacy_mutation = client.LegacyMutation()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> tuple`
+#### `create(reqdata, ctrl=None) -> dict`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-result, err = client.LegacyMutation().create({
+result = client.legacy_mutation.create({
 })
 ```
 
-#### `update(reqdata, ctrl=None) -> tuple`
+#### `update(reqdata, ctrl=None) -> dict`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
 
 ```python
-result, err = client.LegacyMutation().update({
+result = client.legacy_mutation.update({
     "id": "legacy_mutation_id",
     # Fields to update
 })
@@ -1184,7 +1184,7 @@ Return the entity name.
 ## LegacyUnknownEntity
 
 ```python
-legacy_unknown = client.LegacyUnknown()
+legacy_unknown = client.legacy_unknown
 ```
 
 ### Fields
@@ -1196,12 +1196,12 @@ legacy_unknown = client.LegacyUnknown()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> tuple`
+#### `load(reqmatch, ctrl=None) -> dict`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result, err = client.LegacyUnknown().load({"id": "legacy_unknown_id"})
+result = client.legacy_unknown.load({"id": "legacy_unknown_id"})
 ```
 
 ### Common Methods
@@ -1236,7 +1236,7 @@ Return the entity name.
 ## LegacyUnknownListEntity
 
 ```python
-legacy_unknown_list = client.LegacyUnknownList()
+legacy_unknown_list = client.legacy_unknown_list
 ```
 
 ### Fields
@@ -1251,12 +1251,12 @@ legacy_unknown_list = client.LegacyUnknownList()
 
 ### Operations
 
-#### `list(reqmatch, ctrl=None) -> tuple`
+#### `list(reqmatch, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns a list and raises on error.
 
 ```python
-results, err = client.LegacyUnknownList().list({})
+results = client.legacy_unknown_list.list({})
 ```
 
 ### Common Methods
@@ -1291,7 +1291,7 @@ Return the entity name.
 ## LegacyUserEntity
 
 ```python
-legacy_user = client.LegacyUser()
+legacy_user = client.legacy_user
 ```
 
 ### Fields
@@ -1303,12 +1303,12 @@ legacy_user = client.LegacyUser()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> tuple`
+#### `load(reqmatch, ctrl=None) -> dict`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result, err = client.LegacyUser().load({"id": "legacy_user_id"})
+result = client.legacy_user.load({"id": "legacy_user_id"})
 ```
 
 ### Common Methods
@@ -1343,7 +1343,7 @@ Return the entity name.
 ## LegacyUserListEntity
 
 ```python
-legacy_user_list = client.LegacyUserList()
+legacy_user_list = client.legacy_user_list
 ```
 
 ### Fields
@@ -1358,12 +1358,12 @@ legacy_user_list = client.LegacyUserList()
 
 ### Operations
 
-#### `list(reqmatch, ctrl=None) -> tuple`
+#### `list(reqmatch, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns a list and raises on error.
 
 ```python
-results, err = client.LegacyUserList().list({})
+results = client.legacy_user_list.list({})
 ```
 
 ### Common Methods
@@ -1398,7 +1398,7 @@ Return the entity name.
 ## LoginEntity
 
 ```python
-login = client.Login()
+login = client.login
 ```
 
 ### Fields
@@ -1411,12 +1411,12 @@ login = client.Login()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> tuple`
+#### `create(reqdata, ctrl=None) -> dict`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-result, err = client.Login().create({
+result = client.login.create({
     "email": # `$STRING`,
     "password": # `$STRING`,
     "token": # `$STRING`,
@@ -1455,7 +1455,7 @@ Return the entity name.
 ## RegisterEntity
 
 ```python
-register = client.Register()
+register = client.register
 ```
 
 ### Fields
@@ -1469,12 +1469,12 @@ register = client.Register()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> tuple`
+#### `create(reqdata, ctrl=None) -> dict`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-result, err = client.Register().create({
+result = client.register.create({
     "email": # `$STRING`,
     "password": # `$STRING`,
     "token": # `$STRING`,

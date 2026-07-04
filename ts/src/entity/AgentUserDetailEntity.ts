@@ -14,9 +14,13 @@ import type {
   Control,
 } from '../types'
 
+import type {
+  AgentUserDetail,
+  AgentUserDetailLoadMatch,
+} from '../HostedRestTypes'
 
 // TODO: needs Entity superclass
-class AgentUserDetailEntity extends HostedRestEntityBase {
+class AgentUserDetailEntity extends HostedRestEntityBase<AgentUserDetail> {
 
   constructor(client: HostedRestSDK, entopts: any) {
     super(client, entopts)
@@ -32,7 +36,7 @@ class AgentUserDetailEntity extends HostedRestEntityBase {
 
 
 
-  async load(this: any, reqmatch?: any, ctrl?: Control) {
+  async load(this: any, reqmatch?: AgentUserDetailLoadMatch, ctrl?: Control): Promise<AgentUserDetail> {
 
     const utility = this._utility
 
@@ -136,7 +140,9 @@ class AgentUserDetailEntity extends HostedRestEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<AgentUserDetail> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }

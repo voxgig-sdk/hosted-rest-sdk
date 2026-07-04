@@ -14,9 +14,13 @@ import type {
   Control,
 } from '../types'
 
+import type {
+  LegacyUserList,
+  LegacyUserListListMatch,
+} from '../HostedRestTypes'
 
 // TODO: needs Entity superclass
-class LegacyUserListEntity extends HostedRestEntityBase {
+class LegacyUserListEntity extends HostedRestEntityBase<LegacyUserList> {
 
   constructor(client: HostedRestSDK, entopts: any) {
     super(client, entopts)
@@ -33,7 +37,7 @@ class LegacyUserListEntity extends HostedRestEntityBase {
 
 
 
-  async list(this: any, reqmatch?: any, ctrl?: Control) {
+  async list(this: any, reqmatch?: LegacyUserListListMatch, ctrl?: Control): Promise<LegacyUserList[]> {
 
     const utility = this._utility
 
@@ -133,7 +137,9 @@ class LegacyUserListEntity extends HostedRestEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<LegacyUserList[]> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }

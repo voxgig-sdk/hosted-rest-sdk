@@ -79,6 +79,10 @@ end
 
 
 
+---@param reqmatch AgentHealthLoadMatch
+---@param ctrl? table
+---@return AgentHealth
+---@return string? err
 function AgentHealthEntity:load(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

@@ -36,8 +36,7 @@ class LegacyMutationEntityTest < Minitest::Test
     legacy_mutation_ref01_data = Helpers.to_map(Vs.getprop(
       Vs.getpath(setup[:data], "new.legacy_mutation"), "legacy_mutation_ref01"))
 
-    legacy_mutation_ref01_data_result, err = legacy_mutation_ref01_ent.create(legacy_mutation_ref01_data, nil)
-    assert_nil err
+    legacy_mutation_ref01_data_result = legacy_mutation_ref01_ent.create(legacy_mutation_ref01_data, nil)
     legacy_mutation_ref01_data = Helpers.to_map(legacy_mutation_ref01_data_result)
     assert !legacy_mutation_ref01_data.nil?
     assert !legacy_mutation_ref01_data["id"].nil?
@@ -51,8 +50,7 @@ class LegacyMutationEntityTest < Minitest::Test
     legacy_mutation_ref01_markdef_up0_value = "Mark01-legacy_mutation_ref01_#{setup[:now]}"
     legacy_mutation_ref01_data_up0_up[legacy_mutation_ref01_markdef_up0_name] = legacy_mutation_ref01_markdef_up0_value
 
-    legacy_mutation_ref01_resdata_up0_result, err = legacy_mutation_ref01_ent.update(legacy_mutation_ref01_data_up0_up, nil)
-    assert_nil err
+    legacy_mutation_ref01_resdata_up0_result = legacy_mutation_ref01_ent.update(legacy_mutation_ref01_data_up0_up, nil)
     legacy_mutation_ref01_resdata_up0 = Helpers.to_map(legacy_mutation_ref01_resdata_up0_result)
     assert !legacy_mutation_ref01_resdata_up0.nil?
     assert_equal legacy_mutation_ref01_resdata_up0["id"], legacy_mutation_ref01_data_up0_up["id"]

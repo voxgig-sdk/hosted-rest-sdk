@@ -44,8 +44,7 @@ class LegacyEntityTest < Minitest::Test
     legacy_ref01_match_rm0 = {
       "id" => legacy_ref01_data["id"],
     }
-    _, err = legacy_ref01_ent.remove(legacy_ref01_match_rm0, nil)
-    assert_nil err
+    legacy_ref01_ent.remove(legacy_ref01_match_rm0, nil)
 
   end
 end

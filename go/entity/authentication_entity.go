@@ -85,6 +85,27 @@ func (e *AuthenticationEntity) Match(args ...any) any {
 	return out
 }
 
+// DataTyped is the statically-typed accessor for this entity's data. With no
+// argument it returns the current data as an Authentication; with an argument it
+// sets the data and returns the stored value. It delegates to the untyped Data
+// (identical runtime) and converts at the typed boundary.
+func (e *AuthenticationEntity) DataTyped(data ...Authentication) Authentication {
+	if len(data) > 0 {
+		return typedFrom[Authentication](e.Data(asMap(data[0])))
+	}
+	return typedFrom[Authentication](e.Data())
+}
+
+// MatchTyped mirrors DataTyped for the entity's match filter. The match is a
+// partial of the entity, so it round-trips through Authentication (all fields
+// optional at the wire level).
+func (e *AuthenticationEntity) MatchTyped(match ...Authentication) Authentication {
+	if len(match) > 0 {
+		return typedFrom[Authentication](e.Match(asMap(match[0])))
+	}
+	return typedFrom[Authentication](e.Match())
+}
+
 func (e *AuthenticationEntity) Load(_ map[string]any, _ map[string]any) (any, error) {
 	return core.UnsupportedOp("load", e.name)
 }
@@ -116,6 +137,17 @@ func (e *AuthenticationEntity) Create(reqdata map[string]any, ctrl map[string]an
 			}
 		}
 	})
+}
+
+// CreateTyped is the statically-typed variant of Create: it takes an
+// AuthenticationCreateData and returns an Authentication. It delegates to the untyped
+// Create (identical runtime) and converts at the typed boundary.
+func (e *AuthenticationEntity) CreateTyped(reqdata AuthenticationCreateData, ctrl map[string]any) (Authentication, error) {
+	res, err := e.Create(asMap(reqdata), ctrl)
+	if err != nil {
+		return Authentication{}, err
+	}
+	return typedFrom[Authentication](res), nil
 }
 
 

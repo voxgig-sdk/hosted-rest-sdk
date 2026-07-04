@@ -37,8 +37,7 @@ class CustomEntityTest < Minitest::Test
       Vs.getpath(setup[:data], "new.custom"), "custom_ref01"))
     custom_ref01_data["path"] = setup[:idmap]["path01"]
 
-    custom_ref01_data_result, err = custom_ref01_ent.create(custom_ref01_data, nil)
-    assert_nil err
+    custom_ref01_data_result = custom_ref01_ent.create(custom_ref01_data, nil)
     custom_ref01_data = Helpers.to_map(custom_ref01_data_result)
     assert !custom_ref01_data.nil?
 
@@ -46,23 +45,20 @@ class CustomEntityTest < Minitest::Test
     custom_ref01_data_up0_up = {
     }
 
-    custom_ref01_resdata_up0_result, err = custom_ref01_ent.update(custom_ref01_data_up0_up, nil)
-    assert_nil err
+    custom_ref01_resdata_up0_result = custom_ref01_ent.update(custom_ref01_data_up0_up, nil)
     custom_ref01_resdata_up0 = Helpers.to_map(custom_ref01_resdata_up0_result)
     assert !custom_ref01_resdata_up0.nil?
 
     # LOAD
     custom_ref01_match_dt0 = {}
-    custom_ref01_data_dt0_loaded, err = custom_ref01_ent.load(custom_ref01_match_dt0, nil)
-    assert_nil err
+    custom_ref01_data_dt0_loaded = custom_ref01_ent.load(custom_ref01_match_dt0, nil)
     assert !custom_ref01_data_dt0_loaded.nil?
 
     # REMOVE
     custom_ref01_match_rm0 = {
       "id" => custom_ref01_data["id"],
     }
-    _, err = custom_ref01_ent.remove(custom_ref01_match_rm0, nil)
-    assert_nil err
+    custom_ref01_ent.remove(custom_ref01_match_rm0, nil)
 
   end
 end

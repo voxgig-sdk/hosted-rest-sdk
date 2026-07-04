@@ -37,8 +37,7 @@ class CollectionEntityTest < Minitest::Test
       Vs.getpath(setup[:data], "new.collection"), "collection_ref01"))
     collection_ref01_data["collection_id"] = setup[:idmap]["collection01"]
 
-    collection_ref01_data_result, err = collection_ref01_ent.create(collection_ref01_data, nil)
-    assert_nil err
+    collection_ref01_data_result = collection_ref01_ent.create(collection_ref01_data, nil)
     collection_ref01_data = Helpers.to_map(collection_ref01_data_result)
     assert !collection_ref01_data.nil?
     assert !collection_ref01_data["id"].nil?
@@ -46,8 +45,7 @@ class CollectionEntityTest < Minitest::Test
     # LIST
     collection_ref01_match = {}
 
-    collection_ref01_list_result, err = collection_ref01_ent.list(collection_ref01_match, nil)
-    assert_nil err
+    collection_ref01_list_result = collection_ref01_ent.list(collection_ref01_match, nil)
     assert collection_ref01_list_result.is_a?(Array)
 
     found_item = Vs.select(
@@ -64,8 +62,7 @@ class CollectionEntityTest < Minitest::Test
     collection_ref01_markdef_up0_value = "Mark01-collection_ref01_#{setup[:now]}"
     collection_ref01_data_up0_up[collection_ref01_markdef_up0_name] = collection_ref01_markdef_up0_value
 
-    collection_ref01_resdata_up0_result, err = collection_ref01_ent.update(collection_ref01_data_up0_up, nil)
-    assert_nil err
+    collection_ref01_resdata_up0_result = collection_ref01_ent.update(collection_ref01_data_up0_up, nil)
     collection_ref01_resdata_up0 = Helpers.to_map(collection_ref01_resdata_up0_result)
     assert !collection_ref01_resdata_up0.nil?
     assert_equal collection_ref01_resdata_up0["id"], collection_ref01_data_up0_up["id"]
@@ -75,8 +72,7 @@ class CollectionEntityTest < Minitest::Test
     collection_ref01_match_dt0 = {
       "id" => collection_ref01_data["id"],
     }
-    collection_ref01_data_dt0_loaded, err = collection_ref01_ent.load(collection_ref01_match_dt0, nil)
-    assert_nil err
+    collection_ref01_data_dt0_loaded = collection_ref01_ent.load(collection_ref01_match_dt0, nil)
     collection_ref01_data_dt0_load_result = Helpers.to_map(collection_ref01_data_dt0_loaded)
     assert !collection_ref01_data_dt0_load_result.nil?
     assert_equal collection_ref01_data_dt0_load_result["id"], collection_ref01_data["id"]
@@ -85,14 +81,12 @@ class CollectionEntityTest < Minitest::Test
     collection_ref01_match_rm0 = {
       "id" => collection_ref01_data["id"],
     }
-    _, err = collection_ref01_ent.remove(collection_ref01_match_rm0, nil)
-    assert_nil err
+    collection_ref01_ent.remove(collection_ref01_match_rm0, nil)
 
     # LIST
     collection_ref01_match_rt0 = {}
 
-    collection_ref01_list_rt0_result, err = collection_ref01_ent.list(collection_ref01_match_rt0, nil)
-    assert_nil err
+    collection_ref01_list_rt0_result = collection_ref01_ent.list(collection_ref01_match_rt0, nil)
     assert collection_ref01_list_rt0_result.is_a?(Array)
 
     not_found_item = Vs.select(

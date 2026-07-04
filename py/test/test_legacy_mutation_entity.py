@@ -44,9 +44,7 @@ class TestLegacyMutationEntity:
         legacy_mutation_ref01_data = helpers.to_map(vs.getprop(
             vs.getpath(setup["data"], "new.legacy_mutation"), "legacy_mutation_ref01"))
 
-        legacy_mutation_ref01_data_result, err = legacy_mutation_ref01_ent.create(legacy_mutation_ref01_data, None)
-        assert err is None
-        legacy_mutation_ref01_data = helpers.to_map(legacy_mutation_ref01_data_result)
+        legacy_mutation_ref01_data = helpers.to_map(legacy_mutation_ref01_ent.create(legacy_mutation_ref01_data, None))
         assert legacy_mutation_ref01_data is not None
         assert legacy_mutation_ref01_data["id"] is not None
 
@@ -59,9 +57,7 @@ class TestLegacyMutationEntity:
         legacy_mutation_ref01_markdef_up0_value = "Mark01-legacy_mutation_ref01_" + str(setup["now"])
         legacy_mutation_ref01_data_up0_up[legacy_mutation_ref01_markdef_up0_name] = legacy_mutation_ref01_markdef_up0_value
 
-        legacy_mutation_ref01_resdata_up0_result, err = legacy_mutation_ref01_ent.update(legacy_mutation_ref01_data_up0_up, None)
-        assert err is None
-        legacy_mutation_ref01_resdata_up0 = helpers.to_map(legacy_mutation_ref01_resdata_up0_result)
+        legacy_mutation_ref01_resdata_up0 = helpers.to_map(legacy_mutation_ref01_ent.update(legacy_mutation_ref01_data_up0_up, None))
         assert legacy_mutation_ref01_resdata_up0 is not None
         assert legacy_mutation_ref01_resdata_up0["id"] == legacy_mutation_ref01_data_up0_up["id"]
         assert legacy_mutation_ref01_resdata_up0[legacy_mutation_ref01_markdef_up0_name] == legacy_mutation_ref01_markdef_up0_value

@@ -43,8 +43,7 @@ class LegacyMutationEntityTest extends TestCase
         $legacy_mutation_ref01_data = Helpers::to_map(Vs::getprop(
             Vs::getpath($setup["data"], "new.legacy_mutation"), "legacy_mutation_ref01"));
 
-        [$legacy_mutation_ref01_data_result, $err] = $legacy_mutation_ref01_ent->create($legacy_mutation_ref01_data, null);
-        $this->assertNull($err);
+        $legacy_mutation_ref01_data_result = $legacy_mutation_ref01_ent->create($legacy_mutation_ref01_data, null);
         $legacy_mutation_ref01_data = Helpers::to_map($legacy_mutation_ref01_data_result);
         $this->assertNotNull($legacy_mutation_ref01_data);
         $this->assertNotNull($legacy_mutation_ref01_data["id"]);
@@ -58,8 +57,7 @@ class LegacyMutationEntityTest extends TestCase
         $legacy_mutation_ref01_markdef_up0_value = "Mark01-legacy_mutation_ref01_" . $setup["now"];
         $legacy_mutation_ref01_data_up0_up[$legacy_mutation_ref01_markdef_up0_name] = $legacy_mutation_ref01_markdef_up0_value;
 
-        [$legacy_mutation_ref01_resdata_up0_result, $err] = $legacy_mutation_ref01_ent->update($legacy_mutation_ref01_data_up0_up, null);
-        $this->assertNull($err);
+        $legacy_mutation_ref01_resdata_up0_result = $legacy_mutation_ref01_ent->update($legacy_mutation_ref01_data_up0_up, null);
         $legacy_mutation_ref01_resdata_up0 = Helpers::to_map($legacy_mutation_ref01_resdata_up0_result);
         $this->assertNotNull($legacy_mutation_ref01_resdata_up0);
         $this->assertEquals($legacy_mutation_ref01_resdata_up0["id"], $legacy_mutation_ref01_data_up0_up["id"]);

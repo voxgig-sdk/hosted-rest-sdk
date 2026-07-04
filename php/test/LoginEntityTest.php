@@ -43,8 +43,7 @@ class LoginEntityTest extends TestCase
         $login_ref01_data = Helpers::to_map(Vs::getprop(
             Vs::getpath($setup["data"], "new.login"), "login_ref01"));
 
-        [$login_ref01_data_result, $err] = $login_ref01_ent->create($login_ref01_data, null);
-        $this->assertNull($err);
+        $login_ref01_data_result = $login_ref01_ent->create($login_ref01_data, null);
         $login_ref01_data = Helpers::to_map($login_ref01_data_result);
         $this->assertNotNull($login_ref01_data);
 

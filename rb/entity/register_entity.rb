@@ -45,6 +45,7 @@ class RegisterEntity
     end
   end
 
+  # @return [Register, Hash] the current Register data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,6 +58,7 @@ class RegisterEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of Register fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
@@ -67,6 +69,11 @@ class RegisterEntity
   
 
   
+  # Create a new Register.
+  #
+  # @param reqdata [RegisterCreateData, Hash, nil] body data
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Register, Hash] the created Register; raises HostedRestError on failure
   def create(reqdata, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({

@@ -49,8 +49,7 @@ class TestAppUserTotalEntity:
         # LOAD
         app_user_total_ref01_ent = client.AppUserTotal(None)
         app_user_total_ref01_match_dt0 = {}
-        app_user_total_ref01_data_dt0_loaded, err = app_user_total_ref01_ent.load(app_user_total_ref01_match_dt0, None)
-        assert err is None
+        app_user_total_ref01_data_dt0_loaded = app_user_total_ref01_ent.load(app_user_total_ref01_match_dt0, None)
         assert app_user_total_ref01_data_dt0_loaded is not None
 
 

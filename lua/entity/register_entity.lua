@@ -83,6 +83,10 @@ end
 
 
 
+---@param reqdata RegisterCreateData
+---@param ctrl? table
+---@return Register
+---@return string? err
 function RegisterEntity:create(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

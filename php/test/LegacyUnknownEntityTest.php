@@ -49,8 +49,7 @@ class LegacyUnknownEntityTest extends TestCase
         // LOAD
         $legacy_unknown_ref01_ent = $client->LegacyUnknown(null);
         $legacy_unknown_ref01_match_dt0 = [];
-        [$legacy_unknown_ref01_data_dt0_loaded, $err] = $legacy_unknown_ref01_ent->load($legacy_unknown_ref01_match_dt0, null);
-        $this->assertNull($err);
+        $legacy_unknown_ref01_data_dt0_loaded = $legacy_unknown_ref01_ent->load($legacy_unknown_ref01_match_dt0, null);
         $this->assertNotNull($legacy_unknown_ref01_data_dt0_loaded);
 
     }

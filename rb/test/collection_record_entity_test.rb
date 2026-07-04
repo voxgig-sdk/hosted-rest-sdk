@@ -38,8 +38,7 @@ class CollectionRecordEntityTest < Minitest::Test
     collection_record_ref01_data["collection_id"] = setup[:idmap]["collection01"]
     collection_record_ref01_data["slug"] = setup[:idmap]["slug01"]
 
-    collection_record_ref01_data_result, err = collection_record_ref01_ent.create(collection_record_ref01_data, nil)
-    assert_nil err
+    collection_record_ref01_data_result = collection_record_ref01_ent.create(collection_record_ref01_data, nil)
     collection_record_ref01_data = Helpers.to_map(collection_record_ref01_data_result)
     assert !collection_record_ref01_data.nil?
 
@@ -48,15 +47,13 @@ class CollectionRecordEntityTest < Minitest::Test
       "collection_id" => setup[:idmap]["collection_id"],
     }
 
-    collection_record_ref01_resdata_up0_result, err = collection_record_ref01_ent.update(collection_record_ref01_data_up0_up, nil)
-    assert_nil err
+    collection_record_ref01_resdata_up0_result = collection_record_ref01_ent.update(collection_record_ref01_data_up0_up, nil)
     collection_record_ref01_resdata_up0 = Helpers.to_map(collection_record_ref01_resdata_up0_result)
     assert !collection_record_ref01_resdata_up0.nil?
 
     # LOAD
     collection_record_ref01_match_dt0 = {}
-    collection_record_ref01_data_dt0_loaded, err = collection_record_ref01_ent.load(collection_record_ref01_match_dt0, nil)
-    assert_nil err
+    collection_record_ref01_data_dt0_loaded = collection_record_ref01_ent.load(collection_record_ref01_match_dt0, nil)
     assert !collection_record_ref01_data_dt0_loaded.nil?
 
   end

@@ -52,8 +52,7 @@ class CollectionRecordListEntityTest extends TestCase
             "slug" => $setup["idmap"]["slug01"],
         ];
 
-        [$collection_record_list_ref01_list_result, $err] = $collection_record_list_ref01_ent->list($collection_record_list_ref01_match, null);
-        $this->assertNull($err);
+        $collection_record_list_ref01_list_result = $collection_record_list_ref01_ent->list($collection_record_list_ref01_match, null);
         $this->assertIsArray($collection_record_list_ref01_list_result);
 
     }

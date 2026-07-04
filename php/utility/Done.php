@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 class HostedRestDone
 {
-    public static function call(HostedRestContext $ctx): array
+    public static function call(HostedRestContext $ctx): mixed
     {
         if ($ctx->ctrl->explain) {
             $ctx->ctrl->explain = ($ctx->utility->clean)($ctx, $ctx->ctrl->explain);
@@ -19,7 +19,7 @@ class HostedRestDone
             if (is_object($resdata)) {
                 $resdata = (array)$resdata;
             }
-            return [$resdata, null];
+            return $resdata;
         }
         return ($ctx->utility->make_error)($ctx, null);
     }

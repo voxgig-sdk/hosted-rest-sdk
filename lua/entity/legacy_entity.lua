@@ -87,6 +87,10 @@ end
 
 
 
+---@param reqmatch LegacyRemoveMatch
+---@param ctrl? table
+---@return Legacy
+---@return string? err
 function LegacyEntity:remove(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

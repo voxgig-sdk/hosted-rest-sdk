@@ -1,7 +1,17 @@
 # HostedRest SDK AppUser entity
 
+from __future__ import annotations
+
 from utility.voxgig_struct import voxgig_struct as vs
 from core import helpers
+from hostedrest_types import (
+    AppUser,
+    AppUserLoadMatch,
+    AppUserListMatch,
+    AppUserCreateData,
+    AppUserUpdateData,
+    AppUserRemoveMatch,
+)
 
 
 class AppUserEntity:
@@ -44,7 +54,7 @@ class AppUserEntity:
             self._data = helpers.to_map(vs.clone(args)) or {}
             self._utility.feature_hook(self._entctx, "SetData")
 
-    def data_get(self):
+    def data_get(self) -> AppUser:
         self._utility.feature_hook(self._entctx, "GetData")
         return vs.clone(self._data)
 
@@ -53,12 +63,12 @@ class AppUserEntity:
             self._match = helpers.to_map(vs.clone(args)) or {}
             self._utility.feature_hook(self._entctx, "SetMatch")
 
-    def match_get(self):
+    def match_get(self) -> AppUser:
         self._utility.feature_hook(self._entctx, "GetMatch")
         return vs.clone(self._match)
 
     
-    def load(self, reqmatch, ctrl=None):
+    def load(self, reqmatch: AppUserLoadMatch, ctrl=None) -> AppUser:
         utility = self._utility
         ctx = utility.make_context({
             "opname": "load",
@@ -80,7 +90,7 @@ class AppUserEntity:
 
 
     
-    def list(self, reqmatch, ctrl=None):
+    def list(self, reqmatch: AppUserListMatch, ctrl=None) -> list[AppUser]:
         utility = self._utility
         ctx = utility.make_context({
             "opname": "list",
@@ -100,7 +110,7 @@ class AppUserEntity:
 
 
     
-    def create(self, reqdata, ctrl=None):
+    def create(self, reqdata: AppUserCreateData, ctrl=None) -> AppUser:
         utility = self._utility
         ctx = utility.make_context({
             "opname": "create",
@@ -120,7 +130,7 @@ class AppUserEntity:
 
 
     
-    def update(self, reqdata, ctrl=None):
+    def update(self, reqdata: AppUserUpdateData, ctrl=None) -> AppUser:
         utility = self._utility
         ctx = utility.make_context({
             "opname": "update",
@@ -142,7 +152,7 @@ class AppUserEntity:
 
 
     
-    def remove(self, reqmatch, ctrl=None):
+    def remove(self, reqmatch: AppUserRemoveMatch, ctrl=None) -> AppUser:
         utility = self._utility
         ctx = utility.make_context({
             "opname": "remove",

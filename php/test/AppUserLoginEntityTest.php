@@ -43,8 +43,7 @@ class AppUserLoginEntityTest extends TestCase
         $app_user_login_ref01_data = Helpers::to_map(Vs::getprop(
             Vs::getpath($setup["data"], "new.app_user_login"), "app_user_login_ref01"));
 
-        [$app_user_login_ref01_data_result, $err] = $app_user_login_ref01_ent->create($app_user_login_ref01_data, null);
-        $this->assertNull($err);
+        $app_user_login_ref01_data_result = $app_user_login_ref01_ent->create($app_user_login_ref01_data, null);
         $app_user_login_ref01_data = Helpers::to_map($app_user_login_ref01_data_result);
         $this->assertNotNull($app_user_login_ref01_data);
 

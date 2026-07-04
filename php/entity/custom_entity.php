@@ -55,6 +55,9 @@ class CustomEntity
         return new CustomEntity($this->_client, $opts);
     }
 
+    /**
+     * @param Custom|array $args Custom data (assoc-array) to store.
+     */
     public function data_set($args): void
     {
         if ($args) {
@@ -63,12 +66,18 @@ class CustomEntity
         }
     }
 
+    /**
+     * @return Custom|array The current Custom data as an assoc-array.
+     */
     public function data_get()
     {
         ($this->_utility->feature_hook)($this->_entctx, "GetData");
         return Struct::clone($this->_data);
     }
 
+    /**
+     * @param array $args Match filter (any subset of Custom fields).
+     */
     public function match_set($args): void
     {
         if ($args) {
@@ -77,6 +86,9 @@ class CustomEntity
         }
     }
 
+    /**
+     * @return array The current match filter (any subset of Custom fields).
+     */
     public function match_get()
     {
         ($this->_utility->feature_hook)($this->_entctx, "GetMatch");
@@ -84,7 +96,16 @@ class CustomEntity
     }
 
     
-    public function load($reqmatch, $ctrl = null): array
+    /**
+     * Load a single Custom.
+     *
+     * @param CustomLoadMatch|array|null $reqmatch Match criteria (id/query
+     *   fields) as an assoc-array; a typed CustomLoadMatch names the shape.
+     * @param mixed $ctrl Optional per-call control overrides.
+     * @return Custom|array The loaded Custom as an assoc-array at the
+     *   SDK boundary; throws HostedRestError on failure (item-5 convention).
+     */
+    public function load(?array $reqmatch = null, $ctrl = null): mixed
     {
         $utility = $this->_utility;
         $ctx = ($utility->make_context)([
@@ -112,7 +133,16 @@ class CustomEntity
     
 
     
-    public function create($reqdata, $ctrl = null): array
+    /**
+     * Create a new Custom.
+     *
+     * @param CustomCreateData|array|null $reqdata Body data as an assoc-array;
+     *   a typed CustomCreateData names the shape.
+     * @param mixed $ctrl Optional per-call control overrides.
+     * @return Custom|array The created Custom as an assoc-array at the
+     *   SDK boundary; throws HostedRestError on failure (item-5 convention).
+     */
+    public function create(?array $reqdata = null, $ctrl = null): mixed
     {
         $utility = $this->_utility;
         $ctx = ($utility->make_context)([
@@ -135,7 +165,16 @@ class CustomEntity
 
 
     
-    public function update($reqdata, $ctrl = null): array
+    /**
+     * Update an existing Custom.
+     *
+     * @param CustomUpdateData|array|null $reqdata Body data as an assoc-array;
+     *   a typed CustomUpdateData names the shape.
+     * @param mixed $ctrl Optional per-call control overrides.
+     * @return Custom|array The updated Custom as an assoc-array at the
+     *   SDK boundary; throws HostedRestError on failure (item-5 convention).
+     */
+    public function update(?array $reqdata = null, $ctrl = null): mixed
     {
         $utility = $this->_utility;
         $ctx = ($utility->make_context)([
@@ -161,7 +200,16 @@ class CustomEntity
 
 
     
-    public function remove($reqmatch, $ctrl = null): array
+    /**
+     * Remove an Custom matching the given criteria.
+     *
+     * @param CustomRemoveMatch|array|null $reqmatch Match criteria (id/query
+     *   fields) as an assoc-array; CustomRemoveMatch names the shape.
+     * @param mixed $ctrl Optional per-call control overrides.
+     * @return Custom|array The removed Custom as an assoc-array at the
+     *   SDK boundary; throws HostedRestError on failure (item-5 convention).
+     */
+    public function remove(?array $reqmatch = null, $ctrl = null): mixed
     {
         $utility = $this->_utility;
         $ctx = ($utility->make_context)([
@@ -186,7 +234,7 @@ class CustomEntity
 
 
 
-    private function _run_op($ctx, callable $post_done): array
+    private function _run_op($ctx, callable $post_done): mixed
     {
         $utility = $this->_utility;
 

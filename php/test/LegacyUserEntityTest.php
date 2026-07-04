@@ -49,8 +49,7 @@ class LegacyUserEntityTest extends TestCase
         // LOAD
         $legacy_user_ref01_ent = $client->LegacyUser(null);
         $legacy_user_ref01_match_dt0 = [];
-        [$legacy_user_ref01_data_dt0_loaded, $err] = $legacy_user_ref01_ent->load($legacy_user_ref01_match_dt0, null);
-        $this->assertNull($err);
+        $legacy_user_ref01_data_dt0_loaded = $legacy_user_ref01_ent->load($legacy_user_ref01_match_dt0, null);
         $this->assertNotNull($legacy_user_ref01_data_dt0_loaded);
 
     }

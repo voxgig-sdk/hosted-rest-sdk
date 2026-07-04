@@ -83,6 +83,10 @@ end
 
 
 
+---@param reqdata AppUserLoginCreateData
+---@param ctrl? table
+---@return AppUserLogin
+---@return string? err
 function AppUserLoginEntity:create(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

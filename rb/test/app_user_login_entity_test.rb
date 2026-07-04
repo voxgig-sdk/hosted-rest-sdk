@@ -36,8 +36,7 @@ class AppUserLoginEntityTest < Minitest::Test
     app_user_login_ref01_data = Helpers.to_map(Vs.getprop(
       Vs.getpath(setup[:data], "new.app_user_login"), "app_user_login_ref01"))
 
-    app_user_login_ref01_data_result, err = app_user_login_ref01_ent.create(app_user_login_ref01_data, nil)
-    assert_nil err
+    app_user_login_ref01_data_result = app_user_login_ref01_ent.create(app_user_login_ref01_data, nil)
     app_user_login_ref01_data = Helpers.to_map(app_user_login_ref01_data_result)
     assert !app_user_login_ref01_data.nil?
 

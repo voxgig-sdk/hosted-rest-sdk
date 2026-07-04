@@ -79,6 +79,10 @@ end
 
 
 
+---@param reqmatch LegacyUnknownLoadMatch
+---@param ctrl? table
+---@return LegacyUnknown
+---@return string? err
 function LegacyUnknownEntity:load(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

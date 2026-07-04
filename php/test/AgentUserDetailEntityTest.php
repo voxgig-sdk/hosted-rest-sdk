@@ -49,8 +49,7 @@ class AgentUserDetailEntityTest extends TestCase
         // LOAD
         $agent_user_detail_ref01_ent = $client->AgentUserDetail(null);
         $agent_user_detail_ref01_match_dt0 = [];
-        [$agent_user_detail_ref01_data_dt0_loaded, $err] = $agent_user_detail_ref01_ent->load($agent_user_detail_ref01_match_dt0, null);
-        $this->assertNull($err);
+        $agent_user_detail_ref01_data_dt0_loaded = $agent_user_detail_ref01_ent->load($agent_user_detail_ref01_match_dt0, null);
         $this->assertNotNull($agent_user_detail_ref01_data_dt0_loaded);
 
     }

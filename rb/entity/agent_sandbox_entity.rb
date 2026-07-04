@@ -45,6 +45,7 @@ class AgentSandboxEntity
     end
   end
 
+  # @return [AgentSandbox, Hash] the current AgentSandbox data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,12 +58,18 @@ class AgentSandboxEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of AgentSandbox fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
   end
 
   
+  # Load a single AgentSandbox.
+  #
+  # @param reqmatch [AgentSandboxLoadMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [AgentSandbox, Hash] the loaded AgentSandbox; raises HostedRestError on failure
   def load(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -88,6 +95,11 @@ class AgentSandboxEntity
   
 
   
+  # Create a new AgentSandbox.
+  #
+  # @param reqdata [AgentSandboxCreateData, Hash, nil] body data
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [AgentSandbox, Hash] the created AgentSandbox; raises HostedRestError on failure
   def create(reqdata, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({

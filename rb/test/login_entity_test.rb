@@ -36,8 +36,7 @@ class LoginEntityTest < Minitest::Test
     login_ref01_data = Helpers.to_map(Vs.getprop(
       Vs.getpath(setup[:data], "new.login"), "login_ref01"))
 
-    login_ref01_data_result, err = login_ref01_ent.create(login_ref01_data, nil)
-    assert_nil err
+    login_ref01_data_result = login_ref01_ent.create(login_ref01_data, nil)
     login_ref01_data = Helpers.to_map(login_ref01_data_result)
     assert !login_ref01_data.nil?
 

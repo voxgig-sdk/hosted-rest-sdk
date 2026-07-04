@@ -50,8 +50,7 @@ class LegacyUnknownListEntityTest extends TestCase
         $legacy_unknown_list_ref01_ent = $client->LegacyUnknownList(null);
         $legacy_unknown_list_ref01_match = [];
 
-        [$legacy_unknown_list_ref01_list_result, $err] = $legacy_unknown_list_ref01_ent->list($legacy_unknown_list_ref01_match, null);
-        $this->assertNull($err);
+        $legacy_unknown_list_ref01_list_result = $legacy_unknown_list_ref01_ent->list($legacy_unknown_list_ref01_match, null);
         $this->assertIsArray($legacy_unknown_list_ref01_list_result);
 
     }

@@ -44,15 +44,12 @@ class TestAgentSandboxEntity:
         agent_sandbox_ref01_data = helpers.to_map(vs.getprop(
             vs.getpath(setup["data"], "new.agent_sandbox"), "agent_sandbox_ref01"))
 
-        agent_sandbox_ref01_data_result, err = agent_sandbox_ref01_ent.create(agent_sandbox_ref01_data, None)
-        assert err is None
-        agent_sandbox_ref01_data = helpers.to_map(agent_sandbox_ref01_data_result)
+        agent_sandbox_ref01_data = helpers.to_map(agent_sandbox_ref01_ent.create(agent_sandbox_ref01_data, None))
         assert agent_sandbox_ref01_data is not None
 
         # LOAD
         agent_sandbox_ref01_match_dt0 = {}
-        agent_sandbox_ref01_data_dt0_loaded, err = agent_sandbox_ref01_ent.load(agent_sandbox_ref01_match_dt0, None)
-        assert err is None
+        agent_sandbox_ref01_data_dt0_loaded = agent_sandbox_ref01_ent.load(agent_sandbox_ref01_match_dt0, None)
         assert agent_sandbox_ref01_data_dt0_loaded is not None
 
 

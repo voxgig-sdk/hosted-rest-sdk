@@ -49,8 +49,7 @@ class TestAppUserSessionEntity:
         # LOAD
         app_user_session_ref01_ent = client.AppUserSession(None)
         app_user_session_ref01_match_dt0 = {}
-        app_user_session_ref01_data_dt0_loaded, err = app_user_session_ref01_ent.load(app_user_session_ref01_match_dt0, None)
-        assert err is None
+        app_user_session_ref01_data_dt0_loaded = app_user_session_ref01_ent.load(app_user_session_ref01_match_dt0, None)
         assert app_user_session_ref01_data_dt0_loaded is not None
 
 

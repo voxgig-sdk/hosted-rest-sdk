@@ -1,7 +1,16 @@
 # HostedRest SDK Custom entity
 
+from __future__ import annotations
+
 from utility.voxgig_struct import voxgig_struct as vs
 from core import helpers
+from hostedrest_types import (
+    Custom,
+    CustomLoadMatch,
+    CustomCreateData,
+    CustomUpdateData,
+    CustomRemoveMatch,
+)
 
 
 class CustomEntity:
@@ -44,7 +53,7 @@ class CustomEntity:
             self._data = helpers.to_map(vs.clone(args)) or {}
             self._utility.feature_hook(self._entctx, "SetData")
 
-    def data_get(self):
+    def data_get(self) -> Custom:
         self._utility.feature_hook(self._entctx, "GetData")
         return vs.clone(self._data)
 
@@ -53,12 +62,12 @@ class CustomEntity:
             self._match = helpers.to_map(vs.clone(args)) or {}
             self._utility.feature_hook(self._entctx, "SetMatch")
 
-    def match_get(self):
+    def match_get(self) -> Custom:
         self._utility.feature_hook(self._entctx, "GetMatch")
         return vs.clone(self._match)
 
     
-    def load(self, reqmatch, ctrl=None):
+    def load(self, reqmatch: CustomLoadMatch, ctrl=None) -> Custom:
         utility = self._utility
         ctx = utility.make_context({
             "opname": "load",
@@ -82,7 +91,7 @@ class CustomEntity:
     
 
     
-    def create(self, reqdata, ctrl=None):
+    def create(self, reqdata: CustomCreateData, ctrl=None) -> Custom:
         utility = self._utility
         ctx = utility.make_context({
             "opname": "create",
@@ -102,7 +111,7 @@ class CustomEntity:
 
 
     
-    def update(self, reqdata, ctrl=None):
+    def update(self, reqdata: CustomUpdateData, ctrl=None) -> Custom:
         utility = self._utility
         ctx = utility.make_context({
             "opname": "update",
@@ -124,7 +133,7 @@ class CustomEntity:
 
 
     
-    def remove(self, reqmatch, ctrl=None):
+    def remove(self, reqmatch: CustomRemoveMatch, ctrl=None) -> Custom:
         utility = self._utility
         ctx = utility.make_context({
             "opname": "remove",

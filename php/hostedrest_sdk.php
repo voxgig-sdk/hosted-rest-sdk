@@ -103,7 +103,7 @@ class HostedRestSDK
         return $this->_rootctx;
     }
 
-    public function prepare(array $fetchargs = []): array
+    public function prepare(array $fetchargs = []): mixed
     {
         $utility = $this->_utility;
         $fetchargs = $fetchargs ?? [];
@@ -149,19 +149,27 @@ class HostedRestSDK
 
         [$_, $err] = ($utility->prepare_auth)($ctx);
         if ($err) {
-            return [null, $err];
+            return ($utility->make_error)($ctx, $err);
         }
 
-        return ($utility->make_fetch_def)($ctx);
+        [$fetchdef, $fd_err] = ($utility->make_fetch_def)($ctx);
+        if ($fd_err) {
+            return ($utility->make_error)($ctx, $fd_err);
+        }
+        return $fetchdef;
     }
 
-    public function direct(array $fetchargs = []): array
+    public function direct(array $fetchargs = []): mixed
     {
         $utility = $this->_utility;
 
-        [$fetchdef, $err] = $this->prepare($fetchargs);
-        if ($err) {
-            return [["ok" => false, "err" => $err], null];
+        // direct() is the raw-HTTP escape hatch: it never throws, it returns
+        // an {ok, err, ...} dict. prepare() now raises on error, so catch it
+        // and surface the failure through the dict instead.
+        try {
+            $fetchdef = $this->prepare($fetchargs);
+        } catch (\Throwable $err) {
+            return ["ok" => false, "err" => $err];
         }
 
         $fetchargs = $fetchargs ?? [];
@@ -176,14 +184,14 @@ class HostedRestSDK
         [$fetched, $fetch_err] = ($utility->fetcher)($ctx, $url, $fetchdef);
 
         if ($fetch_err) {
-            return [["ok" => false, "err" => $fetch_err], null];
+            return ["ok" => false, "err" => $fetch_err];
         }
 
         if ($fetched === null) {
-            return [[
+            return [
                 "ok" => false,
                 "err" => $ctx->make_error("direct_no_response", "response: undefined"),
-            ], null];
+            ];
         }
 
         if (is_array($fetched)) {
@@ -208,171 +216,413 @@ class HostedRestSDK
                 }
             }
 
-            return [[
+            return [
                 "ok" => $status >= 200 && $status < 300,
                 "status" => $status,
                 "headers" => Struct::getprop($fetched, "headers"),
                 "data" => $json_data,
-            ], null];
+            ];
         }
 
-        return [[
+        return [
             "ok" => false,
             "err" => $ctx->make_error("direct_invalid", "invalid response type"),
-        ], null];
+        ];
     }
 
 
-    public function AgentHealth($data = null)
+    private $_agent_health = null;
+
+    // Idiomatic facade: $client->agent_health()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias AgentHealth() (PHP method
+    // names are case-insensitive).
+    public function agent_health($data = null)
     {
         require_once __DIR__ . '/entity/agent_health_entity.php';
+        if ($data === null) {
+            if ($this->_agent_health === null) {
+                $this->_agent_health = new AgentHealthEntity($this, null);
+            }
+            return $this->_agent_health;
+        }
         return new AgentHealthEntity($this, $data);
     }
 
 
-    public function AgentSandbox($data = null)
+    private $_agent_sandbox = null;
+
+    // Idiomatic facade: $client->agent_sandbox()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias AgentSandbox() (PHP method
+    // names are case-insensitive).
+    public function agent_sandbox($data = null)
     {
         require_once __DIR__ . '/entity/agent_sandbox_entity.php';
+        if ($data === null) {
+            if ($this->_agent_sandbox === null) {
+                $this->_agent_sandbox = new AgentSandboxEntity($this, null);
+            }
+            return $this->_agent_sandbox;
+        }
         return new AgentSandboxEntity($this, $data);
     }
 
 
-    public function AgentUserDetail($data = null)
+    private $_agent_user_detail = null;
+
+    // Idiomatic facade: $client->agent_user_detail()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias AgentUserDetail() (PHP method
+    // names are case-insensitive).
+    public function agent_user_detail($data = null)
     {
         require_once __DIR__ . '/entity/agent_user_detail_entity.php';
+        if ($data === null) {
+            if ($this->_agent_user_detail === null) {
+                $this->_agent_user_detail = new AgentUserDetailEntity($this, null);
+            }
+            return $this->_agent_user_detail;
+        }
         return new AgentUserDetailEntity($this, $data);
     }
 
 
-    public function AgentUserList($data = null)
+    private $_agent_user_list = null;
+
+    // Idiomatic facade: $client->agent_user_list()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias AgentUserList() (PHP method
+    // names are case-insensitive).
+    public function agent_user_list($data = null)
     {
         require_once __DIR__ . '/entity/agent_user_list_entity.php';
+        if ($data === null) {
+            if ($this->_agent_user_list === null) {
+                $this->_agent_user_list = new AgentUserListEntity($this, null);
+            }
+            return $this->_agent_user_list;
+        }
         return new AgentUserListEntity($this, $data);
     }
 
 
-    public function AppUser($data = null)
+    private $_app_user = null;
+
+    // Idiomatic facade: $client->app_user()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias AppUser() (PHP method
+    // names are case-insensitive).
+    public function app_user($data = null)
     {
         require_once __DIR__ . '/entity/app_user_entity.php';
+        if ($data === null) {
+            if ($this->_app_user === null) {
+                $this->_app_user = new AppUserEntity($this, null);
+            }
+            return $this->_app_user;
+        }
         return new AppUserEntity($this, $data);
     }
 
 
-    public function AppUserLogin($data = null)
+    private $_app_user_login = null;
+
+    // Idiomatic facade: $client->app_user_login()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias AppUserLogin() (PHP method
+    // names are case-insensitive).
+    public function app_user_login($data = null)
     {
         require_once __DIR__ . '/entity/app_user_login_entity.php';
+        if ($data === null) {
+            if ($this->_app_user_login === null) {
+                $this->_app_user_login = new AppUserLoginEntity($this, null);
+            }
+            return $this->_app_user_login;
+        }
         return new AppUserLoginEntity($this, $data);
     }
 
 
-    public function AppUserSession($data = null)
+    private $_app_user_session = null;
+
+    // Idiomatic facade: $client->app_user_session()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias AppUserSession() (PHP method
+    // names are case-insensitive).
+    public function app_user_session($data = null)
     {
         require_once __DIR__ . '/entity/app_user_session_entity.php';
+        if ($data === null) {
+            if ($this->_app_user_session === null) {
+                $this->_app_user_session = new AppUserSessionEntity($this, null);
+            }
+            return $this->_app_user_session;
+        }
         return new AppUserSessionEntity($this, $data);
     }
 
 
-    public function AppUserTotal($data = null)
+    private $_app_user_total = null;
+
+    // Idiomatic facade: $client->app_user_total()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias AppUserTotal() (PHP method
+    // names are case-insensitive).
+    public function app_user_total($data = null)
     {
         require_once __DIR__ . '/entity/app_user_total_entity.php';
+        if ($data === null) {
+            if ($this->_app_user_total === null) {
+                $this->_app_user_total = new AppUserTotalEntity($this, null);
+            }
+            return $this->_app_user_total;
+        }
         return new AppUserTotalEntity($this, $data);
     }
 
 
-    public function AppUserVerify($data = null)
+    private $_app_user_verify = null;
+
+    // Idiomatic facade: $client->app_user_verify()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias AppUserVerify() (PHP method
+    // names are case-insensitive).
+    public function app_user_verify($data = null)
     {
         require_once __DIR__ . '/entity/app_user_verify_entity.php';
+        if ($data === null) {
+            if ($this->_app_user_verify === null) {
+                $this->_app_user_verify = new AppUserVerifyEntity($this, null);
+            }
+            return $this->_app_user_verify;
+        }
         return new AppUserVerifyEntity($this, $data);
     }
 
 
-    public function Authentication($data = null)
+    private $_authentication = null;
+
+    // Idiomatic facade: $client->authentication()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias Authentication() (PHP method
+    // names are case-insensitive).
+    public function authentication($data = null)
     {
         require_once __DIR__ . '/entity/authentication_entity.php';
+        if ($data === null) {
+            if ($this->_authentication === null) {
+                $this->_authentication = new AuthenticationEntity($this, null);
+            }
+            return $this->_authentication;
+        }
         return new AuthenticationEntity($this, $data);
     }
 
 
-    public function Collection($data = null)
+    private $_collection = null;
+
+    // Idiomatic facade: $client->collection()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias Collection() (PHP method
+    // names are case-insensitive).
+    public function collection($data = null)
     {
         require_once __DIR__ . '/entity/collection_entity.php';
+        if ($data === null) {
+            if ($this->_collection === null) {
+                $this->_collection = new CollectionEntity($this, null);
+            }
+            return $this->_collection;
+        }
         return new CollectionEntity($this, $data);
     }
 
 
-    public function CollectionRecord($data = null)
+    private $_collection_record = null;
+
+    // Idiomatic facade: $client->collection_record()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias CollectionRecord() (PHP method
+    // names are case-insensitive).
+    public function collection_record($data = null)
     {
         require_once __DIR__ . '/entity/collection_record_entity.php';
+        if ($data === null) {
+            if ($this->_collection_record === null) {
+                $this->_collection_record = new CollectionRecordEntity($this, null);
+            }
+            return $this->_collection_record;
+        }
         return new CollectionRecordEntity($this, $data);
     }
 
 
-    public function CollectionRecordList($data = null)
+    private $_collection_record_list = null;
+
+    // Idiomatic facade: $client->collection_record_list()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias CollectionRecordList() (PHP method
+    // names are case-insensitive).
+    public function collection_record_list($data = null)
     {
         require_once __DIR__ . '/entity/collection_record_list_entity.php';
+        if ($data === null) {
+            if ($this->_collection_record_list === null) {
+                $this->_collection_record_list = new CollectionRecordListEntity($this, null);
+            }
+            return $this->_collection_record_list;
+        }
         return new CollectionRecordListEntity($this, $data);
     }
 
 
-    public function Custom($data = null)
+    private $_custom = null;
+
+    // Idiomatic facade: $client->custom()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias Custom() (PHP method
+    // names are case-insensitive).
+    public function custom($data = null)
     {
         require_once __DIR__ . '/entity/custom_entity.php';
+        if ($data === null) {
+            if ($this->_custom === null) {
+                $this->_custom = new CustomEntity($this, null);
+            }
+            return $this->_custom;
+        }
         return new CustomEntity($this, $data);
     }
 
 
-    public function Legacy($data = null)
+    private $_legacy = null;
+
+    // Idiomatic facade: $client->legacy()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias Legacy() (PHP method
+    // names are case-insensitive).
+    public function legacy($data = null)
     {
         require_once __DIR__ . '/entity/legacy_entity.php';
+        if ($data === null) {
+            if ($this->_legacy === null) {
+                $this->_legacy = new LegacyEntity($this, null);
+            }
+            return $this->_legacy;
+        }
         return new LegacyEntity($this, $data);
     }
 
 
-    public function LegacyMutation($data = null)
+    private $_legacy_mutation = null;
+
+    // Idiomatic facade: $client->legacy_mutation()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias LegacyMutation() (PHP method
+    // names are case-insensitive).
+    public function legacy_mutation($data = null)
     {
         require_once __DIR__ . '/entity/legacy_mutation_entity.php';
+        if ($data === null) {
+            if ($this->_legacy_mutation === null) {
+                $this->_legacy_mutation = new LegacyMutationEntity($this, null);
+            }
+            return $this->_legacy_mutation;
+        }
         return new LegacyMutationEntity($this, $data);
     }
 
 
-    public function LegacyUnknown($data = null)
+    private $_legacy_unknown = null;
+
+    // Idiomatic facade: $client->legacy_unknown()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias LegacyUnknown() (PHP method
+    // names are case-insensitive).
+    public function legacy_unknown($data = null)
     {
         require_once __DIR__ . '/entity/legacy_unknown_entity.php';
+        if ($data === null) {
+            if ($this->_legacy_unknown === null) {
+                $this->_legacy_unknown = new LegacyUnknownEntity($this, null);
+            }
+            return $this->_legacy_unknown;
+        }
         return new LegacyUnknownEntity($this, $data);
     }
 
 
-    public function LegacyUnknownList($data = null)
+    private $_legacy_unknown_list = null;
+
+    // Idiomatic facade: $client->legacy_unknown_list()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias LegacyUnknownList() (PHP method
+    // names are case-insensitive).
+    public function legacy_unknown_list($data = null)
     {
         require_once __DIR__ . '/entity/legacy_unknown_list_entity.php';
+        if ($data === null) {
+            if ($this->_legacy_unknown_list === null) {
+                $this->_legacy_unknown_list = new LegacyUnknownListEntity($this, null);
+            }
+            return $this->_legacy_unknown_list;
+        }
         return new LegacyUnknownListEntity($this, $data);
     }
 
 
-    public function LegacyUser($data = null)
+    private $_legacy_user = null;
+
+    // Idiomatic facade: $client->legacy_user()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias LegacyUser() (PHP method
+    // names are case-insensitive).
+    public function legacy_user($data = null)
     {
         require_once __DIR__ . '/entity/legacy_user_entity.php';
+        if ($data === null) {
+            if ($this->_legacy_user === null) {
+                $this->_legacy_user = new LegacyUserEntity($this, null);
+            }
+            return $this->_legacy_user;
+        }
         return new LegacyUserEntity($this, $data);
     }
 
 
-    public function LegacyUserList($data = null)
+    private $_legacy_user_list = null;
+
+    // Idiomatic facade: $client->legacy_user_list()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias LegacyUserList() (PHP method
+    // names are case-insensitive).
+    public function legacy_user_list($data = null)
     {
         require_once __DIR__ . '/entity/legacy_user_list_entity.php';
+        if ($data === null) {
+            if ($this->_legacy_user_list === null) {
+                $this->_legacy_user_list = new LegacyUserListEntity($this, null);
+            }
+            return $this->_legacy_user_list;
+        }
         return new LegacyUserListEntity($this, $data);
     }
 
 
-    public function Login($data = null)
+    private $_login = null;
+
+    // Idiomatic facade: $client->login()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias Login() (PHP method
+    // names are case-insensitive).
+    public function login($data = null)
     {
         require_once __DIR__ . '/entity/login_entity.php';
+        if ($data === null) {
+            if ($this->_login === null) {
+                $this->_login = new LoginEntity($this, null);
+            }
+            return $this->_login;
+        }
         return new LoginEntity($this, $data);
     }
 
 
-    public function Register($data = null)
+    private $_register = null;
+
+    // Idiomatic facade: $client->register()->list() / ->load(["id" => ...]).
+    // Also serves the deprecated PascalCase alias Register() (PHP method
+    // names are case-insensitive).
+    public function register($data = null)
     {
         require_once __DIR__ . '/entity/register_entity.php';
+        if ($data === null) {
+            if ($this->_register === null) {
+                $this->_register = new RegisterEntity($this, null);
+            }
+            return $this->_register;
+        }
         return new RegisterEntity($this, $data);
     }
 

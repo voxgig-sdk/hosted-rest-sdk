@@ -51,8 +51,7 @@ class TestLegacyEntity:
         legacy_ref01_match_rm0 = {
             "id": legacy_ref01_data["id"],
         }
-        _, err = legacy_ref01_ent.remove(legacy_ref01_match_rm0, None)
-        assert err is None
+        legacy_ref01_ent.remove(legacy_ref01_match_rm0, None)
 
 
 

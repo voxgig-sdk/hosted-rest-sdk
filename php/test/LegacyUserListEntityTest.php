@@ -50,8 +50,7 @@ class LegacyUserListEntityTest extends TestCase
         $legacy_user_list_ref01_ent = $client->LegacyUserList(null);
         $legacy_user_list_ref01_match = [];
 
-        [$legacy_user_list_ref01_list_result, $err] = $legacy_user_list_ref01_ent->list($legacy_user_list_ref01_match, null);
-        $this->assertNull($err);
+        $legacy_user_list_ref01_list_result = $legacy_user_list_ref01_ent->list($legacy_user_list_ref01_match, null);
         $this->assertIsArray($legacy_user_list_ref01_list_result);
 
     }

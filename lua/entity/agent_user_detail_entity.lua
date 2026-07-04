@@ -79,6 +79,10 @@ end
 
 
 
+---@param reqmatch AgentUserDetailLoadMatch
+---@param ctrl? table
+---@return AgentUserDetail
+---@return string? err
 function AgentUserDetailEntity:load(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

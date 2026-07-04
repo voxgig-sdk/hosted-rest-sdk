@@ -49,8 +49,7 @@ class TestAgentUserDetailEntity:
         # LOAD
         agent_user_detail_ref01_ent = client.AgentUserDetail(None)
         agent_user_detail_ref01_match_dt0 = {}
-        agent_user_detail_ref01_data_dt0_loaded, err = agent_user_detail_ref01_ent.load(agent_user_detail_ref01_match_dt0, None)
-        assert err is None
+        agent_user_detail_ref01_data_dt0_loaded = agent_user_detail_ref01_ent.load(agent_user_detail_ref01_match_dt0, None)
         assert agent_user_detail_ref01_data_dt0_loaded is not None
 
 

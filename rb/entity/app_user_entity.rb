@@ -45,6 +45,7 @@ class AppUserEntity
     end
   end
 
+  # @return [AppUser, Hash] the current AppUser data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,12 +58,18 @@ class AppUserEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of AppUser fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
   end
 
   
+  # Load a single AppUser.
+  #
+  # @param reqmatch [AppUserLoadMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [AppUser, Hash] the loaded AppUser; raises HostedRestError on failure
   def load(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -86,6 +93,11 @@ class AppUserEntity
 
 
   
+  # List AppUser items matching the given filter.
+  #
+  # @param reqmatch [AppUserListMatch, Hash, nil] match filter (any subset of AppUser fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Array<AppUser>, Array] the matching AppUser items; raises HostedRestError on failure
   def list(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -106,6 +118,11 @@ class AppUserEntity
 
 
   
+  # Create a new AppUser.
+  #
+  # @param reqdata [AppUserCreateData, Hash, nil] body data
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [AppUser, Hash] the created AppUser; raises HostedRestError on failure
   def create(reqdata, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -128,6 +145,11 @@ class AppUserEntity
 
 
   
+  # Update an existing AppUser.
+  #
+  # @param reqdata [AppUserUpdateData, Hash, nil] body data
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [AppUser, Hash] the updated AppUser; raises HostedRestError on failure
   def update(reqdata, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -151,6 +173,11 @@ class AppUserEntity
 
 
   
+  # Remove an AppUser matching the given criteria.
+  #
+  # @param reqmatch [AppUserRemoveMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [AppUser, Hash] the removed AppUser; raises HostedRestError on failure
   def remove(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({

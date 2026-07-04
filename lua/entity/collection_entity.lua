@@ -79,6 +79,10 @@ end
 
 
 
+---@param reqmatch CollectionLoadMatch
+---@param ctrl? table
+---@return Collection
+---@return string? err
 function CollectionEntity:load(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -104,6 +108,10 @@ end
 
 
 
+---@param reqmatch CollectionListMatch
+---@param ctrl? table
+---@return Collection[]
+---@return string? err
 function CollectionEntity:list(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -126,6 +134,10 @@ end
 
 
 
+---@param reqdata CollectionCreateData
+---@param ctrl? table
+---@return Collection
+---@return string? err
 function CollectionEntity:create(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -148,6 +160,10 @@ end
 
 
 
+---@param reqdata CollectionUpdateData
+---@param ctrl? table
+---@return Collection
+---@return string? err
 function CollectionEntity:update(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -173,6 +189,10 @@ end
 
 
 
+---@param reqmatch CollectionRemoveMatch
+---@param ctrl? table
+---@return Collection
+---@return string? err
 function CollectionEntity:remove(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

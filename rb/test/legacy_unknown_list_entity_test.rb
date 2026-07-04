@@ -43,8 +43,7 @@ class LegacyUnknownListEntityTest < Minitest::Test
     legacy_unknown_list_ref01_ent = client.LegacyUnknownList(nil)
     legacy_unknown_list_ref01_match = {}
 
-    legacy_unknown_list_ref01_list_result, err = legacy_unknown_list_ref01_ent.list(legacy_unknown_list_ref01_match, nil)
-    assert_nil err
+    legacy_unknown_list_ref01_list_result = legacy_unknown_list_ref01_ent.list(legacy_unknown_list_ref01_match, nil)
     assert legacy_unknown_list_ref01_list_result.is_a?(Array)
 
   end

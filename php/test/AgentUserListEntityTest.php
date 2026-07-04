@@ -50,8 +50,7 @@ class AgentUserListEntityTest extends TestCase
         $agent_user_list_ref01_ent = $client->AgentUserList(null);
         $agent_user_list_ref01_match = [];
 
-        [$agent_user_list_ref01_list_result, $err] = $agent_user_list_ref01_ent->list($agent_user_list_ref01_match, null);
-        $this->assertNull($err);
+        $agent_user_list_ref01_list_result = $agent_user_list_ref01_ent->list($agent_user_list_ref01_match, null);
         $this->assertIsArray($agent_user_list_ref01_list_result);
 
     }

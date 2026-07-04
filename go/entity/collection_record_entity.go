@@ -85,6 +85,27 @@ func (e *CollectionRecordEntity) Match(args ...any) any {
 	return out
 }
 
+// DataTyped is the statically-typed accessor for this entity's data. With no
+// argument it returns the current data as an CollectionRecord; with an argument it
+// sets the data and returns the stored value. It delegates to the untyped Data
+// (identical runtime) and converts at the typed boundary.
+func (e *CollectionRecordEntity) DataTyped(data ...CollectionRecord) CollectionRecord {
+	if len(data) > 0 {
+		return typedFrom[CollectionRecord](e.Data(asMap(data[0])))
+	}
+	return typedFrom[CollectionRecord](e.Data())
+}
+
+// MatchTyped mirrors DataTyped for the entity's match filter. The match is a
+// partial of the entity, so it round-trips through CollectionRecord (all fields
+// optional at the wire level).
+func (e *CollectionRecordEntity) MatchTyped(match ...CollectionRecord) CollectionRecord {
+	if len(match) > 0 {
+		return typedFrom[CollectionRecord](e.Match(asMap(match[0])))
+	}
+	return typedFrom[CollectionRecord](e.Match())
+}
+
 
 func (e *CollectionRecordEntity) Load(reqmatch map[string]any, ctrl map[string]any) (any, error) {
 	utility := e.utility
@@ -109,6 +130,17 @@ func (e *CollectionRecordEntity) Load(reqmatch map[string]any, ctrl map[string]a
 			}
 		}
 	})
+}
+
+// LoadTyped is the statically-typed variant of Load: it takes an
+// CollectionRecordLoadMatch and returns an CollectionRecord. It delegates to the untyped
+// Load (identical runtime) and converts at the typed boundary.
+func (e *CollectionRecordEntity) LoadTyped(reqmatch CollectionRecordLoadMatch, ctrl map[string]any) (CollectionRecord, error) {
+	res, err := e.Load(asMap(reqmatch), ctrl)
+	if err != nil {
+		return CollectionRecord{}, err
+	}
+	return typedFrom[CollectionRecord](res), nil
 }
 
 
@@ -141,6 +173,17 @@ func (e *CollectionRecordEntity) Create(reqdata map[string]any, ctrl map[string]
 	})
 }
 
+// CreateTyped is the statically-typed variant of Create: it takes an
+// CollectionRecordCreateData and returns an CollectionRecord. It delegates to the untyped
+// Create (identical runtime) and converts at the typed boundary.
+func (e *CollectionRecordEntity) CreateTyped(reqdata CollectionRecordCreateData, ctrl map[string]any) (CollectionRecord, error) {
+	res, err := e.Create(asMap(reqdata), ctrl)
+	if err != nil {
+		return CollectionRecord{}, err
+	}
+	return typedFrom[CollectionRecord](res), nil
+}
+
 
 
 
@@ -167,6 +210,17 @@ func (e *CollectionRecordEntity) Update(reqdata map[string]any, ctrl map[string]
 			}
 		}
 	})
+}
+
+// UpdateTyped is the statically-typed variant of Update: it takes an
+// CollectionRecordUpdateData and returns an CollectionRecord. It delegates to the untyped
+// Update (identical runtime) and converts at the typed boundary.
+func (e *CollectionRecordEntity) UpdateTyped(reqdata CollectionRecordUpdateData, ctrl map[string]any) (CollectionRecord, error) {
+	res, err := e.Update(asMap(reqdata), ctrl)
+	if err != nil {
+		return CollectionRecord{}, err
+	}
+	return typedFrom[CollectionRecord](res), nil
 }
 
 

@@ -14,9 +14,13 @@ import type {
   Control,
 } from '../types'
 
+import type {
+  AppUserSession,
+  AppUserSessionLoadMatch,
+} from '../HostedRestTypes'
 
 // TODO: needs Entity superclass
-class AppUserSessionEntity extends HostedRestEntityBase {
+class AppUserSessionEntity extends HostedRestEntityBase<AppUserSession> {
 
   constructor(client: HostedRestSDK, entopts: any) {
     super(client, entopts)
@@ -32,7 +36,7 @@ class AppUserSessionEntity extends HostedRestEntityBase {
 
 
 
-  async load(this: any, reqmatch?: any, ctrl?: Control) {
+  async load(this: any, reqmatch?: AppUserSessionLoadMatch, ctrl?: Control): Promise<AppUserSession> {
 
     const utility = this._utility
 
@@ -136,7 +140,9 @@ class AppUserSessionEntity extends HostedRestEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<AppUserSession> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }

@@ -79,6 +79,10 @@ end
 
 
 
+---@param reqmatch CollectionRecordLoadMatch
+---@param ctrl? table
+---@return CollectionRecord
+---@return string? err
 function CollectionRecordEntity:load(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -106,6 +110,10 @@ end
 
 
 
+---@param reqdata CollectionRecordCreateData
+---@param ctrl? table
+---@return CollectionRecord
+---@return string? err
 function CollectionRecordEntity:create(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -128,6 +136,10 @@ end
 
 
 
+---@param reqdata CollectionRecordUpdateData
+---@param ctrl? table
+---@return CollectionRecord
+---@return string? err
 function CollectionRecordEntity:update(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

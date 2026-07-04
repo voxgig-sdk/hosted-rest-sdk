@@ -14,9 +14,14 @@ import type {
   Control,
 } from '../types'
 
+import type {
+  LegacyMutation,
+  LegacyMutationCreateData,
+  LegacyMutationUpdateData,
+} from '../HostedRestTypes'
 
 // TODO: needs Entity superclass
-class LegacyMutationEntity extends HostedRestEntityBase {
+class LegacyMutationEntity extends HostedRestEntityBase<LegacyMutation> {
 
   constructor(client: HostedRestSDK, entopts: any) {
     super(client, entopts)
@@ -34,7 +39,7 @@ class LegacyMutationEntity extends HostedRestEntityBase {
 
 
 
-  async create(this: any, reqdata?: any, ctrl?: Control) {
+  async create(this: any, reqdata?: LegacyMutationCreateData, ctrl?: Control): Promise<LegacyMutation> {
 
     const utility = this._utility
     const {
@@ -133,14 +138,16 @@ class LegacyMutationEntity extends HostedRestEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<LegacyMutation> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }
 
 
 
-  async update(this: any, reqdata?: any, ctrl?: Control) {
+  async update(this: any, reqdata?: LegacyMutationUpdateData, ctrl?: Control): Promise<LegacyMutation> {
 
     const utility = this._utility
 
@@ -245,7 +252,9 @@ class LegacyMutationEntity extends HostedRestEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<LegacyMutation> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }

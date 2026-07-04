@@ -42,8 +42,7 @@ class AgentHealthEntityTest < Minitest::Test
     # LOAD
     agent_health_ref01_ent = client.AgentHealth(nil)
     agent_health_ref01_match_dt0 = {}
-    agent_health_ref01_data_dt0_loaded, err = agent_health_ref01_ent.load(agent_health_ref01_match_dt0, nil)
-    assert_nil err
+    agent_health_ref01_data_dt0_loaded = agent_health_ref01_ent.load(agent_health_ref01_match_dt0, nil)
     assert !agent_health_ref01_data_dt0_loaded.nil?
 
   end

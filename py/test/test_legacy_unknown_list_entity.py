@@ -50,8 +50,7 @@ class TestLegacyUnknownListEntity:
         legacy_unknown_list_ref01_ent = client.LegacyUnknownList(None)
         legacy_unknown_list_ref01_match = {}
 
-        legacy_unknown_list_ref01_list_result, err = legacy_unknown_list_ref01_ent.list(legacy_unknown_list_ref01_match, None)
-        assert err is None
+        legacy_unknown_list_ref01_list_result = legacy_unknown_list_ref01_ent.list(legacy_unknown_list_ref01_match, None)
         assert isinstance(legacy_unknown_list_ref01_list_result, list)
 
 

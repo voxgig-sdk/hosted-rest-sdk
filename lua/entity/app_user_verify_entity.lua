@@ -83,6 +83,10 @@ end
 
 
 
+---@param reqdata AppUserVerifyCreateData
+---@param ctrl? table
+---@return AppUserVerify
+---@return string? err
 function AppUserVerifyEntity:create(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

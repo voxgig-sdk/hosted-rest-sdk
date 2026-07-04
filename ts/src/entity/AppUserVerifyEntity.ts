@@ -14,9 +14,13 @@ import type {
   Control,
 } from '../types'
 
+import type {
+  AppUserVerify,
+  AppUserVerifyCreateData,
+} from '../HostedRestTypes'
 
 // TODO: needs Entity superclass
-class AppUserVerifyEntity extends HostedRestEntityBase {
+class AppUserVerifyEntity extends HostedRestEntityBase<AppUserVerify> {
 
   constructor(client: HostedRestSDK, entopts: any) {
     super(client, entopts)
@@ -34,7 +38,7 @@ class AppUserVerifyEntity extends HostedRestEntityBase {
 
 
 
-  async create(this: any, reqdata?: any, ctrl?: Control) {
+  async create(this: any, reqdata?: AppUserVerifyCreateData, ctrl?: Control): Promise<AppUserVerify> {
 
     const utility = this._utility
     const {
@@ -133,7 +137,9 @@ class AppUserVerifyEntity extends HostedRestEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<AppUserVerify> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }

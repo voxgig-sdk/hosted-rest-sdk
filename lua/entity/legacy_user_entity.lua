@@ -79,6 +79,10 @@ end
 
 
 
+---@param reqmatch LegacyUserLoadMatch
+---@param ctrl? table
+---@return LegacyUser
+---@return string? err
 function LegacyUserEntity:load(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

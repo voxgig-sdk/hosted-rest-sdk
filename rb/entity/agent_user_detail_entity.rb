@@ -45,6 +45,7 @@ class AgentUserDetailEntity
     end
   end
 
+  # @return [AgentUserDetail, Hash] the current AgentUserDetail data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,12 +58,18 @@ class AgentUserDetailEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of AgentUserDetail fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
   end
 
   
+  # Load a single AgentUserDetail.
+  #
+  # @param reqmatch [AgentUserDetailLoadMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [AgentUserDetail, Hash] the loaded AgentUserDetail; raises HostedRestError on failure
   def load(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({

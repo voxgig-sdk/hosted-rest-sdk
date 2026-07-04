@@ -45,17 +45,14 @@ class TestCollectionEntity:
             vs.getpath(setup["data"], "new.collection"), "collection_ref01"))
         collection_ref01_data["collection_id"] = setup["idmap"]["collection01"]
 
-        collection_ref01_data_result, err = collection_ref01_ent.create(collection_ref01_data, None)
-        assert err is None
-        collection_ref01_data = helpers.to_map(collection_ref01_data_result)
+        collection_ref01_data = helpers.to_map(collection_ref01_ent.create(collection_ref01_data, None))
         assert collection_ref01_data is not None
         assert collection_ref01_data["id"] is not None
 
         # LIST
         collection_ref01_match = {}
 
-        collection_ref01_list_result, err = collection_ref01_ent.list(collection_ref01_match, None)
-        assert err is None
+        collection_ref01_list_result = collection_ref01_ent.list(collection_ref01_match, None)
         assert isinstance(collection_ref01_list_result, list)
 
         found_item = vs.select(
@@ -72,9 +69,7 @@ class TestCollectionEntity:
         collection_ref01_markdef_up0_value = "Mark01-collection_ref01_" + str(setup["now"])
         collection_ref01_data_up0_up[collection_ref01_markdef_up0_name] = collection_ref01_markdef_up0_value
 
-        collection_ref01_resdata_up0_result, err = collection_ref01_ent.update(collection_ref01_data_up0_up, None)
-        assert err is None
-        collection_ref01_resdata_up0 = helpers.to_map(collection_ref01_resdata_up0_result)
+        collection_ref01_resdata_up0 = helpers.to_map(collection_ref01_ent.update(collection_ref01_data_up0_up, None))
         assert collection_ref01_resdata_up0 is not None
         assert collection_ref01_resdata_up0["id"] == collection_ref01_data_up0_up["id"]
         assert collection_ref01_resdata_up0[collection_ref01_markdef_up0_name] == collection_ref01_markdef_up0_value
@@ -83,8 +78,7 @@ class TestCollectionEntity:
         collection_ref01_match_dt0 = {
             "id": collection_ref01_data["id"],
         }
-        collection_ref01_data_dt0_loaded, err = collection_ref01_ent.load(collection_ref01_match_dt0, None)
-        assert err is None
+        collection_ref01_data_dt0_loaded = collection_ref01_ent.load(collection_ref01_match_dt0, None)
         collection_ref01_data_dt0_load_result = helpers.to_map(collection_ref01_data_dt0_loaded)
         assert collection_ref01_data_dt0_load_result is not None
         assert collection_ref01_data_dt0_load_result["id"] == collection_ref01_data["id"]
@@ -93,14 +87,12 @@ class TestCollectionEntity:
         collection_ref01_match_rm0 = {
             "id": collection_ref01_data["id"],
         }
-        _, err = collection_ref01_ent.remove(collection_ref01_match_rm0, None)
-        assert err is None
+        collection_ref01_ent.remove(collection_ref01_match_rm0, None)
 
         # LIST
         collection_ref01_match_rt0 = {}
 
-        collection_ref01_list_rt0_result, err = collection_ref01_ent.list(collection_ref01_match_rt0, None)
-        assert err is None
+        collection_ref01_list_rt0_result = collection_ref01_ent.list(collection_ref01_match_rt0, None)
         assert isinstance(collection_ref01_list_rt0_result, list)
 
         not_found_item = vs.select(

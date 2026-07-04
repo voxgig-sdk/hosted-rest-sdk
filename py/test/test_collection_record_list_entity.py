@@ -52,8 +52,7 @@ class TestCollectionRecordListEntity:
             "slug": setup["idmap"]["slug01"],
         }
 
-        collection_record_list_ref01_list_result, err = collection_record_list_ref01_ent.list(collection_record_list_ref01_match, None)
-        assert err is None
+        collection_record_list_ref01_list_result = collection_record_list_ref01_ent.list(collection_record_list_ref01_match, None)
         assert isinstance(collection_record_list_ref01_list_result, list)
 
 

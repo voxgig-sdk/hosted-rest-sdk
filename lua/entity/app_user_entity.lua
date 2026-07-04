@@ -79,6 +79,10 @@ end
 
 
 
+---@param reqmatch AppUserLoadMatch
+---@param ctrl? table
+---@return AppUser
+---@return string? err
 function AppUserEntity:load(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -104,6 +108,10 @@ end
 
 
 
+---@param reqmatch AppUserListMatch
+---@param ctrl? table
+---@return AppUser[]
+---@return string? err
 function AppUserEntity:list(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -126,6 +134,10 @@ end
 
 
 
+---@param reqdata AppUserCreateData
+---@param ctrl? table
+---@return AppUser
+---@return string? err
 function AppUserEntity:create(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -148,6 +160,10 @@ end
 
 
 
+---@param reqdata AppUserUpdateData
+---@param ctrl? table
+---@return AppUser
+---@return string? err
 function AppUserEntity:update(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -173,6 +189,10 @@ end
 
 
 
+---@param reqmatch AppUserRemoveMatch
+---@param ctrl? table
+---@return AppUser
+---@return string? err
 function AppUserEntity:remove(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

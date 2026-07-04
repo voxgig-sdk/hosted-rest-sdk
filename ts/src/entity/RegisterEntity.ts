@@ -14,9 +14,13 @@ import type {
   Control,
 } from '../types'
 
+import type {
+  Register,
+  RegisterCreateData,
+} from '../HostedRestTypes'
 
 // TODO: needs Entity superclass
-class RegisterEntity extends HostedRestEntityBase {
+class RegisterEntity extends HostedRestEntityBase<Register> {
 
   constructor(client: HostedRestSDK, entopts: any) {
     super(client, entopts)
@@ -34,7 +38,7 @@ class RegisterEntity extends HostedRestEntityBase {
 
 
 
-  async create(this: any, reqdata?: any, ctrl?: Control) {
+  async create(this: any, reqdata?: RegisterCreateData, ctrl?: Control): Promise<Register> {
 
     const utility = this._utility
     const {
@@ -133,7 +137,9 @@ class RegisterEntity extends HostedRestEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Register> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }

@@ -50,8 +50,7 @@ class TestAgentUserListEntity:
         agent_user_list_ref01_ent = client.AgentUserList(None)
         agent_user_list_ref01_match = {}
 
-        agent_user_list_ref01_list_result, err = agent_user_list_ref01_ent.list(agent_user_list_ref01_match, None)
-        assert err is None
+        agent_user_list_ref01_list_result = agent_user_list_ref01_ent.list(agent_user_list_ref01_match, None)
         assert isinstance(agent_user_list_ref01_list_result, list)
 
 

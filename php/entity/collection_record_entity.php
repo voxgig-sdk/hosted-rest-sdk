@@ -55,6 +55,9 @@ class CollectionRecordEntity
         return new CollectionRecordEntity($this->_client, $opts);
     }
 
+    /**
+     * @param CollectionRecord|array $args CollectionRecord data (assoc-array) to store.
+     */
     public function data_set($args): void
     {
         if ($args) {
@@ -63,12 +66,18 @@ class CollectionRecordEntity
         }
     }
 
+    /**
+     * @return CollectionRecord|array The current CollectionRecord data as an assoc-array.
+     */
     public function data_get()
     {
         ($this->_utility->feature_hook)($this->_entctx, "GetData");
         return Struct::clone($this->_data);
     }
 
+    /**
+     * @param array $args Match filter (any subset of CollectionRecord fields).
+     */
     public function match_set($args): void
     {
         if ($args) {
@@ -77,6 +86,9 @@ class CollectionRecordEntity
         }
     }
 
+    /**
+     * @return array The current match filter (any subset of CollectionRecord fields).
+     */
     public function match_get()
     {
         ($this->_utility->feature_hook)($this->_entctx, "GetMatch");
@@ -84,7 +96,16 @@ class CollectionRecordEntity
     }
 
     
-    public function load($reqmatch, $ctrl = null): array
+    /**
+     * Load a single CollectionRecord.
+     *
+     * @param CollectionRecordLoadMatch|array|null $reqmatch Match criteria (id/query
+     *   fields) as an assoc-array; a typed CollectionRecordLoadMatch names the shape.
+     * @param mixed $ctrl Optional per-call control overrides.
+     * @return CollectionRecord|array The loaded CollectionRecord as an assoc-array at the
+     *   SDK boundary; throws HostedRestError on failure (item-5 convention).
+     */
+    public function load(?array $reqmatch = null, $ctrl = null): mixed
     {
         $utility = $this->_utility;
         $ctx = ($utility->make_context)([
@@ -112,7 +133,16 @@ class CollectionRecordEntity
     
 
     
-    public function create($reqdata, $ctrl = null): array
+    /**
+     * Create a new CollectionRecord.
+     *
+     * @param CollectionRecordCreateData|array|null $reqdata Body data as an assoc-array;
+     *   a typed CollectionRecordCreateData names the shape.
+     * @param mixed $ctrl Optional per-call control overrides.
+     * @return CollectionRecord|array The created CollectionRecord as an assoc-array at the
+     *   SDK boundary; throws HostedRestError on failure (item-5 convention).
+     */
+    public function create(?array $reqdata = null, $ctrl = null): mixed
     {
         $utility = $this->_utility;
         $ctx = ($utility->make_context)([
@@ -135,7 +165,16 @@ class CollectionRecordEntity
 
 
     
-    public function update($reqdata, $ctrl = null): array
+    /**
+     * Update an existing CollectionRecord.
+     *
+     * @param CollectionRecordUpdateData|array|null $reqdata Body data as an assoc-array;
+     *   a typed CollectionRecordUpdateData names the shape.
+     * @param mixed $ctrl Optional per-call control overrides.
+     * @return CollectionRecord|array The updated CollectionRecord as an assoc-array at the
+     *   SDK boundary; throws HostedRestError on failure (item-5 convention).
+     */
+    public function update(?array $reqdata = null, $ctrl = null): mixed
     {
         $utility = $this->_utility;
         $ctx = ($utility->make_context)([
@@ -162,7 +201,7 @@ class CollectionRecordEntity
 
     
 
-    private function _run_op($ctx, callable $post_done): array
+    private function _run_op($ctx, callable $post_done): mixed
     {
         $utility = $this->_utility;
 

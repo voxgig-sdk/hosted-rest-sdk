@@ -43,8 +43,7 @@ class LegacyUserListEntityTest < Minitest::Test
     legacy_user_list_ref01_ent = client.LegacyUserList(nil)
     legacy_user_list_ref01_match = {}
 
-    legacy_user_list_ref01_list_result, err = legacy_user_list_ref01_ent.list(legacy_user_list_ref01_match, nil)
-    assert_nil err
+    legacy_user_list_ref01_list_result = legacy_user_list_ref01_ent.list(legacy_user_list_ref01_match, nil)
     assert legacy_user_list_ref01_list_result.is_a?(Array)
 
   end

@@ -36,15 +36,13 @@ class AgentSandboxEntityTest < Minitest::Test
     agent_sandbox_ref01_data = Helpers.to_map(Vs.getprop(
       Vs.getpath(setup[:data], "new.agent_sandbox"), "agent_sandbox_ref01"))
 
-    agent_sandbox_ref01_data_result, err = agent_sandbox_ref01_ent.create(agent_sandbox_ref01_data, nil)
-    assert_nil err
+    agent_sandbox_ref01_data_result = agent_sandbox_ref01_ent.create(agent_sandbox_ref01_data, nil)
     agent_sandbox_ref01_data = Helpers.to_map(agent_sandbox_ref01_data_result)
     assert !agent_sandbox_ref01_data.nil?
 
     # LOAD
     agent_sandbox_ref01_match_dt0 = {}
-    agent_sandbox_ref01_data_dt0_loaded, err = agent_sandbox_ref01_ent.load(agent_sandbox_ref01_match_dt0, nil)
-    assert_nil err
+    agent_sandbox_ref01_data_dt0_loaded = agent_sandbox_ref01_ent.load(agent_sandbox_ref01_match_dt0, nil)
     assert !agent_sandbox_ref01_data_dt0_loaded.nil?
 
   end

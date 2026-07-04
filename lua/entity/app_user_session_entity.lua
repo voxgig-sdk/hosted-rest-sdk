@@ -79,6 +79,10 @@ end
 
 
 
+---@param reqmatch AppUserSessionLoadMatch
+---@param ctrl? table
+---@return AppUserSession
+---@return string? err
 function AppUserSessionEntity:load(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

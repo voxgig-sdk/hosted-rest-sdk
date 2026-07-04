@@ -45,8 +45,7 @@ class AppUserEntityTest extends TestCase
         $app_user_ref01_data["collection_id"] = $setup["idmap"]["collection01"];
         $app_user_ref01_data["project_id"] = $setup["idmap"]["project01"];
 
-        [$app_user_ref01_data_result, $err] = $app_user_ref01_ent->create($app_user_ref01_data, null);
-        $this->assertNull($err);
+        $app_user_ref01_data_result = $app_user_ref01_ent->create($app_user_ref01_data, null);
         $app_user_ref01_data = Helpers::to_map($app_user_ref01_data_result);
         $this->assertNotNull($app_user_ref01_data);
         $this->assertNotNull($app_user_ref01_data["id"]);
@@ -54,8 +53,7 @@ class AppUserEntityTest extends TestCase
         // LIST
         $app_user_ref01_match = [];
 
-        [$app_user_ref01_list_result, $err] = $app_user_ref01_ent->list($app_user_ref01_match, null);
-        $this->assertNull($err);
+        $app_user_ref01_list_result = $app_user_ref01_ent->list($app_user_ref01_match, null);
         $this->assertIsArray($app_user_ref01_list_result);
 
         $found_item = sdk_select(
@@ -72,8 +70,7 @@ class AppUserEntityTest extends TestCase
         $app_user_ref01_markdef_up0_value = "Mark01-app_user_ref01_" . $setup["now"];
         $app_user_ref01_data_up0_up[$app_user_ref01_markdef_up0_name] = $app_user_ref01_markdef_up0_value;
 
-        [$app_user_ref01_resdata_up0_result, $err] = $app_user_ref01_ent->update($app_user_ref01_data_up0_up, null);
-        $this->assertNull($err);
+        $app_user_ref01_resdata_up0_result = $app_user_ref01_ent->update($app_user_ref01_data_up0_up, null);
         $app_user_ref01_resdata_up0 = Helpers::to_map($app_user_ref01_resdata_up0_result);
         $this->assertNotNull($app_user_ref01_resdata_up0);
         $this->assertEquals($app_user_ref01_resdata_up0["id"], $app_user_ref01_data_up0_up["id"]);
@@ -83,8 +80,7 @@ class AppUserEntityTest extends TestCase
         $app_user_ref01_match_dt0 = [
             "id" => $app_user_ref01_data["id"],
         ];
-        [$app_user_ref01_data_dt0_loaded, $err] = $app_user_ref01_ent->load($app_user_ref01_match_dt0, null);
-        $this->assertNull($err);
+        $app_user_ref01_data_dt0_loaded = $app_user_ref01_ent->load($app_user_ref01_match_dt0, null);
         $app_user_ref01_data_dt0_load_result = Helpers::to_map($app_user_ref01_data_dt0_loaded);
         $this->assertNotNull($app_user_ref01_data_dt0_load_result);
         $this->assertEquals($app_user_ref01_data_dt0_load_result["id"], $app_user_ref01_data["id"]);
@@ -93,14 +89,12 @@ class AppUserEntityTest extends TestCase
         $app_user_ref01_match_rm0 = [
             "id" => $app_user_ref01_data["id"],
         ];
-        [$_, $err] = $app_user_ref01_ent->remove($app_user_ref01_match_rm0, null);
-        $this->assertNull($err);
+        $app_user_ref01_ent->remove($app_user_ref01_match_rm0, null);
 
         // LIST
         $app_user_ref01_match_rt0 = [];
 
-        [$app_user_ref01_list_rt0_result, $err] = $app_user_ref01_ent->list($app_user_ref01_match_rt0, null);
-        $this->assertNull($err);
+        $app_user_ref01_list_rt0_result = $app_user_ref01_ent->list($app_user_ref01_match_rt0, null);
         $this->assertIsArray($app_user_ref01_list_rt0_result);
 
         $not_found_item = sdk_select(

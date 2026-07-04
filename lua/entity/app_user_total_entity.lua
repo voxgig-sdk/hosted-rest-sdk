@@ -79,6 +79,10 @@ end
 
 
 
+---@param reqmatch AppUserTotalLoadMatch
+---@param ctrl? table
+---@return AppUserTotal
+---@return string? err
 function AppUserTotalEntity:load(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

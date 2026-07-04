@@ -81,6 +81,10 @@ end
 
 
 
+---@param reqmatch LegacyUserListListMatch
+---@param ctrl? table
+---@return LegacyUserList[]
+---@return string? err
 function LegacyUserListEntity:list(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

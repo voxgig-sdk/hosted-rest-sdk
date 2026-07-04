@@ -14,9 +14,16 @@ import type {
   Control,
 } from '../types'
 
+import type {
+  Custom,
+  CustomLoadMatch,
+  CustomCreateData,
+  CustomUpdateData,
+  CustomRemoveMatch,
+} from '../HostedRestTypes'
 
 // TODO: needs Entity superclass
-class CustomEntity extends HostedRestEntityBase {
+class CustomEntity extends HostedRestEntityBase<Custom> {
 
   constructor(client: HostedRestSDK, entopts: any) {
     super(client, entopts)
@@ -32,7 +39,7 @@ class CustomEntity extends HostedRestEntityBase {
 
 
 
-  async load(this: any, reqmatch?: any, ctrl?: Control) {
+  async load(this: any, reqmatch?: CustomLoadMatch, ctrl?: Control): Promise<Custom> {
 
     const utility = this._utility
 
@@ -136,7 +143,9 @@ class CustomEntity extends HostedRestEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Custom> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }
@@ -144,7 +153,7 @@ class CustomEntity extends HostedRestEntityBase {
 
 
 
-  async create(this: any, reqdata?: any, ctrl?: Control) {
+  async create(this: any, reqdata?: CustomCreateData, ctrl?: Control): Promise<Custom> {
 
     const utility = this._utility
     const {
@@ -243,14 +252,16 @@ class CustomEntity extends HostedRestEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Custom> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }
 
 
 
-  async update(this: any, reqdata?: any, ctrl?: Control) {
+  async update(this: any, reqdata?: CustomUpdateData, ctrl?: Control): Promise<Custom> {
 
     const utility = this._utility
 
@@ -355,14 +366,16 @@ class CustomEntity extends HostedRestEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Custom> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }
 
 
 
-  async remove(this: any, reqmatch?: any, ctrl?: Control) {
+  async remove(this: any, reqmatch?: CustomRemoveMatch, ctrl?: Control): Promise<Custom> {
 
     const utility = this._utility
 
@@ -467,7 +480,9 @@ class CustomEntity extends HostedRestEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<Custom> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }

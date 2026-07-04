@@ -45,8 +45,7 @@ class CollectionRecordEntityTest extends TestCase
         $collection_record_ref01_data["collection_id"] = $setup["idmap"]["collection01"];
         $collection_record_ref01_data["slug"] = $setup["idmap"]["slug01"];
 
-        [$collection_record_ref01_data_result, $err] = $collection_record_ref01_ent->create($collection_record_ref01_data, null);
-        $this->assertNull($err);
+        $collection_record_ref01_data_result = $collection_record_ref01_ent->create($collection_record_ref01_data, null);
         $collection_record_ref01_data = Helpers::to_map($collection_record_ref01_data_result);
         $this->assertNotNull($collection_record_ref01_data);
 
@@ -55,15 +54,13 @@ class CollectionRecordEntityTest extends TestCase
             "collection_id" => $setup["idmap"]["collection_id"],
         ];
 
-        [$collection_record_ref01_resdata_up0_result, $err] = $collection_record_ref01_ent->update($collection_record_ref01_data_up0_up, null);
-        $this->assertNull($err);
+        $collection_record_ref01_resdata_up0_result = $collection_record_ref01_ent->update($collection_record_ref01_data_up0_up, null);
         $collection_record_ref01_resdata_up0 = Helpers::to_map($collection_record_ref01_resdata_up0_result);
         $this->assertNotNull($collection_record_ref01_resdata_up0);
 
         // LOAD
         $collection_record_ref01_match_dt0 = [];
-        [$collection_record_ref01_data_dt0_loaded, $err] = $collection_record_ref01_ent->load($collection_record_ref01_match_dt0, null);
-        $this->assertNull($err);
+        $collection_record_ref01_data_dt0_loaded = $collection_record_ref01_ent->load($collection_record_ref01_match_dt0, null);
         $this->assertNotNull($collection_record_ref01_data_dt0_loaded);
 
     }

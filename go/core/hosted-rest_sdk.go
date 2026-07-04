@@ -245,111 +245,177 @@ func (sdk *HostedRestSDK) Direct(fetchargs map[string]any) (map[string]any, erro
 }
 
 
+// AgentHealth returns a AgentHealth entity bound to this client.
+// Idiomatic usage: client.AgentHealth(nil).List(nil, nil) or
+// client.AgentHealth(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *HostedRestSDK) AgentHealth(data map[string]any) HostedRestEntity {
 	return NewAgentHealthEntityFunc(sdk, data)
 }
 
 
+// AgentSandbox returns a AgentSandbox entity bound to this client.
+// Idiomatic usage: client.AgentSandbox(nil).List(nil, nil) or
+// client.AgentSandbox(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *HostedRestSDK) AgentSandbox(data map[string]any) HostedRestEntity {
 	return NewAgentSandboxEntityFunc(sdk, data)
 }
 
 
+// AgentUserDetail returns a AgentUserDetail entity bound to this client.
+// Idiomatic usage: client.AgentUserDetail(nil).List(nil, nil) or
+// client.AgentUserDetail(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *HostedRestSDK) AgentUserDetail(data map[string]any) HostedRestEntity {
 	return NewAgentUserDetailEntityFunc(sdk, data)
 }
 
 
+// AgentUserList returns a AgentUserList entity bound to this client.
+// Idiomatic usage: client.AgentUserList(nil).List(nil, nil) or
+// client.AgentUserList(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *HostedRestSDK) AgentUserList(data map[string]any) HostedRestEntity {
 	return NewAgentUserListEntityFunc(sdk, data)
 }
 
 
+// AppUser returns a AppUser entity bound to this client.
+// Idiomatic usage: client.AppUser(nil).List(nil, nil) or
+// client.AppUser(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *HostedRestSDK) AppUser(data map[string]any) HostedRestEntity {
 	return NewAppUserEntityFunc(sdk, data)
 }
 
 
+// AppUserLogin returns a AppUserLogin entity bound to this client.
+// Idiomatic usage: client.AppUserLogin(nil).List(nil, nil) or
+// client.AppUserLogin(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *HostedRestSDK) AppUserLogin(data map[string]any) HostedRestEntity {
 	return NewAppUserLoginEntityFunc(sdk, data)
 }
 
 
+// AppUserSession returns a AppUserSession entity bound to this client.
+// Idiomatic usage: client.AppUserSession(nil).List(nil, nil) or
+// client.AppUserSession(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *HostedRestSDK) AppUserSession(data map[string]any) HostedRestEntity {
 	return NewAppUserSessionEntityFunc(sdk, data)
 }
 
 
+// AppUserTotal returns a AppUserTotal entity bound to this client.
+// Idiomatic usage: client.AppUserTotal(nil).List(nil, nil) or
+// client.AppUserTotal(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *HostedRestSDK) AppUserTotal(data map[string]any) HostedRestEntity {
 	return NewAppUserTotalEntityFunc(sdk, data)
 }
 
 
+// AppUserVerify returns a AppUserVerify entity bound to this client.
+// Idiomatic usage: client.AppUserVerify(nil).List(nil, nil) or
+// client.AppUserVerify(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *HostedRestSDK) AppUserVerify(data map[string]any) HostedRestEntity {
 	return NewAppUserVerifyEntityFunc(sdk, data)
 }
 
 
+// Authentication returns a Authentication entity bound to this client.
+// Idiomatic usage: client.Authentication(nil).List(nil, nil) or
+// client.Authentication(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *HostedRestSDK) Authentication(data map[string]any) HostedRestEntity {
 	return NewAuthenticationEntityFunc(sdk, data)
 }
 
 
+// Collection returns a Collection entity bound to this client.
+// Idiomatic usage: client.Collection(nil).List(nil, nil) or
+// client.Collection(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *HostedRestSDK) Collection(data map[string]any) HostedRestEntity {
 	return NewCollectionEntityFunc(sdk, data)
 }
 
 
+// CollectionRecord returns a CollectionRecord entity bound to this client.
+// Idiomatic usage: client.CollectionRecord(nil).List(nil, nil) or
+// client.CollectionRecord(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *HostedRestSDK) CollectionRecord(data map[string]any) HostedRestEntity {
 	return NewCollectionRecordEntityFunc(sdk, data)
 }
 
 
+// CollectionRecordList returns a CollectionRecordList entity bound to this client.
+// Idiomatic usage: client.CollectionRecordList(nil).List(nil, nil) or
+// client.CollectionRecordList(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *HostedRestSDK) CollectionRecordList(data map[string]any) HostedRestEntity {
 	return NewCollectionRecordListEntityFunc(sdk, data)
 }
 
 
+// Custom returns a Custom entity bound to this client.
+// Idiomatic usage: client.Custom(nil).List(nil, nil) or
+// client.Custom(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *HostedRestSDK) Custom(data map[string]any) HostedRestEntity {
 	return NewCustomEntityFunc(sdk, data)
 }
 
 
+// Legacy returns a Legacy entity bound to this client.
+// Idiomatic usage: client.Legacy(nil).List(nil, nil) or
+// client.Legacy(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *HostedRestSDK) Legacy(data map[string]any) HostedRestEntity {
 	return NewLegacyEntityFunc(sdk, data)
 }
 
 
+// LegacyMutation returns a LegacyMutation entity bound to this client.
+// Idiomatic usage: client.LegacyMutation(nil).List(nil, nil) or
+// client.LegacyMutation(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *HostedRestSDK) LegacyMutation(data map[string]any) HostedRestEntity {
 	return NewLegacyMutationEntityFunc(sdk, data)
 }
 
 
+// LegacyUnknown returns a LegacyUnknown entity bound to this client.
+// Idiomatic usage: client.LegacyUnknown(nil).List(nil, nil) or
+// client.LegacyUnknown(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *HostedRestSDK) LegacyUnknown(data map[string]any) HostedRestEntity {
 	return NewLegacyUnknownEntityFunc(sdk, data)
 }
 
 
+// LegacyUnknownList returns a LegacyUnknownList entity bound to this client.
+// Idiomatic usage: client.LegacyUnknownList(nil).List(nil, nil) or
+// client.LegacyUnknownList(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *HostedRestSDK) LegacyUnknownList(data map[string]any) HostedRestEntity {
 	return NewLegacyUnknownListEntityFunc(sdk, data)
 }
 
 
+// LegacyUser returns a LegacyUser entity bound to this client.
+// Idiomatic usage: client.LegacyUser(nil).List(nil, nil) or
+// client.LegacyUser(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *HostedRestSDK) LegacyUser(data map[string]any) HostedRestEntity {
 	return NewLegacyUserEntityFunc(sdk, data)
 }
 
 
+// LegacyUserList returns a LegacyUserList entity bound to this client.
+// Idiomatic usage: client.LegacyUserList(nil).List(nil, nil) or
+// client.LegacyUserList(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *HostedRestSDK) LegacyUserList(data map[string]any) HostedRestEntity {
 	return NewLegacyUserListEntityFunc(sdk, data)
 }
 
 
+// Login returns a Login entity bound to this client.
+// Idiomatic usage: client.Login(nil).List(nil, nil) or
+// client.Login(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *HostedRestSDK) Login(data map[string]any) HostedRestEntity {
 	return NewLoginEntityFunc(sdk, data)
 }
 
 
+// Register returns a Register entity bound to this client.
+// Idiomatic usage: client.Register(nil).List(nil, nil) or
+// client.Register(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *HostedRestSDK) Register(data map[string]any) HostedRestEntity {
 	return NewRegisterEntityFunc(sdk, data)
 }

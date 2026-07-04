@@ -79,6 +79,10 @@ end
 
 
 
+---@param reqmatch CustomLoadMatch
+---@param ctrl? table
+---@return Custom
+---@return string? err
 function CustomEntity:load(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -106,6 +110,10 @@ end
 
 
 
+---@param reqdata CustomCreateData
+---@param ctrl? table
+---@return Custom
+---@return string? err
 function CustomEntity:create(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -128,6 +136,10 @@ end
 
 
 
+---@param reqdata CustomUpdateData
+---@param ctrl? table
+---@return Custom
+---@return string? err
 function CustomEntity:update(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
@@ -153,6 +165,10 @@ end
 
 
 
+---@param reqmatch CustomRemoveMatch
+---@param ctrl? table
+---@return Custom
+---@return string? err
 function CustomEntity:remove(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

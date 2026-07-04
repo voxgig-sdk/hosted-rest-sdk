@@ -45,6 +45,7 @@ class CustomEntity
     end
   end
 
+  # @return [Custom, Hash] the current Custom data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,12 +58,18 @@ class CustomEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of Custom fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
   end
 
   
+  # Load a single Custom.
+  #
+  # @param reqmatch [CustomLoadMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Custom, Hash] the loaded Custom; raises HostedRestError on failure
   def load(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -88,6 +95,11 @@ class CustomEntity
   
 
   
+  # Create a new Custom.
+  #
+  # @param reqdata [CustomCreateData, Hash, nil] body data
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Custom, Hash] the created Custom; raises HostedRestError on failure
   def create(reqdata, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -110,6 +122,11 @@ class CustomEntity
 
 
   
+  # Update an existing Custom.
+  #
+  # @param reqdata [CustomUpdateData, Hash, nil] body data
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Custom, Hash] the updated Custom; raises HostedRestError on failure
   def update(reqdata, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
@@ -133,6 +150,11 @@ class CustomEntity
 
 
   
+  # Remove an Custom matching the given criteria.
+  #
+  # @param reqmatch [CustomRemoveMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Custom, Hash] the removed Custom; raises HostedRestError on failure
   def remove(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({

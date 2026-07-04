@@ -14,9 +14,13 @@ import type {
   Control,
 } from '../types'
 
+import type {
+  CollectionRecordList,
+  CollectionRecordListListMatch,
+} from '../HostedRestTypes'
 
 // TODO: needs Entity superclass
-class CollectionRecordListEntity extends HostedRestEntityBase {
+class CollectionRecordListEntity extends HostedRestEntityBase<CollectionRecordList> {
 
   constructor(client: HostedRestSDK, entopts: any) {
     super(client, entopts)
@@ -33,7 +37,7 @@ class CollectionRecordListEntity extends HostedRestEntityBase {
 
 
 
-  async list(this: any, reqmatch?: any, ctrl?: Control) {
+  async list(this: any, reqmatch?: CollectionRecordListListMatch, ctrl?: Control): Promise<CollectionRecordList[]> {
 
     const utility = this._utility
 
@@ -133,7 +137,9 @@ class CollectionRecordListEntity extends HostedRestEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<CollectionRecordList[]> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }

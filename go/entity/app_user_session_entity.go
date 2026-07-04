@@ -85,6 +85,27 @@ func (e *AppUserSessionEntity) Match(args ...any) any {
 	return out
 }
 
+// DataTyped is the statically-typed accessor for this entity's data. With no
+// argument it returns the current data as an AppUserSession; with an argument it
+// sets the data and returns the stored value. It delegates to the untyped Data
+// (identical runtime) and converts at the typed boundary.
+func (e *AppUserSessionEntity) DataTyped(data ...AppUserSession) AppUserSession {
+	if len(data) > 0 {
+		return typedFrom[AppUserSession](e.Data(asMap(data[0])))
+	}
+	return typedFrom[AppUserSession](e.Data())
+}
+
+// MatchTyped mirrors DataTyped for the entity's match filter. The match is a
+// partial of the entity, so it round-trips through AppUserSession (all fields
+// optional at the wire level).
+func (e *AppUserSessionEntity) MatchTyped(match ...AppUserSession) AppUserSession {
+	if len(match) > 0 {
+		return typedFrom[AppUserSession](e.Match(asMap(match[0])))
+	}
+	return typedFrom[AppUserSession](e.Match())
+}
+
 
 func (e *AppUserSessionEntity) Load(reqmatch map[string]any, ctrl map[string]any) (any, error) {
 	utility := e.utility
@@ -109,6 +130,17 @@ func (e *AppUserSessionEntity) Load(reqmatch map[string]any, ctrl map[string]any
 			}
 		}
 	})
+}
+
+// LoadTyped is the statically-typed variant of Load: it takes an
+// AppUserSessionLoadMatch and returns an AppUserSession. It delegates to the untyped
+// Load (identical runtime) and converts at the typed boundary.
+func (e *AppUserSessionEntity) LoadTyped(reqmatch AppUserSessionLoadMatch, ctrl map[string]any) (AppUserSession, error) {
+	res, err := e.Load(asMap(reqmatch), ctrl)
+	if err != nil {
+		return AppUserSession{}, err
+	}
+	return typedFrom[AppUserSession](res), nil
 }
 
 

@@ -42,8 +42,7 @@ class LegacyUserEntityTest < Minitest::Test
     # LOAD
     legacy_user_ref01_ent = client.LegacyUser(nil)
     legacy_user_ref01_match_dt0 = {}
-    legacy_user_ref01_data_dt0_loaded, err = legacy_user_ref01_ent.load(legacy_user_ref01_match_dt0, nil)
-    assert_nil err
+    legacy_user_ref01_data_dt0_loaded = legacy_user_ref01_ent.load(legacy_user_ref01_match_dt0, nil)
     assert !legacy_user_ref01_data_dt0_loaded.nil?
 
   end

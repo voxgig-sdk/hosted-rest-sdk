@@ -81,6 +81,10 @@ end
 
 
 
+---@param reqmatch AgentUserListListMatch
+---@param ctrl? table
+---@return AgentUserList[]
+---@return string? err
 function AgentUserListEntity:list(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

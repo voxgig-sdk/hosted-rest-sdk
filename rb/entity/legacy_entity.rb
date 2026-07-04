@@ -45,6 +45,7 @@ class LegacyEntity
     end
   end
 
+  # @return [Legacy, Hash] the current Legacy data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,6 +58,7 @@ class LegacyEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of Legacy fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
@@ -71,6 +73,11 @@ class LegacyEntity
   
 
   
+  # Remove an Legacy matching the given criteria.
+  #
+  # @param reqmatch [LegacyRemoveMatch, Hash, nil] match criteria (id/query fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Legacy, Hash] the removed Legacy; raises HostedRestError on failure
   def remove(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
