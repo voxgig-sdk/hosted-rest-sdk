@@ -36,9 +36,9 @@ local client = sdk.new({
 ### 3. Load an agenthealth
 
 ```lua
-local result, err = client:agenthealth():load({ id = "example_id" })
+local agenthealth, err = client:AgentHealth():load({ id = "example_id" })
 if err then error(err) end
-print(result)
+print(agenthealth)
 ```
 
 
@@ -84,8 +84,8 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:agenthealth():load({ id = "test01" })
--- result contains mock response data
+local result, err = client:AgentHealth():load({ id = "test01" })
+-- result is the loaded data; err is set on failure
 ```
 
 ### Use a custom fetch function
@@ -165,16 +165,16 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `get_utility` | `() -> Utility` | Copy of the SDK utility object. |
 | `prepare` | `(fetchargs) -> table, err` | Build an HTTP request definition without sending. |
 | `direct` | `(fetchargs) -> table, err` | Build and send an HTTP request. |
-| `AgentHealth` | `(data) -> AgentHealthEntity` | Create a AgentHealth entity instance. |
-| `AgentSandbox` | `(data) -> AgentSandboxEntity` | Create a AgentSandbox entity instance. |
-| `AgentUserDetail` | `(data) -> AgentUserDetailEntity` | Create a AgentUserDetail entity instance. |
-| `AgentUserList` | `(data) -> AgentUserListEntity` | Create a AgentUserList entity instance. |
-| `AppUser` | `(data) -> AppUserEntity` | Create a AppUser entity instance. |
-| `AppUserLogin` | `(data) -> AppUserLoginEntity` | Create a AppUserLogin entity instance. |
-| `AppUserSession` | `(data) -> AppUserSessionEntity` | Create a AppUserSession entity instance. |
-| `AppUserTotal` | `(data) -> AppUserTotalEntity` | Create a AppUserTotal entity instance. |
-| `AppUserVerify` | `(data) -> AppUserVerifyEntity` | Create a AppUserVerify entity instance. |
-| `Authentication` | `(data) -> AuthenticationEntity` | Create a Authentication entity instance. |
+| `AgentHealth` | `(data) -> AgentHealthEntity` | Create an AgentHealth entity instance. |
+| `AgentSandbox` | `(data) -> AgentSandboxEntity` | Create an AgentSandbox entity instance. |
+| `AgentUserDetail` | `(data) -> AgentUserDetailEntity` | Create an AgentUserDetail entity instance. |
+| `AgentUserList` | `(data) -> AgentUserListEntity` | Create an AgentUserList entity instance. |
+| `AppUser` | `(data) -> AppUserEntity` | Create an AppUser entity instance. |
+| `AppUserLogin` | `(data) -> AppUserLoginEntity` | Create an AppUserLogin entity instance. |
+| `AppUserSession` | `(data) -> AppUserSessionEntity` | Create an AppUserSession entity instance. |
+| `AppUserTotal` | `(data) -> AppUserTotalEntity` | Create an AppUserTotal entity instance. |
+| `AppUserVerify` | `(data) -> AppUserVerifyEntity` | Create an AppUserVerify entity instance. |
+| `Authentication` | `(data) -> AuthenticationEntity` | Create an Authentication entity instance. |
 | `Collection` | `(data) -> CollectionEntity` | Create a Collection entity instance. |
 | `CollectionRecord` | `(data) -> CollectionRecordEntity` | Create a CollectionRecord entity instance. |
 | `CollectionRecordList` | `(data) -> CollectionRecordListEntity` | Create a CollectionRecordList entity instance. |
@@ -208,17 +208,22 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return `(any, err)`. The first value is a
-`table` with these keys:
+Entity operations return `(value, err)`. The `value` is the operation's
+data **directly** — there is no wrapper:
 
-| Key | Type | Description |
-| --- | --- | --- |
-| `ok` | `boolean` | `true` if the HTTP status is 2xx. |
-| `status` | `number` | HTTP status code. |
-| `headers` | `table` | Response headers. |
-| `data` | `any` | Parsed JSON response body. |
+| Operation | `value` |
+| --- | --- |
+| `load` / `create` / `update` / `remove` | the entity record (a `table`) |
+| `list` | an array (`table`) of entity records |
 
-On error, `ok` is `false` and `err` contains the error value.
+Check `err` first (it is non-`nil` on failure), then use `value`:
+
+    local agent_health, err = client:AgentHealth():load({ id = "example_id" })
+    if err then error(err) end
+    -- agent_health is the loaded record
+
+Only `direct()` returns a response envelope — a `table` with `ok`,
+`status`, `headers`, and `data` keys.
 
 ### Entities
 
@@ -500,7 +505,7 @@ API path: `/api/register`
 
 ### AgentHealth
 
-Create an instance: `const agent_health = client.agent_health`
+Create an instance: `local agent_health = client:AgentHealth(nil)`
 
 #### Operations
 
@@ -516,14 +521,14 @@ Create an instance: `const agent_health = client.agent_health`
 
 #### Example: Load
 
-```ts
-const agent_health = await client.agent_health.load({ id: 'agent_health_id' })
+```lua
+local agent_health, err = client:AgentHealth():load({ id = "agent_health_id" })
 ```
 
 
 ### AgentSandbox
 
-Create an instance: `const agent_sandbox = client.agent_sandbox`
+Create an instance: `local agent_sandbox = client:AgentSandbox(nil)`
 
 #### Operations
 
@@ -541,23 +546,23 @@ Create an instance: `const agent_sandbox = client.agent_sandbox`
 
 #### Example: Load
 
-```ts
-const agent_sandbox = await client.agent_sandbox.load({ id: 'agent_sandbox_id' })
+```lua
+local agent_sandbox, err = client:AgentSandbox():load({ id = "agent_sandbox_id" })
 ```
 
 #### Example: Create
 
-```ts
-const agent_sandbox = await client.agent_sandbox.create({
-  email: /* `$STRING` */,
-  password: /* `$STRING` */,
+```lua
+local agent_sandbox, err = client:AgentSandbox():create({
+  email = nil, -- `$STRING`
+  password = nil, -- `$STRING`
 })
 ```
 
 
 ### AgentUserDetail
 
-Create an instance: `const agent_user_detail = client.agent_user_detail`
+Create an instance: `local agent_user_detail = client:AgentUserDetail(nil)`
 
 #### Operations
 
@@ -573,14 +578,14 @@ Create an instance: `const agent_user_detail = client.agent_user_detail`
 
 #### Example: Load
 
-```ts
-const agent_user_detail = await client.agent_user_detail.load({ id: 'agent_user_detail_id' })
+```lua
+local agent_user_detail, err = client:AgentUserDetail():load({ id = "agent_user_detail_id" })
 ```
 
 
 ### AgentUserList
 
-Create an instance: `const agent_user_list = client.agent_user_list`
+Create an instance: `local agent_user_list = client:AgentUserList(nil)`
 
 #### Operations
 
@@ -605,14 +610,14 @@ Create an instance: `const agent_user_list = client.agent_user_list`
 
 #### Example: List
 
-```ts
-const agent_user_lists = await client.agent_user_list.list()
+```lua
+local agent_user_lists, err = client:AgentUserList():list()
 ```
 
 
 ### AppUser
 
-Create an instance: `const app_user = client.app_user`
+Create an instance: `local app_user = client:AppUser(nil)`
 
 #### Operations
 
@@ -638,29 +643,29 @@ Create an instance: `const app_user = client.app_user`
 
 #### Example: Load
 
-```ts
-const app_user = await client.app_user.load({ id: 'app_user_id' })
+```lua
+local app_user, err = client:AppUser():load({ id = "app_user_id" })
 ```
 
 #### Example: List
 
-```ts
-const app_users = await client.app_user.list()
+```lua
+local app_users, err = client:AppUser():list()
 ```
 
 #### Example: Create
 
-```ts
-const app_user = await client.app_user.create({
-  data: /* `$OBJECT` */,
-  email: /* `$STRING` */,
+```lua
+local app_user, err = client:AppUser():create({
+  data = nil, -- `$OBJECT`
+  email = nil, -- `$STRING`
 })
 ```
 
 
 ### AppUserLogin
 
-Create an instance: `const app_user_login = client.app_user_login`
+Create an instance: `local app_user_login = client:AppUserLogin(nil)`
 
 #### Operations
 
@@ -679,17 +684,17 @@ Create an instance: `const app_user_login = client.app_user_login`
 
 #### Example: Create
 
-```ts
-const app_user_login = await client.app_user_login.create({
-  data: /* `$OBJECT` */,
-  email: /* `$STRING` */,
+```lua
+local app_user_login, err = client:AppUserLogin():create({
+  data = nil, -- `$OBJECT`
+  email = nil, -- `$STRING`
 })
 ```
 
 
 ### AppUserSession
 
-Create an instance: `const app_user_session = client.app_user_session`
+Create an instance: `local app_user_session = client:AppUserSession(nil)`
 
 #### Operations
 
@@ -705,14 +710,14 @@ Create an instance: `const app_user_session = client.app_user_session`
 
 #### Example: Load
 
-```ts
-const app_user_session = await client.app_user_session.load({ id: 'app_user_session_id' })
+```lua
+local app_user_session, err = client:AppUserSession():load({ id = "app_user_session_id" })
 ```
 
 
 ### AppUserTotal
 
-Create an instance: `const app_user_total = client.app_user_total`
+Create an instance: `local app_user_total = client:AppUserTotal(nil)`
 
 #### Operations
 
@@ -728,14 +733,14 @@ Create an instance: `const app_user_total = client.app_user_total`
 
 #### Example: Load
 
-```ts
-const app_user_total = await client.app_user_total.load({ id: 'app_user_total_id' })
+```lua
+local app_user_total, err = client:AppUserTotal():load({ id = "app_user_total_id" })
 ```
 
 
 ### AppUserVerify
 
-Create an instance: `const app_user_verify = client.app_user_verify`
+Create an instance: `local app_user_verify = client:AppUserVerify(nil)`
 
 #### Operations
 
@@ -752,17 +757,17 @@ Create an instance: `const app_user_verify = client.app_user_verify`
 
 #### Example: Create
 
-```ts
-const app_user_verify = await client.app_user_verify.create({
-  data: /* `$OBJECT` */,
-  token: /* `$STRING` */,
+```lua
+local app_user_verify, err = client:AppUserVerify():create({
+  data = nil, -- `$OBJECT`
+  token = nil, -- `$STRING`
 })
 ```
 
 
 ### Authentication
 
-Create an instance: `const authentication = client.authentication`
+Create an instance: `local authentication = client:Authentication(nil)`
 
 #### Operations
 
@@ -772,15 +777,15 @@ Create an instance: `const authentication = client.authentication`
 
 #### Example: Create
 
-```ts
-const authentication = await client.authentication.create({
+```lua
+local authentication, err = client:Authentication():create({
 })
 ```
 
 
 ### Collection
 
-Create an instance: `const collection = client.collection`
+Create an instance: `local collection = client:Collection(nil)`
 
 #### Operations
 
@@ -809,29 +814,29 @@ Create an instance: `const collection = client.collection`
 
 #### Example: Load
 
-```ts
-const collection = await client.collection.load({ id: 'collection_id' })
+```lua
+local collection, err = client:Collection():load({ id = "collection_id" })
 ```
 
 #### Example: List
 
-```ts
-const collections = await client.collection.list()
+```lua
+local collections, err = client:Collection():list()
 ```
 
 #### Example: Create
 
-```ts
-const collection = await client.collection.create({
-  data: /* `$OBJECT` */,
-  name: /* `$STRING` */,
+```lua
+local collection, err = client:Collection():create({
+  data = nil, -- `$OBJECT`
+  name = nil, -- `$STRING`
 })
 ```
 
 
 ### CollectionRecord
 
-Create an instance: `const collection_record = client.collection_record`
+Create an instance: `local collection_record = client:CollectionRecord(nil)`
 
 #### Operations
 
@@ -849,22 +854,22 @@ Create an instance: `const collection_record = client.collection_record`
 
 #### Example: Load
 
-```ts
-const collection_record = await client.collection_record.load({ id: 'collection_record_id' })
+```lua
+local collection_record, err = client:CollectionRecord():load({ id = "collection_record_id" })
 ```
 
 #### Example: Create
 
-```ts
-const collection_record = await client.collection_record.create({
-  data: /* `$OBJECT` */,
+```lua
+local collection_record, err = client:CollectionRecord():create({
+  data = nil, -- `$OBJECT`
 })
 ```
 
 
 ### CollectionRecordList
 
-Create an instance: `const collection_record_list = client.collection_record_list`
+Create an instance: `local collection_record_list = client:CollectionRecordList(nil)`
 
 #### Operations
 
@@ -888,14 +893,14 @@ Create an instance: `const collection_record_list = client.collection_record_lis
 
 #### Example: List
 
-```ts
-const collection_record_lists = await client.collection_record_list.list()
+```lua
+local collection_record_lists, err = client:CollectionRecordList():list()
 ```
 
 
 ### Custom
 
-Create an instance: `const custom = client.custom`
+Create an instance: `local custom = client:Custom(nil)`
 
 #### Operations
 
@@ -908,21 +913,21 @@ Create an instance: `const custom = client.custom`
 
 #### Example: Load
 
-```ts
-const custom = await client.custom.load({ id: 'custom_id' })
+```lua
+local custom, err = client:Custom():load({ id = "custom_id" })
 ```
 
 #### Example: Create
 
-```ts
-const custom = await client.custom.create({
+```lua
+local custom, err = client:Custom():create({
 })
 ```
 
 
 ### Legacy
 
-Create an instance: `const legacy = client.legacy`
+Create an instance: `local legacy = client:Legacy(nil)`
 
 #### Operations
 
@@ -933,7 +938,7 @@ Create an instance: `const legacy = client.legacy`
 
 ### LegacyMutation
 
-Create an instance: `const legacy_mutation = client.legacy_mutation`
+Create an instance: `local legacy_mutation = client:LegacyMutation(nil)`
 
 #### Operations
 
@@ -952,15 +957,15 @@ Create an instance: `const legacy_mutation = client.legacy_mutation`
 
 #### Example: Create
 
-```ts
-const legacy_mutation = await client.legacy_mutation.create({
+```lua
+local legacy_mutation, err = client:LegacyMutation():create({
 })
 ```
 
 
 ### LegacyUnknown
 
-Create an instance: `const legacy_unknown = client.legacy_unknown`
+Create an instance: `local legacy_unknown = client:LegacyUnknown(nil)`
 
 #### Operations
 
@@ -977,14 +982,14 @@ Create an instance: `const legacy_unknown = client.legacy_unknown`
 
 #### Example: Load
 
-```ts
-const legacy_unknown = await client.legacy_unknown.load({ id: 'legacy_unknown_id' })
+```lua
+local legacy_unknown, err = client:LegacyUnknown():load({ id = "legacy_unknown_id" })
 ```
 
 
 ### LegacyUnknownList
 
-Create an instance: `const legacy_unknown_list = client.legacy_unknown_list`
+Create an instance: `local legacy_unknown_list = client:LegacyUnknownList(nil)`
 
 #### Operations
 
@@ -1004,14 +1009,14 @@ Create an instance: `const legacy_unknown_list = client.legacy_unknown_list`
 
 #### Example: List
 
-```ts
-const legacy_unknown_lists = await client.legacy_unknown_list.list()
+```lua
+local legacy_unknown_lists, err = client:LegacyUnknownList():list()
 ```
 
 
 ### LegacyUser
 
-Create an instance: `const legacy_user = client.legacy_user`
+Create an instance: `local legacy_user = client:LegacyUser(nil)`
 
 #### Operations
 
@@ -1028,14 +1033,14 @@ Create an instance: `const legacy_user = client.legacy_user`
 
 #### Example: Load
 
-```ts
-const legacy_user = await client.legacy_user.load({ id: 'legacy_user_id' })
+```lua
+local legacy_user, err = client:LegacyUser():load({ id = "legacy_user_id" })
 ```
 
 
 ### LegacyUserList
 
-Create an instance: `const legacy_user_list = client.legacy_user_list`
+Create an instance: `local legacy_user_list = client:LegacyUserList(nil)`
 
 #### Operations
 
@@ -1055,14 +1060,14 @@ Create an instance: `const legacy_user_list = client.legacy_user_list`
 
 #### Example: List
 
-```ts
-const legacy_user_lists = await client.legacy_user_list.list()
+```lua
+local legacy_user_lists, err = client:LegacyUserList():list()
 ```
 
 
 ### Login
 
-Create an instance: `const login = client.login`
+Create an instance: `local login = client:Login(nil)`
 
 #### Operations
 
@@ -1080,18 +1085,18 @@ Create an instance: `const login = client.login`
 
 #### Example: Create
 
-```ts
-const login = await client.login.create({
-  email: /* `$STRING` */,
-  password: /* `$STRING` */,
-  token: /* `$STRING` */,
+```lua
+local login, err = client:Login():create({
+  email = nil, -- `$STRING`
+  password = nil, -- `$STRING`
+  token = nil, -- `$STRING`
 })
 ```
 
 
 ### Register
 
-Create an instance: `const register = client.register`
+Create an instance: `local register = client:Register(nil)`
 
 #### Operations
 
@@ -1110,11 +1115,11 @@ Create an instance: `const register = client.register`
 
 #### Example: Create
 
-```ts
-const register = await client.register.create({
-  email: /* `$STRING` */,
-  password: /* `$STRING` */,
-  token: /* `$STRING` */,
+```lua
+local register, err = client:Register():create({
+  email = nil, -- `$STRING`
+  password = nil, -- `$STRING`
+  token = nil, -- `$STRING`
 })
 ```
 
@@ -1190,7 +1195,7 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```lua
-local agenthealth = client:agenthealth()
+local agenthealth = client:AgentHealth()
 agenthealth:load({ id = "example_id" })
 
 -- agenthealth:data_get() now returns the loaded agenthealth data

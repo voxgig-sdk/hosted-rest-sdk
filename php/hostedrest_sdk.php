@@ -233,10 +233,10 @@ class HostedRestSDK
 
     private $_agent_health = null;
 
-    // Idiomatic facade: $client->agent_health()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias AgentHealth() (PHP method
-    // names are case-insensitive).
-    public function agent_health($data = null)
+    // Canonical facade: $client->AgentHealth()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->agent_health()
+    // resolves here too.
+    public function AgentHealth($data = null)
     {
         require_once __DIR__ . '/entity/agent_health_entity.php';
         if ($data === null) {
@@ -251,10 +251,10 @@ class HostedRestSDK
 
     private $_agent_sandbox = null;
 
-    // Idiomatic facade: $client->agent_sandbox()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias AgentSandbox() (PHP method
-    // names are case-insensitive).
-    public function agent_sandbox($data = null)
+    // Canonical facade: $client->AgentSandbox()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->agent_sandbox()
+    // resolves here too.
+    public function AgentSandbox($data = null)
     {
         require_once __DIR__ . '/entity/agent_sandbox_entity.php';
         if ($data === null) {
@@ -269,10 +269,10 @@ class HostedRestSDK
 
     private $_agent_user_detail = null;
 
-    // Idiomatic facade: $client->agent_user_detail()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias AgentUserDetail() (PHP method
-    // names are case-insensitive).
-    public function agent_user_detail($data = null)
+    // Canonical facade: $client->AgentUserDetail()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->agent_user_detail()
+    // resolves here too.
+    public function AgentUserDetail($data = null)
     {
         require_once __DIR__ . '/entity/agent_user_detail_entity.php';
         if ($data === null) {
@@ -287,10 +287,10 @@ class HostedRestSDK
 
     private $_agent_user_list = null;
 
-    // Idiomatic facade: $client->agent_user_list()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias AgentUserList() (PHP method
-    // names are case-insensitive).
-    public function agent_user_list($data = null)
+    // Canonical facade: $client->AgentUserList()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->agent_user_list()
+    // resolves here too.
+    public function AgentUserList($data = null)
     {
         require_once __DIR__ . '/entity/agent_user_list_entity.php';
         if ($data === null) {
@@ -305,10 +305,10 @@ class HostedRestSDK
 
     private $_app_user = null;
 
-    // Idiomatic facade: $client->app_user()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias AppUser() (PHP method
-    // names are case-insensitive).
-    public function app_user($data = null)
+    // Canonical facade: $client->AppUser()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->app_user()
+    // resolves here too.
+    public function AppUser($data = null)
     {
         require_once __DIR__ . '/entity/app_user_entity.php';
         if ($data === null) {
@@ -323,10 +323,10 @@ class HostedRestSDK
 
     private $_app_user_login = null;
 
-    // Idiomatic facade: $client->app_user_login()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias AppUserLogin() (PHP method
-    // names are case-insensitive).
-    public function app_user_login($data = null)
+    // Canonical facade: $client->AppUserLogin()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->app_user_login()
+    // resolves here too.
+    public function AppUserLogin($data = null)
     {
         require_once __DIR__ . '/entity/app_user_login_entity.php';
         if ($data === null) {
@@ -341,10 +341,10 @@ class HostedRestSDK
 
     private $_app_user_session = null;
 
-    // Idiomatic facade: $client->app_user_session()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias AppUserSession() (PHP method
-    // names are case-insensitive).
-    public function app_user_session($data = null)
+    // Canonical facade: $client->AppUserSession()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->app_user_session()
+    // resolves here too.
+    public function AppUserSession($data = null)
     {
         require_once __DIR__ . '/entity/app_user_session_entity.php';
         if ($data === null) {
@@ -359,10 +359,10 @@ class HostedRestSDK
 
     private $_app_user_total = null;
 
-    // Idiomatic facade: $client->app_user_total()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias AppUserTotal() (PHP method
-    // names are case-insensitive).
-    public function app_user_total($data = null)
+    // Canonical facade: $client->AppUserTotal()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->app_user_total()
+    // resolves here too.
+    public function AppUserTotal($data = null)
     {
         require_once __DIR__ . '/entity/app_user_total_entity.php';
         if ($data === null) {
@@ -377,10 +377,10 @@ class HostedRestSDK
 
     private $_app_user_verify = null;
 
-    // Idiomatic facade: $client->app_user_verify()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias AppUserVerify() (PHP method
-    // names are case-insensitive).
-    public function app_user_verify($data = null)
+    // Canonical facade: $client->AppUserVerify()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->app_user_verify()
+    // resolves here too.
+    public function AppUserVerify($data = null)
     {
         require_once __DIR__ . '/entity/app_user_verify_entity.php';
         if ($data === null) {
@@ -395,10 +395,10 @@ class HostedRestSDK
 
     private $_authentication = null;
 
-    // Idiomatic facade: $client->authentication()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias Authentication() (PHP method
-    // names are case-insensitive).
-    public function authentication($data = null)
+    // Canonical facade: $client->Authentication()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->authentication()
+    // resolves here too.
+    public function Authentication($data = null)
     {
         require_once __DIR__ . '/entity/authentication_entity.php';
         if ($data === null) {
@@ -413,10 +413,10 @@ class HostedRestSDK
 
     private $_collection = null;
 
-    // Idiomatic facade: $client->collection()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias Collection() (PHP method
-    // names are case-insensitive).
-    public function collection($data = null)
+    // Canonical facade: $client->Collection()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->collection()
+    // resolves here too.
+    public function Collection($data = null)
     {
         require_once __DIR__ . '/entity/collection_entity.php';
         if ($data === null) {
@@ -431,10 +431,10 @@ class HostedRestSDK
 
     private $_collection_record = null;
 
-    // Idiomatic facade: $client->collection_record()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias CollectionRecord() (PHP method
-    // names are case-insensitive).
-    public function collection_record($data = null)
+    // Canonical facade: $client->CollectionRecord()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->collection_record()
+    // resolves here too.
+    public function CollectionRecord($data = null)
     {
         require_once __DIR__ . '/entity/collection_record_entity.php';
         if ($data === null) {
@@ -449,10 +449,10 @@ class HostedRestSDK
 
     private $_collection_record_list = null;
 
-    // Idiomatic facade: $client->collection_record_list()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias CollectionRecordList() (PHP method
-    // names are case-insensitive).
-    public function collection_record_list($data = null)
+    // Canonical facade: $client->CollectionRecordList()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->collection_record_list()
+    // resolves here too.
+    public function CollectionRecordList($data = null)
     {
         require_once __DIR__ . '/entity/collection_record_list_entity.php';
         if ($data === null) {
@@ -467,10 +467,10 @@ class HostedRestSDK
 
     private $_custom = null;
 
-    // Idiomatic facade: $client->custom()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias Custom() (PHP method
-    // names are case-insensitive).
-    public function custom($data = null)
+    // Canonical facade: $client->Custom()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->custom()
+    // resolves here too.
+    public function Custom($data = null)
     {
         require_once __DIR__ . '/entity/custom_entity.php';
         if ($data === null) {
@@ -485,10 +485,10 @@ class HostedRestSDK
 
     private $_legacy = null;
 
-    // Idiomatic facade: $client->legacy()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias Legacy() (PHP method
-    // names are case-insensitive).
-    public function legacy($data = null)
+    // Canonical facade: $client->Legacy()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->legacy()
+    // resolves here too.
+    public function Legacy($data = null)
     {
         require_once __DIR__ . '/entity/legacy_entity.php';
         if ($data === null) {
@@ -503,10 +503,10 @@ class HostedRestSDK
 
     private $_legacy_mutation = null;
 
-    // Idiomatic facade: $client->legacy_mutation()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias LegacyMutation() (PHP method
-    // names are case-insensitive).
-    public function legacy_mutation($data = null)
+    // Canonical facade: $client->LegacyMutation()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->legacy_mutation()
+    // resolves here too.
+    public function LegacyMutation($data = null)
     {
         require_once __DIR__ . '/entity/legacy_mutation_entity.php';
         if ($data === null) {
@@ -521,10 +521,10 @@ class HostedRestSDK
 
     private $_legacy_unknown = null;
 
-    // Idiomatic facade: $client->legacy_unknown()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias LegacyUnknown() (PHP method
-    // names are case-insensitive).
-    public function legacy_unknown($data = null)
+    // Canonical facade: $client->LegacyUnknown()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->legacy_unknown()
+    // resolves here too.
+    public function LegacyUnknown($data = null)
     {
         require_once __DIR__ . '/entity/legacy_unknown_entity.php';
         if ($data === null) {
@@ -539,10 +539,10 @@ class HostedRestSDK
 
     private $_legacy_unknown_list = null;
 
-    // Idiomatic facade: $client->legacy_unknown_list()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias LegacyUnknownList() (PHP method
-    // names are case-insensitive).
-    public function legacy_unknown_list($data = null)
+    // Canonical facade: $client->LegacyUnknownList()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->legacy_unknown_list()
+    // resolves here too.
+    public function LegacyUnknownList($data = null)
     {
         require_once __DIR__ . '/entity/legacy_unknown_list_entity.php';
         if ($data === null) {
@@ -557,10 +557,10 @@ class HostedRestSDK
 
     private $_legacy_user = null;
 
-    // Idiomatic facade: $client->legacy_user()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias LegacyUser() (PHP method
-    // names are case-insensitive).
-    public function legacy_user($data = null)
+    // Canonical facade: $client->LegacyUser()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->legacy_user()
+    // resolves here too.
+    public function LegacyUser($data = null)
     {
         require_once __DIR__ . '/entity/legacy_user_entity.php';
         if ($data === null) {
@@ -575,10 +575,10 @@ class HostedRestSDK
 
     private $_legacy_user_list = null;
 
-    // Idiomatic facade: $client->legacy_user_list()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias LegacyUserList() (PHP method
-    // names are case-insensitive).
-    public function legacy_user_list($data = null)
+    // Canonical facade: $client->LegacyUserList()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->legacy_user_list()
+    // resolves here too.
+    public function LegacyUserList($data = null)
     {
         require_once __DIR__ . '/entity/legacy_user_list_entity.php';
         if ($data === null) {
@@ -593,10 +593,10 @@ class HostedRestSDK
 
     private $_login = null;
 
-    // Idiomatic facade: $client->login()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias Login() (PHP method
-    // names are case-insensitive).
-    public function login($data = null)
+    // Canonical facade: $client->Login()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->login()
+    // resolves here too.
+    public function Login($data = null)
     {
         require_once __DIR__ . '/entity/login_entity.php';
         if ($data === null) {
@@ -611,10 +611,10 @@ class HostedRestSDK
 
     private $_register = null;
 
-    // Idiomatic facade: $client->register()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias Register() (PHP method
-    // names are case-insensitive).
-    public function register($data = null)
+    // Canonical facade: $client->Register()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->register()
+    // resolves here too.
+    public function Register($data = null)
     {
         require_once __DIR__ . '/entity/register_entity.php';
         if ($data === null) {

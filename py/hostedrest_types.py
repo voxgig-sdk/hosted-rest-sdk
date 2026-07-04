@@ -4,52 +4,49 @@
 # params (op.<name>.points[].args.params[]). Field/param types come from the
 # canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 # @voxgig/apidef VALID_CANON). Do not edit by hand.
+#
+# These are TypedDicts, not dataclasses: the SDK ops return/accept plain dicts
+# at runtime, and a TypedDict IS a dict shape, so the types match the runtime.
+# Optional (req:false) keys are modelled as TypedDict key-optionality
+# (total=False), split into a required base + total=False subclass when a type
+# has both required and optional keys.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import Optional, Any
+from typing import TypedDict, Any
 
 
-@dataclass
-class AgentHealth:
+class AgentHealth(TypedDict):
     data: dict
 
 
-@dataclass
-class AgentHealthLoadMatch:
-    data: Optional[dict] = None
+class AgentHealthLoadMatch(TypedDict, total=False):
+    data: dict
 
 
-@dataclass
-class AgentSandbox:
+class AgentSandbox(TypedDict):
     email: str
     password: str
 
 
-@dataclass
-class AgentSandboxLoadMatch:
+class AgentSandboxLoadMatch(TypedDict):
     scenario: str
 
 
-@dataclass
-class AgentSandboxCreateData:
-    email: Optional[str] = None
-    password: Optional[str] = None
+class AgentSandboxCreateData(TypedDict, total=False):
+    email: str
+    password: str
 
 
-@dataclass
-class AgentUserDetail:
+class AgentUserDetail(TypedDict):
     data: dict
 
 
-@dataclass
-class AgentUserDetailLoadMatch:
+class AgentUserDetailLoadMatch(TypedDict):
     id: str
 
 
-@dataclass
-class AgentUserList:
+class AgentUserList(TypedDict):
     created_at: str
     email: str
     full_name: str
@@ -62,282 +59,255 @@ class AgentUserList:
     updated_at: str
 
 
-@dataclass
-class AgentUserListListMatch:
-    created_at: Optional[str] = None
-    email: Optional[str] = None
-    full_name: Optional[str] = None
-    id: Optional[str] = None
-    locale: Optional[str] = None
-    preference: Optional[dict] = None
-    profile: Optional[dict] = None
-    status: Optional[str] = None
-    timezone: Optional[str] = None
-    updated_at: Optional[str] = None
+class AgentUserListListMatch(TypedDict, total=False):
+    created_at: str
+    email: str
+    full_name: str
+    id: str
+    locale: str
+    preference: dict
+    profile: dict
+    status: str
+    timezone: str
+    updated_at: str
 
 
-@dataclass
-class AppUser:
+class AppUserRequired(TypedDict):
     data: dict
     email: str
     id: str
-    created_at: Optional[str] = None
-    last_login_at: Optional[str] = None
-    metadata: Optional[dict] = None
-    status: Optional[str] = None
 
 
-@dataclass
-class AppUserLoadMatch:
+class AppUser(AppUserRequired, total=False):
+    created_at: str
+    last_login_at: str
+    metadata: dict
+    status: str
+
+
+class AppUserLoadMatch(TypedDict):
     id: str
 
 
-@dataclass
-class AppUserListMatch:
+class AppUserListMatch(TypedDict):
     project_id: str
 
 
-@dataclass
-class AppUserCreateData:
+class AppUserCreateData(TypedDict):
     id: str
 
 
-@dataclass
-class AppUserUpdateData:
+class AppUserUpdateData(TypedDict):
     id: str
 
 
-@dataclass
-class AppUserRemoveMatch:
+class AppUserRemoveMatch(TypedDict):
     collection_id: str
     record_id: str
     id: str
 
 
-@dataclass
-class AppUserLogin:
+class AppUserLoginRequired(TypedDict):
     data: dict
     email: str
-    metadata: Optional[dict] = None
-    project_id: Optional[str] = None
 
 
-@dataclass
-class AppUserLoginCreateData:
-    data: Optional[dict] = None
-    email: Optional[str] = None
-    metadata: Optional[dict] = None
-    project_id: Optional[str] = None
-
-
-@dataclass
-class AppUserSession:
-    data: dict
-
-
-@dataclass
-class AppUserSessionLoadMatch:
-    data: Optional[dict] = None
-
-
-@dataclass
-class AppUserTotal:
-    total: int
-
-
-@dataclass
-class AppUserTotalLoadMatch:
+class AppUserLogin(AppUserLoginRequired, total=False):
+    metadata: dict
     project_id: str
 
 
-@dataclass
-class AppUserVerify:
+class AppUserLoginCreateData(TypedDict, total=False):
+    data: dict
+    email: str
+    metadata: dict
+    project_id: str
+
+
+class AppUserSession(TypedDict):
+    data: dict
+
+
+class AppUserSessionLoadMatch(TypedDict, total=False):
+    data: dict
+
+
+class AppUserTotal(TypedDict):
+    total: int
+
+
+class AppUserTotalLoadMatch(TypedDict):
+    project_id: str
+
+
+class AppUserVerify(TypedDict):
     data: dict
     token: str
 
 
-@dataclass
-class AppUserVerifyCreateData:
-    data: Optional[dict] = None
-    token: Optional[str] = None
+class AppUserVerifyCreateData(TypedDict, total=False):
+    data: dict
+    token: str
 
 
-@dataclass
-class Authentication:
+class Authentication(TypedDict):
     pass
 
 
-@dataclass
-class AuthenticationCreateData:
+class AuthenticationCreateData(TypedDict):
     pass
 
 
-@dataclass
-class Collection:
+class CollectionRequired(TypedDict):
     data: dict
     id: str
     name: str
-    created_at: Optional[str] = None
-    project_id: Optional[str] = None
-    schema: Optional[dict] = None
-    slug: Optional[str] = None
-    updated_at: Optional[str] = None
-    user_id: Optional[str] = None
-    visibility: Optional[str] = None
 
 
-@dataclass
-class CollectionLoadMatch:
+class Collection(CollectionRequired, total=False):
+    created_at: str
+    project_id: str
+    schema: dict
+    slug: str
+    updated_at: str
+    user_id: str
+    visibility: str
+
+
+class CollectionLoadMatch(TypedDict):
     id: str
 
 
-@dataclass
-class CollectionListMatch:
-    created_at: Optional[str] = None
-    data: Optional[dict] = None
-    id: Optional[str] = None
-    name: Optional[str] = None
-    project_id: Optional[str] = None
-    schema: Optional[dict] = None
-    slug: Optional[str] = None
-    updated_at: Optional[str] = None
-    user_id: Optional[str] = None
-    visibility: Optional[str] = None
+class CollectionListMatch(TypedDict, total=False):
+    created_at: str
+    data: dict
+    id: str
+    name: str
+    project_id: str
+    schema: dict
+    slug: str
+    updated_at: str
+    user_id: str
+    visibility: str
 
 
-@dataclass
-class CollectionCreateData:
-    created_at: Optional[str] = None
-    data: Optional[dict] = None
-    id: Optional[str] = None
-    name: Optional[str] = None
-    project_id: Optional[str] = None
-    schema: Optional[dict] = None
-    slug: Optional[str] = None
-    updated_at: Optional[str] = None
-    user_id: Optional[str] = None
-    visibility: Optional[str] = None
+class CollectionCreateData(TypedDict, total=False):
+    created_at: str
+    data: dict
+    id: str
+    name: str
+    project_id: str
+    schema: dict
+    slug: str
+    updated_at: str
+    user_id: str
+    visibility: str
 
 
-@dataclass
-class CollectionUpdateData:
+class CollectionUpdateData(TypedDict):
     id: str
 
 
-@dataclass
-class CollectionRemoveMatch:
+class CollectionRemoveMatch(TypedDict):
     collection_id: str
     record_id: str
     id: str
 
 
-@dataclass
-class CollectionRecord:
+class CollectionRecord(TypedDict):
     data: dict
 
 
-@dataclass
-class CollectionRecordLoadMatch:
+class CollectionRecordLoadMatch(TypedDict):
     collection_id: str
     id: str
 
 
-@dataclass
-class CollectionRecordCreateData:
+class CollectionRecordCreateData(TypedDict):
     slug: str
 
 
-@dataclass
-class CollectionRecordUpdateData:
+class CollectionRecordUpdateData(TypedDict):
     collection_id: str
     id: str
 
 
-@dataclass
-class CollectionRecordList:
+class CollectionRecordListRequired(TypedDict):
     data: dict
     id: str
-    app_user_id: Optional[str] = None
-    collection_id: Optional[str] = None
-    created_at: Optional[str] = None
-    created_by: Optional[str] = None
-    deleted_at: Optional[str] = None
-    project_id: Optional[str] = None
-    updated_at: Optional[str] = None
 
 
-@dataclass
-class CollectionRecordListListMatch:
+class CollectionRecordList(CollectionRecordListRequired, total=False):
+    app_user_id: str
+    collection_id: str
+    created_at: str
+    created_by: str
+    deleted_at: str
+    project_id: str
+    updated_at: str
+
+
+class CollectionRecordListListMatch(TypedDict):
     slug: str
 
 
-@dataclass
-class Custom:
+class Custom(TypedDict):
     pass
 
 
-@dataclass
-class CustomLoadMatch:
+class CustomLoadMatch(TypedDict):
     id: str
 
 
-@dataclass
-class CustomCreateData:
+class CustomCreateData(TypedDict):
     id: str
 
 
-@dataclass
-class CustomUpdateData:
+class CustomUpdateData(TypedDict):
     id: str
 
 
-@dataclass
-class CustomRemoveMatch:
+class CustomRemoveMatch(TypedDict):
     id: str
 
 
-@dataclass
-class Legacy:
+class Legacy(TypedDict):
     pass
 
 
-@dataclass
-class LegacyRemoveMatch:
+class LegacyRemoveMatch(TypedDict):
     id: int
 
 
-@dataclass
-class LegacyMutation:
-    created_at: Optional[str] = None
-    id: Optional[str] = None
-    updated_at: Optional[str] = None
+class LegacyMutation(TypedDict, total=False):
+    created_at: str
+    id: str
+    updated_at: str
 
 
-@dataclass
-class LegacyMutationCreateData:
-    created_at: Optional[str] = None
-    id: Optional[str] = None
-    updated_at: Optional[str] = None
+class LegacyMutationCreateData(TypedDict, total=False):
+    created_at: str
+    id: str
+    updated_at: str
 
 
-@dataclass
-class LegacyMutationUpdateData:
+class LegacyMutationUpdateData(TypedDict):
     id: int
 
 
-@dataclass
-class LegacyUnknown:
+class LegacyUnknownRequired(TypedDict):
     data: dict
-    support: Optional[dict] = None
 
 
-@dataclass
-class LegacyUnknownLoadMatch:
+class LegacyUnknown(LegacyUnknownRequired, total=False):
+    support: dict
+
+
+class LegacyUnknownLoadMatch(TypedDict):
     id: int
 
 
-@dataclass
-class LegacyUnknownList:
+class LegacyUnknownList(TypedDict):
     color: str
     id: int
     name: str
@@ -345,28 +315,27 @@ class LegacyUnknownList:
     year: int
 
 
-@dataclass
-class LegacyUnknownListListMatch:
-    color: Optional[str] = None
-    id: Optional[int] = None
-    name: Optional[str] = None
-    pantone_value: Optional[str] = None
-    year: Optional[int] = None
+class LegacyUnknownListListMatch(TypedDict, total=False):
+    color: str
+    id: int
+    name: str
+    pantone_value: str
+    year: int
 
 
-@dataclass
-class LegacyUser:
+class LegacyUserRequired(TypedDict):
     data: dict
-    support: Optional[dict] = None
 
 
-@dataclass
-class LegacyUserLoadMatch:
+class LegacyUser(LegacyUserRequired, total=False):
+    support: dict
+
+
+class LegacyUserLoadMatch(TypedDict):
     id: int
 
 
-@dataclass
-class LegacyUserList:
+class LegacyUserList(TypedDict):
     avatar: str
     email: str
     first_name: str
@@ -374,41 +343,38 @@ class LegacyUserList:
     last_name: str
 
 
-@dataclass
-class LegacyUserListListMatch:
-    avatar: Optional[str] = None
-    email: Optional[str] = None
-    first_name: Optional[str] = None
-    id: Optional[int] = None
-    last_name: Optional[str] = None
+class LegacyUserListListMatch(TypedDict, total=False):
+    avatar: str
+    email: str
+    first_name: str
+    id: int
+    last_name: str
 
 
-@dataclass
-class Login:
+class Login(TypedDict):
     email: str
     password: str
     token: str
 
 
-@dataclass
-class LoginCreateData:
-    email: Optional[str] = None
-    password: Optional[str] = None
-    token: Optional[str] = None
-
-
-@dataclass
-class Register:
+class LoginCreateData(TypedDict, total=False):
     email: str
     password: str
     token: str
-    id: Optional[int] = None
 
 
-@dataclass
-class RegisterCreateData:
-    email: Optional[str] = None
-    id: Optional[int] = None
-    password: Optional[str] = None
-    token: Optional[str] = None
+class RegisterRequired(TypedDict):
+    email: str
+    password: str
+    token: str
 
+
+class Register(RegisterRequired, total=False):
+    id: int
+
+
+class RegisterCreateData(TypedDict, total=False):
+    email: str
+    id: int
+    password: str
+    token: str

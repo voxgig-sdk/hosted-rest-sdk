@@ -208,286 +208,154 @@ class HostedRestSDK
   end
 
 
-  # Idiomatic facade: client.agent_health.list / client.agent_health.load({ "id" => ... })
-  def agent_health
-    require_relative 'entity/agent_health_entity'
-    @agent_health ||= AgentHealthEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.agent_health instead.
+  # Canonical facade: client.AgentHealth.list / client.AgentHealth.load({ "id" => ... })
   def AgentHealth(data = nil)
     require_relative 'entity/agent_health_entity'
     AgentHealthEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.agent_sandbox.list / client.agent_sandbox.load({ "id" => ... })
-  def agent_sandbox
-    require_relative 'entity/agent_sandbox_entity'
-    @agent_sandbox ||= AgentSandboxEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.agent_sandbox instead.
+  # Canonical facade: client.AgentSandbox.list / client.AgentSandbox.load({ "id" => ... })
   def AgentSandbox(data = nil)
     require_relative 'entity/agent_sandbox_entity'
     AgentSandboxEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.agent_user_detail.list / client.agent_user_detail.load({ "id" => ... })
-  def agent_user_detail
-    require_relative 'entity/agent_user_detail_entity'
-    @agent_user_detail ||= AgentUserDetailEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.agent_user_detail instead.
+  # Canonical facade: client.AgentUserDetail.list / client.AgentUserDetail.load({ "id" => ... })
   def AgentUserDetail(data = nil)
     require_relative 'entity/agent_user_detail_entity'
     AgentUserDetailEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.agent_user_list.list / client.agent_user_list.load({ "id" => ... })
-  def agent_user_list
-    require_relative 'entity/agent_user_list_entity'
-    @agent_user_list ||= AgentUserListEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.agent_user_list instead.
+  # Canonical facade: client.AgentUserList.list / client.AgentUserList.load({ "id" => ... })
   def AgentUserList(data = nil)
     require_relative 'entity/agent_user_list_entity'
     AgentUserListEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.app_user.list / client.app_user.load({ "id" => ... })
-  def app_user
-    require_relative 'entity/app_user_entity'
-    @app_user ||= AppUserEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.app_user instead.
+  # Canonical facade: client.AppUser.list / client.AppUser.load({ "id" => ... })
   def AppUser(data = nil)
     require_relative 'entity/app_user_entity'
     AppUserEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.app_user_login.list / client.app_user_login.load({ "id" => ... })
-  def app_user_login
-    require_relative 'entity/app_user_login_entity'
-    @app_user_login ||= AppUserLoginEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.app_user_login instead.
+  # Canonical facade: client.AppUserLogin.list / client.AppUserLogin.load({ "id" => ... })
   def AppUserLogin(data = nil)
     require_relative 'entity/app_user_login_entity'
     AppUserLoginEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.app_user_session.list / client.app_user_session.load({ "id" => ... })
-  def app_user_session
-    require_relative 'entity/app_user_session_entity'
-    @app_user_session ||= AppUserSessionEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.app_user_session instead.
+  # Canonical facade: client.AppUserSession.list / client.AppUserSession.load({ "id" => ... })
   def AppUserSession(data = nil)
     require_relative 'entity/app_user_session_entity'
     AppUserSessionEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.app_user_total.list / client.app_user_total.load({ "id" => ... })
-  def app_user_total
-    require_relative 'entity/app_user_total_entity'
-    @app_user_total ||= AppUserTotalEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.app_user_total instead.
+  # Canonical facade: client.AppUserTotal.list / client.AppUserTotal.load({ "id" => ... })
   def AppUserTotal(data = nil)
     require_relative 'entity/app_user_total_entity'
     AppUserTotalEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.app_user_verify.list / client.app_user_verify.load({ "id" => ... })
-  def app_user_verify
-    require_relative 'entity/app_user_verify_entity'
-    @app_user_verify ||= AppUserVerifyEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.app_user_verify instead.
+  # Canonical facade: client.AppUserVerify.list / client.AppUserVerify.load({ "id" => ... })
   def AppUserVerify(data = nil)
     require_relative 'entity/app_user_verify_entity'
     AppUserVerifyEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.authentication.list / client.authentication.load({ "id" => ... })
-  def authentication
-    require_relative 'entity/authentication_entity'
-    @authentication ||= AuthenticationEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.authentication instead.
+  # Canonical facade: client.Authentication.list / client.Authentication.load({ "id" => ... })
   def Authentication(data = nil)
     require_relative 'entity/authentication_entity'
     AuthenticationEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.collection.list / client.collection.load({ "id" => ... })
-  def collection
-    require_relative 'entity/collection_entity'
-    @collection ||= CollectionEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.collection instead.
+  # Canonical facade: client.Collection.list / client.Collection.load({ "id" => ... })
   def Collection(data = nil)
     require_relative 'entity/collection_entity'
     CollectionEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.collection_record.list / client.collection_record.load({ "id" => ... })
-  def collection_record
-    require_relative 'entity/collection_record_entity'
-    @collection_record ||= CollectionRecordEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.collection_record instead.
+  # Canonical facade: client.CollectionRecord.list / client.CollectionRecord.load({ "id" => ... })
   def CollectionRecord(data = nil)
     require_relative 'entity/collection_record_entity'
     CollectionRecordEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.collection_record_list.list / client.collection_record_list.load({ "id" => ... })
-  def collection_record_list
-    require_relative 'entity/collection_record_list_entity'
-    @collection_record_list ||= CollectionRecordListEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.collection_record_list instead.
+  # Canonical facade: client.CollectionRecordList.list / client.CollectionRecordList.load({ "id" => ... })
   def CollectionRecordList(data = nil)
     require_relative 'entity/collection_record_list_entity'
     CollectionRecordListEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.custom.list / client.custom.load({ "id" => ... })
-  def custom
-    require_relative 'entity/custom_entity'
-    @custom ||= CustomEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.custom instead.
+  # Canonical facade: client.Custom.list / client.Custom.load({ "id" => ... })
   def Custom(data = nil)
     require_relative 'entity/custom_entity'
     CustomEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.legacy.list / client.legacy.load({ "id" => ... })
-  def legacy
-    require_relative 'entity/legacy_entity'
-    @legacy ||= LegacyEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.legacy instead.
+  # Canonical facade: client.Legacy.list / client.Legacy.load({ "id" => ... })
   def Legacy(data = nil)
     require_relative 'entity/legacy_entity'
     LegacyEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.legacy_mutation.list / client.legacy_mutation.load({ "id" => ... })
-  def legacy_mutation
-    require_relative 'entity/legacy_mutation_entity'
-    @legacy_mutation ||= LegacyMutationEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.legacy_mutation instead.
+  # Canonical facade: client.LegacyMutation.list / client.LegacyMutation.load({ "id" => ... })
   def LegacyMutation(data = nil)
     require_relative 'entity/legacy_mutation_entity'
     LegacyMutationEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.legacy_unknown.list / client.legacy_unknown.load({ "id" => ... })
-  def legacy_unknown
-    require_relative 'entity/legacy_unknown_entity'
-    @legacy_unknown ||= LegacyUnknownEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.legacy_unknown instead.
+  # Canonical facade: client.LegacyUnknown.list / client.LegacyUnknown.load({ "id" => ... })
   def LegacyUnknown(data = nil)
     require_relative 'entity/legacy_unknown_entity'
     LegacyUnknownEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.legacy_unknown_list.list / client.legacy_unknown_list.load({ "id" => ... })
-  def legacy_unknown_list
-    require_relative 'entity/legacy_unknown_list_entity'
-    @legacy_unknown_list ||= LegacyUnknownListEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.legacy_unknown_list instead.
+  # Canonical facade: client.LegacyUnknownList.list / client.LegacyUnknownList.load({ "id" => ... })
   def LegacyUnknownList(data = nil)
     require_relative 'entity/legacy_unknown_list_entity'
     LegacyUnknownListEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.legacy_user.list / client.legacy_user.load({ "id" => ... })
-  def legacy_user
-    require_relative 'entity/legacy_user_entity'
-    @legacy_user ||= LegacyUserEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.legacy_user instead.
+  # Canonical facade: client.LegacyUser.list / client.LegacyUser.load({ "id" => ... })
   def LegacyUser(data = nil)
     require_relative 'entity/legacy_user_entity'
     LegacyUserEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.legacy_user_list.list / client.legacy_user_list.load({ "id" => ... })
-  def legacy_user_list
-    require_relative 'entity/legacy_user_list_entity'
-    @legacy_user_list ||= LegacyUserListEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.legacy_user_list instead.
+  # Canonical facade: client.LegacyUserList.list / client.LegacyUserList.load({ "id" => ... })
   def LegacyUserList(data = nil)
     require_relative 'entity/legacy_user_list_entity'
     LegacyUserListEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.login.list / client.login.load({ "id" => ... })
-  def login
-    require_relative 'entity/login_entity'
-    @login ||= LoginEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.login instead.
+  # Canonical facade: client.Login.list / client.Login.load({ "id" => ... })
   def Login(data = nil)
     require_relative 'entity/login_entity'
     LoginEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.register.list / client.register.load({ "id" => ... })
-  def register
-    require_relative 'entity/register_entity'
-    @register ||= RegisterEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.register instead.
+  # Canonical facade: client.Register.list / client.Register.load({ "id" => ... })
   def Register(data = nil)
     require_relative 'entity/register_entity'
     RegisterEntity.new(self, data)

@@ -28,9 +28,9 @@ const client = new HostedRestSDK({
   apikey: process.env.HOSTED_REST_APIKEY,
 })
 
-// Load agenthealth data
-const agenthealth = await client.agenthealth.load({})
-console.log(agenthealth.data)
+// Load agenthealth data (returns a AgentHealth)
+const agenthealth = await client.AgentHealth().load()
+console.log(agenthealth)
 ```
 
 See the [TypeScript README](ts/README.md) for the full guide.
@@ -110,8 +110,8 @@ client = HostedRestSDK({
 })
 
 
-# Load a specific agenthealth
-agenthealth = client.agenthealth.load({"id": "example_id"})
+# Load a specific agenthealth (returns the record, raises on error)
+agenthealth = client.AgentHealth().load({"id": "example_id"})
 print(agenthealth)
 ```
 
@@ -126,8 +126,8 @@ $client = new HostedRestSDK([
 ]);
 
 
-// Load a specific agenthealth
-$agenthealth = $client->agenthealth()->load(["id" => "example_id"]);
+// Load a specific agenthealth (returns the bare record; throws on error)
+$agenthealth = $client->AgentHealth()->load(["id" => "example_id"]);
 print_r($agenthealth);
 ```
 
@@ -155,8 +155,8 @@ client = HostedRestSDK.new({
 })
 
 
-# Load a specific agenthealth
-agenthealth = client.agenthealth.load({ "id" => "example_id" })
+# Load a specific agenthealth (returns the bare record; raises on error)
+agenthealth = client.AgentHealth.load({ "id" => "example_id" })
 puts agenthealth
 ```
 
@@ -171,7 +171,7 @@ local client = sdk.new({
 
 
 -- Load a specific agenthealth
-local agenthealth, err = client:agenthealth():load({ id = "example_id" })
+local agenthealth, err = client:AgentHealth():load({ id = "example_id" })
 print(agenthealth)
 ```
 
@@ -184,22 +184,27 @@ in-memory mock, so unit tests run offline.
 
 ```ts
 const client = HostedRestSDK.test()
-const result = await client.agenthealth.load({ id: 'test01' })
-// result.ok === true, result.data contains mock data
+const agenthealth = await client.AgentHealth().load({ id: 'test01' })
+// agenthealth is a bare AgentHealth populated with mock data
+console.log(agenthealth)
 ```
 
 ### Python
 
 ```python
 client = HostedRestSDK.test()
-result = client.agenthealth.load({"id": "test01"})
+agenthealth = client.AgentHealth().load({"id": "test01"})
+print(agenthealth)
 ```
 
 ### PHP
 
 ```php
-$client = HostedRestSDK::test();
-$result = $client->agenthealth()->load(["id" => "test01"]);
+// Seed fixture data so offline calls resolve without a live server.
+$client = HostedRestSDK::test([
+    "entity" => ["agenthealth" => ["test01" => ["id" => "test01"]]],
+]);
+$agenthealth = $client->AgentHealth()->load(["id" => "test01"]);
 ```
 
 ### Golang
@@ -214,15 +219,18 @@ result, err := client.AgentHealth(nil).Load(
 ### Ruby
 
 ```ruby
-client = HostedRestSDK.test
-result = client.agenthealth.load({ "id" => "test01" })
+# Seed fixture data so offline calls resolve without a live server.
+client = HostedRestSDK.test({
+  "entity" => { "agenthealth" => { "test01" => { "id" => "test01" } } },
+})
+agenthealth = client.AgentHealth.load({ "id" => "test01" })
 ```
 
 ### Lua
 
 ```lua
 local client = sdk.test()
-local result, err = client:agenthealth():load({ id = "test01" })
+local result, err = client:AgentHealth():load({ id = "test01" })
 ```
 
 ## How it works
@@ -270,6 +278,9 @@ const result = await client.direct({
   method: 'GET',
   params: { id: 'example' },
 })
+if (result instanceof Error) {
+  throw result
+}
 console.log(result.data)
 ```
 

@@ -362,7 +362,7 @@ Alias for `HostedRestSDK.test()`.
 ## AgentHealthEntity
 
 ```ts
-const agent_health = client.agent_health
+const agent_health = client.AgentHealth()
 ```
 
 ### Fields
@@ -378,7 +378,7 @@ const agent_health = client.agent_health
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.agent_health.load({ id: 'agent_health_id' })
+const result = await client.AgentHealth().load({ id: 'agent_health_id' })
 ```
 
 ### Common Methods
@@ -412,7 +412,7 @@ Return a copy of the entity options.
 ## AgentSandboxEntity
 
 ```ts
-const agent_sandbox = client.agent_sandbox
+const agent_sandbox = client.AgentSandbox()
 ```
 
 ### Fields
@@ -429,7 +429,7 @@ const agent_sandbox = client.agent_sandbox
 Create a new entity with the given data.
 
 ```ts
-const result = await client.agent_sandbox.create({
+const result = await client.AgentSandbox().create({
   email: /* `$STRING` */,
   password: /* `$STRING` */,
 })
@@ -440,7 +440,7 @@ const result = await client.agent_sandbox.create({
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.agent_sandbox.load({ id: 'agent_sandbox_id' })
+const result = await client.AgentSandbox().load({ id: 'agent_sandbox_id' })
 ```
 
 ### Common Methods
@@ -474,7 +474,7 @@ Return a copy of the entity options.
 ## AgentUserDetailEntity
 
 ```ts
-const agent_user_detail = client.agent_user_detail
+const agent_user_detail = client.AgentUserDetail()
 ```
 
 ### Fields
@@ -490,7 +490,7 @@ const agent_user_detail = client.agent_user_detail
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.agent_user_detail.load({ id: 'agent_user_detail_id' })
+const result = await client.AgentUserDetail().load({ id: 'agent_user_detail_id' })
 ```
 
 ### Common Methods
@@ -524,7 +524,7 @@ Return a copy of the entity options.
 ## AgentUserListEntity
 
 ```ts
-const agent_user_list = client.agent_user_list
+const agent_user_list = client.AgentUserList()
 ```
 
 ### Fields
@@ -549,7 +549,7 @@ const agent_user_list = client.agent_user_list
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.agent_user_list.list()
+const results = await client.AgentUserList().list()
 ```
 
 ### Common Methods
@@ -583,7 +583,7 @@ Return a copy of the entity options.
 ## AppUserEntity
 
 ```ts
-const app_user = client.app_user
+const app_user = client.AppUser()
 ```
 
 ### Fields
@@ -617,7 +617,7 @@ const app_user = client.app_user
 Create a new entity with the given data.
 
 ```ts
-const result = await client.app_user.create({
+const result = await client.AppUser().create({
   data: /* `$OBJECT` */,
   email: /* `$STRING` */,
 })
@@ -628,7 +628,7 @@ const result = await client.app_user.create({
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.app_user.list()
+const results = await client.AppUser().list()
 ```
 
 #### `load(match: object, ctrl?: object)`
@@ -636,7 +636,7 @@ const results = await client.app_user.list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.app_user.load({ id: 'app_user_id' })
+const result = await client.AppUser().load({ id: 'app_user_id' })
 ```
 
 #### `remove(match: object, ctrl?: object)`
@@ -644,7 +644,7 @@ const result = await client.app_user.load({ id: 'app_user_id' })
 Remove the entity matching the given criteria.
 
 ```ts
-const result = await client.app_user.remove({ id: 'app_user_id' })
+const result = await client.AppUser().remove({ id: 'app_user_id' })
 ```
 
 #### `update(data: object, ctrl?: object)`
@@ -652,7 +652,7 @@ const result = await client.app_user.remove({ id: 'app_user_id' })
 Update an existing entity. The data must include the entity `id`.
 
 ```ts
-const result = await client.app_user.update({
+const result = await client.AppUser().update({
   id: 'app_user_id',
   // Fields to update
 })
@@ -689,7 +689,7 @@ Return a copy of the entity options.
 ## AppUserLoginEntity
 
 ```ts
-const app_user_login = client.app_user_login
+const app_user_login = client.AppUserLogin()
 ```
 
 ### Fields
@@ -708,7 +708,7 @@ const app_user_login = client.app_user_login
 Create a new entity with the given data.
 
 ```ts
-const result = await client.app_user_login.create({
+const result = await client.AppUserLogin().create({
   data: /* `$OBJECT` */,
   email: /* `$STRING` */,
 })
@@ -745,7 +745,7 @@ Return a copy of the entity options.
 ## AppUserSessionEntity
 
 ```ts
-const app_user_session = client.app_user_session
+const app_user_session = client.AppUserSession()
 ```
 
 ### Fields
@@ -761,7 +761,7 @@ const app_user_session = client.app_user_session
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.app_user_session.load({ id: 'app_user_session_id' })
+const result = await client.AppUserSession().load({ id: 'app_user_session_id' })
 ```
 
 ### Common Methods
@@ -795,7 +795,7 @@ Return a copy of the entity options.
 ## AppUserTotalEntity
 
 ```ts
-const app_user_total = client.app_user_total
+const app_user_total = client.AppUserTotal()
 ```
 
 ### Fields
@@ -811,7 +811,7 @@ const app_user_total = client.app_user_total
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.app_user_total.load({ id: 'app_user_total_id' })
+const result = await client.AppUserTotal().load({ id: 'app_user_total_id' })
 ```
 
 ### Common Methods
@@ -845,7 +845,7 @@ Return a copy of the entity options.
 ## AppUserVerifyEntity
 
 ```ts
-const app_user_verify = client.app_user_verify
+const app_user_verify = client.AppUserVerify()
 ```
 
 ### Fields
@@ -862,7 +862,7 @@ const app_user_verify = client.app_user_verify
 Create a new entity with the given data.
 
 ```ts
-const result = await client.app_user_verify.create({
+const result = await client.AppUserVerify().create({
   data: /* `$OBJECT` */,
   token: /* `$STRING` */,
 })
@@ -899,7 +899,7 @@ Return a copy of the entity options.
 ## AuthenticationEntity
 
 ```ts
-const authentication = client.authentication
+const authentication = client.Authentication()
 ```
 
 ### Operations
@@ -909,7 +909,7 @@ const authentication = client.authentication
 Create a new entity with the given data.
 
 ```ts
-const result = await client.authentication.create({
+const result = await client.Authentication().create({
 })
 ```
 
@@ -944,7 +944,7 @@ Return a copy of the entity options.
 ## CollectionEntity
 
 ```ts
-const collection = client.collection
+const collection = client.Collection()
 ```
 
 ### Fields
@@ -984,7 +984,7 @@ const collection = client.collection
 Create a new entity with the given data.
 
 ```ts
-const result = await client.collection.create({
+const result = await client.Collection().create({
   data: /* `$OBJECT` */,
   name: /* `$STRING` */,
 })
@@ -995,7 +995,7 @@ const result = await client.collection.create({
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.collection.list()
+const results = await client.Collection().list()
 ```
 
 #### `load(match: object, ctrl?: object)`
@@ -1003,7 +1003,7 @@ const results = await client.collection.list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.collection.load({ id: 'collection_id' })
+const result = await client.Collection().load({ id: 'collection_id' })
 ```
 
 #### `remove(match: object, ctrl?: object)`
@@ -1011,7 +1011,7 @@ const result = await client.collection.load({ id: 'collection_id' })
 Remove the entity matching the given criteria.
 
 ```ts
-const result = await client.collection.remove({ id: 'collection_id' })
+const result = await client.Collection().remove({ id: 'collection_id' })
 ```
 
 #### `update(data: object, ctrl?: object)`
@@ -1019,7 +1019,7 @@ const result = await client.collection.remove({ id: 'collection_id' })
 Update an existing entity. The data must include the entity `id`.
 
 ```ts
-const result = await client.collection.update({
+const result = await client.Collection().update({
   id: 'collection_id',
   // Fields to update
 })
@@ -1056,7 +1056,7 @@ Return a copy of the entity options.
 ## CollectionRecordEntity
 
 ```ts
-const collection_record = client.collection_record
+const collection_record = client.CollectionRecord()
 ```
 
 ### Fields
@@ -1072,7 +1072,7 @@ const collection_record = client.collection_record
 Create a new entity with the given data.
 
 ```ts
-const result = await client.collection_record.create({
+const result = await client.CollectionRecord().create({
   data: /* `$OBJECT` */,
 })
 ```
@@ -1082,7 +1082,7 @@ const result = await client.collection_record.create({
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.collection_record.load({ id: 'collection_record_id' })
+const result = await client.CollectionRecord().load({ id: 'collection_record_id' })
 ```
 
 #### `update(data: object, ctrl?: object)`
@@ -1090,7 +1090,7 @@ const result = await client.collection_record.load({ id: 'collection_record_id' 
 Update an existing entity. The data must include the entity `id`.
 
 ```ts
-const result = await client.collection_record.update({
+const result = await client.CollectionRecord().update({
   id: 'collection_record_id',
   // Fields to update
 })
@@ -1127,7 +1127,7 @@ Return a copy of the entity options.
 ## CollectionRecordListEntity
 
 ```ts
-const collection_record_list = client.collection_record_list
+const collection_record_list = client.CollectionRecordList()
 ```
 
 ### Fields
@@ -1151,7 +1151,7 @@ const collection_record_list = client.collection_record_list
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.collection_record_list.list()
+const results = await client.CollectionRecordList().list()
 ```
 
 ### Common Methods
@@ -1185,7 +1185,7 @@ Return a copy of the entity options.
 ## CustomEntity
 
 ```ts
-const custom = client.custom
+const custom = client.Custom()
 ```
 
 ### Operations
@@ -1195,7 +1195,7 @@ const custom = client.custom
 Create a new entity with the given data.
 
 ```ts
-const result = await client.custom.create({
+const result = await client.Custom().create({
 })
 ```
 
@@ -1204,7 +1204,7 @@ const result = await client.custom.create({
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.custom.load({ id: 'custom_id' })
+const result = await client.Custom().load({ id: 'custom_id' })
 ```
 
 #### `remove(match: object, ctrl?: object)`
@@ -1212,7 +1212,7 @@ const result = await client.custom.load({ id: 'custom_id' })
 Remove the entity matching the given criteria.
 
 ```ts
-const result = await client.custom.remove({ id: 'custom_id' })
+const result = await client.Custom().remove({ id: 'custom_id' })
 ```
 
 #### `update(data: object, ctrl?: object)`
@@ -1220,7 +1220,7 @@ const result = await client.custom.remove({ id: 'custom_id' })
 Update an existing entity. The data must include the entity `id`.
 
 ```ts
-const result = await client.custom.update({
+const result = await client.Custom().update({
   id: 'custom_id',
   // Fields to update
 })
@@ -1257,7 +1257,7 @@ Return a copy of the entity options.
 ## LegacyEntity
 
 ```ts
-const legacy = client.legacy
+const legacy = client.Legacy()
 ```
 
 ### Operations
@@ -1267,7 +1267,7 @@ const legacy = client.legacy
 Remove the entity matching the given criteria.
 
 ```ts
-const result = await client.legacy.remove({ id: 'legacy_id' })
+const result = await client.Legacy().remove({ id: 'legacy_id' })
 ```
 
 ### Common Methods
@@ -1301,7 +1301,7 @@ Return a copy of the entity options.
 ## LegacyMutationEntity
 
 ```ts
-const legacy_mutation = client.legacy_mutation
+const legacy_mutation = client.LegacyMutation()
 ```
 
 ### Fields
@@ -1319,7 +1319,7 @@ const legacy_mutation = client.legacy_mutation
 Create a new entity with the given data.
 
 ```ts
-const result = await client.legacy_mutation.create({
+const result = await client.LegacyMutation().create({
 })
 ```
 
@@ -1328,7 +1328,7 @@ const result = await client.legacy_mutation.create({
 Update an existing entity. The data must include the entity `id`.
 
 ```ts
-const result = await client.legacy_mutation.update({
+const result = await client.LegacyMutation().update({
   id: 'legacy_mutation_id',
   // Fields to update
 })
@@ -1365,7 +1365,7 @@ Return a copy of the entity options.
 ## LegacyUnknownEntity
 
 ```ts
-const legacy_unknown = client.legacy_unknown
+const legacy_unknown = client.LegacyUnknown()
 ```
 
 ### Fields
@@ -1382,7 +1382,7 @@ const legacy_unknown = client.legacy_unknown
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.legacy_unknown.load({ id: 'legacy_unknown_id' })
+const result = await client.LegacyUnknown().load({ id: 'legacy_unknown_id' })
 ```
 
 ### Common Methods
@@ -1416,7 +1416,7 @@ Return a copy of the entity options.
 ## LegacyUnknownListEntity
 
 ```ts
-const legacy_unknown_list = client.legacy_unknown_list
+const legacy_unknown_list = client.LegacyUnknownList()
 ```
 
 ### Fields
@@ -1436,7 +1436,7 @@ const legacy_unknown_list = client.legacy_unknown_list
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.legacy_unknown_list.list()
+const results = await client.LegacyUnknownList().list()
 ```
 
 ### Common Methods
@@ -1470,7 +1470,7 @@ Return a copy of the entity options.
 ## LegacyUserEntity
 
 ```ts
-const legacy_user = client.legacy_user
+const legacy_user = client.LegacyUser()
 ```
 
 ### Fields
@@ -1487,7 +1487,7 @@ const legacy_user = client.legacy_user
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.legacy_user.load({ id: 'legacy_user_id' })
+const result = await client.LegacyUser().load({ id: 'legacy_user_id' })
 ```
 
 ### Common Methods
@@ -1521,7 +1521,7 @@ Return a copy of the entity options.
 ## LegacyUserListEntity
 
 ```ts
-const legacy_user_list = client.legacy_user_list
+const legacy_user_list = client.LegacyUserList()
 ```
 
 ### Fields
@@ -1541,7 +1541,7 @@ const legacy_user_list = client.legacy_user_list
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.legacy_user_list.list()
+const results = await client.LegacyUserList().list()
 ```
 
 ### Common Methods
@@ -1575,7 +1575,7 @@ Return a copy of the entity options.
 ## LoginEntity
 
 ```ts
-const login = client.login
+const login = client.Login()
 ```
 
 ### Fields
@@ -1593,7 +1593,7 @@ const login = client.login
 Create a new entity with the given data.
 
 ```ts
-const result = await client.login.create({
+const result = await client.Login().create({
   email: /* `$STRING` */,
   password: /* `$STRING` */,
   token: /* `$STRING` */,
@@ -1631,7 +1631,7 @@ Return a copy of the entity options.
 ## RegisterEntity
 
 ```ts
-const register = client.register
+const register = client.Register()
 ```
 
 ### Fields
@@ -1650,7 +1650,7 @@ const register = client.register
 Create a new entity with the given data.
 
 ```ts
-const result = await client.register.create({
+const result = await client.Register().create({
   email: /* `$STRING` */,
   password: /* `$STRING` */,
   token: /* `$STRING` */,

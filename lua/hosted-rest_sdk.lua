@@ -244,8 +244,9 @@ end
 
 
 
--- Idiomatic facade: client:agent_health():list() / client:agent_health():load({ id = ... })
-function HostedRestSDK:agent_health(data)
+-- Idiomatic facade: client:AgentHealth():list() / client:AgentHealth():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function HostedRestSDK:AgentHealth(data)
   local EntityMod = require("entity.agent_health_entity")
   if data == nil then
     if self._agent_health == nil then
@@ -256,15 +257,10 @@ function HostedRestSDK:agent_health(data)
   return EntityMod.new(self, data)
 end
 
--- Deprecated: use client:agent_health() instead.
-function HostedRestSDK:AgentHealth(data)
-  local EntityMod = require("entity.agent_health_entity")
-  return EntityMod.new(self, data)
-end
 
-
--- Idiomatic facade: client:agent_sandbox():list() / client:agent_sandbox():load({ id = ... })
-function HostedRestSDK:agent_sandbox(data)
+-- Idiomatic facade: client:AgentSandbox():list() / client:AgentSandbox():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function HostedRestSDK:AgentSandbox(data)
   local EntityMod = require("entity.agent_sandbox_entity")
   if data == nil then
     if self._agent_sandbox == nil then
@@ -275,15 +271,10 @@ function HostedRestSDK:agent_sandbox(data)
   return EntityMod.new(self, data)
 end
 
--- Deprecated: use client:agent_sandbox() instead.
-function HostedRestSDK:AgentSandbox(data)
-  local EntityMod = require("entity.agent_sandbox_entity")
-  return EntityMod.new(self, data)
-end
 
-
--- Idiomatic facade: client:agent_user_detail():list() / client:agent_user_detail():load({ id = ... })
-function HostedRestSDK:agent_user_detail(data)
+-- Idiomatic facade: client:AgentUserDetail():list() / client:AgentUserDetail():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function HostedRestSDK:AgentUserDetail(data)
   local EntityMod = require("entity.agent_user_detail_entity")
   if data == nil then
     if self._agent_user_detail == nil then
@@ -294,15 +285,10 @@ function HostedRestSDK:agent_user_detail(data)
   return EntityMod.new(self, data)
 end
 
--- Deprecated: use client:agent_user_detail() instead.
-function HostedRestSDK:AgentUserDetail(data)
-  local EntityMod = require("entity.agent_user_detail_entity")
-  return EntityMod.new(self, data)
-end
 
-
--- Idiomatic facade: client:agent_user_list():list() / client:agent_user_list():load({ id = ... })
-function HostedRestSDK:agent_user_list(data)
+-- Idiomatic facade: client:AgentUserList():list() / client:AgentUserList():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function HostedRestSDK:AgentUserList(data)
   local EntityMod = require("entity.agent_user_list_entity")
   if data == nil then
     if self._agent_user_list == nil then
@@ -313,15 +299,10 @@ function HostedRestSDK:agent_user_list(data)
   return EntityMod.new(self, data)
 end
 
--- Deprecated: use client:agent_user_list() instead.
-function HostedRestSDK:AgentUserList(data)
-  local EntityMod = require("entity.agent_user_list_entity")
-  return EntityMod.new(self, data)
-end
 
-
--- Idiomatic facade: client:app_user():list() / client:app_user():load({ id = ... })
-function HostedRestSDK:app_user(data)
+-- Idiomatic facade: client:AppUser():list() / client:AppUser():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function HostedRestSDK:AppUser(data)
   local EntityMod = require("entity.app_user_entity")
   if data == nil then
     if self._app_user == nil then
@@ -332,15 +313,10 @@ function HostedRestSDK:app_user(data)
   return EntityMod.new(self, data)
 end
 
--- Deprecated: use client:app_user() instead.
-function HostedRestSDK:AppUser(data)
-  local EntityMod = require("entity.app_user_entity")
-  return EntityMod.new(self, data)
-end
 
-
--- Idiomatic facade: client:app_user_login():list() / client:app_user_login():load({ id = ... })
-function HostedRestSDK:app_user_login(data)
+-- Idiomatic facade: client:AppUserLogin():list() / client:AppUserLogin():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function HostedRestSDK:AppUserLogin(data)
   local EntityMod = require("entity.app_user_login_entity")
   if data == nil then
     if self._app_user_login == nil then
@@ -351,15 +327,10 @@ function HostedRestSDK:app_user_login(data)
   return EntityMod.new(self, data)
 end
 
--- Deprecated: use client:app_user_login() instead.
-function HostedRestSDK:AppUserLogin(data)
-  local EntityMod = require("entity.app_user_login_entity")
-  return EntityMod.new(self, data)
-end
 
-
--- Idiomatic facade: client:app_user_session():list() / client:app_user_session():load({ id = ... })
-function HostedRestSDK:app_user_session(data)
+-- Idiomatic facade: client:AppUserSession():list() / client:AppUserSession():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function HostedRestSDK:AppUserSession(data)
   local EntityMod = require("entity.app_user_session_entity")
   if data == nil then
     if self._app_user_session == nil then
@@ -370,15 +341,10 @@ function HostedRestSDK:app_user_session(data)
   return EntityMod.new(self, data)
 end
 
--- Deprecated: use client:app_user_session() instead.
-function HostedRestSDK:AppUserSession(data)
-  local EntityMod = require("entity.app_user_session_entity")
-  return EntityMod.new(self, data)
-end
 
-
--- Idiomatic facade: client:app_user_total():list() / client:app_user_total():load({ id = ... })
-function HostedRestSDK:app_user_total(data)
+-- Idiomatic facade: client:AppUserTotal():list() / client:AppUserTotal():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function HostedRestSDK:AppUserTotal(data)
   local EntityMod = require("entity.app_user_total_entity")
   if data == nil then
     if self._app_user_total == nil then
@@ -389,15 +355,10 @@ function HostedRestSDK:app_user_total(data)
   return EntityMod.new(self, data)
 end
 
--- Deprecated: use client:app_user_total() instead.
-function HostedRestSDK:AppUserTotal(data)
-  local EntityMod = require("entity.app_user_total_entity")
-  return EntityMod.new(self, data)
-end
 
-
--- Idiomatic facade: client:app_user_verify():list() / client:app_user_verify():load({ id = ... })
-function HostedRestSDK:app_user_verify(data)
+-- Idiomatic facade: client:AppUserVerify():list() / client:AppUserVerify():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function HostedRestSDK:AppUserVerify(data)
   local EntityMod = require("entity.app_user_verify_entity")
   if data == nil then
     if self._app_user_verify == nil then
@@ -408,15 +369,10 @@ function HostedRestSDK:app_user_verify(data)
   return EntityMod.new(self, data)
 end
 
--- Deprecated: use client:app_user_verify() instead.
-function HostedRestSDK:AppUserVerify(data)
-  local EntityMod = require("entity.app_user_verify_entity")
-  return EntityMod.new(self, data)
-end
 
-
--- Idiomatic facade: client:authentication():list() / client:authentication():load({ id = ... })
-function HostedRestSDK:authentication(data)
+-- Idiomatic facade: client:Authentication():list() / client:Authentication():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function HostedRestSDK:Authentication(data)
   local EntityMod = require("entity.authentication_entity")
   if data == nil then
     if self._authentication == nil then
@@ -427,15 +383,10 @@ function HostedRestSDK:authentication(data)
   return EntityMod.new(self, data)
 end
 
--- Deprecated: use client:authentication() instead.
-function HostedRestSDK:Authentication(data)
-  local EntityMod = require("entity.authentication_entity")
-  return EntityMod.new(self, data)
-end
 
-
--- Idiomatic facade: client:collection():list() / client:collection():load({ id = ... })
-function HostedRestSDK:collection(data)
+-- Idiomatic facade: client:Collection():list() / client:Collection():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function HostedRestSDK:Collection(data)
   local EntityMod = require("entity.collection_entity")
   if data == nil then
     if self._collection == nil then
@@ -446,15 +397,10 @@ function HostedRestSDK:collection(data)
   return EntityMod.new(self, data)
 end
 
--- Deprecated: use client:collection() instead.
-function HostedRestSDK:Collection(data)
-  local EntityMod = require("entity.collection_entity")
-  return EntityMod.new(self, data)
-end
 
-
--- Idiomatic facade: client:collection_record():list() / client:collection_record():load({ id = ... })
-function HostedRestSDK:collection_record(data)
+-- Idiomatic facade: client:CollectionRecord():list() / client:CollectionRecord():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function HostedRestSDK:CollectionRecord(data)
   local EntityMod = require("entity.collection_record_entity")
   if data == nil then
     if self._collection_record == nil then
@@ -465,15 +411,10 @@ function HostedRestSDK:collection_record(data)
   return EntityMod.new(self, data)
 end
 
--- Deprecated: use client:collection_record() instead.
-function HostedRestSDK:CollectionRecord(data)
-  local EntityMod = require("entity.collection_record_entity")
-  return EntityMod.new(self, data)
-end
 
-
--- Idiomatic facade: client:collection_record_list():list() / client:collection_record_list():load({ id = ... })
-function HostedRestSDK:collection_record_list(data)
+-- Idiomatic facade: client:CollectionRecordList():list() / client:CollectionRecordList():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function HostedRestSDK:CollectionRecordList(data)
   local EntityMod = require("entity.collection_record_list_entity")
   if data == nil then
     if self._collection_record_list == nil then
@@ -484,15 +425,10 @@ function HostedRestSDK:collection_record_list(data)
   return EntityMod.new(self, data)
 end
 
--- Deprecated: use client:collection_record_list() instead.
-function HostedRestSDK:CollectionRecordList(data)
-  local EntityMod = require("entity.collection_record_list_entity")
-  return EntityMod.new(self, data)
-end
 
-
--- Idiomatic facade: client:custom():list() / client:custom():load({ id = ... })
-function HostedRestSDK:custom(data)
+-- Idiomatic facade: client:Custom():list() / client:Custom():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function HostedRestSDK:Custom(data)
   local EntityMod = require("entity.custom_entity")
   if data == nil then
     if self._custom == nil then
@@ -503,15 +439,10 @@ function HostedRestSDK:custom(data)
   return EntityMod.new(self, data)
 end
 
--- Deprecated: use client:custom() instead.
-function HostedRestSDK:Custom(data)
-  local EntityMod = require("entity.custom_entity")
-  return EntityMod.new(self, data)
-end
 
-
--- Idiomatic facade: client:legacy():list() / client:legacy():load({ id = ... })
-function HostedRestSDK:legacy(data)
+-- Idiomatic facade: client:Legacy():list() / client:Legacy():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function HostedRestSDK:Legacy(data)
   local EntityMod = require("entity.legacy_entity")
   if data == nil then
     if self._legacy == nil then
@@ -522,15 +453,10 @@ function HostedRestSDK:legacy(data)
   return EntityMod.new(self, data)
 end
 
--- Deprecated: use client:legacy() instead.
-function HostedRestSDK:Legacy(data)
-  local EntityMod = require("entity.legacy_entity")
-  return EntityMod.new(self, data)
-end
 
-
--- Idiomatic facade: client:legacy_mutation():list() / client:legacy_mutation():load({ id = ... })
-function HostedRestSDK:legacy_mutation(data)
+-- Idiomatic facade: client:LegacyMutation():list() / client:LegacyMutation():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function HostedRestSDK:LegacyMutation(data)
   local EntityMod = require("entity.legacy_mutation_entity")
   if data == nil then
     if self._legacy_mutation == nil then
@@ -541,15 +467,10 @@ function HostedRestSDK:legacy_mutation(data)
   return EntityMod.new(self, data)
 end
 
--- Deprecated: use client:legacy_mutation() instead.
-function HostedRestSDK:LegacyMutation(data)
-  local EntityMod = require("entity.legacy_mutation_entity")
-  return EntityMod.new(self, data)
-end
 
-
--- Idiomatic facade: client:legacy_unknown():list() / client:legacy_unknown():load({ id = ... })
-function HostedRestSDK:legacy_unknown(data)
+-- Idiomatic facade: client:LegacyUnknown():list() / client:LegacyUnknown():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function HostedRestSDK:LegacyUnknown(data)
   local EntityMod = require("entity.legacy_unknown_entity")
   if data == nil then
     if self._legacy_unknown == nil then
@@ -560,15 +481,10 @@ function HostedRestSDK:legacy_unknown(data)
   return EntityMod.new(self, data)
 end
 
--- Deprecated: use client:legacy_unknown() instead.
-function HostedRestSDK:LegacyUnknown(data)
-  local EntityMod = require("entity.legacy_unknown_entity")
-  return EntityMod.new(self, data)
-end
 
-
--- Idiomatic facade: client:legacy_unknown_list():list() / client:legacy_unknown_list():load({ id = ... })
-function HostedRestSDK:legacy_unknown_list(data)
+-- Idiomatic facade: client:LegacyUnknownList():list() / client:LegacyUnknownList():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function HostedRestSDK:LegacyUnknownList(data)
   local EntityMod = require("entity.legacy_unknown_list_entity")
   if data == nil then
     if self._legacy_unknown_list == nil then
@@ -579,15 +495,10 @@ function HostedRestSDK:legacy_unknown_list(data)
   return EntityMod.new(self, data)
 end
 
--- Deprecated: use client:legacy_unknown_list() instead.
-function HostedRestSDK:LegacyUnknownList(data)
-  local EntityMod = require("entity.legacy_unknown_list_entity")
-  return EntityMod.new(self, data)
-end
 
-
--- Idiomatic facade: client:legacy_user():list() / client:legacy_user():load({ id = ... })
-function HostedRestSDK:legacy_user(data)
+-- Idiomatic facade: client:LegacyUser():list() / client:LegacyUser():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function HostedRestSDK:LegacyUser(data)
   local EntityMod = require("entity.legacy_user_entity")
   if data == nil then
     if self._legacy_user == nil then
@@ -598,15 +509,10 @@ function HostedRestSDK:legacy_user(data)
   return EntityMod.new(self, data)
 end
 
--- Deprecated: use client:legacy_user() instead.
-function HostedRestSDK:LegacyUser(data)
-  local EntityMod = require("entity.legacy_user_entity")
-  return EntityMod.new(self, data)
-end
 
-
--- Idiomatic facade: client:legacy_user_list():list() / client:legacy_user_list():load({ id = ... })
-function HostedRestSDK:legacy_user_list(data)
+-- Idiomatic facade: client:LegacyUserList():list() / client:LegacyUserList():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function HostedRestSDK:LegacyUserList(data)
   local EntityMod = require("entity.legacy_user_list_entity")
   if data == nil then
     if self._legacy_user_list == nil then
@@ -617,15 +523,10 @@ function HostedRestSDK:legacy_user_list(data)
   return EntityMod.new(self, data)
 end
 
--- Deprecated: use client:legacy_user_list() instead.
-function HostedRestSDK:LegacyUserList(data)
-  local EntityMod = require("entity.legacy_user_list_entity")
-  return EntityMod.new(self, data)
-end
 
-
--- Idiomatic facade: client:login():list() / client:login():load({ id = ... })
-function HostedRestSDK:login(data)
+-- Idiomatic facade: client:Login():list() / client:Login():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function HostedRestSDK:Login(data)
   local EntityMod = require("entity.login_entity")
   if data == nil then
     if self._login == nil then
@@ -636,15 +537,10 @@ function HostedRestSDK:login(data)
   return EntityMod.new(self, data)
 end
 
--- Deprecated: use client:login() instead.
-function HostedRestSDK:Login(data)
-  local EntityMod = require("entity.login_entity")
-  return EntityMod.new(self, data)
-end
 
-
--- Idiomatic facade: client:register():list() / client:register():load({ id = ... })
-function HostedRestSDK:register(data)
+-- Idiomatic facade: client:Register():list() / client:Register():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function HostedRestSDK:Register(data)
   local EntityMod = require("entity.register_entity")
   if data == nil then
     if self._register == nil then
@@ -652,12 +548,6 @@ function HostedRestSDK:register(data)
     end
     return self._register
   end
-  return EntityMod.new(self, data)
-end
-
--- Deprecated: use client:register() instead.
-function HostedRestSDK:Register(data)
-  local EntityMod = require("entity.register_entity")
   return EntityMod.new(self, data)
 end
 

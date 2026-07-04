@@ -35,9 +35,10 @@ $client = new HostedRestSDK([
 
 ```php
 try {
-    $result = $client->agenthealth()->load(["id" => "example_id"]);
-    print_r($result);
-} catch (\Exception $err) {
+    // load() returns the bare AgentHealth record (throws on error).
+    $agenthealth = $client->AgentHealth()->load(["id" => "example_id"]);
+    print_r($agenthealth);
+} catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
 ```
@@ -83,13 +84,17 @@ print_r($fetchdef["headers"]);
 
 ### Use test mode
 
-Create a mock client for unit testing — no server required:
+Create a mock client for unit testing — no server required. Seed fixture
+data via the `entity` option so offline calls resolve without a live server:
 
 ```php
-$client = HostedRestSDK::test();
+$client = HostedRestSDK::test([
+    "entity" => ["agenthealth" => ["test01" => ["id" => "test01"]]],
+]);
 
-$result = $client->agenthealth()->load(["id" => "test01"]);
-// $result contains mock response data
+// load() returns the bare mock record (throws on error).
+$agenthealth = $client->AgentHealth()->load(["id" => "test01"]);
+print_r($agenthealth);
 ```
 
 ### Use a custom fetch function
@@ -170,16 +175,16 @@ Creates a test-mode client with mock transport. Both arguments may be `null`.
 | `get_utility` | `(): Utility` | Copy of the SDK utility object. |
 | `prepare` | `(array $fetchargs): array` | Build an HTTP request definition without sending. |
 | `direct` | `(array $fetchargs): array` | Build and send an HTTP request. |
-| `AgentHealth` | `($data): AgentHealthEntity` | Create a AgentHealth entity instance. |
-| `AgentSandbox` | `($data): AgentSandboxEntity` | Create a AgentSandbox entity instance. |
-| `AgentUserDetail` | `($data): AgentUserDetailEntity` | Create a AgentUserDetail entity instance. |
-| `AgentUserList` | `($data): AgentUserListEntity` | Create a AgentUserList entity instance. |
-| `AppUser` | `($data): AppUserEntity` | Create a AppUser entity instance. |
-| `AppUserLogin` | `($data): AppUserLoginEntity` | Create a AppUserLogin entity instance. |
-| `AppUserSession` | `($data): AppUserSessionEntity` | Create a AppUserSession entity instance. |
-| `AppUserTotal` | `($data): AppUserTotalEntity` | Create a AppUserTotal entity instance. |
-| `AppUserVerify` | `($data): AppUserVerifyEntity` | Create a AppUserVerify entity instance. |
-| `Authentication` | `($data): AuthenticationEntity` | Create a Authentication entity instance. |
+| `AgentHealth` | `($data): AgentHealthEntity` | Create an AgentHealth entity instance. |
+| `AgentSandbox` | `($data): AgentSandboxEntity` | Create an AgentSandbox entity instance. |
+| `AgentUserDetail` | `($data): AgentUserDetailEntity` | Create an AgentUserDetail entity instance. |
+| `AgentUserList` | `($data): AgentUserListEntity` | Create an AgentUserList entity instance. |
+| `AppUser` | `($data): AppUserEntity` | Create an AppUser entity instance. |
+| `AppUserLogin` | `($data): AppUserLoginEntity` | Create an AppUserLogin entity instance. |
+| `AppUserSession` | `($data): AppUserSessionEntity` | Create an AppUserSession entity instance. |
+| `AppUserTotal` | `($data): AppUserTotalEntity` | Create an AppUserTotal entity instance. |
+| `AppUserVerify` | `($data): AppUserVerifyEntity` | Create an AppUserVerify entity instance. |
+| `Authentication` | `($data): AuthenticationEntity` | Create an Authentication entity instance. |
 | `Collection` | `($data): CollectionEntity` | Create a Collection entity instance. |
 | `CollectionRecord` | `($data): CollectionRecordEntity` | Create a CollectionRecord entity instance. |
 | `CollectionRecordList` | `($data): CollectionRecordListEntity` | Create a CollectionRecordList entity instance. |
@@ -509,7 +514,7 @@ API path: `/api/register`
 
 ### AgentHealth
 
-Create an instance: `const agent_health = client.agent_health`
+Create an instance: `$agent_health = $client->AgentHealth();`
 
 #### Operations
 
@@ -525,14 +530,15 @@ Create an instance: `const agent_health = client.agent_health`
 
 #### Example: Load
 
-```ts
-const agent_health = await client.agent_health.load({ id: 'agent_health_id' })
+```php
+// load() returns the bare AgentHealth record (throws on error).
+$agent_health = $client->AgentHealth()->load(["id" => "agent_health_id"]);
 ```
 
 
 ### AgentSandbox
 
-Create an instance: `const agent_sandbox = client.agent_sandbox`
+Create an instance: `$agent_sandbox = $client->AgentSandbox();`
 
 #### Operations
 
@@ -550,23 +556,24 @@ Create an instance: `const agent_sandbox = client.agent_sandbox`
 
 #### Example: Load
 
-```ts
-const agent_sandbox = await client.agent_sandbox.load({ id: 'agent_sandbox_id' })
+```php
+// load() returns the bare AgentSandbox record (throws on error).
+$agent_sandbox = $client->AgentSandbox()->load(["id" => "agent_sandbox_id"]);
 ```
 
 #### Example: Create
 
-```ts
-const agent_sandbox = await client.agent_sandbox.create({
-  email: /* `$STRING` */,
-  password: /* `$STRING` */,
-})
+```php
+$agent_sandbox = $client->AgentSandbox()->create([
+    "email" => null, // `$STRING`
+    "password" => null, // `$STRING`
+]);
 ```
 
 
 ### AgentUserDetail
 
-Create an instance: `const agent_user_detail = client.agent_user_detail`
+Create an instance: `$agent_user_detail = $client->AgentUserDetail();`
 
 #### Operations
 
@@ -582,14 +589,15 @@ Create an instance: `const agent_user_detail = client.agent_user_detail`
 
 #### Example: Load
 
-```ts
-const agent_user_detail = await client.agent_user_detail.load({ id: 'agent_user_detail_id' })
+```php
+// load() returns the bare AgentUserDetail record (throws on error).
+$agent_user_detail = $client->AgentUserDetail()->load(["id" => "agent_user_detail_id"]);
 ```
 
 
 ### AgentUserList
 
-Create an instance: `const agent_user_list = client.agent_user_list`
+Create an instance: `$agent_user_list = $client->AgentUserList();`
 
 #### Operations
 
@@ -614,14 +622,15 @@ Create an instance: `const agent_user_list = client.agent_user_list`
 
 #### Example: List
 
-```ts
-const agent_user_lists = await client.agent_user_list.list()
+```php
+// list() returns an array of AgentUserList records (throws on error).
+$agent_user_lists = $client->AgentUserList()->list();
 ```
 
 
 ### AppUser
 
-Create an instance: `const app_user = client.app_user`
+Create an instance: `$app_user = $client->AppUser();`
 
 #### Operations
 
@@ -647,29 +656,31 @@ Create an instance: `const app_user = client.app_user`
 
 #### Example: Load
 
-```ts
-const app_user = await client.app_user.load({ id: 'app_user_id' })
+```php
+// load() returns the bare AppUser record (throws on error).
+$app_user = $client->AppUser()->load(["id" => "app_user_id"]);
 ```
 
 #### Example: List
 
-```ts
-const app_users = await client.app_user.list()
+```php
+// list() returns an array of AppUser records (throws on error).
+$app_users = $client->AppUser()->list();
 ```
 
 #### Example: Create
 
-```ts
-const app_user = await client.app_user.create({
-  data: /* `$OBJECT` */,
-  email: /* `$STRING` */,
-})
+```php
+$app_user = $client->AppUser()->create([
+    "data" => null, // `$OBJECT`
+    "email" => null, // `$STRING`
+]);
 ```
 
 
 ### AppUserLogin
 
-Create an instance: `const app_user_login = client.app_user_login`
+Create an instance: `$app_user_login = $client->AppUserLogin();`
 
 #### Operations
 
@@ -688,17 +699,17 @@ Create an instance: `const app_user_login = client.app_user_login`
 
 #### Example: Create
 
-```ts
-const app_user_login = await client.app_user_login.create({
-  data: /* `$OBJECT` */,
-  email: /* `$STRING` */,
-})
+```php
+$app_user_login = $client->AppUserLogin()->create([
+    "data" => null, // `$OBJECT`
+    "email" => null, // `$STRING`
+]);
 ```
 
 
 ### AppUserSession
 
-Create an instance: `const app_user_session = client.app_user_session`
+Create an instance: `$app_user_session = $client->AppUserSession();`
 
 #### Operations
 
@@ -714,14 +725,15 @@ Create an instance: `const app_user_session = client.app_user_session`
 
 #### Example: Load
 
-```ts
-const app_user_session = await client.app_user_session.load({ id: 'app_user_session_id' })
+```php
+// load() returns the bare AppUserSession record (throws on error).
+$app_user_session = $client->AppUserSession()->load(["id" => "app_user_session_id"]);
 ```
 
 
 ### AppUserTotal
 
-Create an instance: `const app_user_total = client.app_user_total`
+Create an instance: `$app_user_total = $client->AppUserTotal();`
 
 #### Operations
 
@@ -737,14 +749,15 @@ Create an instance: `const app_user_total = client.app_user_total`
 
 #### Example: Load
 
-```ts
-const app_user_total = await client.app_user_total.load({ id: 'app_user_total_id' })
+```php
+// load() returns the bare AppUserTotal record (throws on error).
+$app_user_total = $client->AppUserTotal()->load(["id" => "app_user_total_id"]);
 ```
 
 
 ### AppUserVerify
 
-Create an instance: `const app_user_verify = client.app_user_verify`
+Create an instance: `$app_user_verify = $client->AppUserVerify();`
 
 #### Operations
 
@@ -761,17 +774,17 @@ Create an instance: `const app_user_verify = client.app_user_verify`
 
 #### Example: Create
 
-```ts
-const app_user_verify = await client.app_user_verify.create({
-  data: /* `$OBJECT` */,
-  token: /* `$STRING` */,
-})
+```php
+$app_user_verify = $client->AppUserVerify()->create([
+    "data" => null, // `$OBJECT`
+    "token" => null, // `$STRING`
+]);
 ```
 
 
 ### Authentication
 
-Create an instance: `const authentication = client.authentication`
+Create an instance: `$authentication = $client->Authentication();`
 
 #### Operations
 
@@ -781,15 +794,15 @@ Create an instance: `const authentication = client.authentication`
 
 #### Example: Create
 
-```ts
-const authentication = await client.authentication.create({
-})
+```php
+$authentication = $client->Authentication()->create([
+]);
 ```
 
 
 ### Collection
 
-Create an instance: `const collection = client.collection`
+Create an instance: `$collection = $client->Collection();`
 
 #### Operations
 
@@ -818,29 +831,31 @@ Create an instance: `const collection = client.collection`
 
 #### Example: Load
 
-```ts
-const collection = await client.collection.load({ id: 'collection_id' })
+```php
+// load() returns the bare Collection record (throws on error).
+$collection = $client->Collection()->load(["id" => "collection_id"]);
 ```
 
 #### Example: List
 
-```ts
-const collections = await client.collection.list()
+```php
+// list() returns an array of Collection records (throws on error).
+$collections = $client->Collection()->list();
 ```
 
 #### Example: Create
 
-```ts
-const collection = await client.collection.create({
-  data: /* `$OBJECT` */,
-  name: /* `$STRING` */,
-})
+```php
+$collection = $client->Collection()->create([
+    "data" => null, // `$OBJECT`
+    "name" => null, // `$STRING`
+]);
 ```
 
 
 ### CollectionRecord
 
-Create an instance: `const collection_record = client.collection_record`
+Create an instance: `$collection_record = $client->CollectionRecord();`
 
 #### Operations
 
@@ -858,22 +873,23 @@ Create an instance: `const collection_record = client.collection_record`
 
 #### Example: Load
 
-```ts
-const collection_record = await client.collection_record.load({ id: 'collection_record_id' })
+```php
+// load() returns the bare CollectionRecord record (throws on error).
+$collection_record = $client->CollectionRecord()->load(["id" => "collection_record_id"]);
 ```
 
 #### Example: Create
 
-```ts
-const collection_record = await client.collection_record.create({
-  data: /* `$OBJECT` */,
-})
+```php
+$collection_record = $client->CollectionRecord()->create([
+    "data" => null, // `$OBJECT`
+]);
 ```
 
 
 ### CollectionRecordList
 
-Create an instance: `const collection_record_list = client.collection_record_list`
+Create an instance: `$collection_record_list = $client->CollectionRecordList();`
 
 #### Operations
 
@@ -897,14 +913,15 @@ Create an instance: `const collection_record_list = client.collection_record_lis
 
 #### Example: List
 
-```ts
-const collection_record_lists = await client.collection_record_list.list()
+```php
+// list() returns an array of CollectionRecordList records (throws on error).
+$collection_record_lists = $client->CollectionRecordList()->list();
 ```
 
 
 ### Custom
 
-Create an instance: `const custom = client.custom`
+Create an instance: `$custom = $client->Custom();`
 
 #### Operations
 
@@ -917,21 +934,22 @@ Create an instance: `const custom = client.custom`
 
 #### Example: Load
 
-```ts
-const custom = await client.custom.load({ id: 'custom_id' })
+```php
+// load() returns the bare Custom record (throws on error).
+$custom = $client->Custom()->load(["id" => "custom_id"]);
 ```
 
 #### Example: Create
 
-```ts
-const custom = await client.custom.create({
-})
+```php
+$custom = $client->Custom()->create([
+]);
 ```
 
 
 ### Legacy
 
-Create an instance: `const legacy = client.legacy`
+Create an instance: `$legacy = $client->Legacy();`
 
 #### Operations
 
@@ -942,7 +960,7 @@ Create an instance: `const legacy = client.legacy`
 
 ### LegacyMutation
 
-Create an instance: `const legacy_mutation = client.legacy_mutation`
+Create an instance: `$legacy_mutation = $client->LegacyMutation();`
 
 #### Operations
 
@@ -961,15 +979,15 @@ Create an instance: `const legacy_mutation = client.legacy_mutation`
 
 #### Example: Create
 
-```ts
-const legacy_mutation = await client.legacy_mutation.create({
-})
+```php
+$legacy_mutation = $client->LegacyMutation()->create([
+]);
 ```
 
 
 ### LegacyUnknown
 
-Create an instance: `const legacy_unknown = client.legacy_unknown`
+Create an instance: `$legacy_unknown = $client->LegacyUnknown();`
 
 #### Operations
 
@@ -986,14 +1004,15 @@ Create an instance: `const legacy_unknown = client.legacy_unknown`
 
 #### Example: Load
 
-```ts
-const legacy_unknown = await client.legacy_unknown.load({ id: 'legacy_unknown_id' })
+```php
+// load() returns the bare LegacyUnknown record (throws on error).
+$legacy_unknown = $client->LegacyUnknown()->load(["id" => "legacy_unknown_id"]);
 ```
 
 
 ### LegacyUnknownList
 
-Create an instance: `const legacy_unknown_list = client.legacy_unknown_list`
+Create an instance: `$legacy_unknown_list = $client->LegacyUnknownList();`
 
 #### Operations
 
@@ -1013,14 +1032,15 @@ Create an instance: `const legacy_unknown_list = client.legacy_unknown_list`
 
 #### Example: List
 
-```ts
-const legacy_unknown_lists = await client.legacy_unknown_list.list()
+```php
+// list() returns an array of LegacyUnknownList records (throws on error).
+$legacy_unknown_lists = $client->LegacyUnknownList()->list();
 ```
 
 
 ### LegacyUser
 
-Create an instance: `const legacy_user = client.legacy_user`
+Create an instance: `$legacy_user = $client->LegacyUser();`
 
 #### Operations
 
@@ -1037,14 +1057,15 @@ Create an instance: `const legacy_user = client.legacy_user`
 
 #### Example: Load
 
-```ts
-const legacy_user = await client.legacy_user.load({ id: 'legacy_user_id' })
+```php
+// load() returns the bare LegacyUser record (throws on error).
+$legacy_user = $client->LegacyUser()->load(["id" => "legacy_user_id"]);
 ```
 
 
 ### LegacyUserList
 
-Create an instance: `const legacy_user_list = client.legacy_user_list`
+Create an instance: `$legacy_user_list = $client->LegacyUserList();`
 
 #### Operations
 
@@ -1064,14 +1085,15 @@ Create an instance: `const legacy_user_list = client.legacy_user_list`
 
 #### Example: List
 
-```ts
-const legacy_user_lists = await client.legacy_user_list.list()
+```php
+// list() returns an array of LegacyUserList records (throws on error).
+$legacy_user_lists = $client->LegacyUserList()->list();
 ```
 
 
 ### Login
 
-Create an instance: `const login = client.login`
+Create an instance: `$login = $client->Login();`
 
 #### Operations
 
@@ -1089,18 +1111,18 @@ Create an instance: `const login = client.login`
 
 #### Example: Create
 
-```ts
-const login = await client.login.create({
-  email: /* `$STRING` */,
-  password: /* `$STRING` */,
-  token: /* `$STRING` */,
-})
+```php
+$login = $client->Login()->create([
+    "email" => null, // `$STRING`
+    "password" => null, // `$STRING`
+    "token" => null, // `$STRING`
+]);
 ```
 
 
 ### Register
 
-Create an instance: `const register = client.register`
+Create an instance: `$register = $client->Register();`
 
 #### Operations
 
@@ -1119,12 +1141,12 @@ Create an instance: `const register = client.register`
 
 #### Example: Create
 
-```ts
-const register = await client.register.create({
-  email: /* `$STRING` */,
-  password: /* `$STRING` */,
-  token: /* `$STRING` */,
-})
+```php
+$register = $client->Register()->create([
+    "email" => null, // `$STRING`
+    "password" => null, // `$STRING`
+    "token" => null, // `$STRING`
+]);
 ```
 
 
@@ -1199,7 +1221,7 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```php
-$agenthealth = $client->agenthealth();
+$agenthealth = $client->AgentHealth();
 $agenthealth->load(["id" => "example_id"]);
 
 // $agenthealth->dataGet() now returns the loaded agenthealth data

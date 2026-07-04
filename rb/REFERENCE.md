@@ -171,7 +171,7 @@ same parameters as `direct()`. Raises on error.
 ## AgentHealthEntity
 
 ```ruby
-agent_health = client.agent_health
+agent_health = client.AgentHealth
 ```
 
 ### Fields
@@ -187,7 +187,7 @@ agent_health = client.agent_health
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.agent_health.load({ "id" => "agent_health_id" })
+result = client.AgentHealth.load({ "id" => "agent_health_id" })
 ```
 
 ### Common Methods
@@ -223,7 +223,7 @@ Return the entity name.
 ## AgentSandboxEntity
 
 ```ruby
-agent_sandbox = client.agent_sandbox
+agent_sandbox = client.AgentSandbox
 ```
 
 ### Fields
@@ -240,7 +240,7 @@ agent_sandbox = client.agent_sandbox
 Create a new entity with the given data. Raises on error.
 
 ```ruby
-result = client.agent_sandbox.create({
+result = client.AgentSandbox.create({
   "email" => # `$STRING`,
   "password" => # `$STRING`,
 })
@@ -251,7 +251,7 @@ result = client.agent_sandbox.create({
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.agent_sandbox.load({ "id" => "agent_sandbox_id" })
+result = client.AgentSandbox.load({ "id" => "agent_sandbox_id" })
 ```
 
 ### Common Methods
@@ -287,7 +287,7 @@ Return the entity name.
 ## AgentUserDetailEntity
 
 ```ruby
-agent_user_detail = client.agent_user_detail
+agent_user_detail = client.AgentUserDetail
 ```
 
 ### Fields
@@ -303,7 +303,7 @@ agent_user_detail = client.agent_user_detail
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.agent_user_detail.load({ "id" => "agent_user_detail_id" })
+result = client.AgentUserDetail.load({ "id" => "agent_user_detail_id" })
 ```
 
 ### Common Methods
@@ -339,7 +339,7 @@ Return the entity name.
 ## AgentUserListEntity
 
 ```ruby
-agent_user_list = client.agent_user_list
+agent_user_list = client.AgentUserList
 ```
 
 ### Fields
@@ -364,7 +364,7 @@ agent_user_list = client.agent_user_list
 List entities matching the given criteria. Returns an array. Raises on error.
 
 ```ruby
-results = client.agent_user_list.list(nil)
+results = client.AgentUserList.list(nil)
 ```
 
 ### Common Methods
@@ -400,7 +400,7 @@ Return the entity name.
 ## AppUserEntity
 
 ```ruby
-app_user = client.app_user
+app_user = client.AppUser
 ```
 
 ### Fields
@@ -434,7 +434,7 @@ app_user = client.app_user
 Create a new entity with the given data. Raises on error.
 
 ```ruby
-result = client.app_user.create({
+result = client.AppUser.create({
   "data" => # `$OBJECT`,
   "email" => # `$STRING`,
 })
@@ -445,7 +445,7 @@ result = client.app_user.create({
 List entities matching the given criteria. Returns an array. Raises on error.
 
 ```ruby
-results = client.app_user.list(nil)
+results = client.AppUser.list(nil)
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
@@ -453,7 +453,7 @@ results = client.app_user.list(nil)
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.app_user.load({ "id" => "app_user_id" })
+result = client.AppUser.load({ "id" => "app_user_id" })
 ```
 
 #### `remove(reqmatch, ctrl = nil) -> result`
@@ -461,7 +461,7 @@ result = client.app_user.load({ "id" => "app_user_id" })
 Remove the entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.app_user.remove({ "id" => "app_user_id" })
+result = client.AppUser.remove({ "id" => "app_user_id" })
 ```
 
 #### `update(reqdata, ctrl = nil) -> result`
@@ -469,7 +469,7 @@ result = client.app_user.remove({ "id" => "app_user_id" })
 Update an existing entity. The data must include the entity `id`. Raises on error.
 
 ```ruby
-result = client.app_user.update({
+result = client.AppUser.update({
   "id" => "app_user_id",
   # Fields to update
 })
@@ -508,7 +508,7 @@ Return the entity name.
 ## AppUserLoginEntity
 
 ```ruby
-app_user_login = client.app_user_login
+app_user_login = client.AppUserLogin
 ```
 
 ### Fields
@@ -527,7 +527,7 @@ app_user_login = client.app_user_login
 Create a new entity with the given data. Raises on error.
 
 ```ruby
-result = client.app_user_login.create({
+result = client.AppUserLogin.create({
   "data" => # `$OBJECT`,
   "email" => # `$STRING`,
 })
@@ -566,7 +566,7 @@ Return the entity name.
 ## AppUserSessionEntity
 
 ```ruby
-app_user_session = client.app_user_session
+app_user_session = client.AppUserSession
 ```
 
 ### Fields
@@ -582,7 +582,7 @@ app_user_session = client.app_user_session
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.app_user_session.load({ "id" => "app_user_session_id" })
+result = client.AppUserSession.load({ "id" => "app_user_session_id" })
 ```
 
 ### Common Methods
@@ -618,7 +618,7 @@ Return the entity name.
 ## AppUserTotalEntity
 
 ```ruby
-app_user_total = client.app_user_total
+app_user_total = client.AppUserTotal
 ```
 
 ### Fields
@@ -634,7 +634,7 @@ app_user_total = client.app_user_total
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.app_user_total.load({ "id" => "app_user_total_id" })
+result = client.AppUserTotal.load({ "id" => "app_user_total_id" })
 ```
 
 ### Common Methods
@@ -670,7 +670,7 @@ Return the entity name.
 ## AppUserVerifyEntity
 
 ```ruby
-app_user_verify = client.app_user_verify
+app_user_verify = client.AppUserVerify
 ```
 
 ### Fields
@@ -687,7 +687,7 @@ app_user_verify = client.app_user_verify
 Create a new entity with the given data. Raises on error.
 
 ```ruby
-result = client.app_user_verify.create({
+result = client.AppUserVerify.create({
   "data" => # `$OBJECT`,
   "token" => # `$STRING`,
 })
@@ -726,7 +726,7 @@ Return the entity name.
 ## AuthenticationEntity
 
 ```ruby
-authentication = client.authentication
+authentication = client.Authentication
 ```
 
 ### Operations
@@ -736,7 +736,7 @@ authentication = client.authentication
 Create a new entity with the given data. Raises on error.
 
 ```ruby
-result = client.authentication.create({
+result = client.Authentication.create({
 })
 ```
 
@@ -773,7 +773,7 @@ Return the entity name.
 ## CollectionEntity
 
 ```ruby
-collection = client.collection
+collection = client.Collection
 ```
 
 ### Fields
@@ -813,7 +813,7 @@ collection = client.collection
 Create a new entity with the given data. Raises on error.
 
 ```ruby
-result = client.collection.create({
+result = client.Collection.create({
   "data" => # `$OBJECT`,
   "name" => # `$STRING`,
 })
@@ -824,7 +824,7 @@ result = client.collection.create({
 List entities matching the given criteria. Returns an array. Raises on error.
 
 ```ruby
-results = client.collection.list(nil)
+results = client.Collection.list(nil)
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
@@ -832,7 +832,7 @@ results = client.collection.list(nil)
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.collection.load({ "id" => "collection_id" })
+result = client.Collection.load({ "id" => "collection_id" })
 ```
 
 #### `remove(reqmatch, ctrl = nil) -> result`
@@ -840,7 +840,7 @@ result = client.collection.load({ "id" => "collection_id" })
 Remove the entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.collection.remove({ "id" => "collection_id" })
+result = client.Collection.remove({ "id" => "collection_id" })
 ```
 
 #### `update(reqdata, ctrl = nil) -> result`
@@ -848,7 +848,7 @@ result = client.collection.remove({ "id" => "collection_id" })
 Update an existing entity. The data must include the entity `id`. Raises on error.
 
 ```ruby
-result = client.collection.update({
+result = client.Collection.update({
   "id" => "collection_id",
   # Fields to update
 })
@@ -887,7 +887,7 @@ Return the entity name.
 ## CollectionRecordEntity
 
 ```ruby
-collection_record = client.collection_record
+collection_record = client.CollectionRecord
 ```
 
 ### Fields
@@ -903,7 +903,7 @@ collection_record = client.collection_record
 Create a new entity with the given data. Raises on error.
 
 ```ruby
-result = client.collection_record.create({
+result = client.CollectionRecord.create({
   "data" => # `$OBJECT`,
 })
 ```
@@ -913,7 +913,7 @@ result = client.collection_record.create({
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.collection_record.load({ "id" => "collection_record_id" })
+result = client.CollectionRecord.load({ "id" => "collection_record_id" })
 ```
 
 #### `update(reqdata, ctrl = nil) -> result`
@@ -921,7 +921,7 @@ result = client.collection_record.load({ "id" => "collection_record_id" })
 Update an existing entity. The data must include the entity `id`. Raises on error.
 
 ```ruby
-result = client.collection_record.update({
+result = client.CollectionRecord.update({
   "id" => "collection_record_id",
   # Fields to update
 })
@@ -960,7 +960,7 @@ Return the entity name.
 ## CollectionRecordListEntity
 
 ```ruby
-collection_record_list = client.collection_record_list
+collection_record_list = client.CollectionRecordList
 ```
 
 ### Fields
@@ -984,7 +984,7 @@ collection_record_list = client.collection_record_list
 List entities matching the given criteria. Returns an array. Raises on error.
 
 ```ruby
-results = client.collection_record_list.list(nil)
+results = client.CollectionRecordList.list(nil)
 ```
 
 ### Common Methods
@@ -1020,7 +1020,7 @@ Return the entity name.
 ## CustomEntity
 
 ```ruby
-custom = client.custom
+custom = client.Custom
 ```
 
 ### Operations
@@ -1030,7 +1030,7 @@ custom = client.custom
 Create a new entity with the given data. Raises on error.
 
 ```ruby
-result = client.custom.create({
+result = client.Custom.create({
 })
 ```
 
@@ -1039,7 +1039,7 @@ result = client.custom.create({
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.custom.load({ "id" => "custom_id" })
+result = client.Custom.load({ "id" => "custom_id" })
 ```
 
 #### `remove(reqmatch, ctrl = nil) -> result`
@@ -1047,7 +1047,7 @@ result = client.custom.load({ "id" => "custom_id" })
 Remove the entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.custom.remove({ "id" => "custom_id" })
+result = client.Custom.remove({ "id" => "custom_id" })
 ```
 
 #### `update(reqdata, ctrl = nil) -> result`
@@ -1055,7 +1055,7 @@ result = client.custom.remove({ "id" => "custom_id" })
 Update an existing entity. The data must include the entity `id`. Raises on error.
 
 ```ruby
-result = client.custom.update({
+result = client.Custom.update({
   "id" => "custom_id",
   # Fields to update
 })
@@ -1094,7 +1094,7 @@ Return the entity name.
 ## LegacyEntity
 
 ```ruby
-legacy = client.legacy
+legacy = client.Legacy
 ```
 
 ### Operations
@@ -1104,7 +1104,7 @@ legacy = client.legacy
 Remove the entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.legacy.remove({ "id" => "legacy_id" })
+result = client.Legacy.remove({ "id" => "legacy_id" })
 ```
 
 ### Common Methods
@@ -1140,7 +1140,7 @@ Return the entity name.
 ## LegacyMutationEntity
 
 ```ruby
-legacy_mutation = client.legacy_mutation
+legacy_mutation = client.LegacyMutation
 ```
 
 ### Fields
@@ -1158,7 +1158,7 @@ legacy_mutation = client.legacy_mutation
 Create a new entity with the given data. Raises on error.
 
 ```ruby
-result = client.legacy_mutation.create({
+result = client.LegacyMutation.create({
 })
 ```
 
@@ -1167,7 +1167,7 @@ result = client.legacy_mutation.create({
 Update an existing entity. The data must include the entity `id`. Raises on error.
 
 ```ruby
-result = client.legacy_mutation.update({
+result = client.LegacyMutation.update({
   "id" => "legacy_mutation_id",
   # Fields to update
 })
@@ -1206,7 +1206,7 @@ Return the entity name.
 ## LegacyUnknownEntity
 
 ```ruby
-legacy_unknown = client.legacy_unknown
+legacy_unknown = client.LegacyUnknown
 ```
 
 ### Fields
@@ -1223,7 +1223,7 @@ legacy_unknown = client.legacy_unknown
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.legacy_unknown.load({ "id" => "legacy_unknown_id" })
+result = client.LegacyUnknown.load({ "id" => "legacy_unknown_id" })
 ```
 
 ### Common Methods
@@ -1259,7 +1259,7 @@ Return the entity name.
 ## LegacyUnknownListEntity
 
 ```ruby
-legacy_unknown_list = client.legacy_unknown_list
+legacy_unknown_list = client.LegacyUnknownList
 ```
 
 ### Fields
@@ -1279,7 +1279,7 @@ legacy_unknown_list = client.legacy_unknown_list
 List entities matching the given criteria. Returns an array. Raises on error.
 
 ```ruby
-results = client.legacy_unknown_list.list(nil)
+results = client.LegacyUnknownList.list(nil)
 ```
 
 ### Common Methods
@@ -1315,7 +1315,7 @@ Return the entity name.
 ## LegacyUserEntity
 
 ```ruby
-legacy_user = client.legacy_user
+legacy_user = client.LegacyUser
 ```
 
 ### Fields
@@ -1332,7 +1332,7 @@ legacy_user = client.legacy_user
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.legacy_user.load({ "id" => "legacy_user_id" })
+result = client.LegacyUser.load({ "id" => "legacy_user_id" })
 ```
 
 ### Common Methods
@@ -1368,7 +1368,7 @@ Return the entity name.
 ## LegacyUserListEntity
 
 ```ruby
-legacy_user_list = client.legacy_user_list
+legacy_user_list = client.LegacyUserList
 ```
 
 ### Fields
@@ -1388,7 +1388,7 @@ legacy_user_list = client.legacy_user_list
 List entities matching the given criteria. Returns an array. Raises on error.
 
 ```ruby
-results = client.legacy_user_list.list(nil)
+results = client.LegacyUserList.list(nil)
 ```
 
 ### Common Methods
@@ -1424,7 +1424,7 @@ Return the entity name.
 ## LoginEntity
 
 ```ruby
-login = client.login
+login = client.Login
 ```
 
 ### Fields
@@ -1442,7 +1442,7 @@ login = client.login
 Create a new entity with the given data. Raises on error.
 
 ```ruby
-result = client.login.create({
+result = client.Login.create({
   "email" => # `$STRING`,
   "password" => # `$STRING`,
   "token" => # `$STRING`,
@@ -1482,7 +1482,7 @@ Return the entity name.
 ## RegisterEntity
 
 ```ruby
-register = client.register
+register = client.Register
 ```
 
 ### Fields
@@ -1501,7 +1501,7 @@ register = client.register
 Create a new entity with the given data. Raises on error.
 
 ```ruby
-result = client.register.create({
+result = client.Register.create({
   "email" => # `$STRING`,
   "password" => # `$STRING`,
   "token" => # `$STRING`,
