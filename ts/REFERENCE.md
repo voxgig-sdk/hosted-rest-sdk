@@ -369,7 +369,7 @@ const agent_health = client.AgentHealth()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
+| `data` | `Record<string, any>` | Yes |  |
 
 ### Operations
 
@@ -378,7 +378,7 @@ const agent_health = client.AgentHealth()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.AgentHealth().load({ id: 'agent_health_id' })
+const result = await client.AgentHealth().load()
 ```
 
 ### Common Methods
@@ -419,8 +419,8 @@ const agent_sandbox = client.AgentSandbox()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `email` | ``$STRING`` | Yes |  |
-| `password` | ``$STRING`` | Yes |  |
+| `email` | `string` | Yes |  |
+| `password` | `string` | Yes |  |
 
 ### Operations
 
@@ -430,8 +430,8 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.AgentSandbox().create({
-  email: /* `$STRING` */,
-  password: /* `$STRING` */,
+  email: /* string */,
+  password: /* string */,
 })
 ```
 
@@ -440,7 +440,7 @@ const result = await client.AgentSandbox().create({
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.AgentSandbox().load({ id: 'agent_sandbox_id' })
+const result = await client.AgentSandbox().load()
 ```
 
 ### Common Methods
@@ -481,7 +481,7 @@ const agent_user_detail = client.AgentUserDetail()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
+| `data` | `Record<string, any>` | Yes |  |
 
 ### Operations
 
@@ -531,16 +531,16 @@ const agent_user_list = client.AgentUserList()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | ``$STRING`` | Yes |  |
-| `email` | ``$STRING`` | Yes |  |
-| `full_name` | ``$STRING`` | Yes |  |
-| `id` | ``$STRING`` | Yes |  |
-| `locale` | ``$STRING`` | Yes |  |
-| `preference` | ``$OBJECT`` | Yes |  |
-| `profile` | ``$OBJECT`` | Yes |  |
-| `status` | ``$STRING`` | Yes |  |
-| `timezone` | ``$STRING`` | Yes |  |
-| `updated_at` | ``$STRING`` | Yes |  |
+| `created_at` | `string` | Yes |  |
+| `email` | `string` | Yes |  |
+| `full_name` | `string` | Yes |  |
+| `id` | `string` | Yes |  |
+| `locale` | `string` | Yes |  |
+| `preference` | `Record<string, any>` | Yes |  |
+| `profile` | `Record<string, any>` | Yes |  |
+| `status` | `string` | Yes |  |
+| `timezone` | `string` | Yes |  |
+| `updated_at` | `string` | Yes |  |
 
 ### Operations
 
@@ -590,13 +590,13 @@ const app_user = client.AppUser()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | ``$STRING`` | No |  |
-| `data` | ``$OBJECT`` | Yes |  |
-| `email` | ``$STRING`` | Yes |  |
-| `id` | ``$STRING`` | Yes |  |
-| `last_login_at` | ``$STRING`` | No |  |
-| `metadata` | ``$OBJECT`` | No |  |
-| `status` | ``$STRING`` | No |  |
+| `created_at` | `string` | No |  |
+| `data` | `Record<string, any>` | Yes |  |
+| `email` | `string` | Yes |  |
+| `id` | `string` | Yes |  |
+| `last_login_at` | `string` | No |  |
+| `metadata` | `Record<string, any>` | No |  |
+| `status` | `string` | No |  |
 
 ### Field Usage by Operation
 
@@ -618,8 +618,8 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.AppUser().create({
-  data: /* `$OBJECT` */,
-  email: /* `$STRING` */,
+  data: /* Record<string, any> */,
+  email: /* string */,
 })
 ```
 
@@ -696,10 +696,10 @@ const app_user_login = client.AppUserLogin()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
-| `email` | ``$STRING`` | Yes |  |
-| `metadata` | ``$OBJECT`` | No |  |
-| `project_id` | ``$STRING`` | No |  |
+| `data` | `Record<string, any>` | Yes |  |
+| `email` | `string` | Yes |  |
+| `metadata` | `Record<string, any>` | No |  |
+| `project_id` | `string` | No |  |
 
 ### Operations
 
@@ -709,8 +709,8 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.AppUserLogin().create({
-  data: /* `$OBJECT` */,
-  email: /* `$STRING` */,
+  data: /* Record<string, any> */,
+  email: /* string */,
 })
 ```
 
@@ -752,7 +752,7 @@ const app_user_session = client.AppUserSession()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
+| `data` | `Record<string, any>` | Yes |  |
 
 ### Operations
 
@@ -761,7 +761,7 @@ const app_user_session = client.AppUserSession()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.AppUserSession().load({ id: 'app_user_session_id' })
+const result = await client.AppUserSession().load()
 ```
 
 ### Common Methods
@@ -802,7 +802,7 @@ const app_user_total = client.AppUserTotal()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `total` | ``$INTEGER`` | Yes |  |
+| `total` | `number` | Yes |  |
 
 ### Operations
 
@@ -811,7 +811,7 @@ const app_user_total = client.AppUserTotal()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.AppUserTotal().load({ id: 'app_user_total_id' })
+const result = await client.AppUserTotal().load()
 ```
 
 ### Common Methods
@@ -852,8 +852,8 @@ const app_user_verify = client.AppUserVerify()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
-| `token` | ``$STRING`` | Yes |  |
+| `data` | `Record<string, any>` | Yes |  |
+| `token` | `string` | Yes |  |
 
 ### Operations
 
@@ -863,8 +863,8 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.AppUserVerify().create({
-  data: /* `$OBJECT` */,
-  token: /* `$STRING` */,
+  data: /* Record<string, any> */,
+  token: /* string */,
 })
 ```
 
@@ -951,16 +951,16 @@ const collection = client.Collection()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | ``$STRING`` | No |  |
-| `data` | ``$OBJECT`` | Yes |  |
-| `id` | ``$STRING`` | Yes |  |
-| `name` | ``$STRING`` | Yes |  |
-| `project_id` | ``$STRING`` | No |  |
-| `schema` | ``$OBJECT`` | No |  |
-| `slug` | ``$STRING`` | No |  |
-| `updated_at` | ``$STRING`` | No |  |
-| `user_id` | ``$STRING`` | No |  |
-| `visibility` | ``$STRING`` | No |  |
+| `created_at` | `string` | No |  |
+| `data` | `Record<string, any>` | Yes |  |
+| `id` | `string` | Yes |  |
+| `name` | `string` | Yes |  |
+| `project_id` | `string` | No |  |
+| `schema` | `Record<string, any>` | No |  |
+| `slug` | `string` | No |  |
+| `updated_at` | `string` | No |  |
+| `user_id` | `string` | No |  |
+| `visibility` | `string` | No |  |
 
 ### Field Usage by Operation
 
@@ -985,8 +985,8 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.Collection().create({
-  data: /* `$OBJECT` */,
-  name: /* `$STRING` */,
+  data: /* Record<string, any> */,
+  name: /* string */,
 })
 ```
 
@@ -1063,7 +1063,7 @@ const collection_record = client.CollectionRecord()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
+| `data` | `Record<string, any>` | Yes |  |
 
 ### Operations
 
@@ -1073,7 +1073,7 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.CollectionRecord().create({
-  data: /* `$OBJECT` */,
+  data: /* Record<string, any> */,
 })
 ```
 
@@ -1134,15 +1134,15 @@ const collection_record_list = client.CollectionRecordList()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app_user_id` | ``$STRING`` | No |  |
-| `collection_id` | ``$STRING`` | No |  |
-| `created_at` | ``$STRING`` | No |  |
-| `created_by` | ``$STRING`` | No |  |
-| `data` | ``$OBJECT`` | Yes |  |
-| `deleted_at` | ``$STRING`` | No |  |
-| `id` | ``$STRING`` | Yes |  |
-| `project_id` | ``$STRING`` | No |  |
-| `updated_at` | ``$STRING`` | No |  |
+| `app_user_id` | `string` | No |  |
+| `collection_id` | `string` | No |  |
+| `created_at` | `string` | No |  |
+| `created_by` | `string` | No |  |
+| `data` | `Record<string, any>` | Yes |  |
+| `deleted_at` | `string` | No |  |
+| `id` | `string` | Yes |  |
+| `project_id` | `string` | No |  |
+| `updated_at` | `string` | No |  |
 
 ### Operations
 
@@ -1267,7 +1267,7 @@ const legacy = client.Legacy()
 Remove the entity matching the given criteria.
 
 ```ts
-const result = await client.Legacy().remove({ id: 'legacy_id' })
+const result = await client.Legacy().remove()
 ```
 
 ### Common Methods
@@ -1308,9 +1308,9 @@ const legacy_mutation = client.LegacyMutation()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | ``$STRING`` | No |  |
-| `id` | ``$STRING`` | No |  |
-| `updated_at` | ``$STRING`` | No |  |
+| `created_at` | `string` | No |  |
+| `id` | `string` | No |  |
+| `updated_at` | `string` | No |  |
 
 ### Operations
 
@@ -1329,7 +1329,6 @@ Update an existing entity. The data must include the entity `id`.
 
 ```ts
 const result = await client.LegacyMutation().update({
-  id: 'legacy_mutation_id',
   // Fields to update
 })
 ```
@@ -1372,8 +1371,8 @@ const legacy_unknown = client.LegacyUnknown()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
-| `support` | ``$OBJECT`` | No |  |
+| `data` | `Record<string, any>` | Yes |  |
+| `support` | `Record<string, any>` | No |  |
 
 ### Operations
 
@@ -1382,7 +1381,7 @@ const legacy_unknown = client.LegacyUnknown()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.LegacyUnknown().load({ id: 'legacy_unknown_id' })
+const result = await client.LegacyUnknown().load({ id: 1 })
 ```
 
 ### Common Methods
@@ -1423,11 +1422,11 @@ const legacy_unknown_list = client.LegacyUnknownList()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `color` | ``$STRING`` | Yes |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `name` | ``$STRING`` | Yes |  |
-| `pantone_value` | ``$STRING`` | Yes |  |
-| `year` | ``$INTEGER`` | Yes |  |
+| `color` | `string` | Yes |  |
+| `id` | `number` | Yes |  |
+| `name` | `string` | Yes |  |
+| `pantone_value` | `string` | Yes |  |
+| `year` | `number` | Yes |  |
 
 ### Operations
 
@@ -1477,8 +1476,8 @@ const legacy_user = client.LegacyUser()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
-| `support` | ``$OBJECT`` | No |  |
+| `data` | `Record<string, any>` | Yes |  |
+| `support` | `Record<string, any>` | No |  |
 
 ### Operations
 
@@ -1487,7 +1486,7 @@ const legacy_user = client.LegacyUser()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.LegacyUser().load({ id: 'legacy_user_id' })
+const result = await client.LegacyUser().load({ id: 1 })
 ```
 
 ### Common Methods
@@ -1528,11 +1527,11 @@ const legacy_user_list = client.LegacyUserList()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `avatar` | ``$STRING`` | Yes |  |
-| `email` | ``$STRING`` | Yes |  |
-| `first_name` | ``$STRING`` | Yes |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `last_name` | ``$STRING`` | Yes |  |
+| `avatar` | `string` | Yes |  |
+| `email` | `string` | Yes |  |
+| `first_name` | `string` | Yes |  |
+| `id` | `number` | Yes |  |
+| `last_name` | `string` | Yes |  |
 
 ### Operations
 
@@ -1582,9 +1581,9 @@ const login = client.Login()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `email` | ``$STRING`` | Yes |  |
-| `password` | ``$STRING`` | Yes |  |
-| `token` | ``$STRING`` | Yes |  |
+| `email` | `string` | Yes |  |
+| `password` | `string` | Yes |  |
+| `token` | `string` | Yes |  |
 
 ### Operations
 
@@ -1594,9 +1593,9 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.Login().create({
-  email: /* `$STRING` */,
-  password: /* `$STRING` */,
-  token: /* `$STRING` */,
+  email: /* string */,
+  password: /* string */,
+  token: /* string */,
 })
 ```
 
@@ -1638,10 +1637,10 @@ const register = client.Register()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `email` | ``$STRING`` | Yes |  |
-| `id` | ``$INTEGER`` | No |  |
-| `password` | ``$STRING`` | Yes |  |
-| `token` | ``$STRING`` | Yes |  |
+| `email` | `string` | Yes |  |
+| `id` | `number` | No |  |
+| `password` | `string` | Yes |  |
+| `token` | `string` | Yes |  |
 
 ### Operations
 
@@ -1651,9 +1650,9 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.Register().create({
-  email: /* `$STRING` */,
-  password: /* `$STRING` */,
-  token: /* `$STRING` */,
+  email: /* string */,
+  password: /* string */,
+  token: /* string */,
 })
 ```
 

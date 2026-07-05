@@ -8,7 +8,7 @@ Complete API reference for the HostedRest PHP SDK.
 ### Constructor
 
 ```php
-require_once __DIR__ . '/hosted-rest_sdk.php';
+require_once __DIR__ . '/hostedrest_sdk.php';
 
 $client = new HostedRestSDK($options);
 ```
@@ -130,11 +130,11 @@ Create a new `LoginEntity` instance. Pass `null` for no initial data.
 
 Create a new `RegisterEntity` instance. Pass `null` for no initial data.
 
-#### `optionsMap(): array`
+#### `options_map(): array`
 
 Return a deep copy of the current SDK options.
 
-#### `getUtility(): ProjectNameUtility`
+#### `get_utility(): HostedRestUtility`
 
 Return a copy of the SDK utility object.
 
@@ -177,7 +177,7 @@ $agent_health = $client->AgentHealth();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
+| `data` | `array` | Yes |  |
 
 ### Operations
 
@@ -186,24 +186,24 @@ $agent_health = $client->AgentHealth();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->AgentHealth()->load(["id" => "agent_health_id"]);
+$result = $client->AgentHealth()->load();
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -212,7 +212,7 @@ Set the entity match criteria.
 Create a new `AgentHealthEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -229,8 +229,8 @@ $agent_sandbox = $client->AgentSandbox();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `email` | ``$STRING`` | Yes |  |
-| `password` | ``$STRING`` | Yes |  |
+| `email` | `string` | Yes |  |
+| `password` | `string` | Yes |  |
 
 ### Operations
 
@@ -240,8 +240,8 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->AgentSandbox()->create([
-  "email" => /* `$STRING` */,
-  "password" => /* `$STRING` */,
+  "email" => null, // string
+  "password" => null, // string
 ]);
 ```
 
@@ -250,24 +250,24 @@ $result = $client->AgentSandbox()->create([
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->AgentSandbox()->load(["id" => "agent_sandbox_id"]);
+$result = $client->AgentSandbox()->load();
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -276,7 +276,7 @@ Set the entity match criteria.
 Create a new `AgentSandboxEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -293,7 +293,7 @@ $agent_user_detail = $client->AgentUserDetail();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
+| `data` | `array` | Yes |  |
 
 ### Operations
 
@@ -307,19 +307,19 @@ $result = $client->AgentUserDetail()->load(["id" => "agent_user_detail_id"]);
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -328,7 +328,7 @@ Set the entity match criteria.
 Create a new `AgentUserDetailEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -345,42 +345,42 @@ $agent_user_list = $client->AgentUserList();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | ``$STRING`` | Yes |  |
-| `email` | ``$STRING`` | Yes |  |
-| `full_name` | ``$STRING`` | Yes |  |
-| `id` | ``$STRING`` | Yes |  |
-| `locale` | ``$STRING`` | Yes |  |
-| `preference` | ``$OBJECT`` | Yes |  |
-| `profile` | ``$OBJECT`` | Yes |  |
-| `status` | ``$STRING`` | Yes |  |
-| `timezone` | ``$STRING`` | Yes |  |
-| `updated_at` | ``$STRING`` | Yes |  |
+| `created_at` | `string` | Yes |  |
+| `email` | `string` | Yes |  |
+| `full_name` | `string` | Yes |  |
+| `id` | `string` | Yes |  |
+| `locale` | `string` | Yes |  |
+| `preference` | `array` | Yes |  |
+| `profile` | `array` | Yes |  |
+| `status` | `string` | Yes |  |
+| `timezone` | `string` | Yes |  |
+| `updated_at` | `string` | Yes |  |
 
 ### Operations
 
-#### `list(array $reqmatch, ?array $ctrl = null): mixed`
+#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria. Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
 
 ```php
-$results = $client->AgentUserList()->list([]);
+$results = $client->AgentUserList()->list();
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -389,7 +389,7 @@ Set the entity match criteria.
 Create a new `AgentUserListEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -406,13 +406,13 @@ $app_user = $client->AppUser();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | ``$STRING`` | No |  |
-| `data` | ``$OBJECT`` | Yes |  |
-| `email` | ``$STRING`` | Yes |  |
-| `id` | ``$STRING`` | Yes |  |
-| `last_login_at` | ``$STRING`` | No |  |
-| `metadata` | ``$OBJECT`` | No |  |
-| `status` | ``$STRING`` | No |  |
+| `created_at` | `string` | No |  |
+| `data` | `array` | Yes |  |
+| `email` | `string` | Yes |  |
+| `id` | `string` | Yes |  |
+| `last_login_at` | `string` | No |  |
+| `metadata` | `array` | No |  |
+| `status` | `string` | No |  |
 
 ### Field Usage by Operation
 
@@ -434,17 +434,17 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->AppUser()->create([
-  "data" => /* `$OBJECT` */,
-  "email" => /* `$STRING` */,
+  "data" => null, // array
+  "email" => null, // string
 ]);
 ```
 
-#### `list(array $reqmatch, ?array $ctrl = null): mixed`
+#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria. Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
 
 ```php
-$results = $client->AppUser()->list([]);
+$results = $client->AppUser()->list();
 ```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
@@ -476,19 +476,19 @@ $result = $client->AppUser()->update([
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -497,7 +497,7 @@ Set the entity match criteria.
 Create a new `AppUserEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -514,10 +514,10 @@ $app_user_login = $client->AppUserLogin();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
-| `email` | ``$STRING`` | Yes |  |
-| `metadata` | ``$OBJECT`` | No |  |
-| `project_id` | ``$STRING`` | No |  |
+| `data` | `array` | Yes |  |
+| `email` | `string` | Yes |  |
+| `metadata` | `array` | No |  |
+| `project_id` | `string` | No |  |
 
 ### Operations
 
@@ -527,26 +527,26 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->AppUserLogin()->create([
-  "data" => /* `$OBJECT` */,
-  "email" => /* `$STRING` */,
+  "data" => null, // array
+  "email" => null, // string
 ]);
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -555,7 +555,7 @@ Set the entity match criteria.
 Create a new `AppUserLoginEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -572,7 +572,7 @@ $app_user_session = $client->AppUserSession();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
+| `data` | `array` | Yes |  |
 
 ### Operations
 
@@ -581,24 +581,24 @@ $app_user_session = $client->AppUserSession();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->AppUserSession()->load(["id" => "app_user_session_id"]);
+$result = $client->AppUserSession()->load();
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -607,7 +607,7 @@ Set the entity match criteria.
 Create a new `AppUserSessionEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -624,7 +624,7 @@ $app_user_total = $client->AppUserTotal();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `total` | ``$INTEGER`` | Yes |  |
+| `total` | `int` | Yes |  |
 
 ### Operations
 
@@ -633,24 +633,24 @@ $app_user_total = $client->AppUserTotal();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->AppUserTotal()->load(["id" => "app_user_total_id"]);
+$result = $client->AppUserTotal()->load();
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -659,7 +659,7 @@ Set the entity match criteria.
 Create a new `AppUserTotalEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -676,8 +676,8 @@ $app_user_verify = $client->AppUserVerify();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
-| `token` | ``$STRING`` | Yes |  |
+| `data` | `array` | Yes |  |
+| `token` | `string` | Yes |  |
 
 ### Operations
 
@@ -687,26 +687,26 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->AppUserVerify()->create([
-  "data" => /* `$OBJECT` */,
-  "token" => /* `$STRING` */,
+  "data" => null, // array
+  "token" => null, // string
 ]);
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -715,7 +715,7 @@ Set the entity match criteria.
 Create a new `AppUserVerifyEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -741,19 +741,19 @@ $result = $client->Authentication()->create([
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -762,7 +762,7 @@ Set the entity match criteria.
 Create a new `AuthenticationEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -779,16 +779,16 @@ $collection = $client->Collection();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | ``$STRING`` | No |  |
-| `data` | ``$OBJECT`` | Yes |  |
-| `id` | ``$STRING`` | Yes |  |
-| `name` | ``$STRING`` | Yes |  |
-| `project_id` | ``$STRING`` | No |  |
-| `schema` | ``$OBJECT`` | No |  |
-| `slug` | ``$STRING`` | No |  |
-| `updated_at` | ``$STRING`` | No |  |
-| `user_id` | ``$STRING`` | No |  |
-| `visibility` | ``$STRING`` | No |  |
+| `created_at` | `string` | No |  |
+| `data` | `array` | Yes |  |
+| `id` | `string` | Yes |  |
+| `name` | `string` | Yes |  |
+| `project_id` | `string` | No |  |
+| `schema` | `array` | No |  |
+| `slug` | `string` | No |  |
+| `updated_at` | `string` | No |  |
+| `user_id` | `string` | No |  |
+| `visibility` | `string` | No |  |
 
 ### Field Usage by Operation
 
@@ -813,17 +813,17 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->Collection()->create([
-  "data" => /* `$OBJECT` */,
-  "name" => /* `$STRING` */,
+  "data" => null, // array
+  "name" => null, // string
 ]);
 ```
 
-#### `list(array $reqmatch, ?array $ctrl = null): mixed`
+#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria. Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
 
 ```php
-$results = $client->Collection()->list([]);
+$results = $client->Collection()->list();
 ```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
@@ -855,19 +855,19 @@ $result = $client->Collection()->update([
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -876,7 +876,7 @@ Set the entity match criteria.
 Create a new `CollectionEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -893,7 +893,7 @@ $collection_record = $client->CollectionRecord();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
+| `data` | `array` | Yes |  |
 
 ### Operations
 
@@ -903,7 +903,7 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->CollectionRecord()->create([
-  "data" => /* `$OBJECT` */,
+  "data" => null, // array
 ]);
 ```
 
@@ -928,19 +928,19 @@ $result = $client->CollectionRecord()->update([
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -949,7 +949,7 @@ Set the entity match criteria.
 Create a new `CollectionRecordEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -966,41 +966,41 @@ $collection_record_list = $client->CollectionRecordList();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app_user_id` | ``$STRING`` | No |  |
-| `collection_id` | ``$STRING`` | No |  |
-| `created_at` | ``$STRING`` | No |  |
-| `created_by` | ``$STRING`` | No |  |
-| `data` | ``$OBJECT`` | Yes |  |
-| `deleted_at` | ``$STRING`` | No |  |
-| `id` | ``$STRING`` | Yes |  |
-| `project_id` | ``$STRING`` | No |  |
-| `updated_at` | ``$STRING`` | No |  |
+| `app_user_id` | `string` | No |  |
+| `collection_id` | `string` | No |  |
+| `created_at` | `string` | No |  |
+| `created_by` | `string` | No |  |
+| `data` | `array` | Yes |  |
+| `deleted_at` | `string` | No |  |
+| `id` | `string` | Yes |  |
+| `project_id` | `string` | No |  |
+| `updated_at` | `string` | No |  |
 
 ### Operations
 
-#### `list(array $reqmatch, ?array $ctrl = null): mixed`
+#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria. Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
 
 ```php
-$results = $client->CollectionRecordList()->list([]);
+$results = $client->CollectionRecordList()->list();
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -1009,7 +1009,7 @@ Set the entity match criteria.
 Create a new `CollectionRecordListEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -1062,19 +1062,19 @@ $result = $client->Custom()->update([
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -1083,7 +1083,7 @@ Set the entity match criteria.
 Create a new `CustomEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -1103,24 +1103,24 @@ $legacy = $client->Legacy();
 Remove the entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->Legacy()->remove(["id" => "legacy_id"]);
+$result = $client->Legacy()->remove();
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -1129,7 +1129,7 @@ Set the entity match criteria.
 Create a new `LegacyEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -1146,9 +1146,9 @@ $legacy_mutation = $client->LegacyMutation();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | ``$STRING`` | No |  |
-| `id` | ``$STRING`` | No |  |
-| `updated_at` | ``$STRING`` | No |  |
+| `created_at` | `string` | No |  |
+| `id` | `string` | No |  |
+| `updated_at` | `string` | No |  |
 
 ### Operations
 
@@ -1167,26 +1167,25 @@ Update an existing entity. The data must include the entity `id`. Throws on erro
 
 ```php
 $result = $client->LegacyMutation()->update([
-  "id" => "legacy_mutation_id",
   // Fields to update
 ]);
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -1195,7 +1194,7 @@ Set the entity match criteria.
 Create a new `LegacyMutationEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -1212,8 +1211,8 @@ $legacy_unknown = $client->LegacyUnknown();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
-| `support` | ``$OBJECT`` | No |  |
+| `data` | `array` | Yes |  |
+| `support` | `array` | No |  |
 
 ### Operations
 
@@ -1227,19 +1226,19 @@ $result = $client->LegacyUnknown()->load(["id" => "legacy_unknown_id"]);
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -1248,7 +1247,7 @@ Set the entity match criteria.
 Create a new `LegacyUnknownEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -1265,37 +1264,37 @@ $legacy_unknown_list = $client->LegacyUnknownList();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `color` | ``$STRING`` | Yes |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `name` | ``$STRING`` | Yes |  |
-| `pantone_value` | ``$STRING`` | Yes |  |
-| `year` | ``$INTEGER`` | Yes |  |
+| `color` | `string` | Yes |  |
+| `id` | `int` | Yes |  |
+| `name` | `string` | Yes |  |
+| `pantone_value` | `string` | Yes |  |
+| `year` | `int` | Yes |  |
 
 ### Operations
 
-#### `list(array $reqmatch, ?array $ctrl = null): mixed`
+#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria. Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
 
 ```php
-$results = $client->LegacyUnknownList()->list([]);
+$results = $client->LegacyUnknownList()->list();
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -1304,7 +1303,7 @@ Set the entity match criteria.
 Create a new `LegacyUnknownListEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -1321,8 +1320,8 @@ $legacy_user = $client->LegacyUser();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
-| `support` | ``$OBJECT`` | No |  |
+| `data` | `array` | Yes |  |
+| `support` | `array` | No |  |
 
 ### Operations
 
@@ -1336,19 +1335,19 @@ $result = $client->LegacyUser()->load(["id" => "legacy_user_id"]);
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -1357,7 +1356,7 @@ Set the entity match criteria.
 Create a new `LegacyUserEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -1374,37 +1373,37 @@ $legacy_user_list = $client->LegacyUserList();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `avatar` | ``$STRING`` | Yes |  |
-| `email` | ``$STRING`` | Yes |  |
-| `first_name` | ``$STRING`` | Yes |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `last_name` | ``$STRING`` | Yes |  |
+| `avatar` | `string` | Yes |  |
+| `email` | `string` | Yes |  |
+| `first_name` | `string` | Yes |  |
+| `id` | `int` | Yes |  |
+| `last_name` | `string` | Yes |  |
 
 ### Operations
 
-#### `list(array $reqmatch, ?array $ctrl = null): mixed`
+#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria. Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
 
 ```php
-$results = $client->LegacyUserList()->list([]);
+$results = $client->LegacyUserList()->list();
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -1413,7 +1412,7 @@ Set the entity match criteria.
 Create a new `LegacyUserListEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -1430,9 +1429,9 @@ $login = $client->Login();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `email` | ``$STRING`` | Yes |  |
-| `password` | ``$STRING`` | Yes |  |
-| `token` | ``$STRING`` | Yes |  |
+| `email` | `string` | Yes |  |
+| `password` | `string` | Yes |  |
+| `token` | `string` | Yes |  |
 
 ### Operations
 
@@ -1442,27 +1441,27 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->Login()->create([
-  "email" => /* `$STRING` */,
-  "password" => /* `$STRING` */,
-  "token" => /* `$STRING` */,
+  "email" => null, // string
+  "password" => null, // string
+  "token" => null, // string
 ]);
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -1471,7 +1470,7 @@ Set the entity match criteria.
 Create a new `LoginEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 
@@ -1488,10 +1487,10 @@ $register = $client->Register();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `email` | ``$STRING`` | Yes |  |
-| `id` | ``$INTEGER`` | No |  |
-| `password` | ``$STRING`` | Yes |  |
-| `token` | ``$STRING`` | Yes |  |
+| `email` | `string` | Yes |  |
+| `id` | `int` | No |  |
+| `password` | `string` | Yes |  |
+| `token` | `string` | Yes |  |
 
 ### Operations
 
@@ -1501,27 +1500,27 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->Register()->create([
-  "email" => /* `$STRING` */,
-  "password" => /* `$STRING` */,
-  "token" => /* `$STRING` */,
+  "email" => null, // string
+  "password" => null, // string
+  "token" => null, // string
 ]);
 ```
 
 ### Common Methods
 
-#### `dataGet(): array`
+#### `data_get(): array`
 
 Get the entity data. Returns a copy of the current data.
 
-#### `dataSet($data): void`
+#### `data_set($data): void`
 
 Set the entity data.
 
-#### `matchGet(): array`
+#### `match_get(): array`
 
 Get the entity match criteria.
 
-#### `matchSet($match): void`
+#### `match_set($match): void`
 
 Set the entity match criteria.
 
@@ -1530,7 +1529,7 @@ Set the entity match criteria.
 Create a new `RegisterEntity` instance with the same client and
 options.
 
-#### `getName(): string`
+#### `get_name(): string`
 
 Return the entity name.
 

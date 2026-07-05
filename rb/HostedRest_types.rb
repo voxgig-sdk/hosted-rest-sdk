@@ -17,7 +17,7 @@ AgentHealth = Struct.new(
   keyword_init: true
 )
 
-# Match filter for AgentHealth#load (any subset of AgentHealth fields).
+# Request payload for AgentHealth#load.
 #
 # @!attribute [rw] data
 #   @return [Hash, nil]
@@ -48,13 +48,13 @@ AgentSandboxLoadMatch = Struct.new(
   keyword_init: true
 )
 
-# Match filter for AgentSandbox#create (any subset of AgentSandbox fields).
+# Request payload for AgentSandbox#create.
 #
 # @!attribute [rw] email
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] password
-#   @return [String, nil]
+#   @return [String]
 AgentSandboxCreateData = Struct.new(
   :email,
   :password,
@@ -124,7 +124,7 @@ AgentUserList = Struct.new(
   keyword_init: true
 )
 
-# Match filter for AgentUserList#list (any subset of AgentUserList fields).
+# Request payload for AgentUserList#list.
 #
 # @!attribute [rw] created_at
 #   @return [String, nil]
@@ -276,13 +276,13 @@ AppUserLogin = Struct.new(
   keyword_init: true
 )
 
-# Match filter for AppUserLogin#create (any subset of AppUserLogin fields).
+# Request payload for AppUserLogin#create.
 #
 # @!attribute [rw] data
-#   @return [Hash, nil]
+#   @return [Hash]
 #
 # @!attribute [rw] email
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] metadata
 #   @return [Hash, nil]
@@ -306,7 +306,7 @@ AppUserSession = Struct.new(
   keyword_init: true
 )
 
-# Match filter for AppUserSession#load (any subset of AppUserSession fields).
+# Request payload for AppUserSession#load.
 #
 # @!attribute [rw] data
 #   @return [Hash, nil]
@@ -346,13 +346,13 @@ AppUserVerify = Struct.new(
   keyword_init: true
 )
 
-# Match filter for AppUserVerify#create (any subset of AppUserVerify fields).
+# Request payload for AppUserVerify#create.
 #
 # @!attribute [rw] data
-#   @return [Hash, nil]
+#   @return [Hash]
 #
 # @!attribute [rw] token
-#   @return [String, nil]
+#   @return [String]
 AppUserVerifyCreateData = Struct.new(
   :data,
   :token,
@@ -363,7 +363,7 @@ AppUserVerifyCreateData = Struct.new(
 class Authentication
 end
 
-# Match filter for Authentication#create (any subset of Authentication fields).
+# Request payload for Authentication#create.
 class AuthenticationCreateData
 end
 
@@ -421,7 +421,7 @@ CollectionLoadMatch = Struct.new(
   keyword_init: true
 )
 
-# Match filter for Collection#list (any subset of Collection fields).
+# Request payload for Collection#list.
 #
 # @!attribute [rw] created_at
 #   @return [String, nil]
@@ -466,19 +466,19 @@ CollectionListMatch = Struct.new(
   keyword_init: true
 )
 
-# Match filter for Collection#create (any subset of Collection fields).
+# Request payload for Collection#create.
 #
 # @!attribute [rw] created_at
 #   @return [String, nil]
 #
 # @!attribute [rw] data
-#   @return [Hash, nil]
+#   @return [Hash]
 #
 # @!attribute [rw] id
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] name
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] project_id
 #   @return [String, nil]
@@ -701,7 +701,7 @@ LegacyMutation = Struct.new(
   keyword_init: true
 )
 
-# Match filter for LegacyMutation#create (any subset of LegacyMutation fields).
+# Request payload for LegacyMutation#create.
 #
 # @!attribute [rw] created_at
 #   @return [String, nil]
@@ -774,7 +774,7 @@ LegacyUnknownList = Struct.new(
   keyword_init: true
 )
 
-# Match filter for LegacyUnknownList#list (any subset of LegacyUnknownList fields).
+# Request payload for LegacyUnknownList#list.
 #
 # @!attribute [rw] color
 #   @return [String, nil]
@@ -846,7 +846,7 @@ LegacyUserList = Struct.new(
   keyword_init: true
 )
 
-# Match filter for LegacyUserList#list (any subset of LegacyUserList fields).
+# Request payload for LegacyUserList#list.
 #
 # @!attribute [rw] avatar
 #   @return [String, nil]
@@ -888,16 +888,16 @@ Login = Struct.new(
   keyword_init: true
 )
 
-# Match filter for Login#create (any subset of Login fields).
+# Request payload for Login#create.
 #
 # @!attribute [rw] email
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] password
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] token
-#   @return [String, nil]
+#   @return [String]
 LoginCreateData = Struct.new(
   :email,
   :password,
@@ -926,19 +926,19 @@ Register = Struct.new(
   keyword_init: true
 )
 
-# Match filter for Register#create (any subset of Register fields).
+# Request payload for Register#create.
 #
 # @!attribute [rw] email
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] id
 #   @return [Integer, nil]
 #
 # @!attribute [rw] password
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] token
-#   @return [String, nil]
+#   @return [String]
 RegisterCreateData = Struct.new(
   :email,
   :id,

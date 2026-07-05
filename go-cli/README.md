@@ -16,7 +16,6 @@ go build -o hosted-rest-cli ./...
 
 ```sh
 # One-shot: arguments form a single AQL expression
-./hosted-rest-cli list agent_health
 ./hosted-rest-cli load 1 agent_health
 ./hosted-rest-cli load '{id:1}' agent_health
 

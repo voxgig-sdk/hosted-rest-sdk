@@ -8,7 +8,7 @@ Complete API reference for the HostedRest Ruby SDK.
 ### Constructor
 
 ```ruby
-require_relative 'hosted-rest_sdk'
+require_relative 'HostedRest_sdk'
 
 client = HostedRestSDK.new(options)
 ```
@@ -178,7 +178,7 @@ agent_health = client.AgentHealth
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
+| `data` | `Hash` | Yes |  |
 
 ### Operations
 
@@ -187,7 +187,7 @@ agent_health = client.AgentHealth
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.AgentHealth.load({ "id" => "agent_health_id" })
+result = client.AgentHealth.load()
 ```
 
 ### Common Methods
@@ -230,8 +230,8 @@ agent_sandbox = client.AgentSandbox
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `email` | ``$STRING`` | Yes |  |
-| `password` | ``$STRING`` | Yes |  |
+| `email` | `String` | Yes |  |
+| `password` | `String` | Yes |  |
 
 ### Operations
 
@@ -241,8 +241,8 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.AgentSandbox.create({
-  "email" => # `$STRING`,
-  "password" => # `$STRING`,
+  "email" => "example", # String
+  "password" => "example", # String
 })
 ```
 
@@ -251,7 +251,7 @@ result = client.AgentSandbox.create({
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.AgentSandbox.load({ "id" => "agent_sandbox_id" })
+result = client.AgentSandbox.load()
 ```
 
 ### Common Methods
@@ -294,7 +294,7 @@ agent_user_detail = client.AgentUserDetail
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
+| `data` | `Hash` | Yes |  |
 
 ### Operations
 
@@ -346,25 +346,25 @@ agent_user_list = client.AgentUserList
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | ``$STRING`` | Yes |  |
-| `email` | ``$STRING`` | Yes |  |
-| `full_name` | ``$STRING`` | Yes |  |
-| `id` | ``$STRING`` | Yes |  |
-| `locale` | ``$STRING`` | Yes |  |
-| `preference` | ``$OBJECT`` | Yes |  |
-| `profile` | ``$OBJECT`` | Yes |  |
-| `status` | ``$STRING`` | Yes |  |
-| `timezone` | ``$STRING`` | Yes |  |
-| `updated_at` | ``$STRING`` | Yes |  |
+| `created_at` | `String` | Yes |  |
+| `email` | `String` | Yes |  |
+| `full_name` | `String` | Yes |  |
+| `id` | `String` | Yes |  |
+| `locale` | `String` | Yes |  |
+| `preference` | `Hash` | Yes |  |
+| `profile` | `Hash` | Yes |  |
+| `status` | `String` | Yes |  |
+| `timezone` | `String` | Yes |  |
+| `updated_at` | `String` | Yes |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl = nil) -> Array`
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria. Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
 
 ```ruby
-results = client.AgentUserList.list(nil)
+results = client.AgentUserList.list
 ```
 
 ### Common Methods
@@ -407,13 +407,13 @@ app_user = client.AppUser
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | ``$STRING`` | No |  |
-| `data` | ``$OBJECT`` | Yes |  |
-| `email` | ``$STRING`` | Yes |  |
-| `id` | ``$STRING`` | Yes |  |
-| `last_login_at` | ``$STRING`` | No |  |
-| `metadata` | ``$OBJECT`` | No |  |
-| `status` | ``$STRING`` | No |  |
+| `created_at` | `String` | No |  |
+| `data` | `Hash` | Yes |  |
+| `email` | `String` | Yes |  |
+| `id` | `String` | Yes |  |
+| `last_login_at` | `String` | No |  |
+| `metadata` | `Hash` | No |  |
+| `status` | `String` | No |  |
 
 ### Field Usage by Operation
 
@@ -435,17 +435,17 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.AppUser.create({
-  "data" => # `$OBJECT`,
-  "email" => # `$STRING`,
+  "data" => {}, # Hash
+  "email" => "example", # String
 })
 ```
 
-#### `list(reqmatch, ctrl = nil) -> Array`
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria. Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
 
 ```ruby
-results = client.AppUser.list(nil)
+results = client.AppUser.list
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
@@ -515,10 +515,10 @@ app_user_login = client.AppUserLogin
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
-| `email` | ``$STRING`` | Yes |  |
-| `metadata` | ``$OBJECT`` | No |  |
-| `project_id` | ``$STRING`` | No |  |
+| `data` | `Hash` | Yes |  |
+| `email` | `String` | Yes |  |
+| `metadata` | `Hash` | No |  |
+| `project_id` | `String` | No |  |
 
 ### Operations
 
@@ -528,8 +528,8 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.AppUserLogin.create({
-  "data" => # `$OBJECT`,
-  "email" => # `$STRING`,
+  "data" => {}, # Hash
+  "email" => "example", # String
 })
 ```
 
@@ -573,7 +573,7 @@ app_user_session = client.AppUserSession
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
+| `data` | `Hash` | Yes |  |
 
 ### Operations
 
@@ -582,7 +582,7 @@ app_user_session = client.AppUserSession
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.AppUserSession.load({ "id" => "app_user_session_id" })
+result = client.AppUserSession.load()
 ```
 
 ### Common Methods
@@ -625,7 +625,7 @@ app_user_total = client.AppUserTotal
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `total` | ``$INTEGER`` | Yes |  |
+| `total` | `Integer` | Yes |  |
 
 ### Operations
 
@@ -634,7 +634,7 @@ app_user_total = client.AppUserTotal
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.AppUserTotal.load({ "id" => "app_user_total_id" })
+result = client.AppUserTotal.load()
 ```
 
 ### Common Methods
@@ -677,8 +677,8 @@ app_user_verify = client.AppUserVerify
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
-| `token` | ``$STRING`` | Yes |  |
+| `data` | `Hash` | Yes |  |
+| `token` | `String` | Yes |  |
 
 ### Operations
 
@@ -688,8 +688,8 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.AppUserVerify.create({
-  "data" => # `$OBJECT`,
-  "token" => # `$STRING`,
+  "data" => {}, # Hash
+  "token" => "example", # String
 })
 ```
 
@@ -780,16 +780,16 @@ collection = client.Collection
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | ``$STRING`` | No |  |
-| `data` | ``$OBJECT`` | Yes |  |
-| `id` | ``$STRING`` | Yes |  |
-| `name` | ``$STRING`` | Yes |  |
-| `project_id` | ``$STRING`` | No |  |
-| `schema` | ``$OBJECT`` | No |  |
-| `slug` | ``$STRING`` | No |  |
-| `updated_at` | ``$STRING`` | No |  |
-| `user_id` | ``$STRING`` | No |  |
-| `visibility` | ``$STRING`` | No |  |
+| `created_at` | `String` | No |  |
+| `data` | `Hash` | Yes |  |
+| `id` | `String` | Yes |  |
+| `name` | `String` | Yes |  |
+| `project_id` | `String` | No |  |
+| `schema` | `Hash` | No |  |
+| `slug` | `String` | No |  |
+| `updated_at` | `String` | No |  |
+| `user_id` | `String` | No |  |
+| `visibility` | `String` | No |  |
 
 ### Field Usage by Operation
 
@@ -814,17 +814,17 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.Collection.create({
-  "data" => # `$OBJECT`,
-  "name" => # `$STRING`,
+  "data" => {}, # Hash
+  "name" => "example", # String
 })
 ```
 
-#### `list(reqmatch, ctrl = nil) -> Array`
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria. Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
 
 ```ruby
-results = client.Collection.list(nil)
+results = client.Collection.list
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
@@ -894,7 +894,7 @@ collection_record = client.CollectionRecord
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
+| `data` | `Hash` | Yes |  |
 
 ### Operations
 
@@ -904,7 +904,7 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.CollectionRecord.create({
-  "data" => # `$OBJECT`,
+  "data" => {}, # Hash
 })
 ```
 
@@ -967,24 +967,24 @@ collection_record_list = client.CollectionRecordList
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app_user_id` | ``$STRING`` | No |  |
-| `collection_id` | ``$STRING`` | No |  |
-| `created_at` | ``$STRING`` | No |  |
-| `created_by` | ``$STRING`` | No |  |
-| `data` | ``$OBJECT`` | Yes |  |
-| `deleted_at` | ``$STRING`` | No |  |
-| `id` | ``$STRING`` | Yes |  |
-| `project_id` | ``$STRING`` | No |  |
-| `updated_at` | ``$STRING`` | No |  |
+| `app_user_id` | `String` | No |  |
+| `collection_id` | `String` | No |  |
+| `created_at` | `String` | No |  |
+| `created_by` | `String` | No |  |
+| `data` | `Hash` | Yes |  |
+| `deleted_at` | `String` | No |  |
+| `id` | `String` | Yes |  |
+| `project_id` | `String` | No |  |
+| `updated_at` | `String` | No |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl = nil) -> Array`
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria. Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
 
 ```ruby
-results = client.CollectionRecordList.list(nil)
+results = client.CollectionRecordList.list
 ```
 
 ### Common Methods
@@ -1104,7 +1104,7 @@ legacy = client.Legacy
 Remove the entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.Legacy.remove({ "id" => "legacy_id" })
+result = client.Legacy.remove()
 ```
 
 ### Common Methods
@@ -1147,9 +1147,9 @@ legacy_mutation = client.LegacyMutation
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | ``$STRING`` | No |  |
-| `id` | ``$STRING`` | No |  |
-| `updated_at` | ``$STRING`` | No |  |
+| `created_at` | `String` | No |  |
+| `id` | `String` | No |  |
+| `updated_at` | `String` | No |  |
 
 ### Operations
 
@@ -1168,7 +1168,6 @@ Update an existing entity. The data must include the entity `id`. Raises on erro
 
 ```ruby
 result = client.LegacyMutation.update({
-  "id" => "legacy_mutation_id",
   # Fields to update
 })
 ```
@@ -1213,8 +1212,8 @@ legacy_unknown = client.LegacyUnknown
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
-| `support` | ``$OBJECT`` | No |  |
+| `data` | `Hash` | Yes |  |
+| `support` | `Hash` | No |  |
 
 ### Operations
 
@@ -1266,20 +1265,20 @@ legacy_unknown_list = client.LegacyUnknownList
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `color` | ``$STRING`` | Yes |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `name` | ``$STRING`` | Yes |  |
-| `pantone_value` | ``$STRING`` | Yes |  |
-| `year` | ``$INTEGER`` | Yes |  |
+| `color` | `String` | Yes |  |
+| `id` | `Integer` | Yes |  |
+| `name` | `String` | Yes |  |
+| `pantone_value` | `String` | Yes |  |
+| `year` | `Integer` | Yes |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl = nil) -> Array`
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria. Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
 
 ```ruby
-results = client.LegacyUnknownList.list(nil)
+results = client.LegacyUnknownList.list
 ```
 
 ### Common Methods
@@ -1322,8 +1321,8 @@ legacy_user = client.LegacyUser
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
-| `support` | ``$OBJECT`` | No |  |
+| `data` | `Hash` | Yes |  |
+| `support` | `Hash` | No |  |
 
 ### Operations
 
@@ -1375,20 +1374,20 @@ legacy_user_list = client.LegacyUserList
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `avatar` | ``$STRING`` | Yes |  |
-| `email` | ``$STRING`` | Yes |  |
-| `first_name` | ``$STRING`` | Yes |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `last_name` | ``$STRING`` | Yes |  |
+| `avatar` | `String` | Yes |  |
+| `email` | `String` | Yes |  |
+| `first_name` | `String` | Yes |  |
+| `id` | `Integer` | Yes |  |
+| `last_name` | `String` | Yes |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl = nil) -> Array`
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria. Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
 
 ```ruby
-results = client.LegacyUserList.list(nil)
+results = client.LegacyUserList.list
 ```
 
 ### Common Methods
@@ -1431,9 +1430,9 @@ login = client.Login
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `email` | ``$STRING`` | Yes |  |
-| `password` | ``$STRING`` | Yes |  |
-| `token` | ``$STRING`` | Yes |  |
+| `email` | `String` | Yes |  |
+| `password` | `String` | Yes |  |
+| `token` | `String` | Yes |  |
 
 ### Operations
 
@@ -1443,9 +1442,9 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.Login.create({
-  "email" => # `$STRING`,
-  "password" => # `$STRING`,
-  "token" => # `$STRING`,
+  "email" => "example", # String
+  "password" => "example", # String
+  "token" => "example", # String
 })
 ```
 
@@ -1489,10 +1488,10 @@ register = client.Register
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `email` | ``$STRING`` | Yes |  |
-| `id` | ``$INTEGER`` | No |  |
-| `password` | ``$STRING`` | Yes |  |
-| `token` | ``$STRING`` | Yes |  |
+| `email` | `String` | Yes |  |
+| `id` | `Integer` | No |  |
+| `password` | `String` | Yes |  |
+| `token` | `String` | Yes |  |
 
 ### Operations
 
@@ -1502,9 +1501,9 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.Register.create({
-  "email" => # `$STRING`,
-  "password" => # `$STRING`,
-  "token" => # `$STRING`,
+  "email" => "example", # String
+  "password" => "example", # String
+  "token" => "example", # String
 })
 ```
 

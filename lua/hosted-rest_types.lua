@@ -10,6 +10,7 @@
 ---@field data table
 
 ---@class AgentHealthLoadMatch
+---@field data? table
 
 ---@class AgentSandbox
 ---@field email string
@@ -19,6 +20,8 @@
 ---@field scenario string
 
 ---@class AgentSandboxCreateData
+---@field email string
+---@field password string
 
 ---@class AgentUserDetail
 ---@field data table
@@ -39,6 +42,16 @@
 ---@field updated_at string
 
 ---@class AgentUserListListMatch
+---@field created_at? string
+---@field email? string
+---@field full_name? string
+---@field id? string
+---@field locale? string
+---@field preference? table
+---@field profile? table
+---@field status? string
+---@field timezone? string
+---@field updated_at? string
 
 ---@class AppUser
 ---@field created_at? string
@@ -73,11 +86,16 @@
 ---@field project_id? string
 
 ---@class AppUserLoginCreateData
+---@field data table
+---@field email string
+---@field metadata? table
+---@field project_id? string
 
 ---@class AppUserSession
 ---@field data table
 
 ---@class AppUserSessionLoadMatch
+---@field data? table
 
 ---@class AppUserTotal
 ---@field total number
@@ -90,6 +108,8 @@
 ---@field token string
 
 ---@class AppUserVerifyCreateData
+---@field data table
+---@field token string
 
 ---@class Authentication
 
@@ -111,8 +131,28 @@
 ---@field id string
 
 ---@class CollectionListMatch
+---@field created_at? string
+---@field data? table
+---@field id? string
+---@field name? string
+---@field project_id? string
+---@field schema? table
+---@field slug? string
+---@field updated_at? string
+---@field user_id? string
+---@field visibility? string
 
 ---@class CollectionCreateData
+---@field created_at? string
+---@field data table
+---@field id string
+---@field name string
+---@field project_id? string
+---@field schema? table
+---@field slug? string
+---@field updated_at? string
+---@field user_id? string
+---@field visibility? string
 
 ---@class CollectionUpdateData
 ---@field id string
@@ -175,6 +215,9 @@
 ---@field updated_at? string
 
 ---@class LegacyMutationCreateData
+---@field created_at? string
+---@field id? string
+---@field updated_at? string
 
 ---@class LegacyMutationUpdateData
 ---@field id number
@@ -194,6 +237,11 @@
 ---@field year number
 
 ---@class LegacyUnknownListListMatch
+---@field color? string
+---@field id? number
+---@field name? string
+---@field pantone_value? string
+---@field year? number
 
 ---@class LegacyUser
 ---@field data table
@@ -210,6 +258,11 @@
 ---@field last_name string
 
 ---@class LegacyUserListListMatch
+---@field avatar? string
+---@field email? string
+---@field first_name? string
+---@field id? number
+---@field last_name? string
 
 ---@class Login
 ---@field email string
@@ -217,6 +270,9 @@
 ---@field token string
 
 ---@class LoginCreateData
+---@field email string
+---@field password string
+---@field token string
 
 ---@class Register
 ---@field email string
@@ -225,6 +281,10 @@
 ---@field token string
 
 ---@class RegisterCreateData
+---@field email string
+---@field id? number
+---@field password string
+---@field token string
 
 local M = {}
 

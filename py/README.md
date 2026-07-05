@@ -4,6 +4,11 @@
 
 The Python SDK for the HostedRest API — an entity-oriented client following Pythonic conventions.
 
+The SDK exposes the API as capitalised, semantic **Entities** — for example `client.AgentHealth()` — each
+carrying a small, uniform set of operations (`list`, `load`, `create`, `update`, `remove`, `patch`) instead of raw URL
+paths and query strings. You work with named resources and verbs, which
+keeps the cognitive load low.
+
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
 
@@ -40,10 +45,38 @@ client = HostedRestSDK({
 
 ```python
 try:
-    agenthealth = client.AgentHealth().load({"id": "example_id"})
+    agenthealth = client.AgentHealth().load()
     print(agenthealth)
 except Exception as err:
     print(f"load failed: {err}")
+```
+
+
+## Error handling
+
+Entity operations raise on failure, so wrap them in `try` / `except`:
+
+```python
+try:
+    agenthealth = client.AgentHealth().load()
+    print(agenthealth)
+except Exception as err:
+    print(f"load failed: {err}")
+```
+
+`direct()` does **not** raise — it returns the result envelope. Branch
+on `ok`; on failure `status` holds the HTTP status (for error responses)
+and `err` holds a transport error, so read both defensively:
+
+```python
+result = client.direct({
+    "path": "/api/resource/{id}",
+    "method": "GET",
+    "params": {"id": "example_id"},
+})
+
+if not result["ok"]:
+    print("request failed:", result.get("status"), result.get("err"))
 ```
 
 
@@ -64,7 +97,10 @@ if result["ok"]:
     print(result["status"])  # 200
     print(result["data"])    # response body
 else:
-    print(result["err"])     # error value
+    # A non-2xx response carries status + data (the error body); a
+    # transport-level failure carries err instead. Only one is present, so
+    # read both with .get() rather than indexing a key that may be absent.
+    print(result.get("status"), result.get("err"))
 ```
 
 ### Prepare a request without sending it
@@ -90,7 +126,7 @@ Create a mock client for unit testing — no server required:
 client = HostedRestSDK.test()
 
 # Entity ops return the bare record and raise on error.
-agenthealth = client.AgentHealth().load({"id": "test01"})
+agenthealth = client.AgentHealth().load()
 # agenthealth contains the mock response record
 ```
 
@@ -520,12 +556,12 @@ Create an instance: `agent_health = client.AgentHealth()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
+| `data` | `dict` |  |
 
 #### Example: Load
 
 ```python
-agent_health = client.AgentHealth().load({"id": "agent_health_id"})
+agent_health = client.AgentHealth().load()
 ```
 
 
@@ -544,21 +580,21 @@ Create an instance: `agent_sandbox = client.AgentSandbox()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `email` | ``$STRING`` |  |
-| `password` | ``$STRING`` |  |
+| `email` | `str` |  |
+| `password` | `str` |  |
 
 #### Example: Load
 
 ```python
-agent_sandbox = client.AgentSandbox().load({"id": "agent_sandbox_id"})
+agent_sandbox = client.AgentSandbox().load()
 ```
 
 #### Example: Create
 
 ```python
 agent_sandbox = client.AgentSandbox().create({
-    "email": ...,  # `$STRING`
-    "password": ...,  # `$STRING`
+    "email": "example",  # str
+    "password": "example",  # str
 })
 ```
 
@@ -577,7 +613,7 @@ Create an instance: `agent_user_detail = client.AgentUserDetail()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
+| `data` | `dict` |  |
 
 #### Example: Load
 
@@ -594,27 +630,27 @@ Create an instance: `agent_user_list = client.AgentUserList()`
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
+| `list()` | List entities, optionally matching the given criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | ``$STRING`` |  |
-| `email` | ``$STRING`` |  |
-| `full_name` | ``$STRING`` |  |
-| `id` | ``$STRING`` |  |
-| `locale` | ``$STRING`` |  |
-| `preference` | ``$OBJECT`` |  |
-| `profile` | ``$OBJECT`` |  |
-| `status` | ``$STRING`` |  |
-| `timezone` | ``$STRING`` |  |
-| `updated_at` | ``$STRING`` |  |
+| `created_at` | `str` |  |
+| `email` | `str` |  |
+| `full_name` | `str` |  |
+| `id` | `str` |  |
+| `locale` | `str` |  |
+| `preference` | `dict` |  |
+| `profile` | `dict` |  |
+| `status` | `str` |  |
+| `timezone` | `str` |  |
+| `updated_at` | `str` |  |
 
 #### Example: List
 
 ```python
-agent_user_lists = client.AgentUserList().list({})
+agent_user_lists = client.AgentUserList().list()
 ```
 
 
@@ -627,7 +663,7 @@ Create an instance: `app_user = client.AppUser()`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
-| `list(match)` | List entities matching the criteria. |
+| `list()` | List entities, optionally matching the given criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
@@ -636,13 +672,13 @@ Create an instance: `app_user = client.AppUser()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | ``$STRING`` |  |
-| `data` | ``$OBJECT`` |  |
-| `email` | ``$STRING`` |  |
-| `id` | ``$STRING`` |  |
-| `last_login_at` | ``$STRING`` |  |
-| `metadata` | ``$OBJECT`` |  |
-| `status` | ``$STRING`` |  |
+| `created_at` | `str` |  |
+| `data` | `dict` |  |
+| `email` | `str` |  |
+| `id` | `str` |  |
+| `last_login_at` | `str` |  |
+| `metadata` | `dict` |  |
+| `status` | `str` |  |
 
 #### Example: Load
 
@@ -653,15 +689,15 @@ app_user = client.AppUser().load({"id": "app_user_id"})
 #### Example: List
 
 ```python
-app_users = client.AppUser().list({})
+app_users = client.AppUser().list()
 ```
 
 #### Example: Create
 
 ```python
 app_user = client.AppUser().create({
-    "data": ...,  # `$OBJECT`
-    "email": ...,  # `$STRING`
+    "data": {},  # dict
+    "email": "example",  # str
 })
 ```
 
@@ -680,17 +716,17 @@ Create an instance: `app_user_login = client.AppUserLogin()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `email` | ``$STRING`` |  |
-| `metadata` | ``$OBJECT`` |  |
-| `project_id` | ``$STRING`` |  |
+| `data` | `dict` |  |
+| `email` | `str` |  |
+| `metadata` | `dict` |  |
+| `project_id` | `str` |  |
 
 #### Example: Create
 
 ```python
 app_user_login = client.AppUserLogin().create({
-    "data": ...,  # `$OBJECT`
-    "email": ...,  # `$STRING`
+    "data": {},  # dict
+    "email": "example",  # str
 })
 ```
 
@@ -709,12 +745,12 @@ Create an instance: `app_user_session = client.AppUserSession()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
+| `data` | `dict` |  |
 
 #### Example: Load
 
 ```python
-app_user_session = client.AppUserSession().load({"id": "app_user_session_id"})
+app_user_session = client.AppUserSession().load()
 ```
 
 
@@ -732,12 +768,12 @@ Create an instance: `app_user_total = client.AppUserTotal()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `total` | ``$INTEGER`` |  |
+| `total` | `int` |  |
 
 #### Example: Load
 
 ```python
-app_user_total = client.AppUserTotal().load({"id": "app_user_total_id"})
+app_user_total = client.AppUserTotal().load()
 ```
 
 
@@ -755,15 +791,15 @@ Create an instance: `app_user_verify = client.AppUserVerify()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `token` | ``$STRING`` |  |
+| `data` | `dict` |  |
+| `token` | `str` |  |
 
 #### Example: Create
 
 ```python
 app_user_verify = client.AppUserVerify().create({
-    "data": ...,  # `$OBJECT`
-    "token": ...,  # `$STRING`
+    "data": {},  # dict
+    "token": "example",  # str
 })
 ```
 
@@ -795,7 +831,7 @@ Create an instance: `collection = client.Collection()`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
-| `list(match)` | List entities matching the criteria. |
+| `list()` | List entities, optionally matching the given criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
@@ -804,16 +840,16 @@ Create an instance: `collection = client.Collection()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | ``$STRING`` |  |
-| `data` | ``$OBJECT`` |  |
-| `id` | ``$STRING`` |  |
-| `name` | ``$STRING`` |  |
-| `project_id` | ``$STRING`` |  |
-| `schema` | ``$OBJECT`` |  |
-| `slug` | ``$STRING`` |  |
-| `updated_at` | ``$STRING`` |  |
-| `user_id` | ``$STRING`` |  |
-| `visibility` | ``$STRING`` |  |
+| `created_at` | `str` |  |
+| `data` | `dict` |  |
+| `id` | `str` |  |
+| `name` | `str` |  |
+| `project_id` | `str` |  |
+| `schema` | `dict` |  |
+| `slug` | `str` |  |
+| `updated_at` | `str` |  |
+| `user_id` | `str` |  |
+| `visibility` | `str` |  |
 
 #### Example: Load
 
@@ -824,15 +860,15 @@ collection = client.Collection().load({"id": "collection_id"})
 #### Example: List
 
 ```python
-collections = client.Collection().list({})
+collections = client.Collection().list()
 ```
 
 #### Example: Create
 
 ```python
 collection = client.Collection().create({
-    "data": ...,  # `$OBJECT`
-    "name": ...,  # `$STRING`
+    "data": {},  # dict
+    "name": "example",  # str
 })
 ```
 
@@ -853,7 +889,7 @@ Create an instance: `collection_record = client.CollectionRecord()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
+| `data` | `dict` |  |
 
 #### Example: Load
 
@@ -865,7 +901,7 @@ collection_record = client.CollectionRecord().load({"id": "collection_record_id"
 
 ```python
 collection_record = client.CollectionRecord().create({
-    "data": ...,  # `$OBJECT`
+    "data": {},  # dict
 })
 ```
 
@@ -878,26 +914,26 @@ Create an instance: `collection_record_list = client.CollectionRecordList()`
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
+| `list()` | List entities, optionally matching the given criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `app_user_id` | ``$STRING`` |  |
-| `collection_id` | ``$STRING`` |  |
-| `created_at` | ``$STRING`` |  |
-| `created_by` | ``$STRING`` |  |
-| `data` | ``$OBJECT`` |  |
-| `deleted_at` | ``$STRING`` |  |
-| `id` | ``$STRING`` |  |
-| `project_id` | ``$STRING`` |  |
-| `updated_at` | ``$STRING`` |  |
+| `app_user_id` | `str` |  |
+| `collection_id` | `str` |  |
+| `created_at` | `str` |  |
+| `created_by` | `str` |  |
+| `data` | `dict` |  |
+| `deleted_at` | `str` |  |
+| `id` | `str` |  |
+| `project_id` | `str` |  |
+| `updated_at` | `str` |  |
 
 #### Example: List
 
 ```python
-collection_record_lists = client.CollectionRecordList().list({})
+collection_record_lists = client.CollectionRecordList().list()
 ```
 
 
@@ -954,9 +990,9 @@ Create an instance: `legacy_mutation = client.LegacyMutation()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | ``$STRING`` |  |
-| `id` | ``$STRING`` |  |
-| `updated_at` | ``$STRING`` |  |
+| `created_at` | `str` |  |
+| `id` | `str` |  |
+| `updated_at` | `str` |  |
 
 #### Example: Create
 
@@ -980,8 +1016,8 @@ Create an instance: `legacy_unknown = client.LegacyUnknown()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `support` | ``$OBJECT`` |  |
+| `data` | `dict` |  |
+| `support` | `dict` |  |
 
 #### Example: Load
 
@@ -998,22 +1034,22 @@ Create an instance: `legacy_unknown_list = client.LegacyUnknownList()`
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
+| `list()` | List entities, optionally matching the given criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `color` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `name` | ``$STRING`` |  |
-| `pantone_value` | ``$STRING`` |  |
-| `year` | ``$INTEGER`` |  |
+| `color` | `str` |  |
+| `id` | `int` |  |
+| `name` | `str` |  |
+| `pantone_value` | `str` |  |
+| `year` | `int` |  |
 
 #### Example: List
 
 ```python
-legacy_unknown_lists = client.LegacyUnknownList().list({})
+legacy_unknown_lists = client.LegacyUnknownList().list()
 ```
 
 
@@ -1031,8 +1067,8 @@ Create an instance: `legacy_user = client.LegacyUser()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `support` | ``$OBJECT`` |  |
+| `data` | `dict` |  |
+| `support` | `dict` |  |
 
 #### Example: Load
 
@@ -1049,22 +1085,22 @@ Create an instance: `legacy_user_list = client.LegacyUserList()`
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
+| `list()` | List entities, optionally matching the given criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `avatar` | ``$STRING`` |  |
-| `email` | ``$STRING`` |  |
-| `first_name` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `last_name` | ``$STRING`` |  |
+| `avatar` | `str` |  |
+| `email` | `str` |  |
+| `first_name` | `str` |  |
+| `id` | `int` |  |
+| `last_name` | `str` |  |
 
 #### Example: List
 
 ```python
-legacy_user_lists = client.LegacyUserList().list({})
+legacy_user_lists = client.LegacyUserList().list()
 ```
 
 
@@ -1082,17 +1118,17 @@ Create an instance: `login = client.Login()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `email` | ``$STRING`` |  |
-| `password` | ``$STRING`` |  |
-| `token` | ``$STRING`` |  |
+| `email` | `str` |  |
+| `password` | `str` |  |
+| `token` | `str` |  |
 
 #### Example: Create
 
 ```python
 login = client.Login().create({
-    "email": ...,  # `$STRING`
-    "password": ...,  # `$STRING`
-    "token": ...,  # `$STRING`
+    "email": "example",  # str
+    "password": "example",  # str
+    "token": "example",  # str
 })
 ```
 
@@ -1111,28 +1147,32 @@ Create an instance: `register = client.Register()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `email` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `password` | ``$STRING`` |  |
-| `token` | ``$STRING`` |  |
+| `email` | `str` |  |
+| `id` | `int` |  |
+| `password` | `str` |  |
+| `token` | `str` |  |
 
 #### Example: Create
 
 ```python
 register = client.Register().create({
-    "email": ...,  # `$STRING`
-    "password": ...,  # `$STRING`
-    "token": ...,  # `$STRING`
+    "email": "example",  # str
+    "password": "example",  # str
+    "token": "example",  # str
 })
 ```
 
 
-## Explanation
+## Advanced
+
+> The sections above cover everyday use. The material below explains the
+> SDK's internals — useful when extending it with custom features, but not
+> needed for normal use.
 
 ### The operation pipeline
 
-Every entity operation (load, list, create, update, remove) follows a
-six-stage pipeline. Each stage fires a feature hook before executing:
+Every entity operation follows a six-stage pipeline. Each stage fires a
+feature hook before executing:
 
 ```
 PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
@@ -1149,8 +1189,9 @@ PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
 - **PreDone**: Final stage before returning to the caller. Entity
   state (match, data) is updated here.
 
-If any stage returns an error, the pipeline short-circuits and the
-error is returned to the caller as the second element in the return tuple.
+If any stage errors, the pipeline short-circuits and the error surfaces
+to the caller — see [Error handling](#error-handling) for how that looks
+in this language.
 
 ### Features and hooks
 
@@ -1198,9 +1239,9 @@ stores the returned data and match criteria internally.
 
 ```python
 agenthealth = client.AgentHealth()
-agenthealth.load({"id": "example_id"})
+agenthealth.load()
 
-# agenthealth.data_get() now returns the loaded agenthealth data
+# agenthealth.data_get() now returns the agenthealth data from the last load
 # agenthealth.match_get() returns the last match criteria
 ```
 

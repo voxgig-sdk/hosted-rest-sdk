@@ -71,12 +71,12 @@ describe('LegacyMutationEntity', async () => {
     legacy_mutation_ref01_data_up0.id = legacy_mutation_ref01_data.id
 
     const legacy_mutation_ref01_markdef_up0 = { name: 'created_at', value: 'Mark01-legacy_mutation_ref01_' + setup.now }
-    legacy_mutation_ref01_data_up0 [legacy_mutation_ref01_markdef_up0.name] = legacy_mutation_ref01_markdef_up0.value
+    ;(legacy_mutation_ref01_data_up0 as any)[legacy_mutation_ref01_markdef_up0.name] = legacy_mutation_ref01_markdef_up0.value
 
     const legacy_mutation_ref01_resdata_up0 = await legacy_mutation_ref01_ent.update(legacy_mutation_ref01_data_up0)
     assert(legacy_mutation_ref01_resdata_up0.id === legacy_mutation_ref01_data_up0.id)
 
-    assert(legacy_mutation_ref01_resdata_up0[legacy_mutation_ref01_markdef_up0.name] === legacy_mutation_ref01_markdef_up0.value)
+    assert((legacy_mutation_ref01_resdata_up0 as any)[legacy_mutation_ref01_markdef_up0.name] === legacy_mutation_ref01_markdef_up0.value)
 
 
   })

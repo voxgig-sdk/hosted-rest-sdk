@@ -33,7 +33,7 @@ class AgentSandboxLoadMatch(TypedDict):
     scenario: str
 
 
-class AgentSandboxCreateData(TypedDict, total=False):
+class AgentSandboxCreateData(TypedDict):
     email: str
     password: str
 
@@ -117,9 +117,12 @@ class AppUserLogin(AppUserLoginRequired, total=False):
     project_id: str
 
 
-class AppUserLoginCreateData(TypedDict, total=False):
+class AppUserLoginCreateDataRequired(TypedDict):
     data: dict
     email: str
+
+
+class AppUserLoginCreateData(AppUserLoginCreateDataRequired, total=False):
     metadata: dict
     project_id: str
 
@@ -145,7 +148,7 @@ class AppUserVerify(TypedDict):
     token: str
 
 
-class AppUserVerifyCreateData(TypedDict, total=False):
+class AppUserVerifyCreateData(TypedDict):
     data: dict
     token: str
 
@@ -191,11 +194,14 @@ class CollectionListMatch(TypedDict, total=False):
     visibility: str
 
 
-class CollectionCreateData(TypedDict, total=False):
-    created_at: str
+class CollectionCreateDataRequired(TypedDict):
     data: dict
     id: str
     name: str
+
+
+class CollectionCreateData(CollectionCreateDataRequired, total=False):
+    created_at: str
     project_id: str
     schema: dict
     slug: str
@@ -357,7 +363,7 @@ class Login(TypedDict):
     token: str
 
 
-class LoginCreateData(TypedDict, total=False):
+class LoginCreateData(TypedDict):
     email: str
     password: str
     token: str
@@ -373,8 +379,11 @@ class Register(RegisterRequired, total=False):
     id: int
 
 
-class RegisterCreateData(TypedDict, total=False):
+class RegisterCreateDataRequired(TypedDict):
     email: str
-    id: int
     password: str
     token: str
+
+
+class RegisterCreateData(RegisterCreateDataRequired, total=False):
+    id: int

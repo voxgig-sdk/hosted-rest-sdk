@@ -67,8 +67,13 @@ class CustomEntity:
         return vs.clone(self._match)
 
     
-    def load(self, reqmatch: CustomLoadMatch, ctrl=None) -> Custom:
+    def load(self, reqmatch=None, ctrl=None) -> Custom:
         utility = self._utility
+        # reqmatch is optional: an entity with no id-like key loads with no
+        # match. Treat None as an empty match so client.Custom().load()
+        # works with no args.
+        if reqmatch is None:
+            reqmatch = {}
         ctx = utility.make_context({
             "opname": "load",
             "ctrl": ctrl,
@@ -133,8 +138,13 @@ class CustomEntity:
 
 
     
-    def remove(self, reqmatch: CustomRemoveMatch, ctrl=None) -> Custom:
+    def remove(self, reqmatch=None, ctrl=None) -> Custom:
         utility = self._utility
+        # reqmatch is optional: an entity with no id-like key removes with no
+        # match. Treat None as an empty match so client.Custom().remove()
+        # works with no args.
+        if reqmatch is None:
+            reqmatch = {}
         ctx = utility.make_context({
             "opname": "remove",
             "ctrl": ctrl,

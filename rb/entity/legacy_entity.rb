@@ -78,7 +78,7 @@ class LegacyEntity
   # @param reqmatch [LegacyRemoveMatch, Hash, nil] match criteria (id/query fields)
   # @param ctrl [Object, nil] optional per-call control
   # @return [Legacy, Hash] the removed Legacy; raises HostedRestError on failure
-  def remove(reqmatch, ctrl = nil)
+  def remove(reqmatch = nil, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({
       "opname" => "remove",

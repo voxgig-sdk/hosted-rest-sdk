@@ -8,7 +8,7 @@ Complete API reference for the HostedRest Python SDK.
 ### Constructor
 
 ```python
-from hosted-rest_sdk import HostedRestSDK
+from hostedrest_sdk import HostedRestSDK
 
 client = HostedRestSDK(options)
 ```
@@ -172,7 +172,7 @@ agent_health = client.AgentHealth()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
+| `data` | `dict` | Yes |  |
 
 ### Operations
 
@@ -181,7 +181,7 @@ agent_health = client.AgentHealth()
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.AgentHealth().load({"id": "agent_health_id"})
+result = client.AgentHealth().load()
 ```
 
 ### Common Methods
@@ -223,8 +223,8 @@ agent_sandbox = client.AgentSandbox()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `email` | ``$STRING`` | Yes |  |
-| `password` | ``$STRING`` | Yes |  |
+| `email` | `str` | Yes |  |
+| `password` | `str` | Yes |  |
 
 ### Operations
 
@@ -234,8 +234,8 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.AgentSandbox().create({
-    "email": ...,  # `$STRING`
-    "password": ...,  # `$STRING`
+    "email": "example",  # str
+    "password": "example",  # str
 })
 ```
 
@@ -244,7 +244,7 @@ result = client.AgentSandbox().create({
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.AgentSandbox().load({"id": "agent_sandbox_id"})
+result = client.AgentSandbox().load()
 ```
 
 ### Common Methods
@@ -286,7 +286,7 @@ agent_user_detail = client.AgentUserDetail()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
+| `data` | `dict` | Yes |  |
 
 ### Operations
 
@@ -337,25 +337,25 @@ agent_user_list = client.AgentUserList()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | ``$STRING`` | Yes |  |
-| `email` | ``$STRING`` | Yes |  |
-| `full_name` | ``$STRING`` | Yes |  |
-| `id` | ``$STRING`` | Yes |  |
-| `locale` | ``$STRING`` | Yes |  |
-| `preference` | ``$OBJECT`` | Yes |  |
-| `profile` | ``$OBJECT`` | Yes |  |
-| `status` | ``$STRING`` | Yes |  |
-| `timezone` | ``$STRING`` | Yes |  |
-| `updated_at` | ``$STRING`` | Yes |  |
+| `created_at` | `str` | Yes |  |
+| `email` | `str` | Yes |  |
+| `full_name` | `str` | Yes |  |
+| `id` | `str` | Yes |  |
+| `locale` | `str` | Yes |  |
+| `preference` | `dict` | Yes |  |
+| `profile` | `dict` | Yes |  |
+| `status` | `str` | Yes |  |
+| `timezone` | `str` | Yes |  |
+| `updated_at` | `str` | Yes |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.AgentUserList().list({})
+results = client.AgentUserList().list()
 for agent_user_list in results:
     print(agent_user_list)
 ```
@@ -399,13 +399,13 @@ app_user = client.AppUser()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | ``$STRING`` | No |  |
-| `data` | ``$OBJECT`` | Yes |  |
-| `email` | ``$STRING`` | Yes |  |
-| `id` | ``$STRING`` | Yes |  |
-| `last_login_at` | ``$STRING`` | No |  |
-| `metadata` | ``$OBJECT`` | No |  |
-| `status` | ``$STRING`` | No |  |
+| `created_at` | `str` | No |  |
+| `data` | `dict` | Yes |  |
+| `email` | `str` | Yes |  |
+| `id` | `str` | Yes |  |
+| `last_login_at` | `str` | No |  |
+| `metadata` | `dict` | No |  |
+| `status` | `str` | No |  |
 
 ### Field Usage by Operation
 
@@ -427,17 +427,17 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.AppUser().create({
-    "data": ...,  # `$OBJECT`
-    "email": ...,  # `$STRING`
+    "data": {},  # dict
+    "email": "example",  # str
 })
 ```
 
-#### `list(reqmatch, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.AppUser().list({})
+results = client.AppUser().list()
 for app_user in results:
     print(app_user)
 ```
@@ -508,10 +508,10 @@ app_user_login = client.AppUserLogin()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
-| `email` | ``$STRING`` | Yes |  |
-| `metadata` | ``$OBJECT`` | No |  |
-| `project_id` | ``$STRING`` | No |  |
+| `data` | `dict` | Yes |  |
+| `email` | `str` | Yes |  |
+| `metadata` | `dict` | No |  |
+| `project_id` | `str` | No |  |
 
 ### Operations
 
@@ -521,8 +521,8 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.AppUserLogin().create({
-    "data": ...,  # `$OBJECT`
-    "email": ...,  # `$STRING`
+    "data": {},  # dict
+    "email": "example",  # str
 })
 ```
 
@@ -565,7 +565,7 @@ app_user_session = client.AppUserSession()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
+| `data` | `dict` | Yes |  |
 
 ### Operations
 
@@ -574,7 +574,7 @@ app_user_session = client.AppUserSession()
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.AppUserSession().load({"id": "app_user_session_id"})
+result = client.AppUserSession().load()
 ```
 
 ### Common Methods
@@ -616,7 +616,7 @@ app_user_total = client.AppUserTotal()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `total` | ``$INTEGER`` | Yes |  |
+| `total` | `int` | Yes |  |
 
 ### Operations
 
@@ -625,7 +625,7 @@ app_user_total = client.AppUserTotal()
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.AppUserTotal().load({"id": "app_user_total_id"})
+result = client.AppUserTotal().load()
 ```
 
 ### Common Methods
@@ -667,8 +667,8 @@ app_user_verify = client.AppUserVerify()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
-| `token` | ``$STRING`` | Yes |  |
+| `data` | `dict` | Yes |  |
+| `token` | `str` | Yes |  |
 
 ### Operations
 
@@ -678,8 +678,8 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.AppUserVerify().create({
-    "data": ...,  # `$OBJECT`
-    "token": ...,  # `$STRING`
+    "data": {},  # dict
+    "token": "example",  # str
 })
 ```
 
@@ -768,16 +768,16 @@ collection = client.Collection()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | ``$STRING`` | No |  |
-| `data` | ``$OBJECT`` | Yes |  |
-| `id` | ``$STRING`` | Yes |  |
-| `name` | ``$STRING`` | Yes |  |
-| `project_id` | ``$STRING`` | No |  |
-| `schema` | ``$OBJECT`` | No |  |
-| `slug` | ``$STRING`` | No |  |
-| `updated_at` | ``$STRING`` | No |  |
-| `user_id` | ``$STRING`` | No |  |
-| `visibility` | ``$STRING`` | No |  |
+| `created_at` | `str` | No |  |
+| `data` | `dict` | Yes |  |
+| `id` | `str` | Yes |  |
+| `name` | `str` | Yes |  |
+| `project_id` | `str` | No |  |
+| `schema` | `dict` | No |  |
+| `slug` | `str` | No |  |
+| `updated_at` | `str` | No |  |
+| `user_id` | `str` | No |  |
+| `visibility` | `str` | No |  |
 
 ### Field Usage by Operation
 
@@ -802,17 +802,17 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.Collection().create({
-    "data": ...,  # `$OBJECT`
-    "name": ...,  # `$STRING`
+    "data": {},  # dict
+    "name": "example",  # str
 })
 ```
 
-#### `list(reqmatch, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.Collection().list({})
+results = client.Collection().list()
 for collection in results:
     print(collection)
 ```
@@ -883,7 +883,7 @@ collection_record = client.CollectionRecord()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
+| `data` | `dict` | Yes |  |
 
 ### Operations
 
@@ -893,7 +893,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.CollectionRecord().create({
-    "data": ...,  # `$OBJECT`
+    "data": {},  # dict
 })
 ```
 
@@ -955,24 +955,24 @@ collection_record_list = client.CollectionRecordList()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app_user_id` | ``$STRING`` | No |  |
-| `collection_id` | ``$STRING`` | No |  |
-| `created_at` | ``$STRING`` | No |  |
-| `created_by` | ``$STRING`` | No |  |
-| `data` | ``$OBJECT`` | Yes |  |
-| `deleted_at` | ``$STRING`` | No |  |
-| `id` | ``$STRING`` | Yes |  |
-| `project_id` | ``$STRING`` | No |  |
-| `updated_at` | ``$STRING`` | No |  |
+| `app_user_id` | `str` | No |  |
+| `collection_id` | `str` | No |  |
+| `created_at` | `str` | No |  |
+| `created_by` | `str` | No |  |
+| `data` | `dict` | Yes |  |
+| `deleted_at` | `str` | No |  |
+| `id` | `str` | Yes |  |
+| `project_id` | `str` | No |  |
+| `updated_at` | `str` | No |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.CollectionRecordList().list({})
+results = client.CollectionRecordList().list()
 for collection_record_list in results:
     print(collection_record_list)
 ```
@@ -1092,7 +1092,7 @@ legacy = client.Legacy()
 Remove the entity matching the given criteria. Raises on error.
 
 ```python
-result = client.Legacy().remove({"id": "legacy_id"})
+result = client.Legacy().remove()
 ```
 
 ### Common Methods
@@ -1134,9 +1134,9 @@ legacy_mutation = client.LegacyMutation()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | ``$STRING`` | No |  |
-| `id` | ``$STRING`` | No |  |
-| `updated_at` | ``$STRING`` | No |  |
+| `created_at` | `str` | No |  |
+| `id` | `str` | No |  |
+| `updated_at` | `str` | No |  |
 
 ### Operations
 
@@ -1155,7 +1155,6 @@ Update an existing entity. The data must include the entity `id`. Returns the up
 
 ```python
 result = client.LegacyMutation().update({
-    "id": "legacy_mutation_id",
     # Fields to update
 })
 ```
@@ -1199,8 +1198,8 @@ legacy_unknown = client.LegacyUnknown()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
-| `support` | ``$OBJECT`` | No |  |
+| `data` | `dict` | Yes |  |
+| `support` | `dict` | No |  |
 
 ### Operations
 
@@ -1251,20 +1250,20 @@ legacy_unknown_list = client.LegacyUnknownList()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `color` | ``$STRING`` | Yes |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `name` | ``$STRING`` | Yes |  |
-| `pantone_value` | ``$STRING`` | Yes |  |
-| `year` | ``$INTEGER`` | Yes |  |
+| `color` | `str` | Yes |  |
+| `id` | `int` | Yes |  |
+| `name` | `str` | Yes |  |
+| `pantone_value` | `str` | Yes |  |
+| `year` | `int` | Yes |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.LegacyUnknownList().list({})
+results = client.LegacyUnknownList().list()
 for legacy_unknown_list in results:
     print(legacy_unknown_list)
 ```
@@ -1308,8 +1307,8 @@ legacy_user = client.LegacyUser()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
-| `support` | ``$OBJECT`` | No |  |
+| `data` | `dict` | Yes |  |
+| `support` | `dict` | No |  |
 
 ### Operations
 
@@ -1360,20 +1359,20 @@ legacy_user_list = client.LegacyUserList()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `avatar` | ``$STRING`` | Yes |  |
-| `email` | ``$STRING`` | Yes |  |
-| `first_name` | ``$STRING`` | Yes |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `last_name` | ``$STRING`` | Yes |  |
+| `avatar` | `str` | Yes |  |
+| `email` | `str` | Yes |  |
+| `first_name` | `str` | Yes |  |
+| `id` | `int` | Yes |  |
+| `last_name` | `str` | Yes |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.LegacyUserList().list({})
+results = client.LegacyUserList().list()
 for legacy_user_list in results:
     print(legacy_user_list)
 ```
@@ -1417,9 +1416,9 @@ login = client.Login()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `email` | ``$STRING`` | Yes |  |
-| `password` | ``$STRING`` | Yes |  |
-| `token` | ``$STRING`` | Yes |  |
+| `email` | `str` | Yes |  |
+| `password` | `str` | Yes |  |
+| `token` | `str` | Yes |  |
 
 ### Operations
 
@@ -1429,9 +1428,9 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.Login().create({
-    "email": ...,  # `$STRING`
-    "password": ...,  # `$STRING`
-    "token": ...,  # `$STRING`
+    "email": "example",  # str
+    "password": "example",  # str
+    "token": "example",  # str
 })
 ```
 
@@ -1474,10 +1473,10 @@ register = client.Register()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `email` | ``$STRING`` | Yes |  |
-| `id` | ``$INTEGER`` | No |  |
-| `password` | ``$STRING`` | Yes |  |
-| `token` | ``$STRING`` | Yes |  |
+| `email` | `str` | Yes |  |
+| `id` | `int` | No |  |
+| `password` | `str` | Yes |  |
+| `token` | `str` | Yes |  |
 
 ### Operations
 
@@ -1487,9 +1486,9 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.Register().create({
-    "email": ...,  # `$STRING`
-    "password": ...,  # `$STRING`
-    "token": ...,  # `$STRING`
+    "email": "example",  # str
+    "password": "example",  # str
+    "token": "example",  # str
 })
 ```
 

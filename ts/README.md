@@ -4,6 +4,11 @@
 
 The TypeScript SDK for the HostedRest API — a type-safe, entity-oriented client with full async/await support.
 
+The API is exposed as capitalised, semantic **Entities** — e.g.
+`client.AgentHealth()` — each with a small set of operations (`list`, `load`, `create`, `update`, `remove`, `patch`)
+instead of raw URL paths and query parameters. This keeps the surface
+predictable and low-friction for both humans and AI agents.
+
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
 
@@ -36,10 +41,39 @@ const client = new HostedRestSDK({
 
 ```ts
 try {
-  const agenthealth = await client.AgentHealth().load({ id: 'example_id' })
+  const agenthealth = await client.AgentHealth().load()
   console.log(agenthealth)
 } catch (err) {
   console.error('load failed:', err)
+}
+```
+
+
+## Error handling
+
+Entity operations reject on failure, so wrap them in `try` / `catch`:
+
+```ts
+try {
+  const agenthealth = await client.AgentHealth().load()
+  console.log(agenthealth)
+} catch (err) {
+  console.error('load failed:', err)
+}
+```
+
+The low-level `direct()` method does **not** throw — it returns the
+value or an `Error`, so check the result before using it:
+
+```ts
+const result = await client.direct({
+  path: '/api/resource/{id}',
+  method: 'GET',
+  params: { id: 'example_id' },
+})
+
+if (result instanceof Error) {
+  throw result
 }
 ```
 
@@ -88,7 +122,7 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = HostedRestSDK.test()
 
-const agenthealth = await client.AgentHealth().load({ id: 'test01' })
+const agenthealth = await client.AgentHealth().load()
 // agenthealth is a bare entity populated with mock response data
 console.log(agenthealth)
 ```
@@ -107,12 +141,12 @@ Entity instances remember their last match and data:
 ```ts
 const entity = client.AgentHealth()
 
-// First call sets internal match
-await entity.load({ id: 'example' })
+// First call runs the operation and stores its result
+await entity.load()
 
-// Subsequent calls reuse the stored match
+// Subsequent calls reuse the stored state
 const data = entity.data()
-console.log(data.id) // 'example'
+console.log(data)
 ```
 
 ### Add custom middleware
@@ -230,8 +264,8 @@ All entities share the same interface.
 | `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity. |
 | `update` | `update(reqdata?, ctrl?): Promise<Entity>` | Update an existing entity. |
 | `remove` | `remove(reqmatch?, ctrl?): Promise<void>` | Remove an entity. |
-| `data` | `data(data?): any` | Get or set entity data. |
-| `match` | `match(match?): any` | Get or set entity match criteria. |
+| `data` | `data(data?: Partial<Entity>): Entity` | Get or set entity data. |
+| `match` | `match(match?: Partial<Entity>): Partial<Entity>` | Get or set entity match criteria. |
 | `make` | `make(): Entity` | Create a new instance with the same options. |
 | `client` | `client(): HostedRestSDK` | Return the parent SDK client. |
 | `entopts` | `entopts(): object` | Return a copy of the entity options. |
@@ -570,12 +604,12 @@ Create an instance: `const agent_health = client.AgentHealth()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
+| `data` | `Record<string, any>` |  |
 
 #### Example: Load
 
 ```ts
-const agent_health = await client.AgentHealth().load({ id: 'agent_health_id' })
+const agent_health = await client.AgentHealth().load()
 ```
 
 
@@ -594,21 +628,21 @@ Create an instance: `const agent_sandbox = client.AgentSandbox()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `email` | ``$STRING`` |  |
-| `password` | ``$STRING`` |  |
+| `email` | `string` |  |
+| `password` | `string` |  |
 
 #### Example: Load
 
 ```ts
-const agent_sandbox = await client.AgentSandbox().load({ id: 'agent_sandbox_id' })
+const agent_sandbox = await client.AgentSandbox().load()
 ```
 
 #### Example: Create
 
 ```ts
 const agent_sandbox = await client.AgentSandbox().create({
-  email: /* `$STRING` */,
-  password: /* `$STRING` */,
+  email: /* string */,
+  password: /* string */,
 })
 ```
 
@@ -627,7 +661,7 @@ Create an instance: `const agent_user_detail = client.AgentUserDetail()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
+| `data` | `Record<string, any>` |  |
 
 #### Example: Load
 
@@ -650,16 +684,16 @@ Create an instance: `const agent_user_list = client.AgentUserList()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | ``$STRING`` |  |
-| `email` | ``$STRING`` |  |
-| `full_name` | ``$STRING`` |  |
-| `id` | ``$STRING`` |  |
-| `locale` | ``$STRING`` |  |
-| `preference` | ``$OBJECT`` |  |
-| `profile` | ``$OBJECT`` |  |
-| `status` | ``$STRING`` |  |
-| `timezone` | ``$STRING`` |  |
-| `updated_at` | ``$STRING`` |  |
+| `created_at` | `string` |  |
+| `email` | `string` |  |
+| `full_name` | `string` |  |
+| `id` | `string` |  |
+| `locale` | `string` |  |
+| `preference` | `Record<string, any>` |  |
+| `profile` | `Record<string, any>` |  |
+| `status` | `string` |  |
+| `timezone` | `string` |  |
+| `updated_at` | `string` |  |
 
 #### Example: List
 
@@ -686,13 +720,13 @@ Create an instance: `const app_user = client.AppUser()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | ``$STRING`` |  |
-| `data` | ``$OBJECT`` |  |
-| `email` | ``$STRING`` |  |
-| `id` | ``$STRING`` |  |
-| `last_login_at` | ``$STRING`` |  |
-| `metadata` | ``$OBJECT`` |  |
-| `status` | ``$STRING`` |  |
+| `created_at` | `string` |  |
+| `data` | `Record<string, any>` |  |
+| `email` | `string` |  |
+| `id` | `string` |  |
+| `last_login_at` | `string` |  |
+| `metadata` | `Record<string, any>` |  |
+| `status` | `string` |  |
 
 #### Example: Load
 
@@ -710,8 +744,8 @@ const app_users = await client.AppUser().list()
 
 ```ts
 const app_user = await client.AppUser().create({
-  data: /* `$OBJECT` */,
-  email: /* `$STRING` */,
+  data: /* Record<string, any> */,
+  email: /* string */,
 })
 ```
 
@@ -730,17 +764,17 @@ Create an instance: `const app_user_login = client.AppUserLogin()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `email` | ``$STRING`` |  |
-| `metadata` | ``$OBJECT`` |  |
-| `project_id` | ``$STRING`` |  |
+| `data` | `Record<string, any>` |  |
+| `email` | `string` |  |
+| `metadata` | `Record<string, any>` |  |
+| `project_id` | `string` |  |
 
 #### Example: Create
 
 ```ts
 const app_user_login = await client.AppUserLogin().create({
-  data: /* `$OBJECT` */,
-  email: /* `$STRING` */,
+  data: /* Record<string, any> */,
+  email: /* string */,
 })
 ```
 
@@ -759,12 +793,12 @@ Create an instance: `const app_user_session = client.AppUserSession()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
+| `data` | `Record<string, any>` |  |
 
 #### Example: Load
 
 ```ts
-const app_user_session = await client.AppUserSession().load({ id: 'app_user_session_id' })
+const app_user_session = await client.AppUserSession().load()
 ```
 
 
@@ -782,12 +816,12 @@ Create an instance: `const app_user_total = client.AppUserTotal()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `total` | ``$INTEGER`` |  |
+| `total` | `number` |  |
 
 #### Example: Load
 
 ```ts
-const app_user_total = await client.AppUserTotal().load({ id: 'app_user_total_id' })
+const app_user_total = await client.AppUserTotal().load()
 ```
 
 
@@ -805,15 +839,15 @@ Create an instance: `const app_user_verify = client.AppUserVerify()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `token` | ``$STRING`` |  |
+| `data` | `Record<string, any>` |  |
+| `token` | `string` |  |
 
 #### Example: Create
 
 ```ts
 const app_user_verify = await client.AppUserVerify().create({
-  data: /* `$OBJECT` */,
-  token: /* `$STRING` */,
+  data: /* Record<string, any> */,
+  token: /* string */,
 })
 ```
 
@@ -854,16 +888,16 @@ Create an instance: `const collection = client.Collection()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | ``$STRING`` |  |
-| `data` | ``$OBJECT`` |  |
-| `id` | ``$STRING`` |  |
-| `name` | ``$STRING`` |  |
-| `project_id` | ``$STRING`` |  |
-| `schema` | ``$OBJECT`` |  |
-| `slug` | ``$STRING`` |  |
-| `updated_at` | ``$STRING`` |  |
-| `user_id` | ``$STRING`` |  |
-| `visibility` | ``$STRING`` |  |
+| `created_at` | `string` |  |
+| `data` | `Record<string, any>` |  |
+| `id` | `string` |  |
+| `name` | `string` |  |
+| `project_id` | `string` |  |
+| `schema` | `Record<string, any>` |  |
+| `slug` | `string` |  |
+| `updated_at` | `string` |  |
+| `user_id` | `string` |  |
+| `visibility` | `string` |  |
 
 #### Example: Load
 
@@ -881,8 +915,8 @@ const collections = await client.Collection().list()
 
 ```ts
 const collection = await client.Collection().create({
-  data: /* `$OBJECT` */,
-  name: /* `$STRING` */,
+  data: /* Record<string, any> */,
+  name: /* string */,
 })
 ```
 
@@ -903,7 +937,7 @@ Create an instance: `const collection_record = client.CollectionRecord()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
+| `data` | `Record<string, any>` |  |
 
 #### Example: Load
 
@@ -915,7 +949,7 @@ const collection_record = await client.CollectionRecord().load({ id: 'collection
 
 ```ts
 const collection_record = await client.CollectionRecord().create({
-  data: /* `$OBJECT` */,
+  data: /* Record<string, any> */,
 })
 ```
 
@@ -934,15 +968,15 @@ Create an instance: `const collection_record_list = client.CollectionRecordList(
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `app_user_id` | ``$STRING`` |  |
-| `collection_id` | ``$STRING`` |  |
-| `created_at` | ``$STRING`` |  |
-| `created_by` | ``$STRING`` |  |
-| `data` | ``$OBJECT`` |  |
-| `deleted_at` | ``$STRING`` |  |
-| `id` | ``$STRING`` |  |
-| `project_id` | ``$STRING`` |  |
-| `updated_at` | ``$STRING`` |  |
+| `app_user_id` | `string` |  |
+| `collection_id` | `string` |  |
+| `created_at` | `string` |  |
+| `created_by` | `string` |  |
+| `data` | `Record<string, any>` |  |
+| `deleted_at` | `string` |  |
+| `id` | `string` |  |
+| `project_id` | `string` |  |
+| `updated_at` | `string` |  |
 
 #### Example: List
 
@@ -1004,9 +1038,9 @@ Create an instance: `const legacy_mutation = client.LegacyMutation()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | ``$STRING`` |  |
-| `id` | ``$STRING`` |  |
-| `updated_at` | ``$STRING`` |  |
+| `created_at` | `string` |  |
+| `id` | `string` |  |
+| `updated_at` | `string` |  |
 
 #### Example: Create
 
@@ -1030,13 +1064,13 @@ Create an instance: `const legacy_unknown = client.LegacyUnknown()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `support` | ``$OBJECT`` |  |
+| `data` | `Record<string, any>` |  |
+| `support` | `Record<string, any>` |  |
 
 #### Example: Load
 
 ```ts
-const legacy_unknown = await client.LegacyUnknown().load({ id: 'legacy_unknown_id' })
+const legacy_unknown = await client.LegacyUnknown().load({ id: 1 })
 ```
 
 
@@ -1054,11 +1088,11 @@ Create an instance: `const legacy_unknown_list = client.LegacyUnknownList()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `color` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `name` | ``$STRING`` |  |
-| `pantone_value` | ``$STRING`` |  |
-| `year` | ``$INTEGER`` |  |
+| `color` | `string` |  |
+| `id` | `number` |  |
+| `name` | `string` |  |
+| `pantone_value` | `string` |  |
+| `year` | `number` |  |
 
 #### Example: List
 
@@ -1081,13 +1115,13 @@ Create an instance: `const legacy_user = client.LegacyUser()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `support` | ``$OBJECT`` |  |
+| `data` | `Record<string, any>` |  |
+| `support` | `Record<string, any>` |  |
 
 #### Example: Load
 
 ```ts
-const legacy_user = await client.LegacyUser().load({ id: 'legacy_user_id' })
+const legacy_user = await client.LegacyUser().load({ id: 1 })
 ```
 
 
@@ -1105,11 +1139,11 @@ Create an instance: `const legacy_user_list = client.LegacyUserList()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `avatar` | ``$STRING`` |  |
-| `email` | ``$STRING`` |  |
-| `first_name` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `last_name` | ``$STRING`` |  |
+| `avatar` | `string` |  |
+| `email` | `string` |  |
+| `first_name` | `string` |  |
+| `id` | `number` |  |
+| `last_name` | `string` |  |
 
 #### Example: List
 
@@ -1132,17 +1166,17 @@ Create an instance: `const login = client.Login()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `email` | ``$STRING`` |  |
-| `password` | ``$STRING`` |  |
-| `token` | ``$STRING`` |  |
+| `email` | `string` |  |
+| `password` | `string` |  |
+| `token` | `string` |  |
 
 #### Example: Create
 
 ```ts
 const login = await client.Login().create({
-  email: /* `$STRING` */,
-  password: /* `$STRING` */,
-  token: /* `$STRING` */,
+  email: /* string */,
+  password: /* string */,
+  token: /* string */,
 })
 ```
 
@@ -1161,28 +1195,32 @@ Create an instance: `const register = client.Register()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `email` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `password` | ``$STRING`` |  |
-| `token` | ``$STRING`` |  |
+| `email` | `string` |  |
+| `id` | `number` |  |
+| `password` | `string` |  |
+| `token` | `string` |  |
 
 #### Example: Create
 
 ```ts
 const register = await client.Register().create({
-  email: /* `$STRING` */,
-  password: /* `$STRING` */,
-  token: /* `$STRING` */,
+  email: /* string */,
+  password: /* string */,
+  token: /* string */,
 })
 ```
 
 
-## Explanation
+## Advanced
+
+> The sections above cover everyday use. The material below explains the
+> SDK's internals — useful when extending it with custom features, but not
+> needed for normal use.
 
 ### The operation pipeline
 
-Every entity operation (load, list, create, update, remove) follows a
-six-stage pipeline. Each stage fires a feature hook before executing:
+Every entity operation follows a six-stage pipeline. Each stage fires a
+feature hook before executing:
 
 ```
 PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
@@ -1199,11 +1237,9 @@ PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
 - **PreDone**: Final stage before returning to the caller. Entity
   state (match, data) is updated here.
 
-If any stage returns an error, the pipeline short-circuits and the
-error is returned to the caller.
-
-An unexpected exception triggers the `PreUnexpected` hook before
-propagating.
+If any stage errors, the pipeline short-circuits and the error surfaces
+to the caller — see [Error handling](#error-handling) for how that looks
+in this language.
 
 ### Features and hooks
 
@@ -1245,10 +1281,10 @@ calls on the same instance can rely on this state.
 
 ```ts
 const agenthealth = client.AgentHealth()
-await agenthealth.load({ id: "example_id" })
+await agenthealth.load()
 
-// agenthealth.data() now returns the loaded agenthealth data
-// agenthealth.match() returns { id: "example_id" }
+// agenthealth.data() now returns the agenthealth data from the last `load`
+// agenthealth.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

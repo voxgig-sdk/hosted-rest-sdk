@@ -4,6 +4,8 @@
 
 The Golang SDK for the HostedRest API — an entity-oriented client using standard Go conventions. No generics required; data flows as `map[string]any`.
 
+It exposes the API as capitalised, semantic **Entities** — e.g. `client.AgentHealth(nil)` — each with the same small set of operations (`List`, `Load`, `Create`, `Update`, `Remove`, `Patch`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
+
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
 
@@ -52,12 +54,41 @@ func main() {
     })
 
     // Load a single agenthealth — the value is the loaded record.
-    agenthealth, err := client.AgentHealth(nil).Load(map[string]any{"id": "example_id"}, nil)
+    agenthealth, err := client.AgentHealth(nil).Load(nil, nil)
     if err != nil {
         panic(err)
     }
     fmt.Println(agenthealth)
 }
+```
+
+
+## Error handling
+
+Every entity operation returns `(value, error)`. Check `err` before
+using the value — there is no exception to catch:
+
+```go
+agenthealth, err := client.AgentHealth(nil).Load(nil, nil)
+if err != nil {
+    // handle err
+    return
+}
+_ = agenthealth
+```
+
+`Direct` follows the same `(value, error)` convention:
+
+```go
+result, err := client.Direct(map[string]any{
+    "path":   "/api/resource/{id}",
+    "method": "GET",
+    "params": map[string]any{"id": "example_id"},
+})
+if err != nil {
+    // handle err
+}
+_ = result
 ```
 
 
@@ -108,12 +139,12 @@ Create a mock client for unit testing — no server required:
 client := sdk.Test()
 
 agenthealth, err := client.AgentHealth(nil).Load(
-    map[string]any{"id": "test01"}, nil,
+    nil, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(agenthealth) // the loaded mock data
+fmt.Println(agenthealth) // the returned mock data
 ```
 
 ### Use a custom fetch function
@@ -245,9 +276,9 @@ Check `err` first, then use the value directly (or the typed
 `...Typed` variants, which return the entity's model struct and a typed
 slice):
 
-    agenthealth, err := client.AgentHealth(nil).Load(map[string]any{"id": "example_id"}, nil)
+    agenthealth, err := client.AgentHealth(nil).Load(nil, nil)
     if err != nil { /* handle */ }
-    // agenthealth is the loaded record
+    // agenthealth is the returned record
 
 Only `Direct()` returns a response envelope — a `map[string]any` with
 `"ok"`, `"status"`, `"headers"`, and `"data"` keys.
@@ -544,12 +575,12 @@ Create an instance: `agent_health := client.AgentHealth(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
+| `data` | `map[string]any` |  |
 
 #### Example: Load
 
 ```go
-agent_health, err := client.AgentHealth(nil).Load(map[string]any{"id": "agent_health_id"}, nil)
+agent_health, err := client.AgentHealth(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
@@ -572,13 +603,13 @@ Create an instance: `agent_sandbox := client.AgentSandbox(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `email` | ``$STRING`` |  |
-| `password` | ``$STRING`` |  |
+| `email` | `string` |  |
+| `password` | `string` |  |
 
 #### Example: Load
 
 ```go
-agent_sandbox, err := client.AgentSandbox(nil).Load(map[string]any{"id": "agent_sandbox_id"}, nil)
+agent_sandbox, err := client.AgentSandbox(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
@@ -589,8 +620,8 @@ fmt.Println(agent_sandbox) // the loaded record
 
 ```go
 result, err := client.AgentSandbox(nil).Create(map[string]any{
-    "email": /* `$STRING` */,
-    "password": /* `$STRING` */,
+    "email": /* string */,
+    "password": /* string */,
 }, nil)
 ```
 
@@ -609,7 +640,7 @@ Create an instance: `agent_user_detail := client.AgentUserDetail(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
+| `data` | `map[string]any` |  |
 
 #### Example: Load
 
@@ -636,16 +667,16 @@ Create an instance: `agent_user_list := client.AgentUserList(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | ``$STRING`` |  |
-| `email` | ``$STRING`` |  |
-| `full_name` | ``$STRING`` |  |
-| `id` | ``$STRING`` |  |
-| `locale` | ``$STRING`` |  |
-| `preference` | ``$OBJECT`` |  |
-| `profile` | ``$OBJECT`` |  |
-| `status` | ``$STRING`` |  |
-| `timezone` | ``$STRING`` |  |
-| `updated_at` | ``$STRING`` |  |
+| `created_at` | `string` |  |
+| `email` | `string` |  |
+| `full_name` | `string` |  |
+| `id` | `string` |  |
+| `locale` | `string` |  |
+| `preference` | `map[string]any` |  |
+| `profile` | `map[string]any` |  |
+| `status` | `string` |  |
+| `timezone` | `string` |  |
+| `updated_at` | `string` |  |
 
 #### Example: List
 
@@ -676,13 +707,13 @@ Create an instance: `app_user := client.AppUser(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | ``$STRING`` |  |
-| `data` | ``$OBJECT`` |  |
-| `email` | ``$STRING`` |  |
-| `id` | ``$STRING`` |  |
-| `last_login_at` | ``$STRING`` |  |
-| `metadata` | ``$OBJECT`` |  |
-| `status` | ``$STRING`` |  |
+| `created_at` | `string` |  |
+| `data` | `map[string]any` |  |
+| `email` | `string` |  |
+| `id` | `string` |  |
+| `last_login_at` | `string` |  |
+| `metadata` | `map[string]any` |  |
+| `status` | `string` |  |
 
 #### Example: Load
 
@@ -708,8 +739,8 @@ fmt.Println(app_users) // the array of records
 
 ```go
 result, err := client.AppUser(nil).Create(map[string]any{
-    "data": /* `$OBJECT` */,
-    "email": /* `$STRING` */,
+    "data": /* map[string]any */,
+    "email": /* string */,
 }, nil)
 ```
 
@@ -728,17 +759,17 @@ Create an instance: `app_user_login := client.AppUserLogin(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `email` | ``$STRING`` |  |
-| `metadata` | ``$OBJECT`` |  |
-| `project_id` | ``$STRING`` |  |
+| `data` | `map[string]any` |  |
+| `email` | `string` |  |
+| `metadata` | `map[string]any` |  |
+| `project_id` | `string` |  |
 
 #### Example: Create
 
 ```go
 result, err := client.AppUserLogin(nil).Create(map[string]any{
-    "data": /* `$OBJECT` */,
-    "email": /* `$STRING` */,
+    "data": /* map[string]any */,
+    "email": /* string */,
 }, nil)
 ```
 
@@ -757,12 +788,12 @@ Create an instance: `app_user_session := client.AppUserSession(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
+| `data` | `map[string]any` |  |
 
 #### Example: Load
 
 ```go
-app_user_session, err := client.AppUserSession(nil).Load(map[string]any{"id": "app_user_session_id"}, nil)
+app_user_session, err := client.AppUserSession(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
@@ -784,12 +815,12 @@ Create an instance: `app_user_total := client.AppUserTotal(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `total` | ``$INTEGER`` |  |
+| `total` | `int` |  |
 
 #### Example: Load
 
 ```go
-app_user_total, err := client.AppUserTotal(nil).Load(map[string]any{"id": "app_user_total_id"}, nil)
+app_user_total, err := client.AppUserTotal(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
@@ -811,15 +842,15 @@ Create an instance: `app_user_verify := client.AppUserVerify(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `token` | ``$STRING`` |  |
+| `data` | `map[string]any` |  |
+| `token` | `string` |  |
 
 #### Example: Create
 
 ```go
 result, err := client.AppUserVerify(nil).Create(map[string]any{
-    "data": /* `$OBJECT` */,
-    "token": /* `$STRING` */,
+    "data": /* map[string]any */,
+    "token": /* string */,
 }, nil)
 ```
 
@@ -860,16 +891,16 @@ Create an instance: `collection := client.Collection(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | ``$STRING`` |  |
-| `data` | ``$OBJECT`` |  |
-| `id` | ``$STRING`` |  |
-| `name` | ``$STRING`` |  |
-| `project_id` | ``$STRING`` |  |
-| `schema` | ``$OBJECT`` |  |
-| `slug` | ``$STRING`` |  |
-| `updated_at` | ``$STRING`` |  |
-| `user_id` | ``$STRING`` |  |
-| `visibility` | ``$STRING`` |  |
+| `created_at` | `string` |  |
+| `data` | `map[string]any` |  |
+| `id` | `string` |  |
+| `name` | `string` |  |
+| `project_id` | `string` |  |
+| `schema` | `map[string]any` |  |
+| `slug` | `string` |  |
+| `updated_at` | `string` |  |
+| `user_id` | `string` |  |
+| `visibility` | `string` |  |
 
 #### Example: Load
 
@@ -895,8 +926,8 @@ fmt.Println(collections) // the array of records
 
 ```go
 result, err := client.Collection(nil).Create(map[string]any{
-    "data": /* `$OBJECT` */,
-    "name": /* `$STRING` */,
+    "data": /* map[string]any */,
+    "name": /* string */,
 }, nil)
 ```
 
@@ -917,7 +948,7 @@ Create an instance: `collection_record := client.CollectionRecord(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
+| `data` | `map[string]any` |  |
 
 #### Example: Load
 
@@ -933,7 +964,7 @@ fmt.Println(collection_record) // the loaded record
 
 ```go
 result, err := client.CollectionRecord(nil).Create(map[string]any{
-    "data": /* `$OBJECT` */,
+    "data": /* map[string]any */,
 }, nil)
 ```
 
@@ -952,15 +983,15 @@ Create an instance: `collection_record_list := client.CollectionRecordList(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `app_user_id` | ``$STRING`` |  |
-| `collection_id` | ``$STRING`` |  |
-| `created_at` | ``$STRING`` |  |
-| `created_by` | ``$STRING`` |  |
-| `data` | ``$OBJECT`` |  |
-| `deleted_at` | ``$STRING`` |  |
-| `id` | ``$STRING`` |  |
-| `project_id` | ``$STRING`` |  |
-| `updated_at` | ``$STRING`` |  |
+| `app_user_id` | `string` |  |
+| `collection_id` | `string` |  |
+| `created_at` | `string` |  |
+| `created_by` | `string` |  |
+| `data` | `map[string]any` |  |
+| `deleted_at` | `string` |  |
+| `id` | `string` |  |
+| `project_id` | `string` |  |
+| `updated_at` | `string` |  |
 
 #### Example: List
 
@@ -1030,9 +1061,9 @@ Create an instance: `legacy_mutation := client.LegacyMutation(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | ``$STRING`` |  |
-| `id` | ``$STRING`` |  |
-| `updated_at` | ``$STRING`` |  |
+| `created_at` | `string` |  |
+| `id` | `string` |  |
+| `updated_at` | `string` |  |
 
 #### Example: Create
 
@@ -1056,8 +1087,8 @@ Create an instance: `legacy_unknown := client.LegacyUnknown(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `support` | ``$OBJECT`` |  |
+| `data` | `map[string]any` |  |
+| `support` | `map[string]any` |  |
 
 #### Example: Load
 
@@ -1084,11 +1115,11 @@ Create an instance: `legacy_unknown_list := client.LegacyUnknownList(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `color` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `name` | ``$STRING`` |  |
-| `pantone_value` | ``$STRING`` |  |
-| `year` | ``$INTEGER`` |  |
+| `color` | `string` |  |
+| `id` | `int` |  |
+| `name` | `string` |  |
+| `pantone_value` | `string` |  |
+| `year` | `int` |  |
 
 #### Example: List
 
@@ -1115,8 +1146,8 @@ Create an instance: `legacy_user := client.LegacyUser(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `support` | ``$OBJECT`` |  |
+| `data` | `map[string]any` |  |
+| `support` | `map[string]any` |  |
 
 #### Example: Load
 
@@ -1143,11 +1174,11 @@ Create an instance: `legacy_user_list := client.LegacyUserList(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `avatar` | ``$STRING`` |  |
-| `email` | ``$STRING`` |  |
-| `first_name` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `last_name` | ``$STRING`` |  |
+| `avatar` | `string` |  |
+| `email` | `string` |  |
+| `first_name` | `string` |  |
+| `id` | `int` |  |
+| `last_name` | `string` |  |
 
 #### Example: List
 
@@ -1174,17 +1205,17 @@ Create an instance: `login := client.Login(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `email` | ``$STRING`` |  |
-| `password` | ``$STRING`` |  |
-| `token` | ``$STRING`` |  |
+| `email` | `string` |  |
+| `password` | `string` |  |
+| `token` | `string` |  |
 
 #### Example: Create
 
 ```go
 result, err := client.Login(nil).Create(map[string]any{
-    "email": /* `$STRING` */,
-    "password": /* `$STRING` */,
-    "token": /* `$STRING` */,
+    "email": /* string */,
+    "password": /* string */,
+    "token": /* string */,
 }, nil)
 ```
 
@@ -1203,28 +1234,32 @@ Create an instance: `register := client.Register(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `email` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `password` | ``$STRING`` |  |
-| `token` | ``$STRING`` |  |
+| `email` | `string` |  |
+| `id` | `int` |  |
+| `password` | `string` |  |
+| `token` | `string` |  |
 
 #### Example: Create
 
 ```go
 result, err := client.Register(nil).Create(map[string]any{
-    "email": /* `$STRING` */,
-    "password": /* `$STRING` */,
-    "token": /* `$STRING` */,
+    "email": /* string */,
+    "password": /* string */,
+    "token": /* string */,
 }, nil)
 ```
 
 
-## Explanation
+## Advanced
+
+> The sections above cover everyday use. The material below explains the
+> SDK's internals — useful when extending it with custom features, but not
+> needed for normal use.
 
 ### The operation pipeline
 
-Every entity operation (load, list, create, update, remove) follows a
-six-stage pipeline. Each stage fires a feature hook before executing:
+Every entity operation follows a six-stage pipeline. Each stage fires a
+feature hook before executing:
 
 ```
 PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
@@ -1241,9 +1276,9 @@ PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
 - **PreDone**: Final stage before returning to the caller. Entity
   state (match, data) is updated here.
 
-If any stage returns an error, the pipeline short-circuits and the
-error is returned to the caller. An unexpected panic triggers the
-`PreUnexpected` hook.
+If any stage errors, the pipeline short-circuits and the error surfaces
+to the caller — see [Error handling](#error-handling) for how that looks
+in this language.
 
 ### Features and hooks
 
@@ -1289,9 +1324,9 @@ stores the returned data and match criteria internally.
 
 ```go
 agenthealth := client.AgentHealth(nil)
-agenthealth.Load(map[string]any{"id": "example_id"}, nil)
+agenthealth.Load(nil, nil)
 
-// agenthealth.Data() now returns the loaded agenthealth data
+// agenthealth.Data() now returns the agenthealth data from the last load
 // agenthealth.Match() returns the last match criteria
 ```
 

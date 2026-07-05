@@ -81,12 +81,12 @@ describe('AppUserEntity', async () => {
     app_user_ref01_data_up0.id = app_user_ref01_data.id
 
     const app_user_ref01_markdef_up0 = { name: 'created_at', value: 'Mark01-app_user_ref01_' + setup.now }
-    app_user_ref01_data_up0 [app_user_ref01_markdef_up0.name] = app_user_ref01_markdef_up0.value
+    ;(app_user_ref01_data_up0 as any)[app_user_ref01_markdef_up0.name] = app_user_ref01_markdef_up0.value
 
     const app_user_ref01_resdata_up0 = await app_user_ref01_ent.update(app_user_ref01_data_up0)
     assert(app_user_ref01_resdata_up0.id === app_user_ref01_data_up0.id)
 
-    assert(app_user_ref01_resdata_up0[app_user_ref01_markdef_up0.name] === app_user_ref01_markdef_up0.value)
+    assert((app_user_ref01_resdata_up0 as any)[app_user_ref01_markdef_up0.name] === app_user_ref01_markdef_up0.value)
 
 
     // LOAD

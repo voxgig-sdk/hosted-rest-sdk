@@ -182,7 +182,7 @@ agent_health := client.AgentHealth(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
+| `data` | `map[string]any` | Yes |  |
 
 ### Operations
 
@@ -191,7 +191,7 @@ agent_health := client.AgentHealth(nil)
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.AgentHealth(nil).Load(map[string]any{"id": "agent_health_id"}, nil)
+result, err := client.AgentHealth(nil).Load(nil, nil)
 ```
 
 ### Common Methods
@@ -228,8 +228,8 @@ agent_sandbox := client.AgentSandbox(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `email` | ``$STRING`` | Yes |  |
-| `password` | ``$STRING`` | Yes |  |
+| `email` | `string` | Yes |  |
+| `password` | `string` | Yes |  |
 
 ### Operations
 
@@ -239,8 +239,8 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.AgentSandbox(nil).Create(map[string]any{
-    "email": /* `$STRING` */,
-    "password": /* `$STRING` */,
+    "email": /* string */,
+    "password": /* string */,
 }, nil)
 ```
 
@@ -249,7 +249,7 @@ result, err := client.AgentSandbox(nil).Create(map[string]any{
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.AgentSandbox(nil).Load(map[string]any{"id": "agent_sandbox_id"}, nil)
+result, err := client.AgentSandbox(nil).Load(nil, nil)
 ```
 
 ### Common Methods
@@ -286,7 +286,7 @@ agent_user_detail := client.AgentUserDetail(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
+| `data` | `map[string]any` | Yes |  |
 
 ### Operations
 
@@ -332,16 +332,16 @@ agent_user_list := client.AgentUserList(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | ``$STRING`` | Yes |  |
-| `email` | ``$STRING`` | Yes |  |
-| `full_name` | ``$STRING`` | Yes |  |
-| `id` | ``$STRING`` | Yes |  |
-| `locale` | ``$STRING`` | Yes |  |
-| `preference` | ``$OBJECT`` | Yes |  |
-| `profile` | ``$OBJECT`` | Yes |  |
-| `status` | ``$STRING`` | Yes |  |
-| `timezone` | ``$STRING`` | Yes |  |
-| `updated_at` | ``$STRING`` | Yes |  |
+| `created_at` | `string` | Yes |  |
+| `email` | `string` | Yes |  |
+| `full_name` | `string` | Yes |  |
+| `id` | `string` | Yes |  |
+| `locale` | `string` | Yes |  |
+| `preference` | `map[string]any` | Yes |  |
+| `profile` | `map[string]any` | Yes |  |
+| `status` | `string` | Yes |  |
+| `timezone` | `string` | Yes |  |
+| `updated_at` | `string` | Yes |  |
 
 ### Operations
 
@@ -387,13 +387,13 @@ app_user := client.AppUser(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | ``$STRING`` | No |  |
-| `data` | ``$OBJECT`` | Yes |  |
-| `email` | ``$STRING`` | Yes |  |
-| `id` | ``$STRING`` | Yes |  |
-| `last_login_at` | ``$STRING`` | No |  |
-| `metadata` | ``$OBJECT`` | No |  |
-| `status` | ``$STRING`` | No |  |
+| `created_at` | `string` | No |  |
+| `data` | `map[string]any` | Yes |  |
+| `email` | `string` | Yes |  |
+| `id` | `string` | Yes |  |
+| `last_login_at` | `string` | No |  |
+| `metadata` | `map[string]any` | No |  |
+| `status` | `string` | No |  |
 
 ### Field Usage by Operation
 
@@ -415,8 +415,8 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.AppUser(nil).Create(map[string]any{
-    "data": /* `$OBJECT` */,
-    "email": /* `$STRING` */,
+    "data": /* map[string]any */,
+    "email": /* string */,
 }, nil)
 ```
 
@@ -489,10 +489,10 @@ app_user_login := client.AppUserLogin(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
-| `email` | ``$STRING`` | Yes |  |
-| `metadata` | ``$OBJECT`` | No |  |
-| `project_id` | ``$STRING`` | No |  |
+| `data` | `map[string]any` | Yes |  |
+| `email` | `string` | Yes |  |
+| `metadata` | `map[string]any` | No |  |
+| `project_id` | `string` | No |  |
 
 ### Operations
 
@@ -502,8 +502,8 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.AppUserLogin(nil).Create(map[string]any{
-    "data": /* `$OBJECT` */,
-    "email": /* `$STRING` */,
+    "data": /* map[string]any */,
+    "email": /* string */,
 }, nil)
 ```
 
@@ -541,7 +541,7 @@ app_user_session := client.AppUserSession(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
+| `data` | `map[string]any` | Yes |  |
 
 ### Operations
 
@@ -550,7 +550,7 @@ app_user_session := client.AppUserSession(nil)
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.AppUserSession(nil).Load(map[string]any{"id": "app_user_session_id"}, nil)
+result, err := client.AppUserSession(nil).Load(nil, nil)
 ```
 
 ### Common Methods
@@ -587,7 +587,7 @@ app_user_total := client.AppUserTotal(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `total` | ``$INTEGER`` | Yes |  |
+| `total` | `int` | Yes |  |
 
 ### Operations
 
@@ -596,7 +596,7 @@ app_user_total := client.AppUserTotal(nil)
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.AppUserTotal(nil).Load(map[string]any{"id": "app_user_total_id"}, nil)
+result, err := client.AppUserTotal(nil).Load(nil, nil)
 ```
 
 ### Common Methods
@@ -633,8 +633,8 @@ app_user_verify := client.AppUserVerify(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
-| `token` | ``$STRING`` | Yes |  |
+| `data` | `map[string]any` | Yes |  |
+| `token` | `string` | Yes |  |
 
 ### Operations
 
@@ -644,8 +644,8 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.AppUserVerify(nil).Create(map[string]any{
-    "data": /* `$OBJECT` */,
-    "token": /* `$STRING` */,
+    "data": /* map[string]any */,
+    "token": /* string */,
 }, nil)
 ```
 
@@ -724,16 +724,16 @@ collection := client.Collection(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | ``$STRING`` | No |  |
-| `data` | ``$OBJECT`` | Yes |  |
-| `id` | ``$STRING`` | Yes |  |
-| `name` | ``$STRING`` | Yes |  |
-| `project_id` | ``$STRING`` | No |  |
-| `schema` | ``$OBJECT`` | No |  |
-| `slug` | ``$STRING`` | No |  |
-| `updated_at` | ``$STRING`` | No |  |
-| `user_id` | ``$STRING`` | No |  |
-| `visibility` | ``$STRING`` | No |  |
+| `created_at` | `string` | No |  |
+| `data` | `map[string]any` | Yes |  |
+| `id` | `string` | Yes |  |
+| `name` | `string` | Yes |  |
+| `project_id` | `string` | No |  |
+| `schema` | `map[string]any` | No |  |
+| `slug` | `string` | No |  |
+| `updated_at` | `string` | No |  |
+| `user_id` | `string` | No |  |
+| `visibility` | `string` | No |  |
 
 ### Field Usage by Operation
 
@@ -758,8 +758,8 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.Collection(nil).Create(map[string]any{
-    "data": /* `$OBJECT` */,
-    "name": /* `$STRING` */,
+    "data": /* map[string]any */,
+    "name": /* string */,
 }, nil)
 ```
 
@@ -832,7 +832,7 @@ collection_record := client.CollectionRecord(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
+| `data` | `map[string]any` | Yes |  |
 
 ### Operations
 
@@ -842,7 +842,7 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.CollectionRecord(nil).Create(map[string]any{
-    "data": /* `$OBJECT` */,
+    "data": /* map[string]any */,
 }, nil)
 ```
 
@@ -899,15 +899,15 @@ collection_record_list := client.CollectionRecordList(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app_user_id` | ``$STRING`` | No |  |
-| `collection_id` | ``$STRING`` | No |  |
-| `created_at` | ``$STRING`` | No |  |
-| `created_by` | ``$STRING`` | No |  |
-| `data` | ``$OBJECT`` | Yes |  |
-| `deleted_at` | ``$STRING`` | No |  |
-| `id` | ``$STRING`` | Yes |  |
-| `project_id` | ``$STRING`` | No |  |
-| `updated_at` | ``$STRING`` | No |  |
+| `app_user_id` | `string` | No |  |
+| `collection_id` | `string` | No |  |
+| `created_at` | `string` | No |  |
+| `created_by` | `string` | No |  |
+| `data` | `map[string]any` | Yes |  |
+| `deleted_at` | `string` | No |  |
+| `id` | `string` | Yes |  |
+| `project_id` | `string` | No |  |
+| `updated_at` | `string` | No |  |
 
 ### Operations
 
@@ -1024,7 +1024,7 @@ legacy := client.Legacy(nil)
 Remove the entity matching the given criteria.
 
 ```go
-result, err := client.Legacy(nil).Remove(map[string]any{"id": "legacy_id"}, nil)
+result, err := client.Legacy(nil).Remove(nil, nil)
 ```
 
 ### Common Methods
@@ -1061,9 +1061,9 @@ legacy_mutation := client.LegacyMutation(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | ``$STRING`` | No |  |
-| `id` | ``$STRING`` | No |  |
-| `updated_at` | ``$STRING`` | No |  |
+| `created_at` | `string` | No |  |
+| `id` | `string` | No |  |
+| `updated_at` | `string` | No |  |
 
 ### Operations
 
@@ -1082,7 +1082,6 @@ Update an existing entity. The data must include the entity `id`.
 
 ```go
 result, err := client.LegacyMutation(nil).Update(map[string]any{
-    "id": "legacy_mutation_id",
     // Fields to update
 }, nil)
 ```
@@ -1121,8 +1120,8 @@ legacy_unknown := client.LegacyUnknown(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
-| `support` | ``$OBJECT`` | No |  |
+| `data` | `map[string]any` | Yes |  |
+| `support` | `map[string]any` | No |  |
 
 ### Operations
 
@@ -1168,11 +1167,11 @@ legacy_unknown_list := client.LegacyUnknownList(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `color` | ``$STRING`` | Yes |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `name` | ``$STRING`` | Yes |  |
-| `pantone_value` | ``$STRING`` | Yes |  |
-| `year` | ``$INTEGER`` | Yes |  |
+| `color` | `string` | Yes |  |
+| `id` | `int` | Yes |  |
+| `name` | `string` | Yes |  |
+| `pantone_value` | `string` | Yes |  |
+| `year` | `int` | Yes |  |
 
 ### Operations
 
@@ -1218,8 +1217,8 @@ legacy_user := client.LegacyUser(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | ``$OBJECT`` | Yes |  |
-| `support` | ``$OBJECT`` | No |  |
+| `data` | `map[string]any` | Yes |  |
+| `support` | `map[string]any` | No |  |
 
 ### Operations
 
@@ -1265,11 +1264,11 @@ legacy_user_list := client.LegacyUserList(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `avatar` | ``$STRING`` | Yes |  |
-| `email` | ``$STRING`` | Yes |  |
-| `first_name` | ``$STRING`` | Yes |  |
-| `id` | ``$INTEGER`` | Yes |  |
-| `last_name` | ``$STRING`` | Yes |  |
+| `avatar` | `string` | Yes |  |
+| `email` | `string` | Yes |  |
+| `first_name` | `string` | Yes |  |
+| `id` | `int` | Yes |  |
+| `last_name` | `string` | Yes |  |
 
 ### Operations
 
@@ -1315,9 +1314,9 @@ login := client.Login(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `email` | ``$STRING`` | Yes |  |
-| `password` | ``$STRING`` | Yes |  |
-| `token` | ``$STRING`` | Yes |  |
+| `email` | `string` | Yes |  |
+| `password` | `string` | Yes |  |
+| `token` | `string` | Yes |  |
 
 ### Operations
 
@@ -1327,9 +1326,9 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.Login(nil).Create(map[string]any{
-    "email": /* `$STRING` */,
-    "password": /* `$STRING` */,
-    "token": /* `$STRING` */,
+    "email": /* string */,
+    "password": /* string */,
+    "token": /* string */,
 }, nil)
 ```
 
@@ -1367,10 +1366,10 @@ register := client.Register(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `email` | ``$STRING`` | Yes |  |
-| `id` | ``$INTEGER`` | No |  |
-| `password` | ``$STRING`` | Yes |  |
-| `token` | ``$STRING`` | Yes |  |
+| `email` | `string` | Yes |  |
+| `id` | `int` | No |  |
+| `password` | `string` | Yes |  |
+| `token` | `string` | Yes |  |
 
 ### Operations
 
@@ -1380,9 +1379,9 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.Register(nil).Create(map[string]any{
-    "email": /* `$STRING` */,
-    "password": /* `$STRING` */,
-    "token": /* `$STRING` */,
+    "email": /* string */,
+    "password": /* string */,
+    "token": /* string */,
 }, nil)
 ```
 

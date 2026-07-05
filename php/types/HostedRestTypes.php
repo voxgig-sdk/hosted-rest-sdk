@@ -18,7 +18,7 @@ class AgentHealth
     public array $data;
 }
 
-/** Match filter for AgentHealth#load (any subset of AgentHealth fields). */
+/** Request payload for AgentHealth#load. */
 class AgentHealthLoadMatch
 {
     public ?array $data = null;
@@ -37,11 +37,11 @@ class AgentSandboxLoadMatch
     public string $scenario;
 }
 
-/** Match filter for AgentSandbox#create (any subset of AgentSandbox fields). */
+/** Request payload for AgentSandbox#create. */
 class AgentSandboxCreateData
 {
-    public ?string $email = null;
-    public ?string $password = null;
+    public string $email;
+    public string $password;
 }
 
 /** AgentUserDetail entity data model. */
@@ -71,7 +71,7 @@ class AgentUserList
     public string $updated_at;
 }
 
-/** Match filter for AgentUserList#list (any subset of AgentUserList fields). */
+/** Request payload for AgentUserList#list. */
 class AgentUserListListMatch
 {
     public ?string $created_at = null;
@@ -139,11 +139,11 @@ class AppUserLogin
     public ?string $project_id = null;
 }
 
-/** Match filter for AppUserLogin#create (any subset of AppUserLogin fields). */
+/** Request payload for AppUserLogin#create. */
 class AppUserLoginCreateData
 {
-    public ?array $data = null;
-    public ?string $email = null;
+    public array $data;
+    public string $email;
     public ?array $metadata = null;
     public ?string $project_id = null;
 }
@@ -154,7 +154,7 @@ class AppUserSession
     public array $data;
 }
 
-/** Match filter for AppUserSession#load (any subset of AppUserSession fields). */
+/** Request payload for AppUserSession#load. */
 class AppUserSessionLoadMatch
 {
     public ?array $data = null;
@@ -179,11 +179,11 @@ class AppUserVerify
     public string $token;
 }
 
-/** Match filter for AppUserVerify#create (any subset of AppUserVerify fields). */
+/** Request payload for AppUserVerify#create. */
 class AppUserVerifyCreateData
 {
-    public ?array $data = null;
-    public ?string $token = null;
+    public array $data;
+    public string $token;
 }
 
 /** Authentication entity data model. */
@@ -191,7 +191,7 @@ class Authentication
 {
 }
 
-/** Match filter for Authentication#create (any subset of Authentication fields). */
+/** Request payload for Authentication#create. */
 class AuthenticationCreateData
 {
 }
@@ -217,7 +217,7 @@ class CollectionLoadMatch
     public string $id;
 }
 
-/** Match filter for Collection#list (any subset of Collection fields). */
+/** Request payload for Collection#list. */
 class CollectionListMatch
 {
     public ?string $created_at = null;
@@ -232,13 +232,13 @@ class CollectionListMatch
     public ?string $visibility = null;
 }
 
-/** Match filter for Collection#create (any subset of Collection fields). */
+/** Request payload for Collection#create. */
 class CollectionCreateData
 {
     public ?string $created_at = null;
-    public ?array $data = null;
-    public ?string $id = null;
-    public ?string $name = null;
+    public array $data;
+    public string $id;
+    public string $name;
     public ?string $project_id = null;
     public ?array $schema = null;
     public ?string $slug = null;
@@ -355,7 +355,7 @@ class LegacyMutation
     public ?string $updated_at = null;
 }
 
-/** Match filter for LegacyMutation#create (any subset of LegacyMutation fields). */
+/** Request payload for LegacyMutation#create. */
 class LegacyMutationCreateData
 {
     public ?string $created_at = null;
@@ -392,7 +392,7 @@ class LegacyUnknownList
     public int $year;
 }
 
-/** Match filter for LegacyUnknownList#list (any subset of LegacyUnknownList fields). */
+/** Request payload for LegacyUnknownList#list. */
 class LegacyUnknownListListMatch
 {
     public ?string $color = null;
@@ -425,7 +425,7 @@ class LegacyUserList
     public string $last_name;
 }
 
-/** Match filter for LegacyUserList#list (any subset of LegacyUserList fields). */
+/** Request payload for LegacyUserList#list. */
 class LegacyUserListListMatch
 {
     public ?string $avatar = null;
@@ -443,12 +443,12 @@ class Login
     public string $token;
 }
 
-/** Match filter for Login#create (any subset of Login fields). */
+/** Request payload for Login#create. */
 class LoginCreateData
 {
-    public ?string $email = null;
-    public ?string $password = null;
-    public ?string $token = null;
+    public string $email;
+    public string $password;
+    public string $token;
 }
 
 /** Register entity data model. */
@@ -460,12 +460,12 @@ class Register
     public string $token;
 }
 
-/** Match filter for Register#create (any subset of Register fields). */
+/** Request payload for Register#create. */
 class RegisterCreateData
 {
-    public ?string $email = null;
+    public string $email;
     public ?int $id = null;
-    public ?string $password = null;
-    public ?string $token = null;
+    public string $password;
+    public string $token;
 }
 

@@ -72,8 +72,13 @@ class LegacyEntity:
     
 
     
-    def remove(self, reqmatch: LegacyRemoveMatch, ctrl=None) -> Legacy:
+    def remove(self, reqmatch=None, ctrl=None) -> Legacy:
         utility = self._utility
+        # reqmatch is optional: an entity with no id-like key removes with no
+        # match. Treat None as an empty match so client.Legacy().remove()
+        # works with no args.
+        if reqmatch is None:
+            reqmatch = {}
         ctx = utility.make_context({
             "opname": "remove",
             "ctrl": ctrl,

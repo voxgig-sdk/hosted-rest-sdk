@@ -9,7 +9,9 @@ export interface AgentHealth {
   data: Record<string, any>
 }
 
-export type AgentHealthLoadMatch = Partial<AgentHealth>
+export interface AgentHealthLoadMatch {
+  data?: Record<string, any>
+}
 
 export interface AgentSandbox {
   email: string
@@ -20,7 +22,10 @@ export interface AgentSandboxLoadMatch {
   scenario: string
 }
 
-export type AgentSandboxCreateData = Partial<AgentSandbox>
+export interface AgentSandboxCreateData {
+  email: string
+  password: string
+}
 
 export interface AgentUserDetail {
   data: Record<string, any>
@@ -43,7 +48,18 @@ export interface AgentUserList {
   updated_at: string
 }
 
-export type AgentUserListListMatch = Partial<AgentUserList>
+export interface AgentUserListListMatch {
+  created_at?: string
+  email?: string
+  full_name?: string
+  id?: string
+  locale?: string
+  preference?: Record<string, any>
+  profile?: Record<string, any>
+  status?: string
+  timezone?: string
+  updated_at?: string
+}
 
 export interface AppUser {
   created_at?: string
@@ -84,13 +100,20 @@ export interface AppUserLogin {
   project_id?: string
 }
 
-export type AppUserLoginCreateData = Partial<AppUserLogin>
+export interface AppUserLoginCreateData {
+  data: Record<string, any>
+  email: string
+  metadata?: Record<string, any>
+  project_id?: string
+}
 
 export interface AppUserSession {
   data: Record<string, any>
 }
 
-export type AppUserSessionLoadMatch = Partial<AppUserSession>
+export interface AppUserSessionLoadMatch {
+  data?: Record<string, any>
+}
 
 export interface AppUserTotal {
   total: number
@@ -105,12 +128,16 @@ export interface AppUserVerify {
   token: string
 }
 
-export type AppUserVerifyCreateData = Partial<AppUserVerify>
+export interface AppUserVerifyCreateData {
+  data: Record<string, any>
+  token: string
+}
 
 export interface Authentication {
 }
 
-export type AuthenticationCreateData = Partial<Authentication>
+export interface AuthenticationCreateData {
+}
 
 export interface Collection {
   created_at?: string
@@ -129,9 +156,31 @@ export interface CollectionLoadMatch {
   id: string
 }
 
-export type CollectionListMatch = Partial<Collection>
+export interface CollectionListMatch {
+  created_at?: string
+  data?: Record<string, any>
+  id?: string
+  name?: string
+  project_id?: string
+  schema?: Record<string, any>
+  slug?: string
+  updated_at?: string
+  user_id?: string
+  visibility?: string
+}
 
-export type CollectionCreateData = Partial<Collection>
+export interface CollectionCreateData {
+  created_at?: string
+  data: Record<string, any>
+  id: string
+  name: string
+  project_id?: string
+  schema?: Record<string, any>
+  slug?: string
+  updated_at?: string
+  user_id?: string
+  visibility?: string
+}
 
 export interface CollectionUpdateData {
   id: string
@@ -209,7 +258,11 @@ export interface LegacyMutation {
   updated_at?: string
 }
 
-export type LegacyMutationCreateData = Partial<LegacyMutation>
+export interface LegacyMutationCreateData {
+  created_at?: string
+  id?: string
+  updated_at?: string
+}
 
 export interface LegacyMutationUpdateData {
   id: number
@@ -232,7 +285,13 @@ export interface LegacyUnknownList {
   year: number
 }
 
-export type LegacyUnknownListListMatch = Partial<LegacyUnknownList>
+export interface LegacyUnknownListListMatch {
+  color?: string
+  id?: number
+  name?: string
+  pantone_value?: string
+  year?: number
+}
 
 export interface LegacyUser {
   data: Record<string, any>
@@ -251,7 +310,13 @@ export interface LegacyUserList {
   last_name: string
 }
 
-export type LegacyUserListListMatch = Partial<LegacyUserList>
+export interface LegacyUserListListMatch {
+  avatar?: string
+  email?: string
+  first_name?: string
+  id?: number
+  last_name?: string
+}
 
 export interface Login {
   email: string
@@ -259,7 +324,11 @@ export interface Login {
   token: string
 }
 
-export type LoginCreateData = Partial<Login>
+export interface LoginCreateData {
+  email: string
+  password: string
+  token: string
+}
 
 export interface Register {
   email: string
@@ -268,5 +337,10 @@ export interface Register {
   token: string
 }
 
-export type RegisterCreateData = Partial<Register>
+export interface RegisterCreateData {
+  email: string
+  id?: number
+  password: string
+  token: string
+}
 

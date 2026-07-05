@@ -66,8 +66,12 @@ class LegacyUserListEntity:
     
 
     
-    def list(self, reqmatch: LegacyUserListListMatch, ctrl=None) -> list[LegacyUserList]:
+    def list(self, reqmatch=None, ctrl=None) -> list[LegacyUserList]:
         utility = self._utility
+        # reqmatch is optional: an omitted match lists all records. Treat None
+        # as an empty match so client.LegacyUserList().list() works with no args.
+        if reqmatch is None:
+            reqmatch = {}
         ctx = utility.make_context({
             "opname": "list",
             "ctrl": ctrl,

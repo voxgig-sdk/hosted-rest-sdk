@@ -4,6 +4,8 @@
 
 The PHP SDK for the HostedRest API — an entity-oriented client using PHP conventions.
 
+The SDK exposes the API as capitalised, semantic **Entities** — for example `$client->AgentHealth()` — with named operations (`list`/`load`/`create`/`update`/`remove`/`patch`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
+
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
 
@@ -36,10 +38,41 @@ $client = new HostedRestSDK([
 ```php
 try {
     // load() returns the bare AgentHealth record (throws on error).
-    $agenthealth = $client->AgentHealth()->load(["id" => "example_id"]);
+    $agenthealth = $client->AgentHealth()->load();
     print_r($agenthealth);
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
+}
+```
+
+
+## Error handling
+
+Entity operations throw a `\Throwable` on failure, so wrap them in
+`try` / `catch`:
+
+```php
+try {
+    $agenthealth = $client->AgentHealth()->load();
+} catch (\Throwable $err) {
+    echo "Error: " . $err->getMessage();
+}
+```
+
+`direct()` does **not** throw — it returns the result array. Branch on
+`ok`; on failure `status` holds the HTTP status (for error responses) and
+`err` holds a transport error, so read both defensively:
+
+```php
+$result = $client->direct([
+    "path" => "/api/resource/{id}",
+    "method" => "GET",
+    "params" => ["id" => "example_id"],
+]);
+
+if (! $result["ok"]) {
+    $err = $result["err"] ?? null;
+    echo "request failed: " . ($err ? $err->getMessage() : "HTTP " . $result["status"]);
 }
 ```
 
@@ -63,7 +96,10 @@ if ($result["ok"]) {
     echo $result["status"];  // 200
     print_r($result["data"]);  // response body
 } else {
-    echo "Error: " . $result["err"]->getMessage();
+    // On an HTTP error status there is no err (only a transport failure sets
+    // it), so fall back to the status code.
+    $err = $result["err"] ?? null;
+    echo "Error: " . ($err ? $err->getMessage() : "HTTP " . $result["status"]);
 }
 ```
 
@@ -84,16 +120,13 @@ print_r($fetchdef["headers"]);
 
 ### Use test mode
 
-Create a mock client for unit testing — no server required. Seed fixture
-data via the `entity` option so offline calls resolve without a live server:
+Create a mock client for unit testing — no server required:
 
 ```php
-$client = HostedRestSDK::test([
-    "entity" => ["agenthealth" => ["test01" => ["id" => "test01"]]],
-]);
+$client = HostedRestSDK::test();
 
-// load() returns the bare mock record (throws on error).
-$agenthealth = $client->AgentHealth()->load(["id" => "test01"]);
+// Entity ops return the bare mock record (throws on error).
+$agenthealth = $client->AgentHealth()->load();
 print_r($agenthealth);
 ```
 
@@ -205,7 +238,7 @@ All entities share the same interface.
 | Method | Signature | Description |
 | --- | --- | --- |
 | `load` | `($reqmatch, $ctrl): array` | Load a single entity by match criteria. |
-| `list` | `($reqmatch, $ctrl): array` | List entities matching the criteria. |
+| `list` | `(?array $reqmatch = null, $ctrl): array` | List entities matching the criteria (call with no argument to list all). |
 | `create` | `($reqdata, $ctrl): array` | Create a new entity. |
 | `update` | `($reqdata, $ctrl): array` | Update an existing entity. |
 | `remove` | `($reqmatch, $ctrl): array` | Remove an entity. |
@@ -526,13 +559,13 @@ Create an instance: `$agent_health = $client->AgentHealth();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
+| `data` | `array` |  |
 
 #### Example: Load
 
 ```php
 // load() returns the bare AgentHealth record (throws on error).
-$agent_health = $client->AgentHealth()->load(["id" => "agent_health_id"]);
+$agent_health = $client->AgentHealth()->load();
 ```
 
 
@@ -551,22 +584,22 @@ Create an instance: `$agent_sandbox = $client->AgentSandbox();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `email` | ``$STRING`` |  |
-| `password` | ``$STRING`` |  |
+| `email` | `string` |  |
+| `password` | `string` |  |
 
 #### Example: Load
 
 ```php
 // load() returns the bare AgentSandbox record (throws on error).
-$agent_sandbox = $client->AgentSandbox()->load(["id" => "agent_sandbox_id"]);
+$agent_sandbox = $client->AgentSandbox()->load();
 ```
 
 #### Example: Create
 
 ```php
 $agent_sandbox = $client->AgentSandbox()->create([
-    "email" => null, // `$STRING`
-    "password" => null, // `$STRING`
+    "email" => null, // string
+    "password" => null, // string
 ]);
 ```
 
@@ -585,7 +618,7 @@ Create an instance: `$agent_user_detail = $client->AgentUserDetail();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
+| `data` | `array` |  |
 
 #### Example: Load
 
@@ -609,16 +642,16 @@ Create an instance: `$agent_user_list = $client->AgentUserList();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | ``$STRING`` |  |
-| `email` | ``$STRING`` |  |
-| `full_name` | ``$STRING`` |  |
-| `id` | ``$STRING`` |  |
-| `locale` | ``$STRING`` |  |
-| `preference` | ``$OBJECT`` |  |
-| `profile` | ``$OBJECT`` |  |
-| `status` | ``$STRING`` |  |
-| `timezone` | ``$STRING`` |  |
-| `updated_at` | ``$STRING`` |  |
+| `created_at` | `string` |  |
+| `email` | `string` |  |
+| `full_name` | `string` |  |
+| `id` | `string` |  |
+| `locale` | `string` |  |
+| `preference` | `array` |  |
+| `profile` | `array` |  |
+| `status` | `string` |  |
+| `timezone` | `string` |  |
+| `updated_at` | `string` |  |
 
 #### Example: List
 
@@ -646,13 +679,13 @@ Create an instance: `$app_user = $client->AppUser();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | ``$STRING`` |  |
-| `data` | ``$OBJECT`` |  |
-| `email` | ``$STRING`` |  |
-| `id` | ``$STRING`` |  |
-| `last_login_at` | ``$STRING`` |  |
-| `metadata` | ``$OBJECT`` |  |
-| `status` | ``$STRING`` |  |
+| `created_at` | `string` |  |
+| `data` | `array` |  |
+| `email` | `string` |  |
+| `id` | `string` |  |
+| `last_login_at` | `string` |  |
+| `metadata` | `array` |  |
+| `status` | `string` |  |
 
 #### Example: Load
 
@@ -672,8 +705,8 @@ $app_users = $client->AppUser()->list();
 
 ```php
 $app_user = $client->AppUser()->create([
-    "data" => null, // `$OBJECT`
-    "email" => null, // `$STRING`
+    "data" => null, // array
+    "email" => null, // string
 ]);
 ```
 
@@ -692,17 +725,17 @@ Create an instance: `$app_user_login = $client->AppUserLogin();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `email` | ``$STRING`` |  |
-| `metadata` | ``$OBJECT`` |  |
-| `project_id` | ``$STRING`` |  |
+| `data` | `array` |  |
+| `email` | `string` |  |
+| `metadata` | `array` |  |
+| `project_id` | `string` |  |
 
 #### Example: Create
 
 ```php
 $app_user_login = $client->AppUserLogin()->create([
-    "data" => null, // `$OBJECT`
-    "email" => null, // `$STRING`
+    "data" => null, // array
+    "email" => null, // string
 ]);
 ```
 
@@ -721,13 +754,13 @@ Create an instance: `$app_user_session = $client->AppUserSession();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
+| `data` | `array` |  |
 
 #### Example: Load
 
 ```php
 // load() returns the bare AppUserSession record (throws on error).
-$app_user_session = $client->AppUserSession()->load(["id" => "app_user_session_id"]);
+$app_user_session = $client->AppUserSession()->load();
 ```
 
 
@@ -745,13 +778,13 @@ Create an instance: `$app_user_total = $client->AppUserTotal();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `total` | ``$INTEGER`` |  |
+| `total` | `int` |  |
 
 #### Example: Load
 
 ```php
 // load() returns the bare AppUserTotal record (throws on error).
-$app_user_total = $client->AppUserTotal()->load(["id" => "app_user_total_id"]);
+$app_user_total = $client->AppUserTotal()->load();
 ```
 
 
@@ -769,15 +802,15 @@ Create an instance: `$app_user_verify = $client->AppUserVerify();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `token` | ``$STRING`` |  |
+| `data` | `array` |  |
+| `token` | `string` |  |
 
 #### Example: Create
 
 ```php
 $app_user_verify = $client->AppUserVerify()->create([
-    "data" => null, // `$OBJECT`
-    "token" => null, // `$STRING`
+    "data" => null, // array
+    "token" => null, // string
 ]);
 ```
 
@@ -818,16 +851,16 @@ Create an instance: `$collection = $client->Collection();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | ``$STRING`` |  |
-| `data` | ``$OBJECT`` |  |
-| `id` | ``$STRING`` |  |
-| `name` | ``$STRING`` |  |
-| `project_id` | ``$STRING`` |  |
-| `schema` | ``$OBJECT`` |  |
-| `slug` | ``$STRING`` |  |
-| `updated_at` | ``$STRING`` |  |
-| `user_id` | ``$STRING`` |  |
-| `visibility` | ``$STRING`` |  |
+| `created_at` | `string` |  |
+| `data` | `array` |  |
+| `id` | `string` |  |
+| `name` | `string` |  |
+| `project_id` | `string` |  |
+| `schema` | `array` |  |
+| `slug` | `string` |  |
+| `updated_at` | `string` |  |
+| `user_id` | `string` |  |
+| `visibility` | `string` |  |
 
 #### Example: Load
 
@@ -847,8 +880,8 @@ $collections = $client->Collection()->list();
 
 ```php
 $collection = $client->Collection()->create([
-    "data" => null, // `$OBJECT`
-    "name" => null, // `$STRING`
+    "data" => null, // array
+    "name" => null, // string
 ]);
 ```
 
@@ -869,7 +902,7 @@ Create an instance: `$collection_record = $client->CollectionRecord();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
+| `data` | `array` |  |
 
 #### Example: Load
 
@@ -882,7 +915,7 @@ $collection_record = $client->CollectionRecord()->load(["id" => "collection_reco
 
 ```php
 $collection_record = $client->CollectionRecord()->create([
-    "data" => null, // `$OBJECT`
+    "data" => null, // array
 ]);
 ```
 
@@ -901,15 +934,15 @@ Create an instance: `$collection_record_list = $client->CollectionRecordList();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `app_user_id` | ``$STRING`` |  |
-| `collection_id` | ``$STRING`` |  |
-| `created_at` | ``$STRING`` |  |
-| `created_by` | ``$STRING`` |  |
-| `data` | ``$OBJECT`` |  |
-| `deleted_at` | ``$STRING`` |  |
-| `id` | ``$STRING`` |  |
-| `project_id` | ``$STRING`` |  |
-| `updated_at` | ``$STRING`` |  |
+| `app_user_id` | `string` |  |
+| `collection_id` | `string` |  |
+| `created_at` | `string` |  |
+| `created_by` | `string` |  |
+| `data` | `array` |  |
+| `deleted_at` | `string` |  |
+| `id` | `string` |  |
+| `project_id` | `string` |  |
+| `updated_at` | `string` |  |
 
 #### Example: List
 
@@ -973,9 +1006,9 @@ Create an instance: `$legacy_mutation = $client->LegacyMutation();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | ``$STRING`` |  |
-| `id` | ``$STRING`` |  |
-| `updated_at` | ``$STRING`` |  |
+| `created_at` | `string` |  |
+| `id` | `string` |  |
+| `updated_at` | `string` |  |
 
 #### Example: Create
 
@@ -999,8 +1032,8 @@ Create an instance: `$legacy_unknown = $client->LegacyUnknown();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `support` | ``$OBJECT`` |  |
+| `data` | `array` |  |
+| `support` | `array` |  |
 
 #### Example: Load
 
@@ -1024,11 +1057,11 @@ Create an instance: `$legacy_unknown_list = $client->LegacyUnknownList();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `color` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `name` | ``$STRING`` |  |
-| `pantone_value` | ``$STRING`` |  |
-| `year` | ``$INTEGER`` |  |
+| `color` | `string` |  |
+| `id` | `int` |  |
+| `name` | `string` |  |
+| `pantone_value` | `string` |  |
+| `year` | `int` |  |
 
 #### Example: List
 
@@ -1052,8 +1085,8 @@ Create an instance: `$legacy_user = $client->LegacyUser();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `support` | ``$OBJECT`` |  |
+| `data` | `array` |  |
+| `support` | `array` |  |
 
 #### Example: Load
 
@@ -1077,11 +1110,11 @@ Create an instance: `$legacy_user_list = $client->LegacyUserList();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `avatar` | ``$STRING`` |  |
-| `email` | ``$STRING`` |  |
-| `first_name` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `last_name` | ``$STRING`` |  |
+| `avatar` | `string` |  |
+| `email` | `string` |  |
+| `first_name` | `string` |  |
+| `id` | `int` |  |
+| `last_name` | `string` |  |
 
 #### Example: List
 
@@ -1105,17 +1138,17 @@ Create an instance: `$login = $client->Login();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `email` | ``$STRING`` |  |
-| `password` | ``$STRING`` |  |
-| `token` | ``$STRING`` |  |
+| `email` | `string` |  |
+| `password` | `string` |  |
+| `token` | `string` |  |
 
 #### Example: Create
 
 ```php
 $login = $client->Login()->create([
-    "email" => null, // `$STRING`
-    "password" => null, // `$STRING`
-    "token" => null, // `$STRING`
+    "email" => null, // string
+    "password" => null, // string
+    "token" => null, // string
 ]);
 ```
 
@@ -1134,28 +1167,32 @@ Create an instance: `$register = $client->Register();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `email` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `password` | ``$STRING`` |  |
-| `token` | ``$STRING`` |  |
+| `email` | `string` |  |
+| `id` | `int` |  |
+| `password` | `string` |  |
+| `token` | `string` |  |
 
 #### Example: Create
 
 ```php
 $register = $client->Register()->create([
-    "email" => null, // `$STRING`
-    "password" => null, // `$STRING`
-    "token" => null, // `$STRING`
+    "email" => null, // string
+    "password" => null, // string
+    "token" => null, // string
 ]);
 ```
 
 
-## Explanation
+## Advanced
+
+> The sections above cover everyday use. The material below explains the
+> SDK's internals — useful when extending it with custom features, but not
+> needed for normal use.
 
 ### The operation pipeline
 
-Every entity operation (load, list, create, update, remove) follows a
-six-stage pipeline. Each stage fires a feature hook before executing:
+Every entity operation follows a six-stage pipeline. Each stage fires a
+feature hook before executing:
 
 ```
 PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
@@ -1172,8 +1209,9 @@ PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
 - **PreDone**: Final stage before returning to the caller. Entity
   state (match, data) is updated here.
 
-If any stage returns an error, the pipeline short-circuits and the
-error is returned to the caller as the second element in the return array.
+If any stage errors, the pipeline short-circuits and the error surfaces
+to the caller — see [Error handling](#error-handling) for how that looks
+in this language.
 
 ### Features and hooks
 
@@ -1222,10 +1260,10 @@ stores the returned data and match criteria internally.
 
 ```php
 $agenthealth = $client->AgentHealth();
-$agenthealth->load(["id" => "example_id"]);
+$agenthealth->load();
 
-// $agenthealth->dataGet() now returns the loaded agenthealth data
-// $agenthealth->matchGet() returns the last match criteria
+// $agenthealth->data_get() now returns the agenthealth data from the last load
+// $agenthealth->match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

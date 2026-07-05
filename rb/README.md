@@ -4,6 +4,8 @@
 
 The Ruby SDK for the HostedRest API — an entity-oriented client using idiomatic Ruby conventions.
 
+The SDK exposes the API as capitalised, semantic **Entities** — for example `client.AgentHealth` — with named operations (`list`/`load`/`create`/`update`/`remove`/`patch`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
+
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
 
@@ -35,11 +37,38 @@ client = HostedRestSDK.new({
 ```ruby
 begin
   # load returns the bare AgentHealth record (raises on error).
-  agenthealth = client.AgentHealth.load({ "id" => "example_id" })
+  agenthealth = client.AgentHealth.load()
   puts agenthealth
 rescue => err
   warn "load failed: #{err}"
 end
+```
+
+
+## Error handling
+
+Entity operations raise on failure, so rescue them:
+
+```ruby
+begin
+  agenthealth = client.AgentHealth.load()
+rescue => err
+  warn "load failed: #{err}"
+end
+```
+
+`direct` does **not** raise — it returns the result hash. Branch on
+`ok`; on failure `status` holds the HTTP status (for error responses) and
+`err` holds a transport error, so read both defensively:
+
+```ruby
+result = client.direct({
+  "path" => "/api/resource/{id}",
+  "method" => "GET",
+  "params" => { "id" => "example_id" },
+})
+
+warn "request failed: #{result["err"] || "HTTP #{result["status"]}"}" unless result["ok"]
 ```
 
 
@@ -60,7 +89,9 @@ if result["ok"]
   puts result["status"]  # 200
   puts result["data"]    # response body
 else
-  warn result["err"]
+  # On an HTTP error status there is no err (only a transport failure sets
+  # it), so fall back to the status code.
+  warn(result["err"] || "HTTP #{result["status"]}")
 end
 ```
 
@@ -83,16 +114,13 @@ end
 
 ### Use test mode
 
-Create a mock client for unit testing — no server required. Seed fixture
-data via the `entity` option so offline calls resolve without a live server:
+Create a mock client for unit testing — no server required:
 
 ```ruby
-client = HostedRestSDK.test({
-  "entity" => { "agenthealth" => { "test01" => { "id" => "test01" } } },
-})
+client = HostedRestSDK.test
 
-# load returns the bare mock record (raises on error).
-agenthealth = client.AgentHealth.load({ "id" => "test01" })
+# Entity ops return the bare mock record (raises on error).
+agenthealth = client.AgentHealth.load()
 puts agenthealth
 ```
 
@@ -201,7 +229,7 @@ All entities share the same interface.
 | Method | Signature | Description |
 | --- | --- | --- |
 | `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria. Raises on error. |
-| `list` | `(reqmatch, ctrl) -> Array` | List entities matching the criteria. Raises on error. |
+| `list` | `(reqmatch = nil, ctrl) -> Array` | List entities matching the criteria (call with no argument to list all). Raises on error. |
 | `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
 | `update` | `(reqdata, ctrl) -> any` | Update an existing entity. Raises on error. |
 | `remove` | `(reqmatch, ctrl) -> any` | Remove an entity. Raises on error. |
@@ -521,13 +549,13 @@ Create an instance: `agent_health = client.AgentHealth`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
+| `data` | `Hash` |  |
 
 #### Example: Load
 
 ```ruby
 # load returns the bare AgentHealth record (raises on error).
-agent_health = client.AgentHealth.load({ "id" => "agent_health_id" })
+agent_health = client.AgentHealth.load()
 ```
 
 
@@ -546,22 +574,22 @@ Create an instance: `agent_sandbox = client.AgentSandbox`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `email` | ``$STRING`` |  |
-| `password` | ``$STRING`` |  |
+| `email` | `String` |  |
+| `password` | `String` |  |
 
 #### Example: Load
 
 ```ruby
 # load returns the bare AgentSandbox record (raises on error).
-agent_sandbox = client.AgentSandbox.load({ "id" => "agent_sandbox_id" })
+agent_sandbox = client.AgentSandbox.load()
 ```
 
 #### Example: Create
 
 ```ruby
 agent_sandbox = client.AgentSandbox.create({
-  "email" => nil, # `$STRING`
-  "password" => nil, # `$STRING`
+  "email" => "example", # String
+  "password" => "example", # String
 })
 ```
 
@@ -580,7 +608,7 @@ Create an instance: `agent_user_detail = client.AgentUserDetail`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
+| `data` | `Hash` |  |
 
 #### Example: Load
 
@@ -604,16 +632,16 @@ Create an instance: `agent_user_list = client.AgentUserList`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | ``$STRING`` |  |
-| `email` | ``$STRING`` |  |
-| `full_name` | ``$STRING`` |  |
-| `id` | ``$STRING`` |  |
-| `locale` | ``$STRING`` |  |
-| `preference` | ``$OBJECT`` |  |
-| `profile` | ``$OBJECT`` |  |
-| `status` | ``$STRING`` |  |
-| `timezone` | ``$STRING`` |  |
-| `updated_at` | ``$STRING`` |  |
+| `created_at` | `String` |  |
+| `email` | `String` |  |
+| `full_name` | `String` |  |
+| `id` | `String` |  |
+| `locale` | `String` |  |
+| `preference` | `Hash` |  |
+| `profile` | `Hash` |  |
+| `status` | `String` |  |
+| `timezone` | `String` |  |
+| `updated_at` | `String` |  |
 
 #### Example: List
 
@@ -641,13 +669,13 @@ Create an instance: `app_user = client.AppUser`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | ``$STRING`` |  |
-| `data` | ``$OBJECT`` |  |
-| `email` | ``$STRING`` |  |
-| `id` | ``$STRING`` |  |
-| `last_login_at` | ``$STRING`` |  |
-| `metadata` | ``$OBJECT`` |  |
-| `status` | ``$STRING`` |  |
+| `created_at` | `String` |  |
+| `data` | `Hash` |  |
+| `email` | `String` |  |
+| `id` | `String` |  |
+| `last_login_at` | `String` |  |
+| `metadata` | `Hash` |  |
+| `status` | `String` |  |
 
 #### Example: Load
 
@@ -667,8 +695,8 @@ app_users = client.AppUser.list
 
 ```ruby
 app_user = client.AppUser.create({
-  "data" => nil, # `$OBJECT`
-  "email" => nil, # `$STRING`
+  "data" => {}, # Hash
+  "email" => "example", # String
 })
 ```
 
@@ -687,17 +715,17 @@ Create an instance: `app_user_login = client.AppUserLogin`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `email` | ``$STRING`` |  |
-| `metadata` | ``$OBJECT`` |  |
-| `project_id` | ``$STRING`` |  |
+| `data` | `Hash` |  |
+| `email` | `String` |  |
+| `metadata` | `Hash` |  |
+| `project_id` | `String` |  |
 
 #### Example: Create
 
 ```ruby
 app_user_login = client.AppUserLogin.create({
-  "data" => nil, # `$OBJECT`
-  "email" => nil, # `$STRING`
+  "data" => {}, # Hash
+  "email" => "example", # String
 })
 ```
 
@@ -716,13 +744,13 @@ Create an instance: `app_user_session = client.AppUserSession`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
+| `data` | `Hash` |  |
 
 #### Example: Load
 
 ```ruby
 # load returns the bare AppUserSession record (raises on error).
-app_user_session = client.AppUserSession.load({ "id" => "app_user_session_id" })
+app_user_session = client.AppUserSession.load()
 ```
 
 
@@ -740,13 +768,13 @@ Create an instance: `app_user_total = client.AppUserTotal`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `total` | ``$INTEGER`` |  |
+| `total` | `Integer` |  |
 
 #### Example: Load
 
 ```ruby
 # load returns the bare AppUserTotal record (raises on error).
-app_user_total = client.AppUserTotal.load({ "id" => "app_user_total_id" })
+app_user_total = client.AppUserTotal.load()
 ```
 
 
@@ -764,15 +792,15 @@ Create an instance: `app_user_verify = client.AppUserVerify`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `token` | ``$STRING`` |  |
+| `data` | `Hash` |  |
+| `token` | `String` |  |
 
 #### Example: Create
 
 ```ruby
 app_user_verify = client.AppUserVerify.create({
-  "data" => nil, # `$OBJECT`
-  "token" => nil, # `$STRING`
+  "data" => {}, # Hash
+  "token" => "example", # String
 })
 ```
 
@@ -813,16 +841,16 @@ Create an instance: `collection = client.Collection`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | ``$STRING`` |  |
-| `data` | ``$OBJECT`` |  |
-| `id` | ``$STRING`` |  |
-| `name` | ``$STRING`` |  |
-| `project_id` | ``$STRING`` |  |
-| `schema` | ``$OBJECT`` |  |
-| `slug` | ``$STRING`` |  |
-| `updated_at` | ``$STRING`` |  |
-| `user_id` | ``$STRING`` |  |
-| `visibility` | ``$STRING`` |  |
+| `created_at` | `String` |  |
+| `data` | `Hash` |  |
+| `id` | `String` |  |
+| `name` | `String` |  |
+| `project_id` | `String` |  |
+| `schema` | `Hash` |  |
+| `slug` | `String` |  |
+| `updated_at` | `String` |  |
+| `user_id` | `String` |  |
+| `visibility` | `String` |  |
 
 #### Example: Load
 
@@ -842,8 +870,8 @@ collections = client.Collection.list
 
 ```ruby
 collection = client.Collection.create({
-  "data" => nil, # `$OBJECT`
-  "name" => nil, # `$STRING`
+  "data" => {}, # Hash
+  "name" => "example", # String
 })
 ```
 
@@ -864,7 +892,7 @@ Create an instance: `collection_record = client.CollectionRecord`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
+| `data` | `Hash` |  |
 
 #### Example: Load
 
@@ -877,7 +905,7 @@ collection_record = client.CollectionRecord.load({ "id" => "collection_record_id
 
 ```ruby
 collection_record = client.CollectionRecord.create({
-  "data" => nil, # `$OBJECT`
+  "data" => {}, # Hash
 })
 ```
 
@@ -896,15 +924,15 @@ Create an instance: `collection_record_list = client.CollectionRecordList`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `app_user_id` | ``$STRING`` |  |
-| `collection_id` | ``$STRING`` |  |
-| `created_at` | ``$STRING`` |  |
-| `created_by` | ``$STRING`` |  |
-| `data` | ``$OBJECT`` |  |
-| `deleted_at` | ``$STRING`` |  |
-| `id` | ``$STRING`` |  |
-| `project_id` | ``$STRING`` |  |
-| `updated_at` | ``$STRING`` |  |
+| `app_user_id` | `String` |  |
+| `collection_id` | `String` |  |
+| `created_at` | `String` |  |
+| `created_by` | `String` |  |
+| `data` | `Hash` |  |
+| `deleted_at` | `String` |  |
+| `id` | `String` |  |
+| `project_id` | `String` |  |
+| `updated_at` | `String` |  |
 
 #### Example: List
 
@@ -968,9 +996,9 @@ Create an instance: `legacy_mutation = client.LegacyMutation`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | ``$STRING`` |  |
-| `id` | ``$STRING`` |  |
-| `updated_at` | ``$STRING`` |  |
+| `created_at` | `String` |  |
+| `id` | `String` |  |
+| `updated_at` | `String` |  |
 
 #### Example: Create
 
@@ -994,8 +1022,8 @@ Create an instance: `legacy_unknown = client.LegacyUnknown`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `support` | ``$OBJECT`` |  |
+| `data` | `Hash` |  |
+| `support` | `Hash` |  |
 
 #### Example: Load
 
@@ -1019,11 +1047,11 @@ Create an instance: `legacy_unknown_list = client.LegacyUnknownList`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `color` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `name` | ``$STRING`` |  |
-| `pantone_value` | ``$STRING`` |  |
-| `year` | ``$INTEGER`` |  |
+| `color` | `String` |  |
+| `id` | `Integer` |  |
+| `name` | `String` |  |
+| `pantone_value` | `String` |  |
+| `year` | `Integer` |  |
 
 #### Example: List
 
@@ -1047,8 +1075,8 @@ Create an instance: `legacy_user = client.LegacyUser`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `support` | ``$OBJECT`` |  |
+| `data` | `Hash` |  |
+| `support` | `Hash` |  |
 
 #### Example: Load
 
@@ -1072,11 +1100,11 @@ Create an instance: `legacy_user_list = client.LegacyUserList`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `avatar` | ``$STRING`` |  |
-| `email` | ``$STRING`` |  |
-| `first_name` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `last_name` | ``$STRING`` |  |
+| `avatar` | `String` |  |
+| `email` | `String` |  |
+| `first_name` | `String` |  |
+| `id` | `Integer` |  |
+| `last_name` | `String` |  |
 
 #### Example: List
 
@@ -1100,17 +1128,17 @@ Create an instance: `login = client.Login`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `email` | ``$STRING`` |  |
-| `password` | ``$STRING`` |  |
-| `token` | ``$STRING`` |  |
+| `email` | `String` |  |
+| `password` | `String` |  |
+| `token` | `String` |  |
 
 #### Example: Create
 
 ```ruby
 login = client.Login.create({
-  "email" => nil, # `$STRING`
-  "password" => nil, # `$STRING`
-  "token" => nil, # `$STRING`
+  "email" => "example", # String
+  "password" => "example", # String
+  "token" => "example", # String
 })
 ```
 
@@ -1129,28 +1157,32 @@ Create an instance: `register = client.Register`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `email` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `password` | ``$STRING`` |  |
-| `token` | ``$STRING`` |  |
+| `email` | `String` |  |
+| `id` | `Integer` |  |
+| `password` | `String` |  |
+| `token` | `String` |  |
 
 #### Example: Create
 
 ```ruby
 register = client.Register.create({
-  "email" => nil, # `$STRING`
-  "password" => nil, # `$STRING`
-  "token" => nil, # `$STRING`
+  "email" => "example", # String
+  "password" => "example", # String
+  "token" => "example", # String
 })
 ```
 
 
-## Explanation
+## Advanced
+
+> The sections above cover everyday use. The material below explains the
+> SDK's internals — useful when extending it with custom features, but not
+> needed for normal use.
 
 ### The operation pipeline
 
-Every entity operation (load, list, create, update, remove) follows a
-six-stage pipeline. Each stage fires a feature hook before executing:
+Every entity operation follows a six-stage pipeline. Each stage fires a
+feature hook before executing:
 
 ```
 PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
@@ -1167,8 +1199,9 @@ PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
 - **PreDone**: Final stage before returning to the caller. Entity
   state (match, data) is updated here.
 
-If any stage returns an error, the pipeline short-circuits and the
-error is returned to the caller as a second return value.
+If any stage errors, the pipeline short-circuits and the error surfaces
+to the caller — see [Error handling](#error-handling) for how that looks
+in this language.
 
 ### Features and hooks
 
@@ -1217,9 +1250,9 @@ stores the returned data and match criteria internally.
 
 ```ruby
 agenthealth = client.AgentHealth
-agenthealth.load({ "id" => "example_id" })
+agenthealth.load()
 
-# agenthealth.data_get now returns the loaded agenthealth data
+# agenthealth.data_get now returns the agenthealth data from the last load
 # agenthealth.match_get returns the last match criteria
 ```
 

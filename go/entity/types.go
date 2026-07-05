@@ -13,8 +13,7 @@ type AgentHealth struct {
 	Data map[string]any `json:"data"`
 }
 
-// AgentHealthLoadMatch mirrors the agent_health fields as an all-optional match
-// filter (Go analog of Partial<AgentHealth>).
+// AgentHealthLoadMatch is the typed request payload for AgentHealth.LoadTyped.
 type AgentHealthLoadMatch struct {
 	Data *map[string]any `json:"data,omitempty"`
 }
@@ -30,11 +29,10 @@ type AgentSandboxLoadMatch struct {
 	Scenario string `json:"scenario"`
 }
 
-// AgentSandboxCreateData mirrors the agent_sandbox fields as an all-optional match
-// filter (Go analog of Partial<AgentSandbox>).
+// AgentSandboxCreateData is the typed request payload for AgentSandbox.CreateTyped.
 type AgentSandboxCreateData struct {
-	Email *string `json:"email,omitempty"`
-	Password *string `json:"password,omitempty"`
+	Email string `json:"email"`
+	Password string `json:"password"`
 }
 
 // AgentUserDetail is the typed data model for the agent_user_detail entity.
@@ -61,8 +59,7 @@ type AgentUserList struct {
 	UpdatedAt string `json:"updated_at"`
 }
 
-// AgentUserListListMatch mirrors the agent_user_list fields as an all-optional match
-// filter (Go analog of Partial<AgentUserList>).
+// AgentUserListListMatch is the typed request payload for AgentUserList.ListTyped.
 type AgentUserListListMatch struct {
 	CreatedAt *string `json:"created_at,omitempty"`
 	Email *string `json:"email,omitempty"`
@@ -122,11 +119,10 @@ type AppUserLogin struct {
 	ProjectId *string `json:"project_id,omitempty"`
 }
 
-// AppUserLoginCreateData mirrors the app_user_login fields as an all-optional match
-// filter (Go analog of Partial<AppUserLogin>).
+// AppUserLoginCreateData is the typed request payload for AppUserLogin.CreateTyped.
 type AppUserLoginCreateData struct {
-	Data *map[string]any `json:"data,omitempty"`
-	Email *string `json:"email,omitempty"`
+	Data map[string]any `json:"data"`
+	Email string `json:"email"`
 	Metadata *map[string]any `json:"metadata,omitempty"`
 	ProjectId *string `json:"project_id,omitempty"`
 }
@@ -136,8 +132,7 @@ type AppUserSession struct {
 	Data map[string]any `json:"data"`
 }
 
-// AppUserSessionLoadMatch mirrors the app_user_session fields as an all-optional match
-// filter (Go analog of Partial<AppUserSession>).
+// AppUserSessionLoadMatch is the typed request payload for AppUserSession.LoadTyped.
 type AppUserSessionLoadMatch struct {
 	Data *map[string]any `json:"data,omitempty"`
 }
@@ -158,19 +153,17 @@ type AppUserVerify struct {
 	Token string `json:"token"`
 }
 
-// AppUserVerifyCreateData mirrors the app_user_verify fields as an all-optional match
-// filter (Go analog of Partial<AppUserVerify>).
+// AppUserVerifyCreateData is the typed request payload for AppUserVerify.CreateTyped.
 type AppUserVerifyCreateData struct {
-	Data *map[string]any `json:"data,omitempty"`
-	Token *string `json:"token,omitempty"`
+	Data map[string]any `json:"data"`
+	Token string `json:"token"`
 }
 
 // Authentication is the typed data model for the authentication entity.
 type Authentication struct {
 }
 
-// AuthenticationCreateData mirrors the authentication fields as an all-optional match
-// filter (Go analog of Partial<Authentication>).
+// AuthenticationCreateData is the typed request payload for Authentication.CreateTyped.
 type AuthenticationCreateData struct {
 }
 
@@ -193,8 +186,7 @@ type CollectionLoadMatch struct {
 	Id string `json:"id"`
 }
 
-// CollectionListMatch mirrors the collection fields as an all-optional match
-// filter (Go analog of Partial<Collection>).
+// CollectionListMatch is the typed request payload for Collection.ListTyped.
 type CollectionListMatch struct {
 	CreatedAt *string `json:"created_at,omitempty"`
 	Data *map[string]any `json:"data,omitempty"`
@@ -208,13 +200,12 @@ type CollectionListMatch struct {
 	Visibility *string `json:"visibility,omitempty"`
 }
 
-// CollectionCreateData mirrors the collection fields as an all-optional match
-// filter (Go analog of Partial<Collection>).
+// CollectionCreateData is the typed request payload for Collection.CreateTyped.
 type CollectionCreateData struct {
 	CreatedAt *string `json:"created_at,omitempty"`
-	Data *map[string]any `json:"data,omitempty"`
-	Id *string `json:"id,omitempty"`
-	Name *string `json:"name,omitempty"`
+	Data map[string]any `json:"data"`
+	Id string `json:"id"`
+	Name string `json:"name"`
 	ProjectId *string `json:"project_id,omitempty"`
 	Schema *map[string]any `json:"schema,omitempty"`
 	Slug *string `json:"slug,omitempty"`
@@ -315,8 +306,7 @@ type LegacyMutation struct {
 	UpdatedAt *string `json:"updated_at,omitempty"`
 }
 
-// LegacyMutationCreateData mirrors the legacy_mutation fields as an all-optional match
-// filter (Go analog of Partial<LegacyMutation>).
+// LegacyMutationCreateData is the typed request payload for LegacyMutation.CreateTyped.
 type LegacyMutationCreateData struct {
 	CreatedAt *string `json:"created_at,omitempty"`
 	Id *string `json:"id,omitempty"`
@@ -348,8 +338,7 @@ type LegacyUnknownList struct {
 	Year int `json:"year"`
 }
 
-// LegacyUnknownListListMatch mirrors the legacy_unknown_list fields as an all-optional match
-// filter (Go analog of Partial<LegacyUnknownList>).
+// LegacyUnknownListListMatch is the typed request payload for LegacyUnknownList.ListTyped.
 type LegacyUnknownListListMatch struct {
 	Color *string `json:"color,omitempty"`
 	Id *int `json:"id,omitempty"`
@@ -378,8 +367,7 @@ type LegacyUserList struct {
 	LastName string `json:"last_name"`
 }
 
-// LegacyUserListListMatch mirrors the legacy_user_list fields as an all-optional match
-// filter (Go analog of Partial<LegacyUserList>).
+// LegacyUserListListMatch is the typed request payload for LegacyUserList.ListTyped.
 type LegacyUserListListMatch struct {
 	Avatar *string `json:"avatar,omitempty"`
 	Email *string `json:"email,omitempty"`
@@ -395,12 +383,11 @@ type Login struct {
 	Token string `json:"token"`
 }
 
-// LoginCreateData mirrors the login fields as an all-optional match
-// filter (Go analog of Partial<Login>).
+// LoginCreateData is the typed request payload for Login.CreateTyped.
 type LoginCreateData struct {
-	Email *string `json:"email,omitempty"`
-	Password *string `json:"password,omitempty"`
-	Token *string `json:"token,omitempty"`
+	Email string `json:"email"`
+	Password string `json:"password"`
+	Token string `json:"token"`
 }
 
 // Register is the typed data model for the register entity.
@@ -411,13 +398,12 @@ type Register struct {
 	Token string `json:"token"`
 }
 
-// RegisterCreateData mirrors the register fields as an all-optional match
-// filter (Go analog of Partial<Register>).
+// RegisterCreateData is the typed request payload for Register.CreateTyped.
 type RegisterCreateData struct {
-	Email *string `json:"email,omitempty"`
+	Email string `json:"email"`
 	Id *int `json:"id,omitempty"`
-	Password *string `json:"password,omitempty"`
-	Token *string `json:"token,omitempty"`
+	Password string `json:"password"`
+	Token string `json:"token"`
 }
 
 // asMap turns a typed request/data struct into the map[string]any the

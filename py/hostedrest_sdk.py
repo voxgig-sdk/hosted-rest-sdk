@@ -221,133 +221,133 @@ class HostedRestSDK:
 
 
     def AgentHealth(self, data=None) -> "AgentHealthEntity":
-        """Entity factory: client.AgentHealth().list({}) / client.AgentHealth().load({"id": ...})."""
+        """Entity factory: client.AgentHealth().list() / client.AgentHealth().load({"id": ...})."""
         from entity.agent_health_entity import AgentHealthEntity
         return AgentHealthEntity(self, data)
 
 
     def AgentSandbox(self, data=None) -> "AgentSandboxEntity":
-        """Entity factory: client.AgentSandbox().list({}) / client.AgentSandbox().load({"id": ...})."""
+        """Entity factory: client.AgentSandbox().list() / client.AgentSandbox().load({"id": ...})."""
         from entity.agent_sandbox_entity import AgentSandboxEntity
         return AgentSandboxEntity(self, data)
 
 
     def AgentUserDetail(self, data=None) -> "AgentUserDetailEntity":
-        """Entity factory: client.AgentUserDetail().list({}) / client.AgentUserDetail().load({"id": ...})."""
+        """Entity factory: client.AgentUserDetail().list() / client.AgentUserDetail().load({"id": ...})."""
         from entity.agent_user_detail_entity import AgentUserDetailEntity
         return AgentUserDetailEntity(self, data)
 
 
     def AgentUserList(self, data=None) -> "AgentUserListEntity":
-        """Entity factory: client.AgentUserList().list({}) / client.AgentUserList().load({"id": ...})."""
+        """Entity factory: client.AgentUserList().list() / client.AgentUserList().load({"id": ...})."""
         from entity.agent_user_list_entity import AgentUserListEntity
         return AgentUserListEntity(self, data)
 
 
     def AppUser(self, data=None) -> "AppUserEntity":
-        """Entity factory: client.AppUser().list({}) / client.AppUser().load({"id": ...})."""
+        """Entity factory: client.AppUser().list() / client.AppUser().load({"id": ...})."""
         from entity.app_user_entity import AppUserEntity
         return AppUserEntity(self, data)
 
 
     def AppUserLogin(self, data=None) -> "AppUserLoginEntity":
-        """Entity factory: client.AppUserLogin().list({}) / client.AppUserLogin().load({"id": ...})."""
+        """Entity factory: client.AppUserLogin().list() / client.AppUserLogin().load({"id": ...})."""
         from entity.app_user_login_entity import AppUserLoginEntity
         return AppUserLoginEntity(self, data)
 
 
     def AppUserSession(self, data=None) -> "AppUserSessionEntity":
-        """Entity factory: client.AppUserSession().list({}) / client.AppUserSession().load({"id": ...})."""
+        """Entity factory: client.AppUserSession().list() / client.AppUserSession().load({"id": ...})."""
         from entity.app_user_session_entity import AppUserSessionEntity
         return AppUserSessionEntity(self, data)
 
 
     def AppUserTotal(self, data=None) -> "AppUserTotalEntity":
-        """Entity factory: client.AppUserTotal().list({}) / client.AppUserTotal().load({"id": ...})."""
+        """Entity factory: client.AppUserTotal().list() / client.AppUserTotal().load({"id": ...})."""
         from entity.app_user_total_entity import AppUserTotalEntity
         return AppUserTotalEntity(self, data)
 
 
     def AppUserVerify(self, data=None) -> "AppUserVerifyEntity":
-        """Entity factory: client.AppUserVerify().list({}) / client.AppUserVerify().load({"id": ...})."""
+        """Entity factory: client.AppUserVerify().list() / client.AppUserVerify().load({"id": ...})."""
         from entity.app_user_verify_entity import AppUserVerifyEntity
         return AppUserVerifyEntity(self, data)
 
 
     def Authentication(self, data=None) -> "AuthenticationEntity":
-        """Entity factory: client.Authentication().list({}) / client.Authentication().load({"id": ...})."""
+        """Entity factory: client.Authentication().list() / client.Authentication().load({"id": ...})."""
         from entity.authentication_entity import AuthenticationEntity
         return AuthenticationEntity(self, data)
 
 
     def Collection(self, data=None) -> "CollectionEntity":
-        """Entity factory: client.Collection().list({}) / client.Collection().load({"id": ...})."""
+        """Entity factory: client.Collection().list() / client.Collection().load({"id": ...})."""
         from entity.collection_entity import CollectionEntity
         return CollectionEntity(self, data)
 
 
     def CollectionRecord(self, data=None) -> "CollectionRecordEntity":
-        """Entity factory: client.CollectionRecord().list({}) / client.CollectionRecord().load({"id": ...})."""
+        """Entity factory: client.CollectionRecord().list() / client.CollectionRecord().load({"id": ...})."""
         from entity.collection_record_entity import CollectionRecordEntity
         return CollectionRecordEntity(self, data)
 
 
     def CollectionRecordList(self, data=None) -> "CollectionRecordListEntity":
-        """Entity factory: client.CollectionRecordList().list({}) / client.CollectionRecordList().load({"id": ...})."""
+        """Entity factory: client.CollectionRecordList().list() / client.CollectionRecordList().load({"id": ...})."""
         from entity.collection_record_list_entity import CollectionRecordListEntity
         return CollectionRecordListEntity(self, data)
 
 
     def Custom(self, data=None) -> "CustomEntity":
-        """Entity factory: client.Custom().list({}) / client.Custom().load({"id": ...})."""
+        """Entity factory: client.Custom().list() / client.Custom().load({"id": ...})."""
         from entity.custom_entity import CustomEntity
         return CustomEntity(self, data)
 
 
     def Legacy(self, data=None) -> "LegacyEntity":
-        """Entity factory: client.Legacy().list({}) / client.Legacy().load({"id": ...})."""
+        """Entity factory: client.Legacy().list() / client.Legacy().load({"id": ...})."""
         from entity.legacy_entity import LegacyEntity
         return LegacyEntity(self, data)
 
 
     def LegacyMutation(self, data=None) -> "LegacyMutationEntity":
-        """Entity factory: client.LegacyMutation().list({}) / client.LegacyMutation().load({"id": ...})."""
+        """Entity factory: client.LegacyMutation().list() / client.LegacyMutation().load({"id": ...})."""
         from entity.legacy_mutation_entity import LegacyMutationEntity
         return LegacyMutationEntity(self, data)
 
 
     def LegacyUnknown(self, data=None) -> "LegacyUnknownEntity":
-        """Entity factory: client.LegacyUnknown().list({}) / client.LegacyUnknown().load({"id": ...})."""
+        """Entity factory: client.LegacyUnknown().list() / client.LegacyUnknown().load({"id": ...})."""
         from entity.legacy_unknown_entity import LegacyUnknownEntity
         return LegacyUnknownEntity(self, data)
 
 
     def LegacyUnknownList(self, data=None) -> "LegacyUnknownListEntity":
-        """Entity factory: client.LegacyUnknownList().list({}) / client.LegacyUnknownList().load({"id": ...})."""
+        """Entity factory: client.LegacyUnknownList().list() / client.LegacyUnknownList().load({"id": ...})."""
         from entity.legacy_unknown_list_entity import LegacyUnknownListEntity
         return LegacyUnknownListEntity(self, data)
 
 
     def LegacyUser(self, data=None) -> "LegacyUserEntity":
-        """Entity factory: client.LegacyUser().list({}) / client.LegacyUser().load({"id": ...})."""
+        """Entity factory: client.LegacyUser().list() / client.LegacyUser().load({"id": ...})."""
         from entity.legacy_user_entity import LegacyUserEntity
         return LegacyUserEntity(self, data)
 
 
     def LegacyUserList(self, data=None) -> "LegacyUserListEntity":
-        """Entity factory: client.LegacyUserList().list({}) / client.LegacyUserList().load({"id": ...})."""
+        """Entity factory: client.LegacyUserList().list() / client.LegacyUserList().load({"id": ...})."""
         from entity.legacy_user_list_entity import LegacyUserListEntity
         return LegacyUserListEntity(self, data)
 
 
     def Login(self, data=None) -> "LoginEntity":
-        """Entity factory: client.Login().list({}) / client.Login().load({"id": ...})."""
+        """Entity factory: client.Login().list() / client.Login().load({"id": ...})."""
         from entity.login_entity import LoginEntity
         return LoginEntity(self, data)
 
 
     def Register(self, data=None) -> "RegisterEntity":
-        """Entity factory: client.Register().list({}) / client.Register().load({"id": ...})."""
+        """Entity factory: client.Register().list() / client.Register().load({"id": ...})."""
         from entity.register_entity import RegisterEntity
         return RegisterEntity(self, data)
 

@@ -4,6 +4,8 @@
 
 The Lua SDK for the HostedRest API — an entity-oriented client using Lua conventions.
 
+It exposes the API as capitalised, semantic **Entities** — e.g. `client:AgentHealth()` — each with the same small set of operations (`list`, `load`, `create`, `update`, `remove`, `patch`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
+
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
 
@@ -36,9 +38,31 @@ local client = sdk.new({
 ### 3. Load an agenthealth
 
 ```lua
-local agenthealth, err = client:AgentHealth():load({ id = "example_id" })
+local agenthealth, err = client:AgentHealth():load()
 if err then error(err) end
 print(agenthealth)
+```
+
+
+## Error handling
+
+Entity operations return `(value, err)`. Check `err` before using
+the value:
+
+```lua
+local agenthealth, err = client:AgentHealth():load()
+if err then error(err) end
+```
+
+`direct` follows the same `(value, err)` convention:
+
+```lua
+local result, err = client:direct({
+  path = "/api/resource/{id}",
+  method = "GET",
+  params = { id = "example_id" },
+})
+if err then error(err) end
 ```
 
 
@@ -84,8 +108,8 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:AgentHealth():load({ id = "test01" })
--- result is the loaded data; err is set on failure
+local result, err = client:AgentHealth():load()
+-- result is the returned data; err is set on failure
 ```
 
 ### Use a custom fetch function
@@ -218,7 +242,7 @@ data **directly** — there is no wrapper:
 
 Check `err` first (it is non-`nil` on failure), then use `value`:
 
-    local agent_health, err = client:AgentHealth():load({ id = "example_id" })
+    local agent_health, err = client:AgentHealth():load()
     if err then error(err) end
     -- agent_health is the loaded record
 
@@ -517,12 +541,12 @@ Create an instance: `local agent_health = client:AgentHealth(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
+| `data` | `table` |  |
 
 #### Example: Load
 
 ```lua
-local agent_health, err = client:AgentHealth():load({ id = "agent_health_id" })
+local agent_health, err = client:AgentHealth():load()
 ```
 
 
@@ -541,21 +565,21 @@ Create an instance: `local agent_sandbox = client:AgentSandbox(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `email` | ``$STRING`` |  |
-| `password` | ``$STRING`` |  |
+| `email` | `string` |  |
+| `password` | `string` |  |
 
 #### Example: Load
 
 ```lua
-local agent_sandbox, err = client:AgentSandbox():load({ id = "agent_sandbox_id" })
+local agent_sandbox, err = client:AgentSandbox():load()
 ```
 
 #### Example: Create
 
 ```lua
 local agent_sandbox, err = client:AgentSandbox():create({
-  email = nil, -- `$STRING`
-  password = nil, -- `$STRING`
+  email = nil, -- string
+  password = nil, -- string
 })
 ```
 
@@ -574,7 +598,7 @@ Create an instance: `local agent_user_detail = client:AgentUserDetail(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
+| `data` | `table` |  |
 
 #### Example: Load
 
@@ -597,16 +621,16 @@ Create an instance: `local agent_user_list = client:AgentUserList(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | ``$STRING`` |  |
-| `email` | ``$STRING`` |  |
-| `full_name` | ``$STRING`` |  |
-| `id` | ``$STRING`` |  |
-| `locale` | ``$STRING`` |  |
-| `preference` | ``$OBJECT`` |  |
-| `profile` | ``$OBJECT`` |  |
-| `status` | ``$STRING`` |  |
-| `timezone` | ``$STRING`` |  |
-| `updated_at` | ``$STRING`` |  |
+| `created_at` | `string` |  |
+| `email` | `string` |  |
+| `full_name` | `string` |  |
+| `id` | `string` |  |
+| `locale` | `string` |  |
+| `preference` | `table` |  |
+| `profile` | `table` |  |
+| `status` | `string` |  |
+| `timezone` | `string` |  |
+| `updated_at` | `string` |  |
 
 #### Example: List
 
@@ -633,13 +657,13 @@ Create an instance: `local app_user = client:AppUser(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | ``$STRING`` |  |
-| `data` | ``$OBJECT`` |  |
-| `email` | ``$STRING`` |  |
-| `id` | ``$STRING`` |  |
-| `last_login_at` | ``$STRING`` |  |
-| `metadata` | ``$OBJECT`` |  |
-| `status` | ``$STRING`` |  |
+| `created_at` | `string` |  |
+| `data` | `table` |  |
+| `email` | `string` |  |
+| `id` | `string` |  |
+| `last_login_at` | `string` |  |
+| `metadata` | `table` |  |
+| `status` | `string` |  |
 
 #### Example: Load
 
@@ -657,8 +681,8 @@ local app_users, err = client:AppUser():list()
 
 ```lua
 local app_user, err = client:AppUser():create({
-  data = nil, -- `$OBJECT`
-  email = nil, -- `$STRING`
+  data = nil, -- table
+  email = nil, -- string
 })
 ```
 
@@ -677,17 +701,17 @@ Create an instance: `local app_user_login = client:AppUserLogin(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `email` | ``$STRING`` |  |
-| `metadata` | ``$OBJECT`` |  |
-| `project_id` | ``$STRING`` |  |
+| `data` | `table` |  |
+| `email` | `string` |  |
+| `metadata` | `table` |  |
+| `project_id` | `string` |  |
 
 #### Example: Create
 
 ```lua
 local app_user_login, err = client:AppUserLogin():create({
-  data = nil, -- `$OBJECT`
-  email = nil, -- `$STRING`
+  data = nil, -- table
+  email = nil, -- string
 })
 ```
 
@@ -706,12 +730,12 @@ Create an instance: `local app_user_session = client:AppUserSession(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
+| `data` | `table` |  |
 
 #### Example: Load
 
 ```lua
-local app_user_session, err = client:AppUserSession():load({ id = "app_user_session_id" })
+local app_user_session, err = client:AppUserSession():load()
 ```
 
 
@@ -729,12 +753,12 @@ Create an instance: `local app_user_total = client:AppUserTotal(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `total` | ``$INTEGER`` |  |
+| `total` | `number` |  |
 
 #### Example: Load
 
 ```lua
-local app_user_total, err = client:AppUserTotal():load({ id = "app_user_total_id" })
+local app_user_total, err = client:AppUserTotal():load()
 ```
 
 
@@ -752,15 +776,15 @@ Create an instance: `local app_user_verify = client:AppUserVerify(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `token` | ``$STRING`` |  |
+| `data` | `table` |  |
+| `token` | `string` |  |
 
 #### Example: Create
 
 ```lua
 local app_user_verify, err = client:AppUserVerify():create({
-  data = nil, -- `$OBJECT`
-  token = nil, -- `$STRING`
+  data = nil, -- table
+  token = nil, -- string
 })
 ```
 
@@ -801,16 +825,16 @@ Create an instance: `local collection = client:Collection(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | ``$STRING`` |  |
-| `data` | ``$OBJECT`` |  |
-| `id` | ``$STRING`` |  |
-| `name` | ``$STRING`` |  |
-| `project_id` | ``$STRING`` |  |
-| `schema` | ``$OBJECT`` |  |
-| `slug` | ``$STRING`` |  |
-| `updated_at` | ``$STRING`` |  |
-| `user_id` | ``$STRING`` |  |
-| `visibility` | ``$STRING`` |  |
+| `created_at` | `string` |  |
+| `data` | `table` |  |
+| `id` | `string` |  |
+| `name` | `string` |  |
+| `project_id` | `string` |  |
+| `schema` | `table` |  |
+| `slug` | `string` |  |
+| `updated_at` | `string` |  |
+| `user_id` | `string` |  |
+| `visibility` | `string` |  |
 
 #### Example: Load
 
@@ -828,8 +852,8 @@ local collections, err = client:Collection():list()
 
 ```lua
 local collection, err = client:Collection():create({
-  data = nil, -- `$OBJECT`
-  name = nil, -- `$STRING`
+  data = nil, -- table
+  name = nil, -- string
 })
 ```
 
@@ -850,7 +874,7 @@ Create an instance: `local collection_record = client:CollectionRecord(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
+| `data` | `table` |  |
 
 #### Example: Load
 
@@ -862,7 +886,7 @@ local collection_record, err = client:CollectionRecord():load({ id = "collection
 
 ```lua
 local collection_record, err = client:CollectionRecord():create({
-  data = nil, -- `$OBJECT`
+  data = nil, -- table
 })
 ```
 
@@ -881,15 +905,15 @@ Create an instance: `local collection_record_list = client:CollectionRecordList(
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `app_user_id` | ``$STRING`` |  |
-| `collection_id` | ``$STRING`` |  |
-| `created_at` | ``$STRING`` |  |
-| `created_by` | ``$STRING`` |  |
-| `data` | ``$OBJECT`` |  |
-| `deleted_at` | ``$STRING`` |  |
-| `id` | ``$STRING`` |  |
-| `project_id` | ``$STRING`` |  |
-| `updated_at` | ``$STRING`` |  |
+| `app_user_id` | `string` |  |
+| `collection_id` | `string` |  |
+| `created_at` | `string` |  |
+| `created_by` | `string` |  |
+| `data` | `table` |  |
+| `deleted_at` | `string` |  |
+| `id` | `string` |  |
+| `project_id` | `string` |  |
+| `updated_at` | `string` |  |
 
 #### Example: List
 
@@ -951,9 +975,9 @@ Create an instance: `local legacy_mutation = client:LegacyMutation(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | ``$STRING`` |  |
-| `id` | ``$STRING`` |  |
-| `updated_at` | ``$STRING`` |  |
+| `created_at` | `string` |  |
+| `id` | `string` |  |
+| `updated_at` | `string` |  |
 
 #### Example: Create
 
@@ -977,8 +1001,8 @@ Create an instance: `local legacy_unknown = client:LegacyUnknown(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `support` | ``$OBJECT`` |  |
+| `data` | `table` |  |
+| `support` | `table` |  |
 
 #### Example: Load
 
@@ -1001,11 +1025,11 @@ Create an instance: `local legacy_unknown_list = client:LegacyUnknownList(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `color` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `name` | ``$STRING`` |  |
-| `pantone_value` | ``$STRING`` |  |
-| `year` | ``$INTEGER`` |  |
+| `color` | `string` |  |
+| `id` | `number` |  |
+| `name` | `string` |  |
+| `pantone_value` | `string` |  |
+| `year` | `number` |  |
 
 #### Example: List
 
@@ -1028,8 +1052,8 @@ Create an instance: `local legacy_user = client:LegacyUser(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | ``$OBJECT`` |  |
-| `support` | ``$OBJECT`` |  |
+| `data` | `table` |  |
+| `support` | `table` |  |
 
 #### Example: Load
 
@@ -1052,11 +1076,11 @@ Create an instance: `local legacy_user_list = client:LegacyUserList(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `avatar` | ``$STRING`` |  |
-| `email` | ``$STRING`` |  |
-| `first_name` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `last_name` | ``$STRING`` |  |
+| `avatar` | `string` |  |
+| `email` | `string` |  |
+| `first_name` | `string` |  |
+| `id` | `number` |  |
+| `last_name` | `string` |  |
 
 #### Example: List
 
@@ -1079,17 +1103,17 @@ Create an instance: `local login = client:Login(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `email` | ``$STRING`` |  |
-| `password` | ``$STRING`` |  |
-| `token` | ``$STRING`` |  |
+| `email` | `string` |  |
+| `password` | `string` |  |
+| `token` | `string` |  |
 
 #### Example: Create
 
 ```lua
 local login, err = client:Login():create({
-  email = nil, -- `$STRING`
-  password = nil, -- `$STRING`
-  token = nil, -- `$STRING`
+  email = nil, -- string
+  password = nil, -- string
+  token = nil, -- string
 })
 ```
 
@@ -1108,28 +1132,32 @@ Create an instance: `local register = client:Register(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `email` | ``$STRING`` |  |
-| `id` | ``$INTEGER`` |  |
-| `password` | ``$STRING`` |  |
-| `token` | ``$STRING`` |  |
+| `email` | `string` |  |
+| `id` | `number` |  |
+| `password` | `string` |  |
+| `token` | `string` |  |
 
 #### Example: Create
 
 ```lua
 local register, err = client:Register():create({
-  email = nil, -- `$STRING`
-  password = nil, -- `$STRING`
-  token = nil, -- `$STRING`
+  email = nil, -- string
+  password = nil, -- string
+  token = nil, -- string
 })
 ```
 
 
-## Explanation
+## Advanced
+
+> The sections above cover everyday use. The material below explains the
+> SDK's internals — useful when extending it with custom features, but not
+> needed for normal use.
 
 ### The operation pipeline
 
-Every entity operation (load, list, create, update, remove) follows a
-six-stage pipeline. Each stage fires a feature hook before executing:
+Every entity operation follows a six-stage pipeline. Each stage fires a
+feature hook before executing:
 
 ```
 PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
@@ -1146,8 +1174,9 @@ PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
 - **PreDone**: Final stage before returning to the caller. Entity
   state (match, data) is updated here.
 
-If any stage returns an error, the pipeline short-circuits and the
-error is returned to the caller as a second return value.
+If any stage errors, the pipeline short-circuits and the error surfaces
+to the caller — see [Error handling](#error-handling) for how that looks
+in this language.
 
 ### Features and hooks
 
@@ -1196,9 +1225,9 @@ stores the returned data and match criteria internally.
 
 ```lua
 local agenthealth = client:AgentHealth()
-agenthealth:load({ id = "example_id" })
+agenthealth:load()
 
--- agenthealth:data_get() now returns the loaded agenthealth data
+-- agenthealth:data_get() now returns the agenthealth data from the last load
 -- agenthealth:match_get() returns the last match criteria
 ```
 
