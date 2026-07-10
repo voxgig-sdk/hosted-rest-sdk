@@ -39,14 +39,15 @@ client = HostedRestSDK({
 })
 ```
 
-### 3. Load an agenthealth
+### 3. Load an appusertotal
 
+AppUserTotal is nested under project, so provide the `project_id`.
 `load()` returns the bare record (a `dict`) and raises on error.
 
 ```python
 try:
-    agenthealth = client.AgentHealth().load()
-    print(agenthealth)
+    appusertotal = client.AppUserTotal().load({"project_id": "example_project_id"})
+    print(appusertotal)
 except Exception as err:
     print(f"load failed: {err}")
 ```
@@ -593,8 +594,8 @@ agent_sandbox = client.AgentSandbox().load()
 
 ```python
 agent_sandbox = client.AgentSandbox().create({
-    "email": "example",  # str
-    "password": "example",  # str
+    "email": "example_email",  # str
+    "password": "example_password",  # str
 })
 ```
 
@@ -697,7 +698,8 @@ app_users = client.AppUser().list()
 ```python
 app_user = client.AppUser().create({
     "data": {},  # dict
-    "email": "example",  # str
+    "email": "example_email",  # str
+    "id": "example_id",  # str
 })
 ```
 
@@ -726,7 +728,7 @@ Create an instance: `app_user_login = client.AppUserLogin()`
 ```python
 app_user_login = client.AppUserLogin().create({
     "data": {},  # dict
-    "email": "example",  # str
+    "email": "example_email",  # str
 })
 ```
 
@@ -773,7 +775,7 @@ Create an instance: `app_user_total = client.AppUserTotal()`
 #### Example: Load
 
 ```python
-app_user_total = client.AppUserTotal().load()
+app_user_total = client.AppUserTotal().load({"project_id": "project_id"})
 ```
 
 
@@ -799,7 +801,7 @@ Create an instance: `app_user_verify = client.AppUserVerify()`
 ```python
 app_user_verify = client.AppUserVerify().create({
     "data": {},  # dict
-    "token": "example",  # str
+    "token": "example_token",  # str
 })
 ```
 
@@ -868,7 +870,8 @@ collections = client.Collection().list()
 ```python
 collection = client.Collection().create({
     "data": {},  # dict
-    "name": "example",  # str
+    "id": "example_id",  # str
+    "name": "example_name",  # str
 })
 ```
 
@@ -894,14 +897,14 @@ Create an instance: `collection_record = client.CollectionRecord()`
 #### Example: Load
 
 ```python
-collection_record = client.CollectionRecord().load({"id": "collection_record_id"})
+collection_record = client.CollectionRecord().load({"id": "collection_record_id", "collection_id": "collection_id"})
 ```
 
 #### Example: Create
 
 ```python
 collection_record = client.CollectionRecord().create({
-    "data": {},  # dict
+    "slug": "example_slug",  # str
 })
 ```
 
@@ -960,6 +963,7 @@ custom = client.Custom().load({"id": "custom_id"})
 
 ```python
 custom = client.Custom().create({
+    "id": "example_id",  # str
 })
 ```
 
@@ -1022,7 +1026,7 @@ Create an instance: `legacy_unknown = client.LegacyUnknown()`
 #### Example: Load
 
 ```python
-legacy_unknown = client.LegacyUnknown().load({"id": "legacy_unknown_id"})
+legacy_unknown = client.LegacyUnknown().load({"id": 1})
 ```
 
 
@@ -1073,7 +1077,7 @@ Create an instance: `legacy_user = client.LegacyUser()`
 #### Example: Load
 
 ```python
-legacy_user = client.LegacyUser().load({"id": "legacy_user_id"})
+legacy_user = client.LegacyUser().load({"id": 1})
 ```
 
 
@@ -1126,9 +1130,9 @@ Create an instance: `login = client.Login()`
 
 ```python
 login = client.Login().create({
-    "email": "example",  # str
-    "password": "example",  # str
-    "token": "example",  # str
+    "email": "example_email",  # str
+    "password": "example_password",  # str
+    "token": "example_token",  # str
 })
 ```
 
@@ -1156,9 +1160,9 @@ Create an instance: `register = client.Register()`
 
 ```python
 register = client.Register().create({
-    "email": "example",  # str
-    "password": "example",  # str
-    "token": "example",  # str
+    "email": "example_email",  # str
+    "password": "example_password",  # str
+    "token": "example_token",  # str
 })
 ```
 

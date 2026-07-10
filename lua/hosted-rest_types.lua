@@ -17,7 +17,7 @@
 ---@field password string
 
 ---@class AgentSandboxLoadMatch
----@field scenario string
+---@field scenario? string
 
 ---@class AgentSandboxCreateData
 ---@field email string
@@ -66,18 +66,24 @@
 ---@field id string
 
 ---@class AppUserListMatch
----@field project_id string
+---@field project_id? string
 
 ---@class AppUserCreateData
+---@field created_at? string
+---@field data table
+---@field email string
 ---@field id string
+---@field last_login_at? string
+---@field metadata? table
+---@field status? string
 
 ---@class AppUserUpdateData
 ---@field id string
 
 ---@class AppUserRemoveMatch
----@field collection_id string
----@field record_id string
----@field id string
+---@field collection_id? string
+---@field record_id? string
+---@field id? string
 
 ---@class AppUserLogin
 ---@field data table
@@ -158,9 +164,9 @@
 ---@field id string
 
 ---@class CollectionRemoveMatch
----@field collection_id string
----@field record_id string
----@field id string
+---@field collection_id? string
+---@field record_id? string
+---@field id? string
 
 ---@class CollectionRecord
 ---@field data table

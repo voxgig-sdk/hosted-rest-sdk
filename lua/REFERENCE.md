@@ -434,6 +434,7 @@ Create a new entity with the given data.
 local result, err = client:AppUser():create({
   data = --[[ table ]],
   email = --[[ string ]],
+  id = --[[ string ]],
 })
 ```
 
@@ -631,7 +632,7 @@ local app_user_total = client:AppUserTotal(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:AppUserTotal():load()
+local result, err = client:AppUserTotal():load({ project_id = "project_id" })
 ```
 
 ### Common Methods
@@ -812,6 +813,7 @@ Create a new entity with the given data.
 ```lua
 local result, err = client:Collection():create({
   data = --[[ table ]],
+  id = --[[ string ]],
   name = --[[ string ]],
 })
 ```
@@ -901,7 +903,7 @@ Create a new entity with the given data.
 
 ```lua
 local result, err = client:CollectionRecord():create({
-  data = --[[ table ]],
+  slug = --[[ string ]],
 })
 ```
 
@@ -910,7 +912,7 @@ local result, err = client:CollectionRecord():create({
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:CollectionRecord():load({ id = "collection_record_id" })
+local result, err = client:CollectionRecord():load({ id = "collection_record_id", collection_id = "collection_id" })
 ```
 
 #### `update(reqdata, ctrl) -> any, err`
@@ -920,6 +922,7 @@ Update an existing entity. The data must include the entity `id`.
 ```lua
 local result, err = client:CollectionRecord():update({
   id = "collection_record_id",
+  collection_id = "collection_id",
   -- Fields to update
 })
 ```
@@ -1028,6 +1031,7 @@ Create a new entity with the given data.
 
 ```lua
 local result, err = client:Custom():create({
+  id = --[[ string ]],
 })
 ```
 
@@ -1101,7 +1105,7 @@ local legacy = client:Legacy(nil)
 Remove the entity matching the given criteria.
 
 ```lua
-local result, err = client:Legacy():remove()
+local result, err = client:Legacy():remove({ id = 1 })
 ```
 
 ### Common Methods
@@ -1165,6 +1169,7 @@ Update an existing entity. The data must include the entity `id`.
 
 ```lua
 local result, err = client:LegacyMutation():update({
+  id = 1,
   -- Fields to update
 })
 ```
@@ -1219,7 +1224,7 @@ local legacy_unknown = client:LegacyUnknown(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:LegacyUnknown():load({ id = "legacy_unknown_id" })
+local result, err = client:LegacyUnknown():load({ id = 1 })
 ```
 
 ### Common Methods
@@ -1328,7 +1333,7 @@ local legacy_user = client:LegacyUser(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:LegacyUser():load({ id = "legacy_user_id" })
+local result, err = client:LegacyUser():load({ id = 1 })
 ```
 
 ### Common Methods

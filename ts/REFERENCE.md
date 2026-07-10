@@ -430,8 +430,8 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.AgentSandbox().create({
-  email: /* string */,
-  password: /* string */,
+  email: 'example_email',
+  password: 'example_password',
 })
 ```
 
@@ -618,8 +618,9 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.AppUser().create({
-  data: /* Record<string, any> */,
-  email: /* string */,
+  data: {},
+  email: 'example_email',
+  id: 'example_id',
 })
 ```
 
@@ -709,8 +710,8 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.AppUserLogin().create({
-  data: /* Record<string, any> */,
-  email: /* string */,
+  data: {},
+  email: 'example_email',
 })
 ```
 
@@ -811,7 +812,7 @@ const app_user_total = client.AppUserTotal()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.AppUserTotal().load()
+const result = await client.AppUserTotal().load({ project_id: 'project_id' })
 ```
 
 ### Common Methods
@@ -863,8 +864,8 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.AppUserVerify().create({
-  data: /* Record<string, any> */,
-  token: /* string */,
+  data: {},
+  token: 'example_token',
 })
 ```
 
@@ -985,8 +986,9 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.Collection().create({
-  data: /* Record<string, any> */,
-  name: /* string */,
+  data: {},
+  id: 'example_id',
+  name: 'example_name',
 })
 ```
 
@@ -1073,7 +1075,7 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.CollectionRecord().create({
-  data: /* Record<string, any> */,
+  slug: 'example_slug',
 })
 ```
 
@@ -1082,7 +1084,7 @@ const result = await client.CollectionRecord().create({
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.CollectionRecord().load({ id: 'collection_record_id' })
+const result = await client.CollectionRecord().load({ id: 'collection_record_id', collection_id: 'collection_id' })
 ```
 
 #### `update(data: object, ctrl?: object)`
@@ -1092,6 +1094,7 @@ Update an existing entity. The data must include the entity `id`.
 ```ts
 const result = await client.CollectionRecord().update({
   id: 'collection_record_id',
+  collection_id: 'collection_id',
   // Fields to update
 })
 ```
@@ -1196,6 +1199,7 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.Custom().create({
+  id: 'example_id',
 })
 ```
 
@@ -1267,7 +1271,7 @@ const legacy = client.Legacy()
 Remove the entity matching the given criteria.
 
 ```ts
-const result = await client.Legacy().remove()
+const result = await client.Legacy().remove({ id: 1 })
 ```
 
 ### Common Methods
@@ -1329,6 +1333,7 @@ Update an existing entity. The data must include the entity `id`.
 
 ```ts
 const result = await client.LegacyMutation().update({
+  id: 1,
   // Fields to update
 })
 ```
@@ -1593,9 +1598,9 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.Login().create({
-  email: /* string */,
-  password: /* string */,
-  token: /* string */,
+  email: 'example_email',
+  password: 'example_password',
+  token: 'example_token',
 })
 ```
 
@@ -1650,9 +1655,9 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.Register().create({
-  email: /* string */,
-  password: /* string */,
-  token: /* string */,
+  email: 'example_email',
+  password: 'example_password',
+  token: 'example_token',
 })
 ```
 

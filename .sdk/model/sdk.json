@@ -6,9 +6,6 @@
     },
     "kit": {
       "config": {
-        "auth": {
-          "prefix": "Bearer"
-        },
         "docs_order": [
           "ts",
           "py",
@@ -3938,6 +3935,14 @@
           "name": "MIT",
           "url": "https://opensource.org/licenses/MIT"
         },
+        "meta_source": "https://www.freepublicapis.com",
+        "security": {
+          "in": "header",
+          "name": "x-api-key",
+          "prefix": "",
+          "scheme": "ApiKeyAuth",
+          "type": "apiKey"
+        },
         "servers": [
           {
             "description": "Production server",
@@ -3948,8 +3953,10 @@
             "url": "http://localhost:8000"
           }
         ],
+        "summary": "OpenAPI specification for the ReqRes API.",
         "title": "ReqRes API",
-        "version": "2.1.0"
+        "version": "2.1.0",
+        "website": "https://reqres.in"
       },
       "option": {},
       "target": {
@@ -4002,6 +4009,9 @@
           },
           "name": "go-cli",
           "phase": {
+            "agentguide": {
+              "active": false
+            },
             "entity": {
               "active": false
             },
@@ -4052,6 +4062,9 @@
           },
           "name": "go-mcp",
           "phase": {
+            "agentguide": {
+              "active": false
+            },
             "entity": {
               "active": false
             },

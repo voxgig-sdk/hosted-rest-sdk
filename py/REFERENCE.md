@@ -234,8 +234,8 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.AgentSandbox().create({
-    "email": "example",  # str
-    "password": "example",  # str
+    "email": "example_email",  # str
+    "password": "example_password",  # str
 })
 ```
 
@@ -428,7 +428,8 @@ Create a new entity with the given data. Returns the created entity data and rai
 ```python
 result = client.AppUser().create({
     "data": {},  # dict
-    "email": "example",  # str
+    "email": "example_email",  # str
+    "id": "example_id",  # str
 })
 ```
 
@@ -522,7 +523,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 ```python
 result = client.AppUserLogin().create({
     "data": {},  # dict
-    "email": "example",  # str
+    "email": "example_email",  # str
 })
 ```
 
@@ -625,7 +626,7 @@ app_user_total = client.AppUserTotal()
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.AppUserTotal().load()
+result = client.AppUserTotal().load({"project_id": "project_id"})
 ```
 
 ### Common Methods
@@ -679,7 +680,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 ```python
 result = client.AppUserVerify().create({
     "data": {},  # dict
-    "token": "example",  # str
+    "token": "example_token",  # str
 })
 ```
 
@@ -803,7 +804,8 @@ Create a new entity with the given data. Returns the created entity data and rai
 ```python
 result = client.Collection().create({
     "data": {},  # dict
-    "name": "example",  # str
+    "id": "example_id",  # str
+    "name": "example_name",  # str
 })
 ```
 
@@ -893,7 +895,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.CollectionRecord().create({
-    "data": {},  # dict
+    "slug": "example_slug",  # str
 })
 ```
 
@@ -902,7 +904,7 @@ result = client.CollectionRecord().create({
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.CollectionRecord().load({"id": "collection_record_id"})
+result = client.CollectionRecord().load({"id": "collection_record_id", "collection_id": "collection_id"})
 ```
 
 #### `update(reqdata, ctrl=None) -> dict`
@@ -912,6 +914,7 @@ Update an existing entity. The data must include the entity `id`. Returns the up
 ```python
 result = client.CollectionRecord().update({
     "id": "collection_record_id",
+    "collection_id": "collection_id",
     # Fields to update
 })
 ```
@@ -1020,6 +1023,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.Custom().create({
+    "id": "example_id",  # str
 })
 ```
 
@@ -1092,7 +1096,7 @@ legacy = client.Legacy()
 Remove the entity matching the given criteria. Raises on error.
 
 ```python
-result = client.Legacy().remove()
+result = client.Legacy().remove({"id": 1})
 ```
 
 ### Common Methods
@@ -1155,6 +1159,7 @@ Update an existing entity. The data must include the entity `id`. Returns the up
 
 ```python
 result = client.LegacyMutation().update({
+    "id": 1,
     # Fields to update
 })
 ```
@@ -1208,7 +1213,7 @@ legacy_unknown = client.LegacyUnknown()
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.LegacyUnknown().load({"id": "legacy_unknown_id"})
+result = client.LegacyUnknown().load({"id": 1})
 ```
 
 ### Common Methods
@@ -1317,7 +1322,7 @@ legacy_user = client.LegacyUser()
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.LegacyUser().load({"id": "legacy_user_id"})
+result = client.LegacyUser().load({"id": 1})
 ```
 
 ### Common Methods
@@ -1428,9 +1433,9 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.Login().create({
-    "email": "example",  # str
-    "password": "example",  # str
-    "token": "example",  # str
+    "email": "example_email",  # str
+    "password": "example_password",  # str
+    "token": "example_token",  # str
 })
 ```
 
@@ -1486,9 +1491,9 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.Register().create({
-    "email": "example",  # str
-    "password": "example",  # str
-    "token": "example",  # str
+    "email": "example_email",  # str
+    "password": "example_password",  # str
+    "token": "example_token",  # str
 })
 ```
 

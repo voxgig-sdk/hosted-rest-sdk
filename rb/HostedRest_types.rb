@@ -42,7 +42,7 @@ AgentSandbox = Struct.new(
 # Request payload for AgentSandbox#load.
 #
 # @!attribute [rw] scenario
-#   @return [String]
+#   @return [String, nil]
 AgentSandboxLoadMatch = Struct.new(
   :scenario,
   keyword_init: true
@@ -214,7 +214,7 @@ AppUserLoadMatch = Struct.new(
 # Request payload for AppUser#list.
 #
 # @!attribute [rw] project_id
-#   @return [String]
+#   @return [String, nil]
 AppUserListMatch = Struct.new(
   :project_id,
   keyword_init: true
@@ -222,10 +222,34 @@ AppUserListMatch = Struct.new(
 
 # Request payload for AppUser#create.
 #
+# @!attribute [rw] created_at
+#   @return [String, nil]
+#
+# @!attribute [rw] data
+#   @return [Hash]
+#
+# @!attribute [rw] email
+#   @return [String]
+#
 # @!attribute [rw] id
 #   @return [String]
+#
+# @!attribute [rw] last_login_at
+#   @return [String, nil]
+#
+# @!attribute [rw] metadata
+#   @return [Hash, nil]
+#
+# @!attribute [rw] status
+#   @return [String, nil]
 AppUserCreateData = Struct.new(
+  :created_at,
+  :data,
+  :email,
   :id,
+  :last_login_at,
+  :metadata,
+  :status,
   keyword_init: true
 )
 
@@ -241,13 +265,13 @@ AppUserUpdateData = Struct.new(
 # Request payload for AppUser#remove.
 #
 # @!attribute [rw] collection_id
-#   @return [String]
+#   @return [String, nil]
 #
 # @!attribute [rw] record_id
-#   @return [String]
+#   @return [String, nil]
 #
 # @!attribute [rw] id
-#   @return [String]
+#   @return [String, nil]
 AppUserRemoveMatch = Struct.new(
   :collection_id,
   :record_id,
@@ -523,13 +547,13 @@ CollectionUpdateData = Struct.new(
 # Request payload for Collection#remove.
 #
 # @!attribute [rw] collection_id
-#   @return [String]
+#   @return [String, nil]
 #
 # @!attribute [rw] record_id
-#   @return [String]
+#   @return [String, nil]
 #
 # @!attribute [rw] id
-#   @return [String]
+#   @return [String, nil]
 CollectionRemoveMatch = Struct.new(
   :collection_id,
   :record_id,

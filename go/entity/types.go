@@ -26,7 +26,7 @@ type AgentSandbox struct {
 
 // AgentSandboxLoadMatch is the typed request payload for AgentSandbox.LoadTyped.
 type AgentSandboxLoadMatch struct {
-	Scenario string `json:"scenario"`
+	Scenario *string `json:"scenario,omitempty"`
 }
 
 // AgentSandboxCreateData is the typed request payload for AgentSandbox.CreateTyped.
@@ -91,12 +91,18 @@ type AppUserLoadMatch struct {
 
 // AppUserListMatch is the typed request payload for AppUser.ListTyped.
 type AppUserListMatch struct {
-	ProjectId string `json:"project_id"`
+	ProjectId *string `json:"project_id,omitempty"`
 }
 
 // AppUserCreateData is the typed request payload for AppUser.CreateTyped.
 type AppUserCreateData struct {
+	CreatedAt *string `json:"created_at,omitempty"`
+	Data map[string]any `json:"data"`
+	Email string `json:"email"`
 	Id string `json:"id"`
+	LastLoginAt *string `json:"last_login_at,omitempty"`
+	Metadata *map[string]any `json:"metadata,omitempty"`
+	Status *string `json:"status,omitempty"`
 }
 
 // AppUserUpdateData is the typed request payload for AppUser.UpdateTyped.
@@ -106,9 +112,9 @@ type AppUserUpdateData struct {
 
 // AppUserRemoveMatch is the typed request payload for AppUser.RemoveTyped.
 type AppUserRemoveMatch struct {
-	CollectionId string `json:"collection_id"`
-	RecordId string `json:"record_id"`
-	Id string `json:"id"`
+	CollectionId *string `json:"collection_id,omitempty"`
+	RecordId *string `json:"record_id,omitempty"`
+	Id *string `json:"id,omitempty"`
 }
 
 // AppUserLogin is the typed data model for the app_user_login entity.
@@ -221,9 +227,9 @@ type CollectionUpdateData struct {
 
 // CollectionRemoveMatch is the typed request payload for Collection.RemoveTyped.
 type CollectionRemoveMatch struct {
-	CollectionId string `json:"collection_id"`
-	RecordId string `json:"record_id"`
-	Id string `json:"id"`
+	CollectionId *string `json:"collection_id,omitempty"`
+	RecordId *string `json:"record_id,omitempty"`
+	Id *string `json:"id,omitempty"`
 }
 
 // CollectionRecord is the typed data model for the collection_record entity.

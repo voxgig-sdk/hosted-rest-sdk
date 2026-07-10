@@ -241,8 +241,8 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.AgentSandbox.create({
-  "email" => "example", # String
-  "password" => "example", # String
+  "email" => "example_email", # String
+  "password" => "example_password", # String
 })
 ```
 
@@ -436,7 +436,8 @@ Create a new entity with the given data. Raises on error.
 ```ruby
 result = client.AppUser.create({
   "data" => {}, # Hash
-  "email" => "example", # String
+  "email" => "example_email", # String
+  "id" => "example_id", # String
 })
 ```
 
@@ -529,7 +530,7 @@ Create a new entity with the given data. Raises on error.
 ```ruby
 result = client.AppUserLogin.create({
   "data" => {}, # Hash
-  "email" => "example", # String
+  "email" => "example_email", # String
 })
 ```
 
@@ -634,7 +635,7 @@ app_user_total = client.AppUserTotal
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.AppUserTotal.load()
+result = client.AppUserTotal.load({ "project_id" => "project_id" })
 ```
 
 ### Common Methods
@@ -689,7 +690,7 @@ Create a new entity with the given data. Raises on error.
 ```ruby
 result = client.AppUserVerify.create({
   "data" => {}, # Hash
-  "token" => "example", # String
+  "token" => "example_token", # String
 })
 ```
 
@@ -815,7 +816,8 @@ Create a new entity with the given data. Raises on error.
 ```ruby
 result = client.Collection.create({
   "data" => {}, # Hash
-  "name" => "example", # String
+  "id" => "example_id", # String
+  "name" => "example_name", # String
 })
 ```
 
@@ -904,7 +906,7 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.CollectionRecord.create({
-  "data" => {}, # Hash
+  "slug" => "example_slug", # String
 })
 ```
 
@@ -913,7 +915,7 @@ result = client.CollectionRecord.create({
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.CollectionRecord.load({ "id" => "collection_record_id" })
+result = client.CollectionRecord.load({ "id" => "collection_record_id", "collection_id" => "collection_id" })
 ```
 
 #### `update(reqdata, ctrl = nil) -> result`
@@ -923,6 +925,7 @@ Update an existing entity. The data must include the entity `id`. Raises on erro
 ```ruby
 result = client.CollectionRecord.update({
   "id" => "collection_record_id",
+  "collection_id" => "collection_id",
   # Fields to update
 })
 ```
@@ -1031,6 +1034,7 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.Custom.create({
+  "id" => "example_id", # String
 })
 ```
 
@@ -1104,7 +1108,7 @@ legacy = client.Legacy
 Remove the entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.Legacy.remove()
+result = client.Legacy.remove({ "id" => 1 })
 ```
 
 ### Common Methods
@@ -1168,6 +1172,7 @@ Update an existing entity. The data must include the entity `id`. Raises on erro
 
 ```ruby
 result = client.LegacyMutation.update({
+  "id" => 1,
   # Fields to update
 })
 ```
@@ -1222,7 +1227,7 @@ legacy_unknown = client.LegacyUnknown
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.LegacyUnknown.load({ "id" => "legacy_unknown_id" })
+result = client.LegacyUnknown.load({ "id" => 1 })
 ```
 
 ### Common Methods
@@ -1331,7 +1336,7 @@ legacy_user = client.LegacyUser
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.LegacyUser.load({ "id" => "legacy_user_id" })
+result = client.LegacyUser.load({ "id" => 1 })
 ```
 
 ### Common Methods
@@ -1442,9 +1447,9 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.Login.create({
-  "email" => "example", # String
-  "password" => "example", # String
-  "token" => "example", # String
+  "email" => "example_email", # String
+  "password" => "example_password", # String
+  "token" => "example_token", # String
 })
 ```
 
@@ -1501,9 +1506,9 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.Register.create({
-  "email" => "example", # String
-  "password" => "example", # String
-  "token" => "example", # String
+  "email" => "example_email", # String
+  "password" => "example_password", # String
+  "token" => "example_token", # String
 })
 ```
 

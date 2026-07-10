@@ -29,7 +29,7 @@ class AgentSandbox(TypedDict):
     password: str
 
 
-class AgentSandboxLoadMatch(TypedDict):
+class AgentSandboxLoadMatch(TypedDict, total=False):
     scenario: str
 
 
@@ -89,19 +89,28 @@ class AppUserLoadMatch(TypedDict):
     id: str
 
 
-class AppUserListMatch(TypedDict):
+class AppUserListMatch(TypedDict, total=False):
     project_id: str
 
 
-class AppUserCreateData(TypedDict):
+class AppUserCreateDataRequired(TypedDict):
+    data: dict
+    email: str
     id: str
+
+
+class AppUserCreateData(AppUserCreateDataRequired, total=False):
+    created_at: str
+    last_login_at: str
+    metadata: dict
+    status: str
 
 
 class AppUserUpdateData(TypedDict):
     id: str
 
 
-class AppUserRemoveMatch(TypedDict):
+class AppUserRemoveMatch(TypedDict, total=False):
     collection_id: str
     record_id: str
     id: str
@@ -214,7 +223,7 @@ class CollectionUpdateData(TypedDict):
     id: str
 
 
-class CollectionRemoveMatch(TypedDict):
+class CollectionRemoveMatch(TypedDict, total=False):
     collection_id: str
     record_id: str
     id: str

@@ -436,6 +436,7 @@ Create a new entity with the given data. Throws on error.
 $result = $client->AppUser()->create([
   "data" => null, // array
   "email" => null, // string
+  "id" => null, // string
 ]);
 ```
 
@@ -633,7 +634,7 @@ $app_user_total = $client->AppUserTotal();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->AppUserTotal()->load();
+$result = $client->AppUserTotal()->load(["project_id" => "project_id"]);
 ```
 
 ### Common Methods
@@ -814,6 +815,7 @@ Create a new entity with the given data. Throws on error.
 ```php
 $result = $client->Collection()->create([
   "data" => null, // array
+  "id" => null, // string
   "name" => null, // string
 ]);
 ```
@@ -903,7 +905,7 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->CollectionRecord()->create([
-  "data" => null, // array
+  "slug" => null, // string
 ]);
 ```
 
@@ -912,7 +914,7 @@ $result = $client->CollectionRecord()->create([
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->CollectionRecord()->load(["id" => "collection_record_id"]);
+$result = $client->CollectionRecord()->load(["id" => "collection_record_id", "collection_id" => "collection_id"]);
 ```
 
 #### `update(array $reqdata, ?array $ctrl = null): mixed`
@@ -922,6 +924,7 @@ Update an existing entity. The data must include the entity `id`. Throws on erro
 ```php
 $result = $client->CollectionRecord()->update([
   "id" => "collection_record_id",
+  "collection_id" => "collection_id",
   // Fields to update
 ]);
 ```
@@ -1030,6 +1033,7 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->Custom()->create([
+  "id" => null, // string
 ]);
 ```
 
@@ -1103,7 +1107,7 @@ $legacy = $client->Legacy();
 Remove the entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->Legacy()->remove();
+$result = $client->Legacy()->remove(["id" => 1]);
 ```
 
 ### Common Methods
@@ -1167,6 +1171,7 @@ Update an existing entity. The data must include the entity `id`. Throws on erro
 
 ```php
 $result = $client->LegacyMutation()->update([
+  "id" => 1,
   // Fields to update
 ]);
 ```
@@ -1221,7 +1226,7 @@ $legacy_unknown = $client->LegacyUnknown();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->LegacyUnknown()->load(["id" => "legacy_unknown_id"]);
+$result = $client->LegacyUnknown()->load(["id" => 1]);
 ```
 
 ### Common Methods
@@ -1330,7 +1335,7 @@ $legacy_user = $client->LegacyUser();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->LegacyUser()->load(["id" => "legacy_user_id"]);
+$result = $client->LegacyUser()->load(["id" => 1]);
 ```
 
 ### Common Methods

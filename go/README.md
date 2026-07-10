@@ -53,12 +53,12 @@ func main() {
         "apikey": os.Getenv("HOSTED_REST_APIKEY"),
     })
 
-    // Load a single agenthealth — the value is the loaded record.
-    agenthealth, err := client.AgentHealth(nil).Load(nil, nil)
+    // Load a single agentHealth — the value is the loaded record.
+    agentHealth, err := client.AgentHealth(nil).Load(nil, nil)
     if err != nil {
         panic(err)
     }
-    fmt.Println(agenthealth)
+    fmt.Println(agentHealth)
 }
 ```
 
@@ -138,13 +138,13 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-agenthealth, err := client.AgentHealth(nil).Load(
+agentHealth, err := client.AgentHealth(nil).Load(
     nil, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(agenthealth) // the returned mock data
+fmt.Println(agentHealth) // the returned mock data
 ```
 
 ### Use a custom fetch function
@@ -276,9 +276,9 @@ Check `err` first, then use the value directly (or the typed
 `...Typed` variants, which return the entity's model struct and a typed
 slice):
 
-    agenthealth, err := client.AgentHealth(nil).Load(nil, nil)
+    agentHealth, err := client.AgentHealth(nil).Load(nil, nil)
     if err != nil { /* handle */ }
-    // agenthealth is the returned record
+    // agentHealth is the returned record
 
 Only `Direct()` returns a response envelope — a `map[string]any` with
 `"ok"`, `"status"`, `"headers"`, and `"data"` keys.
@@ -563,7 +563,7 @@ API path: `/api/register`
 
 ### AgentHealth
 
-Create an instance: `agent_health := client.AgentHealth(nil)`
+Create an instance: `agentHealth := client.AgentHealth(nil)`
 
 #### Operations
 
@@ -580,24 +580,24 @@ Create an instance: `agent_health := client.AgentHealth(nil)`
 #### Example: Load
 
 ```go
-agent_health, err := client.AgentHealth(nil).Load(nil, nil)
+agentHealth, err := client.AgentHealth(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(agent_health) // the loaded record
+fmt.Println(agentHealth) // the loaded record
 ```
 
 
 ### AgentSandbox
 
-Create an instance: `agent_sandbox := client.AgentSandbox(nil)`
+Create an instance: `agentSandbox := client.AgentSandbox(nil)`
 
 #### Operations
 
 | Method | Description |
 | --- | --- |
-| `Create(data, ctrl)` | Create a new entity with the given data. |
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
+| `Create(data, ctrl)` | Create a new entity with the given data. |
 
 #### Fields
 
@@ -609,26 +609,30 @@ Create an instance: `agent_sandbox := client.AgentSandbox(nil)`
 #### Example: Load
 
 ```go
-agent_sandbox, err := client.AgentSandbox(nil).Load(nil, nil)
+agentSandbox, err := client.AgentSandbox(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(agent_sandbox) // the loaded record
+fmt.Println(agentSandbox) // the loaded record
 ```
 
 #### Example: Create
 
 ```go
 result, err := client.AgentSandbox(nil).Create(map[string]any{
-    "email": /* string */,
-    "password": /* string */,
+    "email": "example_email",
+    "password": "example_password",
 }, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 
 ### AgentUserDetail
 
-Create an instance: `agent_user_detail := client.AgentUserDetail(nil)`
+Create an instance: `agentUserDetail := client.AgentUserDetail(nil)`
 
 #### Operations
 
@@ -645,17 +649,17 @@ Create an instance: `agent_user_detail := client.AgentUserDetail(nil)`
 #### Example: Load
 
 ```go
-agent_user_detail, err := client.AgentUserDetail(nil).Load(map[string]any{"id": "agent_user_detail_id"}, nil)
+agentUserDetail, err := client.AgentUserDetail(nil).Load(map[string]any{"id": "agent_user_detail_id"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(agent_user_detail) // the loaded record
+fmt.Println(agentUserDetail) // the loaded record
 ```
 
 
 ### AgentUserList
 
-Create an instance: `agent_user_list := client.AgentUserList(nil)`
+Create an instance: `agentUserList := client.AgentUserList(nil)`
 
 #### Operations
 
@@ -681,27 +685,27 @@ Create an instance: `agent_user_list := client.AgentUserList(nil)`
 #### Example: List
 
 ```go
-agent_user_lists, err := client.AgentUserList(nil).List(nil, nil)
+agentUserLists, err := client.AgentUserList(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(agent_user_lists) // the array of records
+fmt.Println(agentUserLists) // the array of records
 ```
 
 
 ### AppUser
 
-Create an instance: `app_user := client.AppUser(nil)`
+Create an instance: `appUser := client.AppUser(nil)`
 
 #### Operations
 
 | Method | Description |
 | --- | --- |
-| `Create(data, ctrl)` | Create a new entity with the given data. |
 | `List(match, ctrl)` | List entities matching the criteria. |
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
-| `Remove(match, ctrl)` | Remove the matching entity. |
+| `Create(data, ctrl)` | Create a new entity with the given data. |
 | `Update(data, ctrl)` | Update an existing entity. |
+| `Remove(match, ctrl)` | Remove the matching entity. |
 
 #### Fields
 
@@ -718,36 +722,41 @@ Create an instance: `app_user := client.AppUser(nil)`
 #### Example: Load
 
 ```go
-app_user, err := client.AppUser(nil).Load(map[string]any{"id": "app_user_id"}, nil)
+appUser, err := client.AppUser(nil).Load(map[string]any{"id": "app_user_id"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(app_user) // the loaded record
+fmt.Println(appUser) // the loaded record
 ```
 
 #### Example: List
 
 ```go
-app_users, err := client.AppUser(nil).List(nil, nil)
+appUsers, err := client.AppUser(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(app_users) // the array of records
+fmt.Println(appUsers) // the array of records
 ```
 
 #### Example: Create
 
 ```go
 result, err := client.AppUser(nil).Create(map[string]any{
-    "data": /* map[string]any */,
-    "email": /* string */,
+    "data": map[string]any{},
+    "email": "example_email",
+    "id": "example_id",
 }, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 
 ### AppUserLogin
 
-Create an instance: `app_user_login := client.AppUserLogin(nil)`
+Create an instance: `appUserLogin := client.AppUserLogin(nil)`
 
 #### Operations
 
@@ -768,15 +777,19 @@ Create an instance: `app_user_login := client.AppUserLogin(nil)`
 
 ```go
 result, err := client.AppUserLogin(nil).Create(map[string]any{
-    "data": /* map[string]any */,
-    "email": /* string */,
+    "data": map[string]any{},
+    "email": "example_email",
 }, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 
 ### AppUserSession
 
-Create an instance: `app_user_session := client.AppUserSession(nil)`
+Create an instance: `appUserSession := client.AppUserSession(nil)`
 
 #### Operations
 
@@ -793,17 +806,17 @@ Create an instance: `app_user_session := client.AppUserSession(nil)`
 #### Example: Load
 
 ```go
-app_user_session, err := client.AppUserSession(nil).Load(nil, nil)
+appUserSession, err := client.AppUserSession(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(app_user_session) // the loaded record
+fmt.Println(appUserSession) // the loaded record
 ```
 
 
 ### AppUserTotal
 
-Create an instance: `app_user_total := client.AppUserTotal(nil)`
+Create an instance: `appUserTotal := client.AppUserTotal(nil)`
 
 #### Operations
 
@@ -820,17 +833,17 @@ Create an instance: `app_user_total := client.AppUserTotal(nil)`
 #### Example: Load
 
 ```go
-app_user_total, err := client.AppUserTotal(nil).Load(nil, nil)
+appUserTotal, err := client.AppUserTotal(nil).Load(map[string]any{"project_id": "project_id"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(app_user_total) // the loaded record
+fmt.Println(appUserTotal) // the loaded record
 ```
 
 
 ### AppUserVerify
 
-Create an instance: `app_user_verify := client.AppUserVerify(nil)`
+Create an instance: `appUserVerify := client.AppUserVerify(nil)`
 
 #### Operations
 
@@ -849,9 +862,13 @@ Create an instance: `app_user_verify := client.AppUserVerify(nil)`
 
 ```go
 result, err := client.AppUserVerify(nil).Create(map[string]any{
-    "data": /* map[string]any */,
-    "token": /* string */,
+    "data": map[string]any{},
+    "token": "example_token",
 }, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 
@@ -870,6 +887,10 @@ Create an instance: `authentication := client.Authentication(nil)`
 ```go
 result, err := client.Authentication(nil).Create(map[string]any{
 }, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 
@@ -881,11 +902,11 @@ Create an instance: `collection := client.Collection(nil)`
 
 | Method | Description |
 | --- | --- |
-| `Create(data, ctrl)` | Create a new entity with the given data. |
 | `List(match, ctrl)` | List entities matching the criteria. |
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
-| `Remove(match, ctrl)` | Remove the matching entity. |
+| `Create(data, ctrl)` | Create a new entity with the given data. |
 | `Update(data, ctrl)` | Update an existing entity. |
+| `Remove(match, ctrl)` | Remove the matching entity. |
 
 #### Fields
 
@@ -926,22 +947,27 @@ fmt.Println(collections) // the array of records
 
 ```go
 result, err := client.Collection(nil).Create(map[string]any{
-    "data": /* map[string]any */,
-    "name": /* string */,
+    "data": map[string]any{},
+    "id": "example_id",
+    "name": "example_name",
 }, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 
 ### CollectionRecord
 
-Create an instance: `collection_record := client.CollectionRecord(nil)`
+Create an instance: `collectionRecord := client.CollectionRecord(nil)`
 
 #### Operations
 
 | Method | Description |
 | --- | --- |
-| `Create(data, ctrl)` | Create a new entity with the given data. |
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
+| `Create(data, ctrl)` | Create a new entity with the given data. |
 | `Update(data, ctrl)` | Update an existing entity. |
 
 #### Fields
@@ -953,25 +979,29 @@ Create an instance: `collection_record := client.CollectionRecord(nil)`
 #### Example: Load
 
 ```go
-collection_record, err := client.CollectionRecord(nil).Load(map[string]any{"id": "collection_record_id"}, nil)
+collectionRecord, err := client.CollectionRecord(nil).Load(map[string]any{"id": "collection_record_id", "collection_id": "collection_id"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(collection_record) // the loaded record
+fmt.Println(collectionRecord) // the loaded record
 ```
 
 #### Example: Create
 
 ```go
 result, err := client.CollectionRecord(nil).Create(map[string]any{
-    "data": /* map[string]any */,
+    "slug": "example_slug",
 }, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 
 ### CollectionRecordList
 
-Create an instance: `collection_record_list := client.CollectionRecordList(nil)`
+Create an instance: `collectionRecordList := client.CollectionRecordList(nil)`
 
 #### Operations
 
@@ -996,11 +1026,11 @@ Create an instance: `collection_record_list := client.CollectionRecordList(nil)`
 #### Example: List
 
 ```go
-collection_record_lists, err := client.CollectionRecordList(nil).List(nil, nil)
+collectionRecordLists, err := client.CollectionRecordList(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(collection_record_lists) // the array of records
+fmt.Println(collectionRecordLists) // the array of records
 ```
 
 
@@ -1012,10 +1042,10 @@ Create an instance: `custom := client.Custom(nil)`
 
 | Method | Description |
 | --- | --- |
-| `Create(data, ctrl)` | Create a new entity with the given data. |
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
-| `Remove(match, ctrl)` | Remove the matching entity. |
+| `Create(data, ctrl)` | Create a new entity with the given data. |
 | `Update(data, ctrl)` | Update an existing entity. |
+| `Remove(match, ctrl)` | Remove the matching entity. |
 
 #### Example: Load
 
@@ -1031,7 +1061,12 @@ fmt.Println(custom) // the loaded record
 
 ```go
 result, err := client.Custom(nil).Create(map[string]any{
+    "id": "example_id",
 }, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 
@@ -1048,7 +1083,7 @@ Create an instance: `legacy := client.Legacy(nil)`
 
 ### LegacyMutation
 
-Create an instance: `legacy_mutation := client.LegacyMutation(nil)`
+Create an instance: `legacyMutation := client.LegacyMutation(nil)`
 
 #### Operations
 
@@ -1070,12 +1105,16 @@ Create an instance: `legacy_mutation := client.LegacyMutation(nil)`
 ```go
 result, err := client.LegacyMutation(nil).Create(map[string]any{
 }, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 
 ### LegacyUnknown
 
-Create an instance: `legacy_unknown := client.LegacyUnknown(nil)`
+Create an instance: `legacyUnknown := client.LegacyUnknown(nil)`
 
 #### Operations
 
@@ -1093,17 +1132,17 @@ Create an instance: `legacy_unknown := client.LegacyUnknown(nil)`
 #### Example: Load
 
 ```go
-legacy_unknown, err := client.LegacyUnknown(nil).Load(map[string]any{"id": "legacy_unknown_id"}, nil)
+legacyUnknown, err := client.LegacyUnknown(nil).Load(map[string]any{"id": 1}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(legacy_unknown) // the loaded record
+fmt.Println(legacyUnknown) // the loaded record
 ```
 
 
 ### LegacyUnknownList
 
-Create an instance: `legacy_unknown_list := client.LegacyUnknownList(nil)`
+Create an instance: `legacyUnknownList := client.LegacyUnknownList(nil)`
 
 #### Operations
 
@@ -1124,17 +1163,17 @@ Create an instance: `legacy_unknown_list := client.LegacyUnknownList(nil)`
 #### Example: List
 
 ```go
-legacy_unknown_lists, err := client.LegacyUnknownList(nil).List(nil, nil)
+legacyUnknownLists, err := client.LegacyUnknownList(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(legacy_unknown_lists) // the array of records
+fmt.Println(legacyUnknownLists) // the array of records
 ```
 
 
 ### LegacyUser
 
-Create an instance: `legacy_user := client.LegacyUser(nil)`
+Create an instance: `legacyUser := client.LegacyUser(nil)`
 
 #### Operations
 
@@ -1152,17 +1191,17 @@ Create an instance: `legacy_user := client.LegacyUser(nil)`
 #### Example: Load
 
 ```go
-legacy_user, err := client.LegacyUser(nil).Load(map[string]any{"id": "legacy_user_id"}, nil)
+legacyUser, err := client.LegacyUser(nil).Load(map[string]any{"id": 1}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(legacy_user) // the loaded record
+fmt.Println(legacyUser) // the loaded record
 ```
 
 
 ### LegacyUserList
 
-Create an instance: `legacy_user_list := client.LegacyUserList(nil)`
+Create an instance: `legacyUserList := client.LegacyUserList(nil)`
 
 #### Operations
 
@@ -1183,11 +1222,11 @@ Create an instance: `legacy_user_list := client.LegacyUserList(nil)`
 #### Example: List
 
 ```go
-legacy_user_lists, err := client.LegacyUserList(nil).List(nil, nil)
+legacyUserLists, err := client.LegacyUserList(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(legacy_user_lists) // the array of records
+fmt.Println(legacyUserLists) // the array of records
 ```
 
 
@@ -1213,10 +1252,14 @@ Create an instance: `login := client.Login(nil)`
 
 ```go
 result, err := client.Login(nil).Create(map[string]any{
-    "email": /* string */,
-    "password": /* string */,
-    "token": /* string */,
+    "email": "example_email",
+    "password": "example_password",
+    "token": "example_token",
 }, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 
@@ -1243,10 +1286,14 @@ Create an instance: `register := client.Register(nil)`
 
 ```go
 result, err := client.Register(nil).Create(map[string]any{
-    "email": /* string */,
-    "password": /* string */,
-    "token": /* string */,
+    "email": "example_email",
+    "password": "example_password",
+    "token": "example_token",
 }, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 

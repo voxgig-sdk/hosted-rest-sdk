@@ -32,13 +32,15 @@ client = HostedRestSDK.new({
 })
 ```
 
-### 3. Load an agenthealth
+### 3. Load an appusertotal
+
+AppUserTotal is nested under project, so provide the `project_id`.
 
 ```ruby
 begin
-  # load returns the bare AgentHealth record (raises on error).
-  agenthealth = client.AgentHealth.load()
-  puts agenthealth
+  # load returns the bare AppUserTotal record (raises on error).
+  appusertotal = client.AppUserTotal.load({ "project_id" => "example_project_id" })
+  puts appusertotal
 rescue => err
   warn "load failed: #{err}"
 end
@@ -588,8 +590,8 @@ agent_sandbox = client.AgentSandbox.load()
 
 ```ruby
 agent_sandbox = client.AgentSandbox.create({
-  "email" => "example", # String
-  "password" => "example", # String
+  "email" => "example_email", # String
+  "password" => "example_password", # String
 })
 ```
 
@@ -696,7 +698,8 @@ app_users = client.AppUser.list
 ```ruby
 app_user = client.AppUser.create({
   "data" => {}, # Hash
-  "email" => "example", # String
+  "email" => "example_email", # String
+  "id" => "example_id", # String
 })
 ```
 
@@ -725,7 +728,7 @@ Create an instance: `app_user_login = client.AppUserLogin`
 ```ruby
 app_user_login = client.AppUserLogin.create({
   "data" => {}, # Hash
-  "email" => "example", # String
+  "email" => "example_email", # String
 })
 ```
 
@@ -774,7 +777,7 @@ Create an instance: `app_user_total = client.AppUserTotal`
 
 ```ruby
 # load returns the bare AppUserTotal record (raises on error).
-app_user_total = client.AppUserTotal.load()
+app_user_total = client.AppUserTotal.load({ "project_id" => "project_id" })
 ```
 
 
@@ -800,7 +803,7 @@ Create an instance: `app_user_verify = client.AppUserVerify`
 ```ruby
 app_user_verify = client.AppUserVerify.create({
   "data" => {}, # Hash
-  "token" => "example", # String
+  "token" => "example_token", # String
 })
 ```
 
@@ -871,7 +874,8 @@ collections = client.Collection.list
 ```ruby
 collection = client.Collection.create({
   "data" => {}, # Hash
-  "name" => "example", # String
+  "id" => "example_id", # String
+  "name" => "example_name", # String
 })
 ```
 
@@ -898,14 +902,14 @@ Create an instance: `collection_record = client.CollectionRecord`
 
 ```ruby
 # load returns the bare CollectionRecord record (raises on error).
-collection_record = client.CollectionRecord.load({ "id" => "collection_record_id" })
+collection_record = client.CollectionRecord.load({ "id" => "collection_record_id", "collection_id" => "collection_id" })
 ```
 
 #### Example: Create
 
 ```ruby
 collection_record = client.CollectionRecord.create({
-  "data" => {}, # Hash
+  "slug" => "example_slug", # String
 })
 ```
 
@@ -966,6 +970,7 @@ custom = client.Custom.load({ "id" => "custom_id" })
 
 ```ruby
 custom = client.Custom.create({
+  "id" => "example_id", # String
 })
 ```
 
@@ -1029,7 +1034,7 @@ Create an instance: `legacy_unknown = client.LegacyUnknown`
 
 ```ruby
 # load returns the bare LegacyUnknown record (raises on error).
-legacy_unknown = client.LegacyUnknown.load({ "id" => "legacy_unknown_id" })
+legacy_unknown = client.LegacyUnknown.load({ "id" => 1 })
 ```
 
 
@@ -1082,7 +1087,7 @@ Create an instance: `legacy_user = client.LegacyUser`
 
 ```ruby
 # load returns the bare LegacyUser record (raises on error).
-legacy_user = client.LegacyUser.load({ "id" => "legacy_user_id" })
+legacy_user = client.LegacyUser.load({ "id" => 1 })
 ```
 
 
@@ -1136,9 +1141,9 @@ Create an instance: `login = client.Login`
 
 ```ruby
 login = client.Login.create({
-  "email" => "example", # String
-  "password" => "example", # String
-  "token" => "example", # String
+  "email" => "example_email", # String
+  "password" => "example_password", # String
+  "token" => "example_token", # String
 })
 ```
 
@@ -1166,9 +1171,9 @@ Create an instance: `register = client.Register`
 
 ```ruby
 register = client.Register.create({
-  "email" => "example", # String
-  "password" => "example", # String
-  "token" => "example", # String
+  "email" => "example_email", # String
+  "password" => "example_password", # String
+  "token" => "example_token", # String
 })
 ```
 

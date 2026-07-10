@@ -33,13 +33,15 @@ $client = new HostedRestSDK([
 ]);
 ```
 
-### 3. Load an agenthealth
+### 3. Load an appusertotal
+
+AppUserTotal is nested under project, so provide the `project_id`.
 
 ```php
 try {
-    // load() returns the bare AgentHealth record (throws on error).
-    $agenthealth = $client->AgentHealth()->load();
-    print_r($agenthealth);
+    // load() returns the bare AppUserTotal record (throws on error).
+    $appusertotal = $client->AppUserTotal()->load(["project_id" => "example_project_id"]);
+    print_r($appusertotal);
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -707,6 +709,7 @@ $app_users = $client->AppUser()->list();
 $app_user = $client->AppUser()->create([
     "data" => null, // array
     "email" => null, // string
+    "id" => null, // string
 ]);
 ```
 
@@ -784,7 +787,7 @@ Create an instance: `$app_user_total = $client->AppUserTotal();`
 
 ```php
 // load() returns the bare AppUserTotal record (throws on error).
-$app_user_total = $client->AppUserTotal()->load();
+$app_user_total = $client->AppUserTotal()->load(["project_id" => "project_id"]);
 ```
 
 
@@ -881,6 +884,7 @@ $collections = $client->Collection()->list();
 ```php
 $collection = $client->Collection()->create([
     "data" => null, // array
+    "id" => null, // string
     "name" => null, // string
 ]);
 ```
@@ -908,14 +912,14 @@ Create an instance: `$collection_record = $client->CollectionRecord();`
 
 ```php
 // load() returns the bare CollectionRecord record (throws on error).
-$collection_record = $client->CollectionRecord()->load(["id" => "collection_record_id"]);
+$collection_record = $client->CollectionRecord()->load(["id" => "collection_record_id", "collection_id" => "collection_id"]);
 ```
 
 #### Example: Create
 
 ```php
 $collection_record = $client->CollectionRecord()->create([
-    "data" => null, // array
+    "slug" => null, // string
 ]);
 ```
 
@@ -976,6 +980,7 @@ $custom = $client->Custom()->load(["id" => "custom_id"]);
 
 ```php
 $custom = $client->Custom()->create([
+    "id" => null, // string
 ]);
 ```
 
@@ -1039,7 +1044,7 @@ Create an instance: `$legacy_unknown = $client->LegacyUnknown();`
 
 ```php
 // load() returns the bare LegacyUnknown record (throws on error).
-$legacy_unknown = $client->LegacyUnknown()->load(["id" => "legacy_unknown_id"]);
+$legacy_unknown = $client->LegacyUnknown()->load(["id" => 1]);
 ```
 
 
@@ -1092,7 +1097,7 @@ Create an instance: `$legacy_user = $client->LegacyUser();`
 
 ```php
 // load() returns the bare LegacyUser record (throws on error).
-$legacy_user = $client->LegacyUser()->load(["id" => "legacy_user_id"]);
+$legacy_user = $client->LegacyUser()->load(["id" => 1]);
 ```
 
 

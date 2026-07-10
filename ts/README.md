@@ -35,14 +35,17 @@ const client = new HostedRestSDK({
 })
 ```
 
-### 3. Load an agenthealth
+### 3. Load an appusertotal
 
+AppUserTotal is nested under project, so provide the `project_id`.
 `load()` returns the entity directly and throws on failure:
 
 ```ts
 try {
-  const agenthealth = await client.AgentHealth().load()
-  console.log(agenthealth)
+  const appusertotal = await client.AppUserTotal().load({
+    project_id: 'example_project_id',
+  })
+  console.log(appusertotal)
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -641,8 +644,8 @@ const agent_sandbox = await client.AgentSandbox().load()
 
 ```ts
 const agent_sandbox = await client.AgentSandbox().create({
-  email: /* string */,
-  password: /* string */,
+  email: 'example_email',
+  password: 'example_password',
 })
 ```
 
@@ -744,8 +747,9 @@ const app_users = await client.AppUser().list()
 
 ```ts
 const app_user = await client.AppUser().create({
-  data: /* Record<string, any> */,
-  email: /* string */,
+  data: {},
+  email: 'example_email',
+  id: 'example_id',
 })
 ```
 
@@ -773,8 +777,8 @@ Create an instance: `const app_user_login = client.AppUserLogin()`
 
 ```ts
 const app_user_login = await client.AppUserLogin().create({
-  data: /* Record<string, any> */,
-  email: /* string */,
+  data: {},
+  email: 'example_email',
 })
 ```
 
@@ -821,7 +825,7 @@ Create an instance: `const app_user_total = client.AppUserTotal()`
 #### Example: Load
 
 ```ts
-const app_user_total = await client.AppUserTotal().load()
+const app_user_total = await client.AppUserTotal().load({ project_id: 'project_id' })
 ```
 
 
@@ -846,8 +850,8 @@ Create an instance: `const app_user_verify = client.AppUserVerify()`
 
 ```ts
 const app_user_verify = await client.AppUserVerify().create({
-  data: /* Record<string, any> */,
-  token: /* string */,
+  data: {},
+  token: 'example_token',
 })
 ```
 
@@ -915,8 +919,9 @@ const collections = await client.Collection().list()
 
 ```ts
 const collection = await client.Collection().create({
-  data: /* Record<string, any> */,
-  name: /* string */,
+  data: {},
+  id: 'example_id',
+  name: 'example_name',
 })
 ```
 
@@ -942,14 +947,14 @@ Create an instance: `const collection_record = client.CollectionRecord()`
 #### Example: Load
 
 ```ts
-const collection_record = await client.CollectionRecord().load({ id: 'collection_record_id' })
+const collection_record = await client.CollectionRecord().load({ id: 'collection_record_id', collection_id: 'collection_id' })
 ```
 
 #### Example: Create
 
 ```ts
 const collection_record = await client.CollectionRecord().create({
-  data: /* Record<string, any> */,
+  slug: 'example_slug',
 })
 ```
 
@@ -1008,6 +1013,7 @@ const custom = await client.Custom().load({ id: 'custom_id' })
 
 ```ts
 const custom = await client.Custom().create({
+  id: 'example_id',
 })
 ```
 
@@ -1174,9 +1180,9 @@ Create an instance: `const login = client.Login()`
 
 ```ts
 const login = await client.Login().create({
-  email: /* string */,
-  password: /* string */,
-  token: /* string */,
+  email: 'example_email',
+  password: 'example_password',
+  token: 'example_token',
 })
 ```
 
@@ -1204,9 +1210,9 @@ Create an instance: `const register = client.Register()`
 
 ```ts
 const register = await client.Register().create({
-  email: /* string */,
-  password: /* string */,
-  token: /* string */,
+  email: 'example_email',
+  password: 'example_password',
+  token: 'example_token',
 })
 ```
 

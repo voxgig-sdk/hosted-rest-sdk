@@ -35,12 +35,14 @@ local client = sdk.new({
 })
 ```
 
-### 3. Load an agenthealth
+### 3. Load an appusertotal
+
+AppUserTotal is nested under project, so provide the `project_id`.
 
 ```lua
-local agenthealth, err = client:AgentHealth():load()
+local appusertotal, err = client:AppUserTotal():load({ project_id = "example_project_id" })
 if err then error(err) end
-print(agenthealth)
+print(appusertotal)
 ```
 
 
@@ -578,8 +580,8 @@ local agent_sandbox, err = client:AgentSandbox():load()
 
 ```lua
 local agent_sandbox, err = client:AgentSandbox():create({
-  email = nil, -- string
-  password = nil, -- string
+  email = "example_email", -- string
+  password = "example_password", -- string
 })
 ```
 
@@ -681,8 +683,9 @@ local app_users, err = client:AppUser():list()
 
 ```lua
 local app_user, err = client:AppUser():create({
-  data = nil, -- table
-  email = nil, -- string
+  data = {}, -- table
+  email = "example_email", -- string
+  id = "example_id", -- string
 })
 ```
 
@@ -710,8 +713,8 @@ Create an instance: `local app_user_login = client:AppUserLogin(nil)`
 
 ```lua
 local app_user_login, err = client:AppUserLogin():create({
-  data = nil, -- table
-  email = nil, -- string
+  data = {}, -- table
+  email = "example_email", -- string
 })
 ```
 
@@ -758,7 +761,7 @@ Create an instance: `local app_user_total = client:AppUserTotal(nil)`
 #### Example: Load
 
 ```lua
-local app_user_total, err = client:AppUserTotal():load()
+local app_user_total, err = client:AppUserTotal():load({ project_id = "project_id" })
 ```
 
 
@@ -783,8 +786,8 @@ Create an instance: `local app_user_verify = client:AppUserVerify(nil)`
 
 ```lua
 local app_user_verify, err = client:AppUserVerify():create({
-  data = nil, -- table
-  token = nil, -- string
+  data = {}, -- table
+  token = "example_token", -- string
 })
 ```
 
@@ -852,8 +855,9 @@ local collections, err = client:Collection():list()
 
 ```lua
 local collection, err = client:Collection():create({
-  data = nil, -- table
-  name = nil, -- string
+  data = {}, -- table
+  id = "example_id", -- string
+  name = "example_name", -- string
 })
 ```
 
@@ -879,14 +883,14 @@ Create an instance: `local collection_record = client:CollectionRecord(nil)`
 #### Example: Load
 
 ```lua
-local collection_record, err = client:CollectionRecord():load({ id = "collection_record_id" })
+local collection_record, err = client:CollectionRecord():load({ id = "collection_record_id", collection_id = "collection_id" })
 ```
 
 #### Example: Create
 
 ```lua
 local collection_record, err = client:CollectionRecord():create({
-  data = nil, -- table
+  slug = "example_slug", -- string
 })
 ```
 
@@ -945,6 +949,7 @@ local custom, err = client:Custom():load({ id = "custom_id" })
 
 ```lua
 local custom, err = client:Custom():create({
+  id = "example_id", -- string
 })
 ```
 
@@ -1007,7 +1012,7 @@ Create an instance: `local legacy_unknown = client:LegacyUnknown(nil)`
 #### Example: Load
 
 ```lua
-local legacy_unknown, err = client:LegacyUnknown():load({ id = "legacy_unknown_id" })
+local legacy_unknown, err = client:LegacyUnknown():load({ id = 1 })
 ```
 
 
@@ -1058,7 +1063,7 @@ Create an instance: `local legacy_user = client:LegacyUser(nil)`
 #### Example: Load
 
 ```lua
-local legacy_user, err = client:LegacyUser():load({ id = "legacy_user_id" })
+local legacy_user, err = client:LegacyUser():load({ id = 1 })
 ```
 
 
@@ -1111,9 +1116,9 @@ Create an instance: `local login = client:Login(nil)`
 
 ```lua
 local login, err = client:Login():create({
-  email = nil, -- string
-  password = nil, -- string
-  token = nil, -- string
+  email = "example_email", -- string
+  password = "example_password", -- string
+  token = "example_token", -- string
 })
 ```
 
@@ -1141,9 +1146,9 @@ Create an instance: `local register = client:Register(nil)`
 
 ```lua
 local register, err = client:Register():create({
-  email = nil, -- string
-  password = nil, -- string
-  token = nil, -- string
+  email = "example_email", -- string
+  password = "example_password", -- string
+  token = "example_token", -- string
 })
 ```
 

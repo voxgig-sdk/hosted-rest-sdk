@@ -39,7 +39,7 @@ class Config {
     base: 'https://reqres.in',
 
     auth: {
-      prefix: 'Bearer',
+      prefix: '',
     },
 
     headers: {
