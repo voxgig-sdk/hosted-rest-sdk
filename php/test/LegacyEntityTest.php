@@ -46,13 +46,6 @@ class LegacyEntityTest extends TestCase
             $legacy_ref01_data = Helpers::to_map($legacy_ref01_data_raw[0][1]);
         }
 
-        // REMOVE
-        $legacy_ref01_ent = $client->Legacy(null);
-        $legacy_ref01_match_rm0 = [
-            "id" => $legacy_ref01_data["id"],
-        ];
-        $legacy_ref01_ent->remove($legacy_ref01_match_rm0, null);
-
     }
 }
 

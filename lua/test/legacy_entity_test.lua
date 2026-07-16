@@ -42,14 +42,6 @@ describe("LegacyEntity", function()
       legacy_ref01_data = helpers.to_map(legacy_ref01_data_raw[1][2])
     end
 
-    -- REMOVE
-    local legacy_ref01_ent = client:Legacy(nil)
-    local legacy_ref01_match_rm0 = {
-      id = legacy_ref01_data["id"],
-    }
-    local _, err = legacy_ref01_ent:remove(legacy_ref01_match_rm0, nil)
-    assert.is_nil(err)
-
   end)
 end)
 

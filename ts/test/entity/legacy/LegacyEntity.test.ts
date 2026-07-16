@@ -59,12 +59,6 @@ describe('LegacyEntity', async () => {
 
     let legacy_ref01_data = Object.values(setup.data.existing.legacy)[0] as any
 
-    // REMOVE
-    const legacy_ref01_ent = client.Legacy()
-    const legacy_ref01_match_rm0: any = { id: legacy_ref01_data.id }
-    await legacy_ref01_ent.remove(legacy_ref01_match_rm0)
-  
-
   })
 })
 

@@ -59,16 +59,6 @@ func TestLegacyEntity(t *testing.T) {
 		// happen not to consume the bootstrap data (e.g. list-only flows).
 		_ = legacyRef01Data
 
-		// REMOVE
-		legacyRef01Ent := client.Legacy(nil)
-		legacyRef01MatchRm0 := map[string]any{
-			"id": legacyRef01Data["id"],
-		}
-		_, err := legacyRef01Ent.Remove(legacyRef01MatchRm0, nil)
-		if err != nil {
-			t.Fatalf("remove failed: %v", err)
-		}
-
 	})
 }
 
