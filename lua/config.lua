@@ -1,4 +1,4 @@
--- ProjectName SDK configuration
+-- HostedRest SDK configuration
 
 local function make_config()
   return {

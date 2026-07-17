@@ -1,4 +1,4 @@
--- ProjectName SDK exists test
+-- HostedRest SDK exists test
 
 local sdk = require("hosted-rest_sdk")
 
