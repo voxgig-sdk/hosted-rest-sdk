@@ -2,6 +2,7 @@ package sdktest
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -44,7 +45,7 @@ func TestCollectionRecordEntity(t *testing.T) {
 		// The basic flow consumes synthetic IDs from the fixture. In live mode
 		// without an *_ENTID env override, those IDs hit the live API and 4xx.
 		if setup.syntheticOnly {
-			t.Skip("live entity test uses synthetic IDs from fixture — set HOSTEDREST_TEST_COLLECTION_RECORD_ENTID JSON to run live")
+			t.Skip("live entity test uses synthetic IDs from fixture — set HOSTED_REST_TEST_COLLECTION_RECORD_ENTID JSON to run live")
 			return
 		}
 		client := setup.client
@@ -60,33 +61,53 @@ func TestCollectionRecordEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("create failed: %v", err)
 		}
-		collectionRecordRef01Data = core.ToMapAny(collectionRecordRef01DataResult)
+		collectionRecordRef01Data = core.ToMapAny(entityData(collectionRecordRef01DataResult))
 		if collectionRecordRef01Data == nil {
 			t.Fatal("expected create result to be a map")
+		}
+		if collectionRecordRef01Data["id"] == nil {
+			t.Fatal("expected created entity to have an id")
 		}
 
 		// UPDATE
 		collectionRecordRef01DataUp0Up := map[string]any{
+			"id": collectionRecordRef01Data["id"],
 			"collection_id": setup.idmap["collection_id"],
 		}
+
+		collectionRecordRef01MarkdefUp0Name := "app_user_id"
+		collectionRecordRef01MarkdefUp0Value := fmt.Sprintf("Mark01-collection_record_ref01_%d", setup.now)
+		collectionRecordRef01DataUp0Up[collectionRecordRef01MarkdefUp0Name] = collectionRecordRef01MarkdefUp0Value
 
 		collectionRecordRef01ResdataUp0Result, err := collectionRecordRef01Ent.Update(collectionRecordRef01DataUp0Up, nil)
 		if err != nil {
 			t.Fatalf("update failed: %v", err)
 		}
-		collectionRecordRef01ResdataUp0 := core.ToMapAny(collectionRecordRef01ResdataUp0Result)
+		collectionRecordRef01ResdataUp0 := core.ToMapAny(entityData(collectionRecordRef01ResdataUp0Result))
 		if collectionRecordRef01ResdataUp0 == nil {
 			t.Fatal("expected update result to be a map")
 		}
+		if collectionRecordRef01ResdataUp0["id"] != collectionRecordRef01DataUp0Up["id"] {
+			t.Fatal("expected update result id to match")
+		}
+		if collectionRecordRef01ResdataUp0[collectionRecordRef01MarkdefUp0Name] != collectionRecordRef01MarkdefUp0Value {
+			t.Fatalf("expected %s to be updated, got %v", collectionRecordRef01MarkdefUp0Name, collectionRecordRef01ResdataUp0[collectionRecordRef01MarkdefUp0Name])
+		}
 
 		// LOAD
-		collectionRecordRef01MatchDt0 := map[string]any{}
+		collectionRecordRef01MatchDt0 := map[string]any{
+			"id": collectionRecordRef01Data["id"],
+		}
 		collectionRecordRef01DataDt0Loaded, err := collectionRecordRef01Ent.Load(collectionRecordRef01MatchDt0, nil)
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		if collectionRecordRef01DataDt0Loaded == nil {
-			t.Fatal("expected load result to be non-nil")
+		collectionRecordRef01DataDt0LoadResult := core.ToMapAny(entityData(collectionRecordRef01DataDt0Loaded))
+		if collectionRecordRef01DataDt0LoadResult == nil {
+			t.Fatal("expected load result to be a map")
+		}
+		if collectionRecordRef01DataDt0LoadResult["id"] != collectionRecordRef01Data["id"] {
+			t.Fatal("expected load result id to match")
 		}
 
 	})
@@ -129,17 +150,17 @@ func collection_recordBasicSetup(extra map[string]any) *entityTestSetup {
 	// Detect ENTID env override before envOverride consumes it. When live
 	// mode is on without a real override, the basic test runs against synthetic
 	// IDs from the fixture and 4xx's. Surface this so the test can skip.
-	entidEnvRaw := os.Getenv("HOSTEDREST_TEST_COLLECTION_RECORD_ENTID")
+	entidEnvRaw := os.Getenv("HOSTED_REST_TEST_COLLECTION_RECORD_ENTID")
 	idmapOverridden := entidEnvRaw != "" && strings.HasPrefix(strings.TrimSpace(entidEnvRaw), "{")
 
 	env := envOverride(map[string]any{
-		"HOSTEDREST_TEST_COLLECTION_RECORD_ENTID": idmap,
-		"HOSTEDREST_TEST_LIVE":      "FALSE",
-		"HOSTEDREST_TEST_EXPLAIN":   "FALSE",
-		"HOSTEDREST_APIKEY":         "NONE",
+		"HOSTED_REST_TEST_COLLECTION_RECORD_ENTID": idmap,
+		"HOSTED_REST_TEST_LIVE":      "FALSE",
+		"HOSTED_REST_TEST_EXPLAIN":   "FALSE",
+		"HOSTED_REST_APIKEY":         "NONE",
 	})
 
-	idmapResolved := core.ToMapAny(env["HOSTEDREST_TEST_COLLECTION_RECORD_ENTID"])
+	idmapResolved := core.ToMapAny(env["HOSTED_REST_TEST_COLLECTION_RECORD_ENTID"])
 	if idmapResolved == nil {
 		idmapResolved = core.ToMapAny(idmap)
 	}
@@ -148,23 +169,23 @@ func collection_recordBasicSetup(extra map[string]any) *entityTestSetup {
 		idmapResolved["collection_id"] = idmapResolved["collection01"]
 	}
 
-	if env["HOSTEDREST_TEST_LIVE"] == "TRUE" {
+	if env["HOSTED_REST_TEST_LIVE"] == "TRUE" {
 		mergedOpts := vs.Merge([]any{
 			map[string]any{
-				"apikey": env["HOSTEDREST_APIKEY"],
+				"apikey": env["HOSTED_REST_APIKEY"],
 			},
 			extra,
 		})
 		client = sdk.NewHostedRestSDK(core.ToMapAny(mergedOpts))
 	}
 
-	live := env["HOSTEDREST_TEST_LIVE"] == "TRUE"
+	live := env["HOSTED_REST_TEST_LIVE"] == "TRUE"
 	return &entityTestSetup{
 		client:        client,
 		data:          entityData,
 		idmap:         idmapResolved,
 		env:           env,
-		explain:       env["HOSTEDREST_TEST_EXPLAIN"] == "TRUE",
+		explain:       env["HOSTED_REST_TEST_EXPLAIN"] == "TRUE",
 		live:          live,
 		syntheticOnly: live && !idmapOverridden,
 		now:           time.Now().UnixMilli(),

@@ -2,37 +2,34 @@
   "existing": {
     "app_user": {
       "APP_USER00": {
-        "created_at": "s46",
-        "data": {},
-        "email": "s48",
+        "created_at": "s3c",
+        "email": "s3d",
         "id": "APP_USER00",
-        "last_login_at": "s4a",
+        "last_login_at": "s3f",
         "metadata": {},
-        "status": "s4c",
+        "status": "s41",
         "project_id": "PROJECT01",
         "collection_id": "COLLECTION01",
         "record_id": "RECORD01"
       },
       "APP_USER01": {
-        "created_at": "s8c",
-        "data": {},
-        "email": "s8e",
+        "created_at": "s78",
+        "email": "s79",
         "id": "APP_USER01",
-        "last_login_at": "s90",
+        "last_login_at": "s7b",
         "metadata": {},
-        "status": "s92",
+        "status": "s7d",
         "project_id": "PROJECT01",
         "collection_id": "COLLECTION01",
         "record_id": "RECORD01"
       },
       "APP_USER02": {
-        "created_at": "sd2",
-        "data": {},
-        "email": "sd4",
+        "created_at": "sb4",
+        "email": "sb5",
         "id": "APP_USER02",
-        "last_login_at": "sd6",
+        "last_login_at": "sb7",
         "metadata": {},
-        "status": "sd8",
+        "status": "sb9",
         "project_id": "PROJECT01",
         "collection_id": "COLLECTION01",
         "record_id": "RECORD01"
@@ -42,12 +39,11 @@
   "new": {
     "app_user": {
       "app_user_ref01": {
-        "created_at": "s118",
-        "data": {},
-        "email": "s11a",
-        "last_login_at": "s11c",
+        "created_at": "sf0",
+        "email": "sf1",
+        "last_login_at": "sf3",
         "metadata": {},
-        "status": "s11e"
+        "status": "sf5"
       }
     }
   }

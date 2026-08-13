@@ -19,11 +19,15 @@ import {
 describe('CollectionRecordListDirect', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when HOSTEDREST_TEST_LIVE=TRUE.
-  afterEach(liveDelay('HOSTEDREST_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when HOSTED_REST_TEST_LIVE=TRUE.
+  afterEach(liveDelay('HOSTED_REST_TEST_LIVE'))
 
   test('direct-exists', async () => {
     const sdk = new HostedRestSDK({
+      // Concrete base: a live construction must satisfy any server
+      // variables a templated base URL declares; overriding base with a
+      // literal (as the direct flow tests do) sidesteps the requirement.
+      base: 'http://localhost:8080',
       system: { fetch: async () => ({}) }
     })
     assert('function' === typeof sdk.direct)
@@ -84,19 +88,19 @@ function directSetup(mockres?: any) {
   const calls: any[] = []
 
   const env = envOverride({
-    'HOSTEDREST_TEST_COLLECTION_RECORD_LIST_ENTID': {},
-    'HOSTEDREST_TEST_LIVE': 'FALSE',
-    'HOSTEDREST_APIKEY': 'NONE',
+    'HOSTED_REST_TEST_COLLECTION_RECORD_LIST_ENTID': {},
+    'HOSTED_REST_TEST_LIVE': 'FALSE',
+    'HOSTED_REST_APIKEY': 'NONE',
   })
 
-  const live = 'TRUE' === env.HOSTEDREST_TEST_LIVE
+  const live = 'TRUE' === env.HOSTED_REST_TEST_LIVE
 
   if (live) {
     const client = new HostedRestSDK({
-      apikey: env.HOSTEDREST_APIKEY,
+      apikey: env.HOSTED_REST_APIKEY,
     })
 
-    let idmap: any = env['HOSTEDREST_TEST_COLLECTION_RECORD_LIST_ENTID']
+    let idmap: any = env['HOSTED_REST_TEST_COLLECTION_RECORD_LIST_ENTID']
     if ('string' === typeof idmap && idmap.startsWith('{')) {
       idmap = JSON.parse(idmap)
     }

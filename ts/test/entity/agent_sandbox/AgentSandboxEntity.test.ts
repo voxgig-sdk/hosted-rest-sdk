@@ -26,8 +26,8 @@ import {
 describe('AgentSandboxEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when HOSTEDREST_TEST_LIVE=TRUE.
-  afterEach(liveDelay('HOSTEDREST_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when HOSTED_REST_TEST_LIVE=TRUE.
+  afterEach(liveDelay('HOSTED_REST_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = HostedRestSDK.test()
@@ -62,13 +62,13 @@ describe('AgentSandboxEntity', async () => {
     const agent_sandbox_ref01_ent = client.AgentSandbox()
     let agent_sandbox_ref01_data = setup.data.new.agent_sandbox['agent_sandbox_ref01']
 
-    agent_sandbox_ref01_data = await agent_sandbox_ref01_ent.create(agent_sandbox_ref01_data)
+    agent_sandbox_ref01_data = (await agent_sandbox_ref01_ent.create(agent_sandbox_ref01_data)).data()
     assert(null != agent_sandbox_ref01_data)
 
 
     // LOAD
     const agent_sandbox_ref01_match_dt0: any = {}
-    const agent_sandbox_ref01_data_dt0 = await agent_sandbox_ref01_ent.load(agent_sandbox_ref01_match_dt0)
+    const agent_sandbox_ref01_data_dt0 = (await agent_sandbox_ref01_ent.load(agent_sandbox_ref01_match_dt0)).data()
     assert(null != agent_sandbox_ref01_data_dt0)
 
 

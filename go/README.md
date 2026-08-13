@@ -289,7 +289,11 @@ Only `Direct()` returns a response envelope — a `map[string]any` with
 
 | Field | Description |
 | --- | --- |
-| `"data"` |  |
+| `"deprecations"` |  |
+| `"rate_limit_status"` |  |
+| `"status"` |  |
+| `"uptime_seconds"` |  |
+| `"version"` |  |
 
 Operations: Load.
 
@@ -310,7 +314,16 @@ API path: `/agent/v1/auth/login`
 
 | Field | Description |
 | --- | --- |
-| `"data"` |  |
+| `"created_at"` |  |
+| `"email"` |  |
+| `"full_name"` |  |
+| `"id"` |  |
+| `"locale"` |  |
+| `"preferences"` |  |
+| `"profile"` |  |
+| `"status"` |  |
+| `"timezone"` |  |
+| `"updated_at"` |  |
 
 Operations: Load.
 
@@ -325,7 +338,7 @@ API path: `/agent/v1/users/{id}`
 | `"full_name"` |  |
 | `"id"` |  |
 | `"locale"` |  |
-| `"preference"` |  |
+| `"preferences"` |  |
 | `"profile"` |  |
 | `"status"` |  |
 | `"timezone"` |  |
@@ -340,7 +353,6 @@ API path: `/agent/v1/users`
 | Field | Description |
 | --- | --- |
 | `"created_at"` |  |
-| `"data"` |  |
 | `"email"` |  |
 | `"id"` |  |
 | `"last_login_at"` |  |
@@ -355,7 +367,6 @@ API path: `/api/app-users/{id}/sessions/simulate`
 
 | Field | Description |
 | --- | --- |
-| `"data"` |  |
 | `"email"` |  |
 | `"metadata"` |  |
 | `"project_id"` |  |
@@ -368,7 +379,6 @@ API path: `/api/app-users/login`
 
 | Field | Description |
 | --- | --- |
-| `"data"` |  |
 
 Operations: Load.
 
@@ -388,7 +398,6 @@ API path: `/api/projects/{projectId}/app-users/total`
 
 | Field | Description |
 | --- | --- |
-| `"data"` |  |
 | `"token"` |  |
 
 Operations: Create.
@@ -409,7 +418,6 @@ API path: `/api/logout`
 | Field | Description |
 | --- | --- |
 | `"created_at"` |  |
-| `"data"` |  |
 | `"id"` |  |
 | `"name"` |  |
 | `"project_id"` |  |
@@ -427,7 +435,15 @@ API path: `/api/collections`
 
 | Field | Description |
 | --- | --- |
+| `"app_user_id"` |  |
+| `"collection_id"` |  |
+| `"created_at"` |  |
+| `"created_by"` |  |
 | `"data"` |  |
+| `"deleted_at"` |  |
+| `"id"` |  |
+| `"project_id"` |  |
+| `"updated_at"` |  |
 
 Operations: Create, Load, Update.
 
@@ -473,9 +489,9 @@ API path: `/api/users/{id}`
 
 | Field | Description |
 | --- | --- |
-| `"created_at"` |  |
+| `"createdAt"` |  |
 | `"id"` |  |
-| `"updated_at"` |  |
+| `"updatedAt"` |  |
 
 Operations: Create, Patch, Update.
 
@@ -575,7 +591,11 @@ Create an instance: `agentHealth := client.AgentHealth(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `map[string]any` |  |
+| `deprecations` | `[]any` |  |
+| `rate_limit_status` | `map[string]any` |  |
+| `status` | `string` |  |
+| `uptime_seconds` | `int` |  |
+| `version` | `string` |  |
 
 #### Example: Load
 
@@ -644,7 +664,16 @@ Create an instance: `agentUserDetail := client.AgentUserDetail(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `map[string]any` |  |
+| `created_at` | `string` |  |
+| `email` | `string` |  |
+| `full_name` | `string` |  |
+| `id` | `string` |  |
+| `locale` | `string` |  |
+| `preferences` | `map[string]any` |  |
+| `profile` | `map[string]any` |  |
+| `status` | `string` |  |
+| `timezone` | `string` |  |
+| `updated_at` | `string` |  |
 
 #### Example: Load
 
@@ -676,7 +705,7 @@ Create an instance: `agentUserList := client.AgentUserList(nil)`
 | `full_name` | `string` |  |
 | `id` | `string` |  |
 | `locale` | `string` |  |
-| `preference` | `map[string]any` |  |
+| `preferences` | `map[string]any` |  |
 | `profile` | `map[string]any` |  |
 | `status` | `string` |  |
 | `timezone` | `string` |  |
@@ -712,7 +741,6 @@ Create an instance: `appUser := client.AppUser(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `created_at` | `string` |  |
-| `data` | `map[string]any` |  |
 | `email` | `string` |  |
 | `id` | `string` |  |
 | `last_login_at` | `string` |  |
@@ -743,7 +771,6 @@ fmt.Println(appUsers) // the array of records
 
 ```go
 result, err := client.AppUser(nil).Create(map[string]any{
-    "data": map[string]any{},
     "email": "example_email",
     "id": "example_id",
 }, nil)
@@ -768,7 +795,6 @@ Create an instance: `appUserLogin := client.AppUserLogin(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `map[string]any` |  |
 | `email` | `string` |  |
 | `metadata` | `map[string]any` |  |
 | `project_id` | `string` |  |
@@ -777,7 +803,6 @@ Create an instance: `appUserLogin := client.AppUserLogin(nil)`
 
 ```go
 result, err := client.AppUserLogin(nil).Create(map[string]any{
-    "data": map[string]any{},
     "email": "example_email",
 }, nil)
 if err != nil {
@@ -796,12 +821,6 @@ Create an instance: `appUserSession := client.AppUserSession(nil)`
 | Method | Description |
 | --- | --- |
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `data` | `map[string]any` |  |
 
 #### Example: Load
 
@@ -855,14 +874,12 @@ Create an instance: `appUserVerify := client.AppUserVerify(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `map[string]any` |  |
 | `token` | `string` |  |
 
 #### Example: Create
 
 ```go
 result, err := client.AppUserVerify(nil).Create(map[string]any{
-    "data": map[string]any{},
     "token": "example_token",
 }, nil)
 if err != nil {
@@ -913,7 +930,6 @@ Create an instance: `collection := client.Collection(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `created_at` | `string` |  |
-| `data` | `map[string]any` |  |
 | `id` | `string` |  |
 | `name` | `string` |  |
 | `project_id` | `string` |  |
@@ -947,9 +963,9 @@ fmt.Println(collections) // the array of records
 
 ```go
 result, err := client.Collection(nil).Create(map[string]any{
-    "data": map[string]any{},
     "id": "example_id",
     "name": "example_name",
+    "slug": "example_slug",
 }, nil)
 if err != nil {
     panic(err)
@@ -974,7 +990,15 @@ Create an instance: `collectionRecord := client.CollectionRecord(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `app_user_id` | `string` |  |
+| `collection_id` | `string` |  |
+| `created_at` | `string` |  |
+| `created_by` | `string` |  |
 | `data` | `map[string]any` |  |
+| `deleted_at` | `string` |  |
+| `id` | `string` |  |
+| `project_id` | `string` |  |
+| `updated_at` | `string` |  |
 
 #### Example: Load
 
@@ -991,6 +1015,8 @@ fmt.Println(collectionRecord) // the loaded record
 ```go
 result, err := client.CollectionRecord(nil).Create(map[string]any{
     "slug": "example_slug",
+    "data": map[string]any{},
+    "id": "example_id",
 }, nil)
 if err != nil {
     panic(err)
@@ -1096,9 +1122,9 @@ Create an instance: `legacyMutation := client.LegacyMutation(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `string` |  |
+| `createdAt` | `string` |  |
 | `id` | `string` |  |
-| `updated_at` | `string` |  |
+| `updatedAt` | `string` |  |
 
 #### Example: Create
 

@@ -257,7 +257,11 @@ Only `direct()` returns a response envelope — a `table` with `ok`,
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
+| `deprecations` |  |
+| `rate_limit_status` |  |
+| `status` |  |
+| `uptime_seconds` |  |
+| `version` |  |
 
 Operations: Load.
 
@@ -278,7 +282,16 @@ API path: `/agent/v1/auth/login`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
+| `created_at` |  |
+| `email` |  |
+| `full_name` |  |
+| `id` |  |
+| `locale` |  |
+| `preferences` |  |
+| `profile` |  |
+| `status` |  |
+| `timezone` |  |
+| `updated_at` |  |
 
 Operations: Load.
 
@@ -293,7 +306,7 @@ API path: `/agent/v1/users/{id}`
 | `full_name` |  |
 | `id` |  |
 | `locale` |  |
-| `preference` |  |
+| `preferences` |  |
 | `profile` |  |
 | `status` |  |
 | `timezone` |  |
@@ -308,7 +321,6 @@ API path: `/agent/v1/users`
 | Field | Description |
 | --- | --- |
 | `created_at` |  |
-| `data` |  |
 | `email` |  |
 | `id` |  |
 | `last_login_at` |  |
@@ -323,7 +335,6 @@ API path: `/api/app-users/{id}/sessions/simulate`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
 | `email` |  |
 | `metadata` |  |
 | `project_id` |  |
@@ -336,7 +347,6 @@ API path: `/api/app-users/login`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
 
 Operations: Load.
 
@@ -356,7 +366,6 @@ API path: `/api/projects/{projectId}/app-users/total`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
 | `token` |  |
 
 Operations: Create.
@@ -377,7 +386,6 @@ API path: `/api/logout`
 | Field | Description |
 | --- | --- |
 | `created_at` |  |
-| `data` |  |
 | `id` |  |
 | `name` |  |
 | `project_id` |  |
@@ -395,7 +403,15 @@ API path: `/api/collections`
 
 | Field | Description |
 | --- | --- |
+| `app_user_id` |  |
+| `collection_id` |  |
+| `created_at` |  |
+| `created_by` |  |
 | `data` |  |
+| `deleted_at` |  |
+| `id` |  |
+| `project_id` |  |
+| `updated_at` |  |
 
 Operations: Create, Load, Update.
 
@@ -441,9 +457,9 @@ API path: `/api/users/{id}`
 
 | Field | Description |
 | --- | --- |
-| `created_at` |  |
+| `createdAt` |  |
 | `id` |  |
-| `updated_at` |  |
+| `updatedAt` |  |
 
 Operations: Create, Patch, Update.
 
@@ -543,7 +559,11 @@ Create an instance: `local agent_health = client:AgentHealth(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `table` |  |
+| `deprecations` | `table` |  |
+| `rate_limit_status` | `table` |  |
+| `status` | `string` |  |
+| `uptime_seconds` | `number` |  |
+| `version` | `string` |  |
 
 #### Example: Load
 
@@ -600,7 +620,16 @@ Create an instance: `local agent_user_detail = client:AgentUserDetail(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `table` |  |
+| `created_at` | `string` |  |
+| `email` | `string` |  |
+| `full_name` | `string` |  |
+| `id` | `string` |  |
+| `locale` | `string` |  |
+| `preferences` | `table` |  |
+| `profile` | `table` |  |
+| `status` | `string` |  |
+| `timezone` | `string` |  |
+| `updated_at` | `string` |  |
 
 #### Example: Load
 
@@ -628,7 +657,7 @@ Create an instance: `local agent_user_list = client:AgentUserList(nil)`
 | `full_name` | `string` |  |
 | `id` | `string` |  |
 | `locale` | `string` |  |
-| `preference` | `table` |  |
+| `preferences` | `table` |  |
 | `profile` | `table` |  |
 | `status` | `string` |  |
 | `timezone` | `string` |  |
@@ -660,7 +689,6 @@ Create an instance: `local app_user = client:AppUser(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `created_at` | `string` |  |
-| `data` | `table` |  |
 | `email` | `string` |  |
 | `id` | `string` |  |
 | `last_login_at` | `string` |  |
@@ -683,7 +711,6 @@ local app_users, err = client:AppUser():list()
 
 ```lua
 local app_user, err = client:AppUser():create({
-  data = {}, -- table
   email = "example_email", -- string
   id = "example_id", -- string
 })
@@ -704,7 +731,6 @@ Create an instance: `local app_user_login = client:AppUserLogin(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `table` |  |
 | `email` | `string` |  |
 | `metadata` | `table` |  |
 | `project_id` | `string` |  |
@@ -713,7 +739,6 @@ Create an instance: `local app_user_login = client:AppUserLogin(nil)`
 
 ```lua
 local app_user_login, err = client:AppUserLogin():create({
-  data = {}, -- table
   email = "example_email", -- string
 })
 ```
@@ -728,12 +753,6 @@ Create an instance: `local app_user_session = client:AppUserSession(nil)`
 | Method | Description |
 | --- | --- |
 | `load(match)` | Load a single entity by match criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `data` | `table` |  |
 
 #### Example: Load
 
@@ -779,14 +798,12 @@ Create an instance: `local app_user_verify = client:AppUserVerify(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `table` |  |
 | `token` | `string` |  |
 
 #### Example: Create
 
 ```lua
 local app_user_verify, err = client:AppUserVerify():create({
-  data = {}, -- table
   token = "example_token", -- string
 })
 ```
@@ -829,7 +846,6 @@ Create an instance: `local collection = client:Collection(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `created_at` | `string` |  |
-| `data` | `table` |  |
 | `id` | `string` |  |
 | `name` | `string` |  |
 | `project_id` | `string` |  |
@@ -855,9 +871,9 @@ local collections, err = client:Collection():list()
 
 ```lua
 local collection, err = client:Collection():create({
-  data = {}, -- table
   id = "example_id", -- string
   name = "example_name", -- string
+  slug = "example_slug", -- string
 })
 ```
 
@@ -878,7 +894,15 @@ Create an instance: `local collection_record = client:CollectionRecord(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `app_user_id` | `string` |  |
+| `collection_id` | `string` |  |
+| `created_at` | `string` |  |
+| `created_by` | `string` |  |
 | `data` | `table` |  |
+| `deleted_at` | `string` |  |
+| `id` | `string` |  |
+| `project_id` | `string` |  |
+| `updated_at` | `string` |  |
 
 #### Example: Load
 
@@ -891,6 +915,8 @@ local collection_record, err = client:CollectionRecord():load({ id = "collection
 ```lua
 local collection_record, err = client:CollectionRecord():create({
   slug = "example_slug", -- string
+  data = {}, -- table
+  id = "example_id", -- string
 })
 ```
 
@@ -980,9 +1006,9 @@ Create an instance: `local legacy_mutation = client:LegacyMutation(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `string` |  |
+| `createdAt` | `string` |  |
 | `id` | `string` |  |
-| `updated_at` | `string` |  |
+| `updatedAt` | `string` |  |
 
 #### Example: Create
 

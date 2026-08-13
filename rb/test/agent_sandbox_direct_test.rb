@@ -59,16 +59,16 @@ def agent_sandbox_direct_setup(mockres)
   calls = []
 
   env = Runner.env_override({
-    "HOSTEDREST_TEST_AGENT_SANDBOX_ENTID" => {},
-    "HOSTEDREST_TEST_LIVE" => "FALSE",
-    "HOSTEDREST_APIKEY" => "NONE",
+    "HOSTED_REST_TEST_AGENT_SANDBOX_ENTID" => {},
+    "HOSTED_REST_TEST_LIVE" => "FALSE",
+    "HOSTED_REST_APIKEY" => "NONE",
   })
 
-  live = env["HOSTEDREST_TEST_LIVE"] == "TRUE"
+  live = env["HOSTED_REST_TEST_LIVE"] == "TRUE"
 
   if live
     merged_opts = {
-      "apikey" => env["HOSTEDREST_APIKEY"],
+      "apikey" => env["HOSTED_REST_APIKEY"],
     }
     client = HostedRestSDK.new(merged_opts)
     return {

@@ -26,8 +26,8 @@ import {
 describe('CollectionEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when HOSTEDREST_TEST_LIVE=TRUE.
-  afterEach(liveDelay('HOSTEDREST_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when HOSTED_REST_TEST_LIVE=TRUE.
+  afterEach(liveDelay('HOSTED_REST_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = HostedRestSDK.test()
@@ -63,14 +63,14 @@ describe('CollectionEntity', async () => {
     let collection_ref01_data = setup.data.new.collection['collection_ref01']
     collection_ref01_data['collection_id'] = setup.idmap['collection01']
 
-    collection_ref01_data = await collection_ref01_ent.create(collection_ref01_data)
+    collection_ref01_data = (await collection_ref01_ent.create(collection_ref01_data)).data()
     assert(null != collection_ref01_data.id)
 
 
     // LIST
     const collection_ref01_match: any = {}
 
-    const collection_ref01_list = await collection_ref01_ent.list(collection_ref01_match)
+    const collection_ref01_list = (await collection_ref01_ent.list(collection_ref01_match)).map((e: any) => e.data())
 
     assert(!isempty(select(collection_ref01_list, { id: collection_ref01_data.id })))
 
@@ -82,7 +82,7 @@ describe('CollectionEntity', async () => {
     const collection_ref01_markdef_up0 = { name: 'created_at', value: 'Mark01-collection_ref01_' + setup.now }
     ;(collection_ref01_data_up0 as any)[collection_ref01_markdef_up0.name] = collection_ref01_markdef_up0.value
 
-    const collection_ref01_resdata_up0 = await collection_ref01_ent.update(collection_ref01_data_up0)
+    const collection_ref01_resdata_up0 = (await collection_ref01_ent.update(collection_ref01_data_up0)).data()
     assert(collection_ref01_resdata_up0.id === collection_ref01_data_up0.id)
 
     assert((collection_ref01_resdata_up0 as any)[collection_ref01_markdef_up0.name] === collection_ref01_markdef_up0.value)
@@ -91,7 +91,7 @@ describe('CollectionEntity', async () => {
     // LOAD
     const collection_ref01_match_dt0: any = {}
     collection_ref01_match_dt0.id = collection_ref01_data.id
-    const collection_ref01_data_dt0 = await collection_ref01_ent.load(collection_ref01_match_dt0)
+    const collection_ref01_data_dt0 = (await collection_ref01_ent.load(collection_ref01_match_dt0)).data()
     assert(collection_ref01_data_dt0.id === collection_ref01_data.id)
 
 
@@ -103,7 +103,7 @@ describe('CollectionEntity', async () => {
     // LIST
     const collection_ref01_match_rt0: any = {}
 
-    const collection_ref01_list_rt0 = await collection_ref01_ent.list(collection_ref01_match_rt0)
+    const collection_ref01_list_rt0 = (await collection_ref01_ent.list(collection_ref01_match_rt0)).map((e: any) => e.data())
 
     assert(isempty(select(collection_ref01_list_rt0, { id: collection_ref01_data.id })))
 

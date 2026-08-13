@@ -6,11 +6,56 @@ main: kit: entity: collection_record: {
 
   fields: [
     {
+      name: "app_user_id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "collection_id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "created_at"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "created_by"
+      req: false
+      type: "`$STRING`"
+    }
+    {
       name: "data"
       req: true
       type: "`$OBJECT`"
     }
+    {
+      name: "deleted_at"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "id"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "project_id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "updated_at"
+      req: false
+      type: "`$STRING`"
+    }
   ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
 
   name: "collection_record"
   op: {
@@ -54,7 +99,7 @@ main: kit: entity: collection_record: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.data`"
           }
         }
         {
@@ -84,7 +129,7 @@ main: kit: entity: collection_record: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.data`"
           }
         }
       ]
@@ -144,7 +189,7 @@ main: kit: entity: collection_record: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.data`"
           }
         }
         {
@@ -189,7 +234,7 @@ main: kit: entity: collection_record: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.data`"
           }
         }
       ]
@@ -249,7 +294,7 @@ main: kit: entity: collection_record: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.data`"
           }
         }
         {
@@ -294,7 +339,7 @@ main: kit: entity: collection_record: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.data`"
           }
         }
       ]

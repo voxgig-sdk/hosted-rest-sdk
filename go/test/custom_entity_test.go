@@ -44,7 +44,7 @@ func TestCustomEntity(t *testing.T) {
 		// The basic flow consumes synthetic IDs from the fixture. In live mode
 		// without an *_ENTID env override, those IDs hit the live API and 4xx.
 		if setup.syntheticOnly {
-			t.Skip("live entity test uses synthetic IDs from fixture — set HOSTEDREST_TEST_CUSTOM_ENTID JSON to run live")
+			t.Skip("live entity test uses synthetic IDs from fixture — set HOSTED_REST_TEST_CUSTOM_ENTID JSON to run live")
 			return
 		}
 		client := setup.client
@@ -59,7 +59,7 @@ func TestCustomEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("create failed: %v", err)
 		}
-		customRef01Data = core.ToMapAny(customRef01DataResult)
+		customRef01Data = core.ToMapAny(entityData(customRef01DataResult))
 		if customRef01Data == nil {
 			t.Fatal("expected create result to be a map")
 		}
@@ -72,7 +72,7 @@ func TestCustomEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("update failed: %v", err)
 		}
-		customRef01ResdataUp0 := core.ToMapAny(customRef01ResdataUp0Result)
+		customRef01ResdataUp0 := core.ToMapAny(entityData(customRef01ResdataUp0Result))
 		if customRef01ResdataUp0 == nil {
 			t.Fatal("expected update result to be a map")
 		}
@@ -87,14 +87,6 @@ func TestCustomEntity(t *testing.T) {
 			t.Fatal("expected load result to be non-nil")
 		}
 
-		// REMOVE
-		customRef01MatchRm0 := map[string]any{
-			"id": customRef01Data["id"],
-		}
-		_, err = customRef01Ent.Remove(customRef01MatchRm0, nil)
-		if err != nil {
-			t.Fatalf("remove failed: %v", err)
-		}
 
 	})
 }
@@ -136,38 +128,38 @@ func customBasicSetup(extra map[string]any) *entityTestSetup {
 	// Detect ENTID env override before envOverride consumes it. When live
 	// mode is on without a real override, the basic test runs against synthetic
 	// IDs from the fixture and 4xx's. Surface this so the test can skip.
-	entidEnvRaw := os.Getenv("HOSTEDREST_TEST_CUSTOM_ENTID")
+	entidEnvRaw := os.Getenv("HOSTED_REST_TEST_CUSTOM_ENTID")
 	idmapOverridden := entidEnvRaw != "" && strings.HasPrefix(strings.TrimSpace(entidEnvRaw), "{")
 
 	env := envOverride(map[string]any{
-		"HOSTEDREST_TEST_CUSTOM_ENTID": idmap,
-		"HOSTEDREST_TEST_LIVE":      "FALSE",
-		"HOSTEDREST_TEST_EXPLAIN":   "FALSE",
-		"HOSTEDREST_APIKEY":         "NONE",
+		"HOSTED_REST_TEST_CUSTOM_ENTID": idmap,
+		"HOSTED_REST_TEST_LIVE":      "FALSE",
+		"HOSTED_REST_TEST_EXPLAIN":   "FALSE",
+		"HOSTED_REST_APIKEY":         "NONE",
 	})
 
-	idmapResolved := core.ToMapAny(env["HOSTEDREST_TEST_CUSTOM_ENTID"])
+	idmapResolved := core.ToMapAny(env["HOSTED_REST_TEST_CUSTOM_ENTID"])
 	if idmapResolved == nil {
 		idmapResolved = core.ToMapAny(idmap)
 	}
 
-	if env["HOSTEDREST_TEST_LIVE"] == "TRUE" {
+	if env["HOSTED_REST_TEST_LIVE"] == "TRUE" {
 		mergedOpts := vs.Merge([]any{
 			map[string]any{
-				"apikey": env["HOSTEDREST_APIKEY"],
+				"apikey": env["HOSTED_REST_APIKEY"],
 			},
 			extra,
 		})
 		client = sdk.NewHostedRestSDK(core.ToMapAny(mergedOpts))
 	}
 
-	live := env["HOSTEDREST_TEST_LIVE"] == "TRUE"
+	live := env["HOSTED_REST_TEST_LIVE"] == "TRUE"
 	return &entityTestSetup{
 		client:        client,
 		data:          entityData,
 		idmap:         idmapResolved,
 		env:           env,
-		explain:       env["HOSTEDREST_TEST_EXPLAIN"] == "TRUE",
+		explain:       env["HOSTED_REST_TEST_EXPLAIN"] == "TRUE",
 		live:          live,
 		syntheticOnly: live && !idmapOverridden,
 		now:           time.Now().UnixMilli(),

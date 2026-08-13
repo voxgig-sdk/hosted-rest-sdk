@@ -26,8 +26,8 @@ import {
 describe('CollectionRecordEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when HOSTEDREST_TEST_LIVE=TRUE.
-  afterEach(liveDelay('HOSTEDREST_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when HOSTED_REST_TEST_LIVE=TRUE.
+  afterEach(liveDelay('HOSTED_REST_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = HostedRestSDK.test()
@@ -64,17 +64,29 @@ describe('CollectionRecordEntity', async () => {
     collection_record_ref01_data['collection_id'] = setup.idmap['collection01']
     collection_record_ref01_data['slug'] = setup.idmap['slug01']
 
-    collection_record_ref01_data = await collection_record_ref01_ent.create(collection_record_ref01_data)
-    assert(null != collection_record_ref01_data)
+    collection_record_ref01_data = (await collection_record_ref01_ent.create(collection_record_ref01_data)).data()
+    assert(null != collection_record_ref01_data.id)
 
 
     // UPDATE
     const collection_record_ref01_data_up0: any = {}
+    collection_record_ref01_data_up0.id = collection_record_ref01_data.id
     collection_record_ref01_data_up0 ['collection_id'] = setup.idmap['collection_id']
 
-    const collection_record_ref01_resdata_up0 = await collection_record_ref01_ent.update(collection_record_ref01_data_up0)
-    assert(null != collection_record_ref01_resdata_up0)
+    const collection_record_ref01_markdef_up0 = { name: 'app_user_id', value: 'Mark01-collection_record_ref01_' + setup.now }
+    ;(collection_record_ref01_data_up0 as any)[collection_record_ref01_markdef_up0.name] = collection_record_ref01_markdef_up0.value
 
+    const collection_record_ref01_resdata_up0 = (await collection_record_ref01_ent.update(collection_record_ref01_data_up0)).data()
+    assert(collection_record_ref01_resdata_up0.id === collection_record_ref01_data_up0.id)
+
+    assert((collection_record_ref01_resdata_up0 as any)[collection_record_ref01_markdef_up0.name] === collection_record_ref01_markdef_up0.value)
+
+
+    // LOAD
+    const collection_record_ref01_match_dt0: any = {}
+    collection_record_ref01_match_dt0.id = collection_record_ref01_data.id
+    const collection_record_ref01_data_dt0 = (await collection_record_ref01_ent.load(collection_record_ref01_match_dt0)).data()
+    assert(collection_record_ref01_data_dt0.id === collection_record_ref01_data.id)
 
 
   })

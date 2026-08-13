@@ -10,19 +10,51 @@
 
 # AgentHealth entity data model.
 #
-# @!attribute [rw] data
+# @!attribute [rw] deprecations
+#   @return [Array]
+#
+# @!attribute [rw] rate_limit_status
 #   @return [Hash]
+#
+# @!attribute [rw] status
+#   @return [String]
+#
+# @!attribute [rw] uptime_seconds
+#   @return [Integer]
+#
+# @!attribute [rw] version
+#   @return [String]
 AgentHealth = Struct.new(
-  :data,
+  :deprecations,
+  :rate_limit_status,
+  :status,
+  :uptime_seconds,
+  :version,
   keyword_init: true
 )
 
 # Request payload for AgentHealth#load.
 #
-# @!attribute [rw] data
+# @!attribute [rw] deprecations
+#   @return [Array, nil]
+#
+# @!attribute [rw] rate_limit_status
 #   @return [Hash, nil]
+#
+# @!attribute [rw] status
+#   @return [String, nil]
+#
+# @!attribute [rw] uptime_seconds
+#   @return [Integer, nil]
+#
+# @!attribute [rw] version
+#   @return [String, nil]
 AgentHealthLoadMatch = Struct.new(
-  :data,
+  :deprecations,
+  :rate_limit_status,
+  :status,
+  :uptime_seconds,
+  :version,
   keyword_init: true
 )
 
@@ -63,10 +95,46 @@ AgentSandboxCreateData = Struct.new(
 
 # AgentUserDetail entity data model.
 #
-# @!attribute [rw] data
+# @!attribute [rw] created_at
+#   @return [String]
+#
+# @!attribute [rw] email
+#   @return [String]
+#
+# @!attribute [rw] full_name
+#   @return [String]
+#
+# @!attribute [rw] id
+#   @return [String]
+#
+# @!attribute [rw] locale
+#   @return [String]
+#
+# @!attribute [rw] preferences
 #   @return [Hash]
+#
+# @!attribute [rw] profile
+#   @return [Hash]
+#
+# @!attribute [rw] status
+#   @return [String]
+#
+# @!attribute [rw] timezone
+#   @return [String]
+#
+# @!attribute [rw] updated_at
+#   @return [String]
 AgentUserDetail = Struct.new(
-  :data,
+  :created_at,
+  :email,
+  :full_name,
+  :id,
+  :locale,
+  :preferences,
+  :profile,
+  :status,
+  :timezone,
+  :updated_at,
   keyword_init: true
 )
 
@@ -96,7 +164,7 @@ AgentUserDetailLoadMatch = Struct.new(
 # @!attribute [rw] locale
 #   @return [String]
 #
-# @!attribute [rw] preference
+# @!attribute [rw] preferences
 #   @return [Hash]
 #
 # @!attribute [rw] profile
@@ -116,7 +184,7 @@ AgentUserList = Struct.new(
   :full_name,
   :id,
   :locale,
-  :preference,
+  :preferences,
   :profile,
   :status,
   :timezone,
@@ -141,7 +209,7 @@ AgentUserList = Struct.new(
 # @!attribute [rw] locale
 #   @return [String, nil]
 #
-# @!attribute [rw] preference
+# @!attribute [rw] preferences
 #   @return [Hash, nil]
 #
 # @!attribute [rw] profile
@@ -161,7 +229,7 @@ AgentUserListListMatch = Struct.new(
   :full_name,
   :id,
   :locale,
-  :preference,
+  :preferences,
   :profile,
   :status,
   :timezone,
@@ -173,9 +241,6 @@ AgentUserListListMatch = Struct.new(
 #
 # @!attribute [rw] created_at
 #   @return [String, nil]
-#
-# @!attribute [rw] data
-#   @return [Hash]
 #
 # @!attribute [rw] email
 #   @return [String]
@@ -193,7 +258,6 @@ AgentUserListListMatch = Struct.new(
 #   @return [String, nil]
 AppUser = Struct.new(
   :created_at,
-  :data,
   :email,
   :id,
   :last_login_at,
@@ -225,9 +289,6 @@ AppUserListMatch = Struct.new(
 # @!attribute [rw] created_at
 #   @return [String, nil]
 #
-# @!attribute [rw] data
-#   @return [Hash]
-#
 # @!attribute [rw] email
 #   @return [String]
 #
@@ -244,7 +305,6 @@ AppUserListMatch = Struct.new(
 #   @return [String, nil]
 AppUserCreateData = Struct.new(
   :created_at,
-  :data,
   :email,
   :id,
   :last_login_at,
@@ -257,8 +317,28 @@ AppUserCreateData = Struct.new(
 #
 # @!attribute [rw] id
 #   @return [String]
+#
+# @!attribute [rw] created_at
+#   @return [String, nil]
+#
+# @!attribute [rw] email
+#   @return [String, nil]
+#
+# @!attribute [rw] last_login_at
+#   @return [String, nil]
+#
+# @!attribute [rw] metadata
+#   @return [Hash, nil]
+#
+# @!attribute [rw] status
+#   @return [String, nil]
 AppUserUpdateData = Struct.new(
   :id,
+  :created_at,
+  :email,
+  :last_login_at,
+  :metadata,
+  :status,
   keyword_init: true
 )
 
@@ -281,9 +361,6 @@ AppUserRemoveMatch = Struct.new(
 
 # AppUserLogin entity data model.
 #
-# @!attribute [rw] data
-#   @return [Hash]
-#
 # @!attribute [rw] email
 #   @return [String]
 #
@@ -293,7 +370,6 @@ AppUserRemoveMatch = Struct.new(
 # @!attribute [rw] project_id
 #   @return [String, nil]
 AppUserLogin = Struct.new(
-  :data,
   :email,
   :metadata,
   :project_id,
@@ -301,9 +377,6 @@ AppUserLogin = Struct.new(
 )
 
 # Request payload for AppUserLogin#create.
-#
-# @!attribute [rw] data
-#   @return [Hash]
 #
 # @!attribute [rw] email
 #   @return [String]
@@ -314,7 +387,6 @@ AppUserLogin = Struct.new(
 # @!attribute [rw] project_id
 #   @return [String, nil]
 AppUserLoginCreateData = Struct.new(
-  :data,
   :email,
   :metadata,
   :project_id,
@@ -322,22 +394,12 @@ AppUserLoginCreateData = Struct.new(
 )
 
 # AppUserSession entity data model.
-#
-# @!attribute [rw] data
-#   @return [Hash]
-AppUserSession = Struct.new(
-  :data,
-  keyword_init: true
-)
+class AppUserSession
+end
 
 # Request payload for AppUserSession#load.
-#
-# @!attribute [rw] data
-#   @return [Hash, nil]
-AppUserSessionLoadMatch = Struct.new(
-  :data,
-  keyword_init: true
-)
+class AppUserSessionLoadMatch
+end
 
 # AppUserTotal entity data model.
 #
@@ -359,26 +421,18 @@ AppUserTotalLoadMatch = Struct.new(
 
 # AppUserVerify entity data model.
 #
-# @!attribute [rw] data
-#   @return [Hash]
-#
 # @!attribute [rw] token
 #   @return [String]
 AppUserVerify = Struct.new(
-  :data,
   :token,
   keyword_init: true
 )
 
 # Request payload for AppUserVerify#create.
 #
-# @!attribute [rw] data
-#   @return [Hash]
-#
 # @!attribute [rw] token
 #   @return [String]
 AppUserVerifyCreateData = Struct.new(
-  :data,
   :token,
   keyword_init: true
 )
@@ -396,9 +450,6 @@ end
 # @!attribute [rw] created_at
 #   @return [String, nil]
 #
-# @!attribute [rw] data
-#   @return [Hash]
-#
 # @!attribute [rw] id
 #   @return [String]
 #
@@ -412,7 +463,7 @@ end
 #   @return [Hash, nil]
 #
 # @!attribute [rw] slug
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] updated_at
 #   @return [String, nil]
@@ -424,7 +475,6 @@ end
 #   @return [String, nil]
 Collection = Struct.new(
   :created_at,
-  :data,
   :id,
   :name,
   :project_id,
@@ -449,9 +499,6 @@ CollectionLoadMatch = Struct.new(
 #
 # @!attribute [rw] created_at
 #   @return [String, nil]
-#
-# @!attribute [rw] data
-#   @return [Hash, nil]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
@@ -478,7 +525,6 @@ CollectionLoadMatch = Struct.new(
 #   @return [String, nil]
 CollectionListMatch = Struct.new(
   :created_at,
-  :data,
   :id,
   :name,
   :project_id,
@@ -495,14 +541,52 @@ CollectionListMatch = Struct.new(
 # @!attribute [rw] created_at
 #   @return [String, nil]
 #
-# @!attribute [rw] data
-#   @return [Hash]
-#
 # @!attribute [rw] id
 #   @return [String]
 #
 # @!attribute [rw] name
 #   @return [String]
+#
+# @!attribute [rw] project_id
+#   @return [String, nil]
+#
+# @!attribute [rw] schema
+#   @return [Hash, nil]
+#
+# @!attribute [rw] slug
+#   @return [String]
+#
+# @!attribute [rw] updated_at
+#   @return [String, nil]
+#
+# @!attribute [rw] user_id
+#   @return [String, nil]
+#
+# @!attribute [rw] visibility
+#   @return [String, nil]
+CollectionCreateData = Struct.new(
+  :created_at,
+  :id,
+  :name,
+  :project_id,
+  :schema,
+  :slug,
+  :updated_at,
+  :user_id,
+  :visibility,
+  keyword_init: true
+)
+
+# Request payload for Collection#update.
+#
+# @!attribute [rw] id
+#   @return [String]
+#
+# @!attribute [rw] created_at
+#   @return [String, nil]
+#
+# @!attribute [rw] name
+#   @return [String, nil]
 #
 # @!attribute [rw] project_id
 #   @return [String, nil]
@@ -521,10 +605,9 @@ CollectionListMatch = Struct.new(
 #
 # @!attribute [rw] visibility
 #   @return [String, nil]
-CollectionCreateData = Struct.new(
-  :created_at,
-  :data,
+CollectionUpdateData = Struct.new(
   :id,
+  :created_at,
   :name,
   :project_id,
   :schema,
@@ -532,15 +615,6 @@ CollectionCreateData = Struct.new(
   :updated_at,
   :user_id,
   :visibility,
-  keyword_init: true
-)
-
-# Request payload for Collection#update.
-#
-# @!attribute [rw] id
-#   @return [String]
-CollectionUpdateData = Struct.new(
-  :id,
   keyword_init: true
 )
 
@@ -563,10 +637,42 @@ CollectionRemoveMatch = Struct.new(
 
 # CollectionRecord entity data model.
 #
+# @!attribute [rw] app_user_id
+#   @return [String, nil]
+#
+# @!attribute [rw] collection_id
+#   @return [String, nil]
+#
+# @!attribute [rw] created_at
+#   @return [String, nil]
+#
+# @!attribute [rw] created_by
+#   @return [String, nil]
+#
 # @!attribute [rw] data
 #   @return [Hash]
+#
+# @!attribute [rw] deleted_at
+#   @return [String, nil]
+#
+# @!attribute [rw] id
+#   @return [String]
+#
+# @!attribute [rw] project_id
+#   @return [String, nil]
+#
+# @!attribute [rw] updated_at
+#   @return [String, nil]
 CollectionRecord = Struct.new(
+  :app_user_id,
+  :collection_id,
+  :created_at,
+  :created_by,
   :data,
+  :deleted_at,
+  :id,
+  :project_id,
+  :updated_at,
   keyword_init: true
 )
 
@@ -587,8 +693,44 @@ CollectionRecordLoadMatch = Struct.new(
 #
 # @!attribute [rw] slug
 #   @return [String]
+#
+# @!attribute [rw] app_user_id
+#   @return [String, nil]
+#
+# @!attribute [rw] collection_id
+#   @return [String, nil]
+#
+# @!attribute [rw] created_at
+#   @return [String, nil]
+#
+# @!attribute [rw] created_by
+#   @return [String, nil]
+#
+# @!attribute [rw] data
+#   @return [Hash]
+#
+# @!attribute [rw] deleted_at
+#   @return [String, nil]
+#
+# @!attribute [rw] id
+#   @return [String]
+#
+# @!attribute [rw] project_id
+#   @return [String, nil]
+#
+# @!attribute [rw] updated_at
+#   @return [String, nil]
 CollectionRecordCreateData = Struct.new(
   :slug,
+  :app_user_id,
+  :collection_id,
+  :created_at,
+  :created_by,
+  :data,
+  :deleted_at,
+  :id,
+  :project_id,
+  :updated_at,
   keyword_init: true
 )
 
@@ -599,9 +741,37 @@ CollectionRecordCreateData = Struct.new(
 #
 # @!attribute [rw] id
 #   @return [String]
+#
+# @!attribute [rw] app_user_id
+#   @return [String, nil]
+#
+# @!attribute [rw] created_at
+#   @return [String, nil]
+#
+# @!attribute [rw] created_by
+#   @return [String, nil]
+#
+# @!attribute [rw] data
+#   @return [Hash, nil]
+#
+# @!attribute [rw] deleted_at
+#   @return [String, nil]
+#
+# @!attribute [rw] project_id
+#   @return [String, nil]
+#
+# @!attribute [rw] updated_at
+#   @return [String, nil]
 CollectionRecordUpdateData = Struct.new(
   :collection_id,
   :id,
+  :app_user_id,
+  :created_at,
+  :created_by,
+  :data,
+  :deleted_at,
+  :project_id,
+  :updated_at,
   keyword_init: true
 )
 
@@ -710,35 +880,35 @@ LegacyRemoveMatch = Struct.new(
 
 # LegacyMutation entity data model.
 #
-# @!attribute [rw] created_at
+# @!attribute [rw] createdAt
 #   @return [String, nil]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] updated_at
+# @!attribute [rw] updatedAt
 #   @return [String, nil]
 LegacyMutation = Struct.new(
-  :created_at,
+  :createdAt,
   :id,
-  :updated_at,
+  :updatedAt,
   keyword_init: true
 )
 
 # Request payload for LegacyMutation#create.
 #
-# @!attribute [rw] created_at
+# @!attribute [rw] createdAt
 #   @return [String, nil]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] updated_at
+# @!attribute [rw] updatedAt
 #   @return [String, nil]
 LegacyMutationCreateData = Struct.new(
-  :created_at,
+  :createdAt,
   :id,
-  :updated_at,
+  :updatedAt,
   keyword_init: true
 )
 
@@ -746,8 +916,16 @@ LegacyMutationCreateData = Struct.new(
 #
 # @!attribute [rw] id
 #   @return [Integer]
+#
+# @!attribute [rw] createdAt
+#   @return [String, nil]
+#
+# @!attribute [rw] updatedAt
+#   @return [String, nil]
 LegacyMutationUpdateData = Struct.new(
   :id,
+  :createdAt,
+  :updatedAt,
   keyword_init: true
 )
 

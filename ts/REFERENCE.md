@@ -369,7 +369,11 @@ const agent_health = client.AgentHealth()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `Record<string, any>` | Yes |  |
+| `deprecations` | `any[]` | Yes |  |
+| `rate_limit_status` | `Record<string, any>` | Yes |  |
+| `status` | `string` | Yes |  |
+| `uptime_seconds` | `number` | Yes |  |
+| `version` | `string` | Yes |  |
 
 ### Operations
 
@@ -481,7 +485,16 @@ const agent_user_detail = client.AgentUserDetail()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `Record<string, any>` | Yes |  |
+| `created_at` | `string` | Yes |  |
+| `email` | `string` | Yes |  |
+| `full_name` | `string` | Yes |  |
+| `id` | `string` | Yes |  |
+| `locale` | `string` | Yes |  |
+| `preferences` | `Record<string, any>` | Yes |  |
+| `profile` | `Record<string, any>` | Yes |  |
+| `status` | `string` | Yes |  |
+| `timezone` | `string` | Yes |  |
+| `updated_at` | `string` | Yes |  |
 
 ### Operations
 
@@ -536,7 +549,7 @@ const agent_user_list = client.AgentUserList()
 | `full_name` | `string` | Yes |  |
 | `id` | `string` | Yes |  |
 | `locale` | `string` | Yes |  |
-| `preference` | `Record<string, any>` | Yes |  |
+| `preferences` | `Record<string, any>` | Yes |  |
 | `profile` | `Record<string, any>` | Yes |  |
 | `status` | `string` | Yes |  |
 | `timezone` | `string` | Yes |  |
@@ -591,7 +604,6 @@ const app_user = client.AppUser()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created_at` | `string` | No |  |
-| `data` | `Record<string, any>` | Yes |  |
 | `email` | `string` | Yes |  |
 | `id` | `string` | Yes |  |
 | `last_login_at` | `string` | No |  |
@@ -603,12 +615,31 @@ const app_user = client.AppUser()
 | Field | load | list | create | update | remove |
 | --- | --- | --- | --- | --- | --- |
 | `created_at` | - | - | - | - | - |
-| `data` | - | - | - | - | - |
 | `email` | - | - | - | Yes | - |
 | `id` | - | - | - | - | - |
 | `last_login_at` | - | - | - | - | - |
 | `metadata` | - | - | - | - | - |
 | `status` | - | - | - | - | - |
+
+### Actions
+
+This entity exposes custom API actions in addition to the standard
+operations. Select one with `$action` in the call's argument; the
+remaining keys are sent as that action's payload.
+
+| Action | Route | Call |
+| --- | --- | --- |
+| `session_simulate` | `/api/app-users/{id}/sessions/simulate` | `client.AppUser().create({ $action: 'session_simulate', ... })` |
+
+An action returns that action's OWN response, which is not necessarily a
+AppUser record — check the API definition for its shape.
+
+```ts
+const result = await client.AppUser().create({
+  $action: 'session_simulate',
+  /* ...the action's own arguments */
+})
+```
 
 ### Operations
 
@@ -618,7 +649,6 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.AppUser().create({
-  data: {},
   email: 'example_email',
   id: 'example_id',
 })
@@ -697,7 +727,6 @@ const app_user_login = client.AppUserLogin()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `Record<string, any>` | Yes |  |
 | `email` | `string` | Yes |  |
 | `metadata` | `Record<string, any>` | No |  |
 | `project_id` | `string` | No |  |
@@ -710,7 +739,6 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.AppUserLogin().create({
-  data: {},
   email: 'example_email',
 })
 ```
@@ -748,12 +776,6 @@ Return a copy of the entity options.
 ```ts
 const app_user_session = client.AppUserSession()
 ```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `Record<string, any>` | Yes |  |
 
 ### Operations
 
@@ -853,7 +875,6 @@ const app_user_verify = client.AppUserVerify()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `Record<string, any>` | Yes |  |
 | `token` | `string` | Yes |  |
 
 ### Operations
@@ -864,7 +885,6 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.AppUserVerify().create({
-  data: {},
   token: 'example_token',
 })
 ```
@@ -953,12 +973,11 @@ const collection = client.Collection()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created_at` | `string` | No |  |
-| `data` | `Record<string, any>` | Yes |  |
 | `id` | `string` | Yes |  |
 | `name` | `string` | Yes |  |
 | `project_id` | `string` | No |  |
 | `schema` | `Record<string, any>` | No |  |
-| `slug` | `string` | No |  |
+| `slug` | `string` | Yes |  |
 | `updated_at` | `string` | No |  |
 | `user_id` | `string` | No |  |
 | `visibility` | `string` | No |  |
@@ -968,12 +987,11 @@ const collection = client.Collection()
 | Field | load | list | create | update | remove |
 | --- | --- | --- | --- | --- | --- |
 | `created_at` | - | - | - | - | - |
-| `data` | - | - | - | - | - |
 | `id` | - | - | - | - | - |
 | `name` | - | - | - | Yes | - |
 | `project_id` | - | - | - | - | - |
 | `schema` | - | - | - | - | - |
-| `slug` | - | Yes | - | - | - |
+| `slug` | - | - | Yes | Yes | - |
 | `updated_at` | - | - | - | - | - |
 | `user_id` | - | - | - | - | - |
 | `visibility` | - | - | - | - | - |
@@ -986,9 +1004,9 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.Collection().create({
-  data: {},
   id: 'example_id',
   name: 'example_name',
+  slug: 'example_slug',
 })
 ```
 
@@ -1065,7 +1083,15 @@ const collection_record = client.CollectionRecord()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `app_user_id` | `string` | No |  |
+| `collection_id` | `string` | No |  |
+| `created_at` | `string` | No |  |
+| `created_by` | `string` | No |  |
 | `data` | `Record<string, any>` | Yes |  |
+| `deleted_at` | `string` | No |  |
+| `id` | `string` | Yes |  |
+| `project_id` | `string` | No |  |
+| `updated_at` | `string` | No |  |
 
 ### Operations
 
@@ -1076,6 +1102,8 @@ Create a new entity with the given data.
 ```ts
 const result = await client.CollectionRecord().create({
   slug: 'example_slug',
+  data: {},
+  id: 'example_id',
 })
 ```
 
@@ -1154,7 +1182,7 @@ const collection_record_list = client.CollectionRecordList()
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.CollectionRecordList().list()
+const results = await client.CollectionRecordList().list({ slug: "example" })
 ```
 
 ### Common Methods
@@ -1312,9 +1340,9 @@ const legacy_mutation = client.LegacyMutation()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `string` | No |  |
+| `createdAt` | `string` | No |  |
 | `id` | `string` | No |  |
-| `updated_at` | `string` | No |  |
+| `updatedAt` | `string` | No |  |
 
 ### Operations
 

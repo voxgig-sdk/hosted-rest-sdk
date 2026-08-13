@@ -26,8 +26,8 @@ import {
 describe('AgentUserListEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when HOSTEDREST_TEST_LIVE=TRUE.
-  afterEach(liveDelay('HOSTEDREST_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when HOSTED_REST_TEST_LIVE=TRUE.
+  afterEach(liveDelay('HOSTED_REST_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = HostedRestSDK.test()
@@ -63,7 +63,7 @@ describe('AgentUserListEntity', async () => {
     const agent_user_list_ref01_ent = client.AgentUserList()
     const agent_user_list_ref01_match: any = {}
 
-    const agent_user_list_ref01_list = await agent_user_list_ref01_ent.list(agent_user_list_ref01_match)
+    const agent_user_list_ref01_list = (await agent_user_list_ref01_ent.list(agent_user_list_ref01_match)).map((e: any) => e.data())
 
 
   })

@@ -50,10 +50,38 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "data",
+						"name": "deprecations",
+						"req": true,
+						"type": "`$ARRAY`",
+						"index$": 0,
+					},
+					map[string]any{
+						"active": true,
+						"name": "rate_limit_status",
 						"req": true,
 						"type": "`$OBJECT`",
-						"index$": 0,
+						"index$": 1,
+					},
+					map[string]any{
+						"active": true,
+						"name": "status",
+						"req": true,
+						"type": "`$STRING`",
+						"index$": 2,
+					},
+					map[string]any{
+						"active": true,
+						"name": "uptime_seconds",
+						"req": true,
+						"type": "`$INTEGER`",
+						"index$": 3,
+					},
+					map[string]any{
+						"active": true,
+						"name": "version",
+						"req": true,
+						"type": "`$STRING`",
+						"index$": 4,
 					},
 				},
 				"name": "agent_health",
@@ -65,6 +93,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/agent/v1/health",
 								"parts": []any{
@@ -75,12 +104,11 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -113,6 +141,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/agent/v1/auth/login",
 								"parts": []any{
@@ -129,7 +158,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "create",
 					},
 					"load": map[string]any{
 						"input": "data",
@@ -175,6 +203,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/agent/v1/orders",
 								"parts": []any{
@@ -211,6 +240,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/agent/v1/scenarios/{scenario}",
 								"parts": []any{
@@ -233,6 +263,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/agent/v1/scenarios",
 								"parts": []any{
@@ -248,7 +279,6 @@ func MakeConfig() map[string]any {
 								"index$": 2,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -263,10 +293,73 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "data",
+						"name": "created_at",
+						"req": true,
+						"type": "`$STRING`",
+						"index$": 0,
+					},
+					map[string]any{
+						"active": true,
+						"name": "email",
+						"req": true,
+						"type": "`$STRING`",
+						"index$": 1,
+					},
+					map[string]any{
+						"active": true,
+						"name": "full_name",
+						"req": true,
+						"type": "`$STRING`",
+						"index$": 2,
+					},
+					map[string]any{
+						"active": true,
+						"name": "id",
+						"req": true,
+						"type": "`$STRING`",
+						"index$": 3,
+					},
+					map[string]any{
+						"active": true,
+						"name": "locale",
+						"req": true,
+						"type": "`$STRING`",
+						"index$": 4,
+					},
+					map[string]any{
+						"active": true,
+						"name": "preferences",
 						"req": true,
 						"type": "`$OBJECT`",
-						"index$": 0,
+						"index$": 5,
+					},
+					map[string]any{
+						"active": true,
+						"name": "profile",
+						"req": true,
+						"type": "`$OBJECT`",
+						"index$": 6,
+					},
+					map[string]any{
+						"active": true,
+						"name": "status",
+						"req": true,
+						"type": "`$STRING`",
+						"index$": 7,
+					},
+					map[string]any{
+						"active": true,
+						"name": "timezone",
+						"req": true,
+						"type": "`$STRING`",
+						"index$": 8,
+					},
+					map[string]any{
+						"active": true,
+						"name": "updated_at",
+						"req": true,
+						"type": "`$STRING`",
+						"index$": 9,
 					},
 				},
 				"name": "agent_user_detail",
@@ -300,6 +393,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/agent/v1/users/{id}",
 								"parts": []any{
@@ -316,12 +410,11 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -367,7 +460,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "preference",
+						"name": "preferences",
 						"req": true,
 						"type": "`$OBJECT`",
 						"index$": 5,
@@ -447,6 +540,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/agent/v1/users",
 								"parts": []any{
@@ -469,7 +563,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 				},
 				"relations": map[string]any{
@@ -487,13 +580,6 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "data",
-						"req": true,
-						"type": "`$OBJECT`",
-						"index$": 1,
-					},
-					map[string]any{
-						"active": true,
 						"name": "email",
 						"op": map[string]any{
 							"update": map[string]any{
@@ -503,35 +589,35 @@ func MakeConfig() map[string]any {
 						},
 						"req": true,
 						"type": "`$STRING`",
-						"index$": 2,
+						"index$": 1,
 					},
 					map[string]any{
 						"active": true,
 						"name": "id",
 						"req": true,
 						"type": "`$STRING`",
-						"index$": 3,
+						"index$": 2,
 					},
 					map[string]any{
 						"active": true,
 						"name": "last_login_at",
 						"req": false,
 						"type": "`$STRING`",
-						"index$": 4,
+						"index$": 3,
 					},
 					map[string]any{
 						"active": true,
 						"name": "metadata",
 						"req": false,
 						"type": "`$OBJECT`",
-						"index$": 5,
+						"index$": 4,
 					},
 					map[string]any{
 						"active": true,
 						"name": "status",
 						"req": false,
 						"type": "`$STRING`",
-						"index$": 6,
+						"index$": 5,
 					},
 				},
 				"name": "app_user",
@@ -554,6 +640,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/api/app-users/{id}/sessions/simulate",
 								"parts": []any{
@@ -578,6 +665,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/api/app-users",
 								"parts": []any{
@@ -587,12 +675,11 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 1,
 							},
 						},
-						"key$": "create",
 					},
 					"list": map[string]any{
 						"input": "data",
@@ -633,6 +720,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/api/projects/{projectId}/app-users",
 								"parts": []any{
@@ -655,7 +743,7 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 0,
 							},
@@ -683,6 +771,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/api/app-users",
 								"parts": []any{
@@ -697,12 +786,11 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 1,
 							},
 						},
-						"key$": "list",
 					},
 					"load": map[string]any{
 						"input": "data",
@@ -723,6 +811,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/api/app-users/{id}",
 								"parts": []any{
@@ -737,12 +826,11 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 					"remove": map[string]any{
 						"input": "data",
@@ -772,6 +860,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "DELETE",
 								"orig": "/app/collections/{slug}/records/{recordId}",
 								"parts": []any{
@@ -814,6 +903,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "DELETE",
 								"orig": "/api/app-users/{id}",
 								"parts": []any{
@@ -833,7 +923,6 @@ func MakeConfig() map[string]any {
 								"index$": 1,
 							},
 						},
-						"key$": "remove",
 					},
 					"update": map[string]any{
 						"input": "data",
@@ -854,6 +943,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "PUT",
 								"orig": "/api/app-users/{id}",
 								"parts": []any{
@@ -868,12 +958,11 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 0,
 							},
 						},
-						"key$": "update",
 					},
 				},
 				"relations": map[string]any{
@@ -892,31 +981,24 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "data",
-						"req": true,
-						"type": "`$OBJECT`",
-						"index$": 0,
-					},
-					map[string]any{
-						"active": true,
 						"name": "email",
 						"req": true,
 						"type": "`$STRING`",
-						"index$": 1,
+						"index$": 0,
 					},
 					map[string]any{
 						"active": true,
 						"name": "metadata",
 						"req": false,
 						"type": "`$OBJECT`",
-						"index$": 2,
+						"index$": 1,
 					},
 					map[string]any{
 						"active": true,
 						"name": "project_id",
 						"req": false,
 						"type": "`$STRING`",
-						"index$": 3,
+						"index$": 2,
 					},
 				},
 				"name": "app_user_login",
@@ -928,6 +1010,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/api/app-users/login",
 								"parts": []any{
@@ -938,12 +1021,11 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 0,
 							},
 						},
-						"key$": "create",
 					},
 				},
 				"relations": map[string]any{
@@ -951,15 +1033,7 @@ func MakeConfig() map[string]any {
 				},
 			},
 			"app_user_session": map[string]any{
-				"fields": []any{
-					map[string]any{
-						"active": true,
-						"name": "data",
-						"req": true,
-						"type": "`$OBJECT`",
-						"index$": 0,
-					},
-				},
+				"fields": []any{},
 				"name": "app_user_session",
 				"op": map[string]any{
 					"load": map[string]any{
@@ -969,6 +1043,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/api/app-users/me",
 								"parts": []any{
@@ -979,13 +1054,14 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 0,
 							},
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/app/me",
 								"parts": []any{
@@ -995,12 +1071,11 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 1,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -1048,6 +1123,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/api/projects/{projectId}/app-users/total",
 								"parts": []any{
@@ -1075,7 +1151,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -1090,17 +1165,10 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "data",
-						"req": true,
-						"type": "`$OBJECT`",
-						"index$": 0,
-					},
-					map[string]any{
-						"active": true,
 						"name": "token",
 						"req": true,
 						"type": "`$STRING`",
-						"index$": 1,
+						"index$": 0,
 					},
 				},
 				"name": "app_user_verify",
@@ -1112,6 +1180,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/api/app-users/verify",
 								"parts": []any{
@@ -1122,12 +1191,11 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 0,
 							},
 						},
-						"key$": "create",
 					},
 				},
 				"relations": map[string]any{
@@ -1145,6 +1213,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/api/logout",
 								"parts": []any{
@@ -1159,7 +1228,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "create",
 					},
 				},
 				"relations": map[string]any{
@@ -1177,17 +1245,10 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "data",
-						"req": true,
-						"type": "`$OBJECT`",
-						"index$": 1,
-					},
-					map[string]any{
-						"active": true,
 						"name": "id",
 						"req": true,
 						"type": "`$STRING`",
-						"index$": 2,
+						"index$": 1,
 					},
 					map[string]any{
 						"active": true,
@@ -1200,55 +1261,59 @@ func MakeConfig() map[string]any {
 						},
 						"req": true,
 						"type": "`$STRING`",
-						"index$": 3,
+						"index$": 2,
 					},
 					map[string]any{
 						"active": true,
 						"name": "project_id",
 						"req": false,
 						"type": "`$STRING`",
-						"index$": 4,
+						"index$": 3,
 					},
 					map[string]any{
 						"active": true,
 						"name": "schema",
 						"req": false,
 						"type": "`$OBJECT`",
-						"index$": 5,
+						"index$": 4,
 					},
 					map[string]any{
 						"active": true,
 						"name": "slug",
 						"op": map[string]any{
-							"list": map[string]any{
-								"req": true,
+							"create": map[string]any{
+								"req": false,
+								"type": "`$STRING`",
+							},
+							"update": map[string]any{
+								"req": false,
 								"type": "`$STRING`",
 							},
 						},
-						"req": false,
+						"req": true,
 						"type": "`$STRING`",
-						"index$": 6,
+						"index$": 5,
 					},
 					map[string]any{
 						"active": true,
 						"name": "updated_at",
 						"req": false,
 						"type": "`$STRING`",
-						"index$": 7,
+						"index$": 6,
 					},
 					map[string]any{
 						"active": true,
 						"name": "user_id",
 						"req": false,
 						"type": "`$STRING`",
-						"index$": 8,
+						"index$": 7,
 					},
 					map[string]any{
 						"active": true,
 						"name": "visibility",
 						"req": false,
 						"type": "`$STRING`",
-						"index$": 9,
+						"index$": 8,
 					},
 				},
 				"name": "collection",
@@ -1271,6 +1336,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/api/collections",
 								"parts": []any{
@@ -1284,12 +1350,11 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 0,
 							},
 						},
-						"key$": "create",
 					},
 					"list": map[string]any{
 						"input": "data",
@@ -1309,6 +1374,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/api/collections",
 								"parts": []any{
@@ -1322,13 +1388,14 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 0,
 							},
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/app/collections",
 								"parts": []any{
@@ -1338,12 +1405,11 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 1,
 							},
 						},
-						"key$": "list",
 					},
 					"load": map[string]any{
 						"input": "data",
@@ -1374,6 +1440,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/api/collections/{slug}",
 								"parts": []any{
@@ -1394,7 +1461,7 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 0,
 							},
@@ -1413,6 +1480,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/app/collections/{slug}",
 								"parts": []any{
@@ -1432,12 +1500,11 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 1,
 							},
 						},
-						"key$": "load",
 					},
 					"remove": map[string]any{
 						"input": "data",
@@ -1477,6 +1544,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "DELETE",
 								"orig": "/api/collections/{slug}/records/{recordId}",
 								"parts": []any{
@@ -1530,6 +1598,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "DELETE",
 								"orig": "/api/collections/{slug}",
 								"parts": []any{
@@ -1555,7 +1624,6 @@ func MakeConfig() map[string]any {
 								"index$": 1,
 							},
 						},
-						"key$": "remove",
 					},
 					"update": map[string]any{
 						"input": "data",
@@ -1586,6 +1654,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "PUT",
 								"orig": "/api/collections/{slug}",
 								"parts": []any{
@@ -1606,12 +1675,11 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 0,
 							},
 						},
-						"key$": "update",
 					},
 				},
 				"relations": map[string]any{
@@ -1627,10 +1695,66 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
+						"name": "app_user_id",
+						"req": false,
+						"type": "`$STRING`",
+						"index$": 0,
+					},
+					map[string]any{
+						"active": true,
+						"name": "collection_id",
+						"req": false,
+						"type": "`$STRING`",
+						"index$": 1,
+					},
+					map[string]any{
+						"active": true,
+						"name": "created_at",
+						"req": false,
+						"type": "`$STRING`",
+						"index$": 2,
+					},
+					map[string]any{
+						"active": true,
+						"name": "created_by",
+						"req": false,
+						"type": "`$STRING`",
+						"index$": 3,
+					},
+					map[string]any{
+						"active": true,
 						"name": "data",
 						"req": true,
 						"type": "`$OBJECT`",
-						"index$": 0,
+						"index$": 4,
+					},
+					map[string]any{
+						"active": true,
+						"name": "deleted_at",
+						"req": false,
+						"type": "`$STRING`",
+						"index$": 5,
+					},
+					map[string]any{
+						"active": true,
+						"name": "id",
+						"req": true,
+						"type": "`$STRING`",
+						"index$": 6,
+					},
+					map[string]any{
+						"active": true,
+						"name": "project_id",
+						"req": false,
+						"type": "`$STRING`",
+						"index$": 7,
+					},
+					map[string]any{
+						"active": true,
+						"name": "updated_at",
+						"req": false,
+						"type": "`$STRING`",
+						"index$": 8,
 					},
 				},
 				"name": "collection_record",
@@ -1664,6 +1788,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/api/collections/{slug}/records",
 								"parts": []any{
@@ -1680,7 +1805,7 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 0,
 							},
@@ -1699,6 +1824,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/app/collections/{slug}/records",
 								"parts": []any{
@@ -1714,12 +1840,11 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 1,
 							},
 						},
-						"key$": "create",
 					},
 					"load": map[string]any{
 						"input": "data",
@@ -1759,6 +1884,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/api/collections/{slug}/records/{recordId}",
 								"parts": []any{
@@ -1783,7 +1909,7 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 0,
 							},
@@ -1811,6 +1937,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/app/collections/{slug}/records/{recordId}",
 								"parts": []any{
@@ -1834,12 +1961,11 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 1,
 							},
 						},
-						"key$": "load",
 					},
 					"update": map[string]any{
 						"input": "data",
@@ -1879,6 +2005,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "PUT",
 								"orig": "/api/collections/{slug}/records/{recordId}",
 								"parts": []any{
@@ -1903,7 +2030,7 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 0,
 							},
@@ -1931,6 +2058,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "PUT",
 								"orig": "/app/collections/{slug}/records/{recordId}",
 								"parts": []any{
@@ -1954,12 +2082,11 @@ func MakeConfig() map[string]any {
 								},
 								"transform": map[string]any{
 									"req": "`reqdata`",
-									"res": "`body`",
+									"res": "`body.data`",
 								},
 								"index$": 1,
 							},
 						},
-						"key$": "update",
 					},
 				},
 				"relations": map[string]any{
@@ -2133,6 +2260,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/api/collections/{slug}/records",
 								"parts": []any{
@@ -2176,6 +2304,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/app/collections/{slug}/records",
 								"parts": []any{
@@ -2196,7 +2325,6 @@ func MakeConfig() map[string]any {
 								"index$": 1,
 							},
 						},
-						"key$": "list",
 					},
 				},
 				"relations": map[string]any{
@@ -2230,6 +2358,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/api/custom/{path}",
 								"parts": []any{
@@ -2254,7 +2383,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "create",
 					},
 					"load": map[string]any{
 						"input": "data",
@@ -2275,6 +2403,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/api/custom/{path}",
 								"parts": []any{
@@ -2299,7 +2428,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 					"patch": map[string]any{
 						"input": "data",
@@ -2319,6 +2447,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "PATCH",
 								"orig": "/api/custom/{path}",
 								"parts": []any{
@@ -2340,10 +2469,8 @@ func MakeConfig() map[string]any {
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"index$": 0,
 							},
 						},
-						"key$": "patch",
 					},
 					"remove": map[string]any{
 						"input": "data",
@@ -2364,6 +2491,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "DELETE",
 								"orig": "/api/custom/{path}",
 								"parts": []any{
@@ -2388,7 +2516,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "remove",
 					},
 					"update": map[string]any{
 						"input": "data",
@@ -2409,6 +2536,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "PUT",
 								"orig": "/api/custom/{path}",
 								"parts": []any{
@@ -2433,7 +2561,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "update",
 					},
 				},
 				"relations": map[string]any{
@@ -2463,6 +2590,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "DELETE",
 								"orig": "/api/users/{id}",
 								"parts": []any{
@@ -2482,7 +2610,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "remove",
 					},
 				},
 				"relations": map[string]any{
@@ -2493,7 +2620,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "created_at",
+						"name": "createdAt",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 0,
@@ -2507,7 +2634,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "updated_at",
+						"name": "updatedAt",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 2,
@@ -2522,6 +2649,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/api/users",
 								"parts": []any{
@@ -2536,7 +2664,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "create",
 					},
 					"patch": map[string]any{
 						"input": "data",
@@ -2556,6 +2683,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "PATCH",
 								"orig": "/api/users/{id}",
 								"parts": []any{
@@ -2572,10 +2700,8 @@ func MakeConfig() map[string]any {
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"index$": 0,
 							},
 						},
-						"key$": "patch",
 					},
 					"update": map[string]any{
 						"input": "data",
@@ -2596,6 +2722,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "PUT",
 								"orig": "/api/users/{id}",
 								"parts": []any{
@@ -2615,7 +2742,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "update",
 					},
 				},
 				"relations": map[string]any{
@@ -2660,6 +2786,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/api/unknown/{id}",
 								"parts": []any{
@@ -2679,7 +2806,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -2753,6 +2879,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/api/unknown",
 								"parts": []any{
@@ -2772,7 +2899,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 				},
 				"relations": map[string]any{
@@ -2817,6 +2943,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/api/users/{id}",
 								"parts": []any{
@@ -2836,7 +2963,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -2910,6 +3036,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/api/users",
 								"parts": []any{
@@ -2929,7 +3056,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 				},
 				"relations": map[string]any{
@@ -2969,6 +3095,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/api/login",
 								"parts": []any{
@@ -2983,7 +3110,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "create",
 					},
 				},
 				"relations": map[string]any{
@@ -3030,6 +3156,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/api/register",
 								"parts": []any{
@@ -3044,7 +3171,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "create",
 					},
 				},
 				"relations": map[string]any{

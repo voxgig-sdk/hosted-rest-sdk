@@ -72,7 +72,7 @@ class AppUserEntityTest extends TestCase
         // The basic flow consumes synthetic IDs from the fixture. In live mode
         // without an *_ENTID env override, those IDs hit the live API and 4xx.
         if (!empty($setup["synthetic_only"])) {
-            $this->markTestSkipped("live entity test uses synthetic IDs from fixture — set HOSTEDREST_TEST_APP_USER_ENTID JSON to run live");
+            $this->markTestSkipped("live entity test uses synthetic IDs from fixture — set HOSTED_REST_TEST_APP_USER_ENTID JSON to run live");
             return;
         }
         $client = $setup["client"];
@@ -85,7 +85,7 @@ class AppUserEntityTest extends TestCase
         $app_user_ref01_data["project_id"] = $setup["idmap"]["project01"];
 
         $app_user_ref01_data_result = $app_user_ref01_ent->create($app_user_ref01_data, null);
-        $app_user_ref01_data = Helpers::to_map($app_user_ref01_data_result);
+        $app_user_ref01_data = Helpers::to_map(is_object($app_user_ref01_data_result) && method_exists($app_user_ref01_data_result, 'data_get') ? $app_user_ref01_data_result->data_get() : $app_user_ref01_data_result);
         $this->assertNotNull($app_user_ref01_data);
         $this->assertNotNull($app_user_ref01_data["id"]);
 
@@ -110,7 +110,7 @@ class AppUserEntityTest extends TestCase
         $app_user_ref01_data_up0_up[$app_user_ref01_markdef_up0_name] = $app_user_ref01_markdef_up0_value;
 
         $app_user_ref01_resdata_up0_result = $app_user_ref01_ent->update($app_user_ref01_data_up0_up, null);
-        $app_user_ref01_resdata_up0 = Helpers::to_map($app_user_ref01_resdata_up0_result);
+        $app_user_ref01_resdata_up0 = Helpers::to_map(is_object($app_user_ref01_resdata_up0_result) && method_exists($app_user_ref01_resdata_up0_result, 'data_get') ? $app_user_ref01_resdata_up0_result->data_get() : $app_user_ref01_resdata_up0_result);
         $this->assertNotNull($app_user_ref01_resdata_up0);
         $this->assertEquals($app_user_ref01_resdata_up0["id"], $app_user_ref01_data_up0_up["id"]);
         $this->assertEquals($app_user_ref01_resdata_up0[$app_user_ref01_markdef_up0_name], $app_user_ref01_markdef_up0_value);
@@ -120,7 +120,7 @@ class AppUserEntityTest extends TestCase
             "id" => $app_user_ref01_data["id"],
         ];
         $app_user_ref01_data_dt0_loaded = $app_user_ref01_ent->load($app_user_ref01_match_dt0, null);
-        $app_user_ref01_data_dt0_load_result = Helpers::to_map($app_user_ref01_data_dt0_loaded);
+        $app_user_ref01_data_dt0_load_result = Helpers::to_map(is_object($app_user_ref01_data_dt0_loaded) && method_exists($app_user_ref01_data_dt0_loaded, 'data_get') ? $app_user_ref01_data_dt0_loaded->data_get() : $app_user_ref01_data_dt0_loaded);
         $this->assertNotNull($app_user_ref01_data_dt0_load_result);
         $this->assertEquals($app_user_ref01_data_dt0_load_result["id"], $app_user_ref01_data["id"]);
 
@@ -166,39 +166,39 @@ function app_user_basic_setup($extra)
     // Detect ENTID env override before envOverride consumes it. When live
     // mode is on without a real override, the basic test runs against synthetic
     // IDs from the fixture and 4xx's. Surface this so the test can skip.
-    $entid_env_raw = getenv("HOSTEDREST_TEST_APP_USER_ENTID");
+    $entid_env_raw = getenv("HOSTED_REST_TEST_APP_USER_ENTID");
     $idmap_overridden = $entid_env_raw !== false && str_starts_with(trim($entid_env_raw), "{");
 
     $env = Runner::env_override([
-        "HOSTEDREST_TEST_APP_USER_ENTID" => $idmap,
-        "HOSTEDREST_TEST_LIVE" => "FALSE",
-        "HOSTEDREST_TEST_EXPLAIN" => "FALSE",
-        "HOSTEDREST_APIKEY" => "NONE",
+        "HOSTED_REST_TEST_APP_USER_ENTID" => $idmap,
+        "HOSTED_REST_TEST_LIVE" => "FALSE",
+        "HOSTED_REST_TEST_EXPLAIN" => "FALSE",
+        "HOSTED_REST_APIKEY" => "NONE",
     ]);
 
     $idmap_resolved = Helpers::to_map(
-        $env["HOSTEDREST_TEST_APP_USER_ENTID"]);
+        $env["HOSTED_REST_TEST_APP_USER_ENTID"]);
     if ($idmap_resolved === null) {
         $idmap_resolved = Helpers::to_map($idmap);
     }
 
-    if ($env["HOSTEDREST_TEST_LIVE"] === "TRUE") {
+    if ($env["HOSTED_REST_TEST_LIVE"] === "TRUE") {
         $merged_opts = Vs::merge([
             [
-                "apikey" => $env["HOSTEDREST_APIKEY"],
+                "apikey" => $env["HOSTED_REST_APIKEY"],
             ],
             $extra ?? [],
         ]);
         $client = new HostedRestSDK(Helpers::to_map($merged_opts));
     }
 
-    $live = $env["HOSTEDREST_TEST_LIVE"] === "TRUE";
+    $live = $env["HOSTED_REST_TEST_LIVE"] === "TRUE";
     return [
         "client" => $client,
         "data" => $entity_data,
         "idmap" => $idmap_resolved,
         "env" => $env,
-        "explain" => $env["HOSTEDREST_TEST_EXPLAIN"] === "TRUE",
+        "explain" => $env["HOSTED_REST_TEST_EXPLAIN"] === "TRUE",
         "live" => $live,
         "synthetic_only" => $live && !$idmap_overridden,
         "now" => (int)(microtime(true) * 1000),

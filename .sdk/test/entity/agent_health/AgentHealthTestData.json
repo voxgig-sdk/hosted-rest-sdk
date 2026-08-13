@@ -2,15 +2,27 @@
   "existing": {
     "agent_health": {
       "AGENT_HEALTH00": {
-        "data": {},
+        "deprecations": [],
+        "rate_limit_status": {},
+        "status": "s34",
+        "uptime_seconds": "s35",
+        "version": "s36",
         "id": "AGENT_HEALTH00"
       },
       "AGENT_HEALTH01": {
-        "data": {},
+        "deprecations": [],
+        "rate_limit_status": {},
+        "status": "s66",
+        "uptime_seconds": "s67",
+        "version": "s68",
         "id": "AGENT_HEALTH01"
       },
       "AGENT_HEALTH02": {
-        "data": {},
+        "deprecations": [],
+        "rate_limit_status": {},
+        "status": "s98",
+        "uptime_seconds": "s99",
+        "version": "s9a",
         "id": "AGENT_HEALTH02"
       }
     }
@@ -18,7 +30,11 @@
   "new": {
     "agent_health": {
       "agent_health_ref01": {
-        "data": {}
+        "deprecations": [],
+        "rate_limit_status": {},
+        "status": "sca",
+        "uptime_seconds": "scb",
+        "version": "scc"
       }
     }
   }

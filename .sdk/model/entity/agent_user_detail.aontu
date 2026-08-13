@@ -6,11 +6,61 @@ main: kit: entity: agent_user_detail: {
 
   fields: [
     {
-      name: "data"
+      name: "created_at"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "email"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "full_name"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "id"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "locale"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "preferences"
       req: true
       type: "`$OBJECT`"
     }
+    {
+      name: "profile"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "status"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "timezone"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "updated_at"
+      req: true
+      type: "`$STRING`"
+    }
   ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
 
   name: "agent_user_detail"
   op: {
@@ -54,7 +104,7 @@ main: kit: entity: agent_user_detail: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.data`"
           }
         }
       ]

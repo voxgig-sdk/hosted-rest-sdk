@@ -177,7 +177,11 @@ $agent_health = $client->AgentHealth();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `array` | Yes |  |
+| `deprecations` | `array` | Yes |  |
+| `rate_limit_status` | `array` | Yes |  |
+| `status` | `string` | Yes |  |
+| `uptime_seconds` | `int` | Yes |  |
+| `version` | `string` | Yes |  |
 
 ### Operations
 
@@ -293,7 +297,16 @@ $agent_user_detail = $client->AgentUserDetail();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `array` | Yes |  |
+| `created_at` | `string` | Yes |  |
+| `email` | `string` | Yes |  |
+| `full_name` | `string` | Yes |  |
+| `id` | `string` | Yes |  |
+| `locale` | `string` | Yes |  |
+| `preferences` | `array` | Yes |  |
+| `profile` | `array` | Yes |  |
+| `status` | `string` | Yes |  |
+| `timezone` | `string` | Yes |  |
+| `updated_at` | `string` | Yes |  |
 
 ### Operations
 
@@ -350,7 +363,7 @@ $agent_user_list = $client->AgentUserList();
 | `full_name` | `string` | Yes |  |
 | `id` | `string` | Yes |  |
 | `locale` | `string` | Yes |  |
-| `preference` | `array` | Yes |  |
+| `preferences` | `array` | Yes |  |
 | `profile` | `array` | Yes |  |
 | `status` | `string` | Yes |  |
 | `timezone` | `string` | Yes |  |
@@ -407,7 +420,6 @@ $app_user = $client->AppUser();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created_at` | `string` | No |  |
-| `data` | `array` | Yes |  |
 | `email` | `string` | Yes |  |
 | `id` | `string` | Yes |  |
 | `last_login_at` | `string` | No |  |
@@ -419,7 +431,6 @@ $app_user = $client->AppUser();
 | Field | load | list | create | update | remove |
 | --- | --- | --- | --- | --- | --- |
 | `created_at` | - | - | - | - | - |
-| `data` | - | - | - | - | - |
 | `email` | - | - | - | Yes | - |
 | `id` | - | - | - | - | - |
 | `last_login_at` | - | - | - | - | - |
@@ -434,7 +445,6 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->AppUser()->create([
-  "data" => null, // array
   "email" => null, // string
   "id" => null, // string
 ]);
@@ -515,7 +525,6 @@ $app_user_login = $client->AppUserLogin();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `array` | Yes |  |
 | `email` | `string` | Yes |  |
 | `metadata` | `array` | No |  |
 | `project_id` | `string` | No |  |
@@ -528,7 +537,6 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->AppUserLogin()->create([
-  "data" => null, // array
   "email" => null, // string
 ]);
 ```
@@ -568,12 +576,6 @@ Return the entity name.
 ```php
 $app_user_session = $client->AppUserSession();
 ```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `array` | Yes |  |
 
 ### Operations
 
@@ -677,7 +679,6 @@ $app_user_verify = $client->AppUserVerify();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `array` | Yes |  |
 | `token` | `string` | Yes |  |
 
 ### Operations
@@ -688,7 +689,6 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->AppUserVerify()->create([
-  "data" => null, // array
   "token" => null, // string
 ]);
 ```
@@ -781,12 +781,11 @@ $collection = $client->Collection();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created_at` | `string` | No |  |
-| `data` | `array` | Yes |  |
 | `id` | `string` | Yes |  |
 | `name` | `string` | Yes |  |
 | `project_id` | `string` | No |  |
 | `schema` | `array` | No |  |
-| `slug` | `string` | No |  |
+| `slug` | `string` | Yes |  |
 | `updated_at` | `string` | No |  |
 | `user_id` | `string` | No |  |
 | `visibility` | `string` | No |  |
@@ -796,12 +795,11 @@ $collection = $client->Collection();
 | Field | load | list | create | update | remove |
 | --- | --- | --- | --- | --- | --- |
 | `created_at` | - | - | - | - | - |
-| `data` | - | - | - | - | - |
 | `id` | - | - | - | - | - |
 | `name` | - | - | - | Yes | - |
 | `project_id` | - | - | - | - | - |
 | `schema` | - | - | - | - | - |
-| `slug` | - | Yes | - | - | - |
+| `slug` | - | - | Yes | Yes | - |
 | `updated_at` | - | - | - | - | - |
 | `user_id` | - | - | - | - | - |
 | `visibility` | - | - | - | - | - |
@@ -814,9 +812,9 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->Collection()->create([
-  "data" => null, // array
   "id" => null, // string
   "name" => null, // string
+  "slug" => null, // string
 ]);
 ```
 
@@ -895,7 +893,15 @@ $collection_record = $client->CollectionRecord();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `app_user_id` | `string` | No |  |
+| `collection_id` | `string` | No |  |
+| `created_at` | `string` | No |  |
+| `created_by` | `string` | No |  |
 | `data` | `array` | Yes |  |
+| `deleted_at` | `string` | No |  |
+| `id` | `string` | Yes |  |
+| `project_id` | `string` | No |  |
+| `updated_at` | `string` | No |  |
 
 ### Operations
 
@@ -906,6 +912,8 @@ Create a new entity with the given data. Throws on error.
 ```php
 $result = $client->CollectionRecord()->create([
   "slug" => null, // string
+  "data" => null, // array
+  "id" => null, // string
 ]);
 ```
 
@@ -1150,9 +1158,9 @@ $legacy_mutation = $client->LegacyMutation();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `string` | No |  |
+| `createdAt` | `string` | No |  |
 | `id` | `string` | No |  |
-| `updated_at` | `string` | No |  |
+| `updatedAt` | `string` | No |  |
 
 ### Operations
 

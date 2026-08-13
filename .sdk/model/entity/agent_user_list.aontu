@@ -31,7 +31,7 @@ main: kit: entity: agent_user_list: {
       type: "`$STRING`"
     }
     {
-      name: "preference"
+      name: "preferences"
       req: true
       type: "`$OBJECT`"
     }

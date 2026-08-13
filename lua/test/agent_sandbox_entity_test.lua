@@ -29,7 +29,7 @@ describe("AgentSandboxEntity", function()
     -- The basic flow consumes synthetic IDs from the fixture. In live mode
     -- without an *_ENTID env override, those IDs hit the live API and 4xx.
     if setup.synthetic_only then
-      pending("live entity test uses synthetic IDs from fixture — set HOSTEDREST_TEST_AGENT_SANDBOX_ENTID JSON to run live")
+      pending("live entity test uses synthetic IDs from fixture — set HOSTED_REST_TEST_AGENT_SANDBOX_ENTID JSON to run live")
       return
     end
     local client = setup.client
@@ -41,7 +41,7 @@ describe("AgentSandboxEntity", function()
 
     local agent_sandbox_ref01_data_result, err = agent_sandbox_ref01_ent:create(agent_sandbox_ref01_data, nil)
     assert.is_nil(err)
-    agent_sandbox_ref01_data = helpers.to_map(agent_sandbox_ref01_data_result)
+    agent_sandbox_ref01_data = helpers.to_map(type(agent_sandbox_ref01_data_result) == 'table' and agent_sandbox_ref01_data_result.data_get and agent_sandbox_ref01_data_result:data_get() or agent_sandbox_ref01_data_result)
     assert.is_not_nil(agent_sandbox_ref01_data)
 
     -- LOAD
@@ -85,39 +85,39 @@ function agent_sandbox_basic_setup(extra)
   -- Detect ENTID env override before envOverride consumes it. When live
   -- mode is on without a real override, the basic test runs against synthetic
   -- IDs from the fixture and 4xx's. Surface this so the test can skip.
-  local entid_env_raw = os.getenv("HOSTEDREST_TEST_AGENT_SANDBOX_ENTID")
+  local entid_env_raw = os.getenv("HOSTED_REST_TEST_AGENT_SANDBOX_ENTID")
   local idmap_overridden = entid_env_raw ~= nil and entid_env_raw:match("^%s*{") ~= nil
 
   local env = runner.env_override({
-    ["HOSTEDREST_TEST_AGENT_SANDBOX_ENTID"] = idmap,
-    ["HOSTEDREST_TEST_LIVE"] = "FALSE",
-    ["HOSTEDREST_TEST_EXPLAIN"] = "FALSE",
-    ["HOSTEDREST_APIKEY"] = "NONE",
+    ["HOSTED_REST_TEST_AGENT_SANDBOX_ENTID"] = idmap,
+    ["HOSTED_REST_TEST_LIVE"] = "FALSE",
+    ["HOSTED_REST_TEST_EXPLAIN"] = "FALSE",
+    ["HOSTED_REST_APIKEY"] = "NONE",
   })
 
   local idmap_resolved = helpers.to_map(
-    env["HOSTEDREST_TEST_AGENT_SANDBOX_ENTID"])
+    env["HOSTED_REST_TEST_AGENT_SANDBOX_ENTID"])
   if idmap_resolved == nil then
     idmap_resolved = helpers.to_map(idmap)
   end
 
-  if env["HOSTEDREST_TEST_LIVE"] == "TRUE" then
+  if env["HOSTED_REST_TEST_LIVE"] == "TRUE" then
     local merged_opts = vs.merge({
       {
-        apikey = env["HOSTEDREST_APIKEY"],
+        apikey = env["HOSTED_REST_APIKEY"],
       },
       extra or {},
     })
     client = sdk.new(helpers.to_map(merged_opts))
   end
 
-  local live = env["HOSTEDREST_TEST_LIVE"] == "TRUE"
+  local live = env["HOSTED_REST_TEST_LIVE"] == "TRUE"
   return {
     client = client,
     data = entity_data,
     idmap = idmap_resolved,
     env = env,
-    explain = env["HOSTEDREST_TEST_EXPLAIN"] == "TRUE",
+    explain = env["HOSTED_REST_TEST_EXPLAIN"] == "TRUE",
     live = live,
     synthetic_only = live and not idmap_overridden,
     now = os.time() * 1000,

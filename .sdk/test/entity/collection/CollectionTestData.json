@@ -2,44 +2,41 @@
   "existing": {
     "collection": {
       "COLLECTION00": {
-        "created_at": "s64",
-        "data": {},
+        "created_at": "s5a",
         "id": "COLLECTION00",
-        "name": "s67",
+        "name": "s5c",
         "project_id": "PROJECT01",
         "schema": {},
-        "slug": "s6a",
-        "updated_at": "s6b",
+        "slug": "s5f",
+        "updated_at": "s60",
         "user_id": "USER01",
-        "visibility": "s6d",
+        "visibility": "s62",
         "collection_id": "COLLECTION01",
         "record_id": "RECORD01"
       },
       "COLLECTION01": {
-        "created_at": "sc8",
-        "data": {},
+        "created_at": "sb4",
         "id": "COLLECTION01",
-        "name": "scb",
+        "name": "sb6",
         "project_id": "PROJECT01",
         "schema": {},
-        "slug": "sce",
-        "updated_at": "scf",
+        "slug": "sb9",
+        "updated_at": "sba",
         "user_id": "USER01",
-        "visibility": "sd1",
+        "visibility": "sbc",
         "collection_id": "COLLECTION01",
         "record_id": "RECORD01"
       },
       "COLLECTION02": {
-        "created_at": "s12c",
-        "data": {},
+        "created_at": "s10e",
         "id": "COLLECTION02",
-        "name": "s12f",
+        "name": "s110",
         "project_id": "PROJECT01",
         "schema": {},
-        "slug": "s132",
-        "updated_at": "s133",
+        "slug": "s113",
+        "updated_at": "s114",
         "user_id": "USER01",
-        "visibility": "s135",
+        "visibility": "s116",
         "collection_id": "COLLECTION01",
         "record_id": "RECORD01"
       }
@@ -48,15 +45,14 @@
   "new": {
     "collection": {
       "collection_ref01": {
-        "created_at": "s190",
-        "data": {},
-        "name": "s193",
+        "created_at": "s168",
+        "name": "s16a",
         "project_id": "PROJECT01",
         "schema": {},
-        "slug": "s196",
-        "updated_at": "s197",
+        "slug": "s16d",
+        "updated_at": "s16e",
         "user_id": "USER01",
-        "visibility": "s199"
+        "visibility": "s170"
       }
     }
   }

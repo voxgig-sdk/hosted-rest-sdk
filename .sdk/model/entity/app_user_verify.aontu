@@ -6,11 +6,6 @@ main: kit: entity: app_user_verify: {
 
   fields: [
     {
-      name: "data"
-      req: true
-      type: "`$OBJECT`"
-    }
-    {
       name: "token"
       req: true
       type: "`$STRING`"
@@ -32,7 +27,7 @@ main: kit: entity: app_user_verify: {
           ]
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.data`"
           }
         }
       ]

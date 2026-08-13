@@ -37,7 +37,7 @@ class CollectionRecordListEntity extends HostedRestEntityBase<CollectionRecordLi
 
 
 
-  async list(this: any, reqmatch?: CollectionRecordListListMatch, ctrl?: Control): Promise<CollectionRecordList[]> {
+  async list(this: any, reqmatch?: CollectionRecordListListMatch, ctrl?: Control): Promise<CollectionRecordListEntity[]> {
 
     const utility = this._utility
 

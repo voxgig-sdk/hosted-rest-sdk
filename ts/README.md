@@ -126,7 +126,8 @@ Create a mock client for unit testing — no server required:
 const client = HostedRestSDK.test()
 
 const agenthealth = await client.AgentHealth().load()
-// agenthealth is a bare entity populated with mock response data
+// agenthealth is the entity, populated with mock response data
+// — call agenthealth.data() for the record itself
 console.log(agenthealth)
 ```
 
@@ -321,7 +322,11 @@ The `prepare()` method returns:
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
+| `deprecations` |  |
+| `rate_limit_status` |  |
+| `status` |  |
+| `uptime_seconds` |  |
+| `version` |  |
 
 Operations: load.
 
@@ -342,7 +347,16 @@ API path: `/agent/v1/auth/login`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
+| `created_at` |  |
+| `email` |  |
+| `full_name` |  |
+| `id` |  |
+| `locale` |  |
+| `preferences` |  |
+| `profile` |  |
+| `status` |  |
+| `timezone` |  |
+| `updated_at` |  |
 
 Operations: load.
 
@@ -357,7 +371,7 @@ API path: `/agent/v1/users/{id}`
 | `full_name` |  |
 | `id` |  |
 | `locale` |  |
-| `preference` |  |
+| `preferences` |  |
 | `profile` |  |
 | `status` |  |
 | `timezone` |  |
@@ -372,7 +386,6 @@ API path: `/agent/v1/users`
 | Field | Description |
 | --- | --- |
 | `created_at` |  |
-| `data` |  |
 | `email` |  |
 | `id` |  |
 | `last_login_at` |  |
@@ -387,7 +400,6 @@ API path: `/api/app-users/{id}/sessions/simulate`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
 | `email` |  |
 | `metadata` |  |
 | `project_id` |  |
@@ -400,7 +412,6 @@ API path: `/api/app-users/login`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
 
 Operations: load.
 
@@ -420,7 +431,6 @@ API path: `/api/projects/{projectId}/app-users/total`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
 | `token` |  |
 
 Operations: create.
@@ -441,7 +451,6 @@ API path: `/api/logout`
 | Field | Description |
 | --- | --- |
 | `created_at` |  |
-| `data` |  |
 | `id` |  |
 | `name` |  |
 | `project_id` |  |
@@ -459,7 +468,15 @@ API path: `/api/collections`
 
 | Field | Description |
 | --- | --- |
+| `app_user_id` |  |
+| `collection_id` |  |
+| `created_at` |  |
+| `created_by` |  |
 | `data` |  |
+| `deleted_at` |  |
+| `id` |  |
+| `project_id` |  |
+| `updated_at` |  |
 
 Operations: create, load, update.
 
@@ -505,9 +522,9 @@ API path: `/api/users/{id}`
 
 | Field | Description |
 | --- | --- |
-| `created_at` |  |
+| `createdAt` |  |
 | `id` |  |
-| `updated_at` |  |
+| `updatedAt` |  |
 
 Operations: create, patch, update.
 
@@ -607,7 +624,11 @@ Create an instance: `const agent_health = client.AgentHealth()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `Record<string, any>` |  |
+| `deprecations` | `any[]` |  |
+| `rate_limit_status` | `Record<string, any>` |  |
+| `status` | `string` |  |
+| `uptime_seconds` | `number` |  |
+| `version` | `string` |  |
 
 #### Example: Load
 
@@ -664,7 +685,16 @@ Create an instance: `const agent_user_detail = client.AgentUserDetail()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `Record<string, any>` |  |
+| `created_at` | `string` |  |
+| `email` | `string` |  |
+| `full_name` | `string` |  |
+| `id` | `string` |  |
+| `locale` | `string` |  |
+| `preferences` | `Record<string, any>` |  |
+| `profile` | `Record<string, any>` |  |
+| `status` | `string` |  |
+| `timezone` | `string` |  |
+| `updated_at` | `string` |  |
 
 #### Example: Load
 
@@ -692,7 +722,7 @@ Create an instance: `const agent_user_list = client.AgentUserList()`
 | `full_name` | `string` |  |
 | `id` | `string` |  |
 | `locale` | `string` |  |
-| `preference` | `Record<string, any>` |  |
+| `preferences` | `Record<string, any>` |  |
 | `profile` | `Record<string, any>` |  |
 | `status` | `string` |  |
 | `timezone` | `string` |  |
@@ -724,7 +754,6 @@ Create an instance: `const app_user = client.AppUser()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `created_at` | `string` |  |
-| `data` | `Record<string, any>` |  |
 | `email` | `string` |  |
 | `id` | `string` |  |
 | `last_login_at` | `string` |  |
@@ -747,7 +776,6 @@ const app_users = await client.AppUser().list()
 
 ```ts
 const app_user = await client.AppUser().create({
-  data: {},
   email: 'example_email',
   id: 'example_id',
 })
@@ -768,7 +796,6 @@ Create an instance: `const app_user_login = client.AppUserLogin()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `Record<string, any>` |  |
 | `email` | `string` |  |
 | `metadata` | `Record<string, any>` |  |
 | `project_id` | `string` |  |
@@ -777,7 +804,6 @@ Create an instance: `const app_user_login = client.AppUserLogin()`
 
 ```ts
 const app_user_login = await client.AppUserLogin().create({
-  data: {},
   email: 'example_email',
 })
 ```
@@ -792,12 +818,6 @@ Create an instance: `const app_user_session = client.AppUserSession()`
 | Method | Description |
 | --- | --- |
 | `load(match)` | Load a single entity by match criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `data` | `Record<string, any>` |  |
 
 #### Example: Load
 
@@ -843,14 +863,12 @@ Create an instance: `const app_user_verify = client.AppUserVerify()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `Record<string, any>` |  |
 | `token` | `string` |  |
 
 #### Example: Create
 
 ```ts
 const app_user_verify = await client.AppUserVerify().create({
-  data: {},
   token: 'example_token',
 })
 ```
@@ -893,7 +911,6 @@ Create an instance: `const collection = client.Collection()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `created_at` | `string` |  |
-| `data` | `Record<string, any>` |  |
 | `id` | `string` |  |
 | `name` | `string` |  |
 | `project_id` | `string` |  |
@@ -919,9 +936,9 @@ const collections = await client.Collection().list()
 
 ```ts
 const collection = await client.Collection().create({
-  data: {},
   id: 'example_id',
   name: 'example_name',
+  slug: 'example_slug',
 })
 ```
 
@@ -942,7 +959,15 @@ Create an instance: `const collection_record = client.CollectionRecord()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `app_user_id` | `string` |  |
+| `collection_id` | `string` |  |
+| `created_at` | `string` |  |
+| `created_by` | `string` |  |
 | `data` | `Record<string, any>` |  |
+| `deleted_at` | `string` |  |
+| `id` | `string` |  |
+| `project_id` | `string` |  |
+| `updated_at` | `string` |  |
 
 #### Example: Load
 
@@ -955,6 +980,8 @@ const collection_record = await client.CollectionRecord().load({ id: 'collection
 ```ts
 const collection_record = await client.CollectionRecord().create({
   slug: 'example_slug',
+  data: {},
+  id: 'example_id',
 })
 ```
 
@@ -986,7 +1013,7 @@ Create an instance: `const collection_record_list = client.CollectionRecordList(
 #### Example: List
 
 ```ts
-const collection_record_lists = await client.CollectionRecordList().list()
+const collection_record_lists = await client.CollectionRecordList().list({ slug: "example" })
 ```
 
 
@@ -1044,9 +1071,9 @@ Create an instance: `const legacy_mutation = client.LegacyMutation()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `string` |  |
+| `createdAt` | `string` |  |
 | `id` | `string` |  |
-| `updated_at` | `string` |  |
+| `updatedAt` | `string` |  |
 
 #### Example: Create
 

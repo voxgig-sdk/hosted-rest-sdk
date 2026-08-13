@@ -37,7 +37,7 @@ class LegacyUnknownListEntity extends HostedRestEntityBase<LegacyUnknownList> {
 
 
 
-  async list(this: any, reqmatch?: LegacyUnknownListListMatch, ctrl?: Control): Promise<LegacyUnknownList[]> {
+  async list(this: any, reqmatch?: LegacyUnknownListListMatch, ctrl?: Control): Promise<LegacyUnknownListEntity[]> {
 
     const utility = this._utility
 

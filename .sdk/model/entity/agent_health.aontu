@@ -6,9 +6,29 @@ main: kit: entity: agent_health: {
 
   fields: [
     {
-      name: "data"
+      name: "deprecations"
+      req: true
+      type: "`$ARRAY`"
+    }
+    {
+      name: "rate_limit_status"
       req: true
       type: "`$OBJECT`"
+    }
+    {
+      name: "status"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "uptime_seconds"
+      req: true
+      type: "`$INTEGER`"
+    }
+    {
+      name: "version"
+      req: true
+      type: "`$STRING`"
     }
   ]
 
@@ -27,7 +47,7 @@ main: kit: entity: agent_health: {
           ]
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.data`"
           }
         }
       ]

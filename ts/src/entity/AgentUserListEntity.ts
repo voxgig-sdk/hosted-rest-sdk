@@ -37,7 +37,7 @@ class AgentUserListEntity extends HostedRestEntityBase<AgentUserList> {
 
 
 
-  async list(this: any, reqmatch?: AgentUserListListMatch, ctrl?: Control): Promise<AgentUserList[]> {
+  async list(this: any, reqmatch?: AgentUserListListMatch, ctrl?: Control): Promise<AgentUserListEntity[]> {
 
     const utility = this._utility
 

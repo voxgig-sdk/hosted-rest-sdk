@@ -43,8 +43,8 @@ class HostedRestTestRunner
 
     public static function env_override(array $m): array
     {
-        $live = self::getenv('HOSTEDREST_TEST_LIVE');
-        $override = self::getenv('HOSTEDREST_TEST_OVERRIDE');
+        $live = self::getenv('HOSTED_REST_TEST_LIVE');
+        $override = self::getenv('HOSTED_REST_TEST_OVERRIDE');
 
         if ($live === 'TRUE' || $override === 'TRUE') {
             foreach (array_keys($m) as $key) {
@@ -63,9 +63,9 @@ class HostedRestTestRunner
             }
         }
 
-        $explain = self::getenv('HOSTEDREST_TEST_EXPLAIN');
+        $explain = self::getenv('HOSTED_REST_TEST_EXPLAIN');
         if ($explain !== null && $explain !== '') {
-            $m['HOSTEDREST_TEST_EXPLAIN'] = $explain;
+            $m['HOSTED_REST_TEST_EXPLAIN'] = $explain;
         }
 
         return $m;

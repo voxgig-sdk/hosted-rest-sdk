@@ -26,8 +26,8 @@ import {
 describe('AgentUserDetailEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when HOSTEDREST_TEST_LIVE=TRUE.
-  afterEach(liveDelay('HOSTEDREST_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when HOSTED_REST_TEST_LIVE=TRUE.
+  afterEach(liveDelay('HOSTED_REST_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = HostedRestSDK.test()
@@ -59,9 +59,12 @@ describe('AgentUserDetailEntity', async () => {
 
     let agent_user_detail_ref01_data = Object.values(setup.data.existing.agent_user_detail)[0] as any
 
-    // LOAD: skipped — no entity id field and load requires path params.
-    // Entity-var is declared here so later flow steps still compile.
+    // LOAD
     const agent_user_detail_ref01_ent = client.AgentUserDetail()
+    const agent_user_detail_ref01_match_dt0: any = {}
+    agent_user_detail_ref01_match_dt0.id = agent_user_detail_ref01_data.id
+    const agent_user_detail_ref01_data_dt0 = (await agent_user_detail_ref01_ent.load(agent_user_detail_ref01_match_dt0)).data()
+    assert(agent_user_detail_ref01_data_dt0.id === agent_user_detail_ref01_data.id)
 
 
   })

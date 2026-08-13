@@ -14,12 +14,12 @@ from __future__ import annotations
 
 from urllib.parse import quote
 
-from config import make_config
-from features import _make_feature
-from core.control import HostedRestControl
-from core.error import HostedRestError
-from core.result import HostedRestResult
-from core.spec import HostedRestSpec
+from hostedrest_sdk.config import make_config
+from hostedrest_sdk.features import _make_feature
+from hostedrest_sdk.core.control import HostedRestControl
+from hostedrest_sdk.core.error import HostedRestError
+from hostedrest_sdk.core.result import HostedRestResult
+from hostedrest_sdk.core.spec import HostedRestSpec
 
 
 # True when this SDK was generated with the named feature.

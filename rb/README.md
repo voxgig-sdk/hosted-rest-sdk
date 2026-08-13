@@ -38,7 +38,7 @@ AppUserTotal is nested under project, so provide the `project_id`.
 
 ```ruby
 begin
-  # load returns the bare AppUserTotal record (raises on error).
+  # load returns the ENTITY — call data_get for the AppUserTotal record (raises on error).
   appusertotal = client.AppUserTotal.load({ "project_id" => "example_project_id" })
   puts appusertotal
 rescue => err
@@ -121,7 +121,8 @@ Create a mock client for unit testing — no server required:
 ```ruby
 client = HostedRestSDK.test
 
-# Entity ops return the bare mock record (raises on error).
+# Entity ops return the ENTITY (raises on error);
+# call data_get for the mock record.
 agenthealth = client.AgentHealth.load()
 puts agenthealth
 ```
@@ -265,7 +266,11 @@ returns a result `Hash` with these keys:
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
+| `deprecations` |  |
+| `rate_limit_status` |  |
+| `status` |  |
+| `uptime_seconds` |  |
+| `version` |  |
 
 Operations: Load.
 
@@ -286,7 +291,16 @@ API path: `/agent/v1/auth/login`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
+| `created_at` |  |
+| `email` |  |
+| `full_name` |  |
+| `id` |  |
+| `locale` |  |
+| `preferences` |  |
+| `profile` |  |
+| `status` |  |
+| `timezone` |  |
+| `updated_at` |  |
 
 Operations: Load.
 
@@ -301,7 +315,7 @@ API path: `/agent/v1/users/{id}`
 | `full_name` |  |
 | `id` |  |
 | `locale` |  |
-| `preference` |  |
+| `preferences` |  |
 | `profile` |  |
 | `status` |  |
 | `timezone` |  |
@@ -316,7 +330,6 @@ API path: `/agent/v1/users`
 | Field | Description |
 | --- | --- |
 | `created_at` |  |
-| `data` |  |
 | `email` |  |
 | `id` |  |
 | `last_login_at` |  |
@@ -331,7 +344,6 @@ API path: `/api/app-users/{id}/sessions/simulate`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
 | `email` |  |
 | `metadata` |  |
 | `project_id` |  |
@@ -344,7 +356,6 @@ API path: `/api/app-users/login`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
 
 Operations: Load.
 
@@ -364,7 +375,6 @@ API path: `/api/projects/{projectId}/app-users/total`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
 | `token` |  |
 
 Operations: Create.
@@ -385,7 +395,6 @@ API path: `/api/logout`
 | Field | Description |
 | --- | --- |
 | `created_at` |  |
-| `data` |  |
 | `id` |  |
 | `name` |  |
 | `project_id` |  |
@@ -403,7 +412,15 @@ API path: `/api/collections`
 
 | Field | Description |
 | --- | --- |
+| `app_user_id` |  |
+| `collection_id` |  |
+| `created_at` |  |
+| `created_by` |  |
 | `data` |  |
+| `deleted_at` |  |
+| `id` |  |
+| `project_id` |  |
+| `updated_at` |  |
 
 Operations: Create, Load, Update.
 
@@ -449,9 +466,9 @@ API path: `/api/users/{id}`
 
 | Field | Description |
 | --- | --- |
-| `created_at` |  |
+| `createdAt` |  |
 | `id` |  |
-| `updated_at` |  |
+| `updatedAt` |  |
 
 Operations: Create, Patch, Update.
 
@@ -551,12 +568,16 @@ Create an instance: `agent_health = client.AgentHealth`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `Hash` |  |
+| `deprecations` | `Array` |  |
+| `rate_limit_status` | `Hash` |  |
+| `status` | `String` |  |
+| `uptime_seconds` | `Integer` |  |
+| `version` | `String` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare AgentHealth record (raises on error).
+# load returns the ENTITY — call data_get for the AgentHealth record (raises on error).
 agent_health = client.AgentHealth.load()
 ```
 
@@ -582,7 +603,7 @@ Create an instance: `agent_sandbox = client.AgentSandbox`
 #### Example: Load
 
 ```ruby
-# load returns the bare AgentSandbox record (raises on error).
+# load returns the ENTITY — call data_get for the AgentSandbox record (raises on error).
 agent_sandbox = client.AgentSandbox.load()
 ```
 
@@ -610,12 +631,21 @@ Create an instance: `agent_user_detail = client.AgentUserDetail`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `Hash` |  |
+| `created_at` | `String` |  |
+| `email` | `String` |  |
+| `full_name` | `String` |  |
+| `id` | `String` |  |
+| `locale` | `String` |  |
+| `preferences` | `Hash` |  |
+| `profile` | `Hash` |  |
+| `status` | `String` |  |
+| `timezone` | `String` |  |
+| `updated_at` | `String` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare AgentUserDetail record (raises on error).
+# load returns the ENTITY — call data_get for the AgentUserDetail record (raises on error).
 agent_user_detail = client.AgentUserDetail.load({ "id" => "agent_user_detail_id" })
 ```
 
@@ -639,7 +669,7 @@ Create an instance: `agent_user_list = client.AgentUserList`
 | `full_name` | `String` |  |
 | `id` | `String` |  |
 | `locale` | `String` |  |
-| `preference` | `Hash` |  |
+| `preferences` | `Hash` |  |
 | `profile` | `Hash` |  |
 | `status` | `String` |  |
 | `timezone` | `String` |  |
@@ -672,7 +702,6 @@ Create an instance: `app_user = client.AppUser`
 | Field | Type | Description |
 | --- | --- | --- |
 | `created_at` | `String` |  |
-| `data` | `Hash` |  |
 | `email` | `String` |  |
 | `id` | `String` |  |
 | `last_login_at` | `String` |  |
@@ -682,7 +711,7 @@ Create an instance: `app_user = client.AppUser`
 #### Example: Load
 
 ```ruby
-# load returns the bare AppUser record (raises on error).
+# load returns the ENTITY — call data_get for the AppUser record (raises on error).
 app_user = client.AppUser.load({ "id" => "app_user_id" })
 ```
 
@@ -697,7 +726,6 @@ app_users = client.AppUser.list
 
 ```ruby
 app_user = client.AppUser.create({
-  "data" => {}, # Hash
   "email" => "example_email", # String
   "id" => "example_id", # String
 })
@@ -718,7 +746,6 @@ Create an instance: `app_user_login = client.AppUserLogin`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `Hash` |  |
 | `email` | `String` |  |
 | `metadata` | `Hash` |  |
 | `project_id` | `String` |  |
@@ -727,7 +754,6 @@ Create an instance: `app_user_login = client.AppUserLogin`
 
 ```ruby
 app_user_login = client.AppUserLogin.create({
-  "data" => {}, # Hash
   "email" => "example_email", # String
 })
 ```
@@ -743,16 +769,10 @@ Create an instance: `app_user_session = client.AppUserSession`
 | --- | --- |
 | `load(match)` | Load a single entity by match criteria. |
 
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `data` | `Hash` |  |
-
 #### Example: Load
 
 ```ruby
-# load returns the bare AppUserSession record (raises on error).
+# load returns the ENTITY — call data_get for the AppUserSession record (raises on error).
 app_user_session = client.AppUserSession.load()
 ```
 
@@ -776,7 +796,7 @@ Create an instance: `app_user_total = client.AppUserTotal`
 #### Example: Load
 
 ```ruby
-# load returns the bare AppUserTotal record (raises on error).
+# load returns the ENTITY — call data_get for the AppUserTotal record (raises on error).
 app_user_total = client.AppUserTotal.load({ "project_id" => "project_id" })
 ```
 
@@ -795,14 +815,12 @@ Create an instance: `app_user_verify = client.AppUserVerify`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `Hash` |  |
 | `token` | `String` |  |
 
 #### Example: Create
 
 ```ruby
 app_user_verify = client.AppUserVerify.create({
-  "data" => {}, # Hash
   "token" => "example_token", # String
 })
 ```
@@ -845,7 +863,6 @@ Create an instance: `collection = client.Collection`
 | Field | Type | Description |
 | --- | --- | --- |
 | `created_at` | `String` |  |
-| `data` | `Hash` |  |
 | `id` | `String` |  |
 | `name` | `String` |  |
 | `project_id` | `String` |  |
@@ -858,7 +875,7 @@ Create an instance: `collection = client.Collection`
 #### Example: Load
 
 ```ruby
-# load returns the bare Collection record (raises on error).
+# load returns the ENTITY — call data_get for the Collection record (raises on error).
 collection = client.Collection.load({ "id" => "collection_id" })
 ```
 
@@ -873,9 +890,9 @@ collections = client.Collection.list
 
 ```ruby
 collection = client.Collection.create({
-  "data" => {}, # Hash
   "id" => "example_id", # String
   "name" => "example_name", # String
+  "slug" => "example_slug", # String
 })
 ```
 
@@ -896,12 +913,20 @@ Create an instance: `collection_record = client.CollectionRecord`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `app_user_id` | `String` |  |
+| `collection_id` | `String` |  |
+| `created_at` | `String` |  |
+| `created_by` | `String` |  |
 | `data` | `Hash` |  |
+| `deleted_at` | `String` |  |
+| `id` | `String` |  |
+| `project_id` | `String` |  |
+| `updated_at` | `String` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare CollectionRecord record (raises on error).
+# load returns the ENTITY — call data_get for the CollectionRecord record (raises on error).
 collection_record = client.CollectionRecord.load({ "id" => "collection_record_id", "collection_id" => "collection_id" })
 ```
 
@@ -910,6 +935,8 @@ collection_record = client.CollectionRecord.load({ "id" => "collection_record_id
 ```ruby
 collection_record = client.CollectionRecord.create({
   "slug" => "example_slug", # String
+  "data" => {}, # Hash
+  "id" => "example_id", # String
 })
 ```
 
@@ -962,7 +989,7 @@ Create an instance: `custom = client.Custom`
 #### Example: Load
 
 ```ruby
-# load returns the bare Custom record (raises on error).
+# load returns the ENTITY — call data_get for the Custom record (raises on error).
 custom = client.Custom.load({ "id" => "custom_id" })
 ```
 
@@ -1001,9 +1028,9 @@ Create an instance: `legacy_mutation = client.LegacyMutation`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `String` |  |
+| `createdAt` | `String` |  |
 | `id` | `String` |  |
-| `updated_at` | `String` |  |
+| `updatedAt` | `String` |  |
 
 #### Example: Create
 
@@ -1033,7 +1060,7 @@ Create an instance: `legacy_unknown = client.LegacyUnknown`
 #### Example: Load
 
 ```ruby
-# load returns the bare LegacyUnknown record (raises on error).
+# load returns the ENTITY — call data_get for the LegacyUnknown record (raises on error).
 legacy_unknown = client.LegacyUnknown.load({ "id" => 1 })
 ```
 
@@ -1086,7 +1113,7 @@ Create an instance: `legacy_user = client.LegacyUser`
 #### Example: Load
 
 ```ruby
-# load returns the bare LegacyUser record (raises on error).
+# load returns the ENTITY — call data_get for the LegacyUser record (raises on error).
 legacy_user = client.LegacyUser.load({ "id" => 1 })
 ```
 

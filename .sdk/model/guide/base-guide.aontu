@@ -8,6 +8,7 @@ guide: {
   entity: agent_health: {
     path: "/agent/v1/health": {
       op: load: method: *GET
+      op: load: transform: res: *("`body.data`")|top
     }
   }
 
@@ -29,6 +30,7 @@ guide: {
   entity: agent_user_detail: {
     path: "/agent/v1/users/{id}": {
       op: load: method: *GET
+      op: load: transform: res: *("`body.data`")|top
     }
   }
 
@@ -41,12 +43,16 @@ guide: {
   entity: app_user: {
     path: "/api/app-users": {
       op: create: method: *POST
+      op: create: transform: res: *("`body.data`")|top
       op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
     }
     path: "/api/app-users/{id}": {
       op: load: method: *GET
+      op: load: transform: res: *("`body.data`")|top
       op: remove: method: *DELETE
       op: update: method: *PUT
+      op: update: transform: res: *("`body.data`")|top
     }
     path: "/api/app-users/{id}/sessions/simulate": {
       action: "session_simulate": {}
@@ -55,6 +61,7 @@ guide: {
     path: "/api/projects/{projectId}/app-users": {
       rename: param: "projectId": *"project_id"
       op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
     }
     path: "/app/collections/{slug}/records/{recordId}": {
       rename: param: "recordId": *"record_id"
@@ -66,15 +73,18 @@ guide: {
   entity: app_user_login: {
     path: "/api/app-users/login": {
       op: create: method: *POST
+      op: create: transform: res: *("`body.data`")|top
     }
   }
 
   entity: app_user_session: {
     path: "/api/app-users/me": {
       op: load: method: *GET
+      op: load: transform: res: *("`body.data`")|top
     }
     path: "/app/me": {
       op: load: method: *GET
+      op: load: transform: res: *("`body.data`")|top
     }
   }
 
@@ -88,6 +98,7 @@ guide: {
   entity: app_user_verify: {
     path: "/api/app-users/verify": {
       op: create: method: *POST
+      op: create: transform: res: *("`body.data`")|top
     }
   }
 
@@ -100,13 +111,17 @@ guide: {
   entity: collection: {
     path: "/api/collections": {
       op: create: method: *POST
+      op: create: transform: res: *("`body.data`")|top
       op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
     }
     path: "/api/collections/{slug}": {
       rename: param: "slug": *"id"
       op: load: method: *GET
+      op: load: transform: res: *("`body.data`")|top
       op: remove: method: *DELETE
       op: update: method: *PUT
+      op: update: transform: res: *("`body.data`")|top
     }
     path: "/api/collections/{slug}/records/{recordId}": {
       rename: param: "recordId": *"record_id"
@@ -115,31 +130,39 @@ guide: {
     }
     path: "/app/collections": {
       op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
     }
     path: "/app/collections/{slug}": {
       rename: param: "slug": *"id"
       op: load: method: *GET
+      op: load: transform: res: *("`body.data`")|top
     }
   }
 
   entity: collection_record: {
     path: "/api/collections/{slug}/records": {
       op: create: method: *POST
+      op: create: transform: res: *("`body.data`")|top
     }
     path: "/api/collections/{slug}/records/{recordId}": {
       rename: param: "recordId": *"id"
       rename: param: "slug": *"collection_id"
       op: load: method: *GET
+      op: load: transform: res: *("`body.data`")|top
       op: update: method: *PUT
+      op: update: transform: res: *("`body.data`")|top
     }
     path: "/app/collections/{slug}/records": {
       op: create: method: *POST
+      op: create: transform: res: *("`body.data`")|top
     }
     path: "/app/collections/{slug}/records/{recordId}": {
       rename: param: "recordId": *"id"
       rename: param: "slug": *"collection_id"
       op: load: method: *GET
+      op: load: transform: res: *("`body.data`")|top
       op: update: method: *PUT
+      op: update: transform: res: *("`body.data`")|top
     }
   }
 

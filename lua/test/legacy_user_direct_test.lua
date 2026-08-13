@@ -70,16 +70,16 @@ function legacy_user_direct_setup(mockres)
   local calls = {}
 
   local env = runner.env_override({
-    ["HOSTEDREST_TEST_LEGACY_USER_ENTID"] = {},
-    ["HOSTEDREST_TEST_LIVE"] = "FALSE",
-    ["HOSTEDREST_APIKEY"] = "NONE",
+    ["HOSTED_REST_TEST_LEGACY_USER_ENTID"] = {},
+    ["HOSTED_REST_TEST_LIVE"] = "FALSE",
+    ["HOSTED_REST_APIKEY"] = "NONE",
   })
 
-  local live = env["HOSTEDREST_TEST_LIVE"] == "TRUE"
+  local live = env["HOSTED_REST_TEST_LIVE"] == "TRUE"
 
   if live then
     local merged_opts = {
-      apikey = env["HOSTEDREST_APIKEY"],
+      apikey = env["HOSTED_REST_APIKEY"],
     }
     local client = sdk.new(merged_opts)
     return {

@@ -19,7 +19,7 @@ main: kit: flow: BasicLegacyMutationFlow:
         ref: "legacy_mutation_ref01",
         srcdatavar: "legacy_mutation_ref01_data",
         suffix: "_up0",
-        textfield: "created_at"
+        textfield: "createdAt"
       }
 
       op: "update",

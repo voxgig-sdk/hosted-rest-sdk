@@ -26,8 +26,8 @@ import {
 describe('AppUserVerifyEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when HOSTEDREST_TEST_LIVE=TRUE.
-  afterEach(liveDelay('HOSTEDREST_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when HOSTED_REST_TEST_LIVE=TRUE.
+  afterEach(liveDelay('HOSTED_REST_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = HostedRestSDK.test()
@@ -62,7 +62,7 @@ describe('AppUserVerifyEntity', async () => {
     const app_user_verify_ref01_ent = client.AppUserVerify()
     let app_user_verify_ref01_data = setup.data.new.app_user_verify['app_user_verify_ref01']
 
-    app_user_verify_ref01_data = await app_user_verify_ref01_ent.create(app_user_verify_ref01_data)
+    app_user_verify_ref01_data = (await app_user_verify_ref01_ent.create(app_user_verify_ref01_data)).data()
     assert(null != app_user_verify_ref01_data)
 
 

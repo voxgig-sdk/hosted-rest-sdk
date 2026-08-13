@@ -3,9 +3,9 @@
 import json
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from hostedrest_sdk.utility.voxgig_struct import voxgig_struct as vs
 from hostedrest_sdk import HostedRestSDK
-from core import helpers
+from hostedrest_sdk.core import helpers
 from test import runner
 
 
@@ -67,16 +67,16 @@ def _collection_record_direct_setup(mockres):
     calls = []
 
     env = runner.env_override({
-        "HOSTEDREST_TEST_COLLECTION_RECORD_ENTID": {},
-        "HOSTEDREST_TEST_LIVE": "FALSE",
-        "HOSTEDREST_APIKEY": "NONE",
+        "HOSTED_REST_TEST_COLLECTION_RECORD_ENTID": {},
+        "HOSTED_REST_TEST_LIVE": "FALSE",
+        "HOSTED_REST_APIKEY": "NONE",
     })
 
-    live = env.get("HOSTEDREST_TEST_LIVE") == "TRUE"
+    live = env.get("HOSTED_REST_TEST_LIVE") == "TRUE"
 
     if live:
         merged_opts = {
-            "apikey": env.get("HOSTEDREST_APIKEY"),
+            "apikey": env.get("HOSTED_REST_APIKEY"),
         }
         client = HostedRestSDK(merged_opts)
         return {

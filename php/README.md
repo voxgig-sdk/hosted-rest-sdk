@@ -39,7 +39,7 @@ AppUserTotal is nested under project, so provide the `project_id`.
 
 ```php
 try {
-    // load() returns the bare AppUserTotal record (throws on error).
+    // load() returns the ENTITY — call data_get() for the AppUserTotal record (throws on error).
     $appusertotal = $client->AppUserTotal()->load(["project_id" => "example_project_id"]);
     print_r($appusertotal);
 } catch (\Throwable $err) {
@@ -127,7 +127,8 @@ Create a mock client for unit testing — no server required:
 ```php
 $client = HostedRestSDK::test();
 
-// Entity ops return the bare mock record (throws on error).
+// Entity ops return the ENTITY (throws on error);
+// call data_get() for the mock record.
 $agenthealth = $client->AgentHealth()->load();
 print_r($agenthealth);
 ```
@@ -253,7 +254,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (an `array` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (an `array` for single-entity
 ops, a `list` for `list`) and throw on error. Wrap calls in
 `try`/`catch` to handle failures.
 
@@ -275,7 +276,11 @@ On error, `ok` is `false` and `$err` contains the error value.
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
+| `deprecations` |  |
+| `rate_limit_status` |  |
+| `status` |  |
+| `uptime_seconds` |  |
+| `version` |  |
 
 Operations: Load.
 
@@ -296,7 +301,16 @@ API path: `/agent/v1/auth/login`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
+| `created_at` |  |
+| `email` |  |
+| `full_name` |  |
+| `id` |  |
+| `locale` |  |
+| `preferences` |  |
+| `profile` |  |
+| `status` |  |
+| `timezone` |  |
+| `updated_at` |  |
 
 Operations: Load.
 
@@ -311,7 +325,7 @@ API path: `/agent/v1/users/{id}`
 | `full_name` |  |
 | `id` |  |
 | `locale` |  |
-| `preference` |  |
+| `preferences` |  |
 | `profile` |  |
 | `status` |  |
 | `timezone` |  |
@@ -326,7 +340,6 @@ API path: `/agent/v1/users`
 | Field | Description |
 | --- | --- |
 | `created_at` |  |
-| `data` |  |
 | `email` |  |
 | `id` |  |
 | `last_login_at` |  |
@@ -341,7 +354,6 @@ API path: `/api/app-users/{id}/sessions/simulate`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
 | `email` |  |
 | `metadata` |  |
 | `project_id` |  |
@@ -354,7 +366,6 @@ API path: `/api/app-users/login`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
 
 Operations: Load.
 
@@ -374,7 +385,6 @@ API path: `/api/projects/{projectId}/app-users/total`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
 | `token` |  |
 
 Operations: Create.
@@ -395,7 +405,6 @@ API path: `/api/logout`
 | Field | Description |
 | --- | --- |
 | `created_at` |  |
-| `data` |  |
 | `id` |  |
 | `name` |  |
 | `project_id` |  |
@@ -413,7 +422,15 @@ API path: `/api/collections`
 
 | Field | Description |
 | --- | --- |
+| `app_user_id` |  |
+| `collection_id` |  |
+| `created_at` |  |
+| `created_by` |  |
 | `data` |  |
+| `deleted_at` |  |
+| `id` |  |
+| `project_id` |  |
+| `updated_at` |  |
 
 Operations: Create, Load, Update.
 
@@ -459,9 +476,9 @@ API path: `/api/users/{id}`
 
 | Field | Description |
 | --- | --- |
-| `created_at` |  |
+| `createdAt` |  |
 | `id` |  |
-| `updated_at` |  |
+| `updatedAt` |  |
 
 Operations: Create, Patch, Update.
 
@@ -561,12 +578,16 @@ Create an instance: `$agent_health = $client->AgentHealth();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `array` |  |
+| `deprecations` | `array` |  |
+| `rate_limit_status` | `array` |  |
+| `status` | `string` |  |
+| `uptime_seconds` | `int` |  |
+| `version` | `string` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare AgentHealth record (throws on error).
+// load() returns the ENTITY — call data_get() for the AgentHealth record (throws on error).
 $agent_health = $client->AgentHealth()->load();
 ```
 
@@ -592,7 +613,7 @@ Create an instance: `$agent_sandbox = $client->AgentSandbox();`
 #### Example: Load
 
 ```php
-// load() returns the bare AgentSandbox record (throws on error).
+// load() returns the ENTITY — call data_get() for the AgentSandbox record (throws on error).
 $agent_sandbox = $client->AgentSandbox()->load();
 ```
 
@@ -620,12 +641,21 @@ Create an instance: `$agent_user_detail = $client->AgentUserDetail();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `array` |  |
+| `created_at` | `string` |  |
+| `email` | `string` |  |
+| `full_name` | `string` |  |
+| `id` | `string` |  |
+| `locale` | `string` |  |
+| `preferences` | `array` |  |
+| `profile` | `array` |  |
+| `status` | `string` |  |
+| `timezone` | `string` |  |
+| `updated_at` | `string` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare AgentUserDetail record (throws on error).
+// load() returns the ENTITY — call data_get() for the AgentUserDetail record (throws on error).
 $agent_user_detail = $client->AgentUserDetail()->load(["id" => "agent_user_detail_id"]);
 ```
 
@@ -649,7 +679,7 @@ Create an instance: `$agent_user_list = $client->AgentUserList();`
 | `full_name` | `string` |  |
 | `id` | `string` |  |
 | `locale` | `string` |  |
-| `preference` | `array` |  |
+| `preferences` | `array` |  |
 | `profile` | `array` |  |
 | `status` | `string` |  |
 | `timezone` | `string` |  |
@@ -682,7 +712,6 @@ Create an instance: `$app_user = $client->AppUser();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `created_at` | `string` |  |
-| `data` | `array` |  |
 | `email` | `string` |  |
 | `id` | `string` |  |
 | `last_login_at` | `string` |  |
@@ -692,7 +721,7 @@ Create an instance: `$app_user = $client->AppUser();`
 #### Example: Load
 
 ```php
-// load() returns the bare AppUser record (throws on error).
+// load() returns the ENTITY — call data_get() for the AppUser record (throws on error).
 $app_user = $client->AppUser()->load(["id" => "app_user_id"]);
 ```
 
@@ -707,7 +736,6 @@ $app_users = $client->AppUser()->list();
 
 ```php
 $app_user = $client->AppUser()->create([
-    "data" => null, // array
     "email" => null, // string
     "id" => null, // string
 ]);
@@ -728,7 +756,6 @@ Create an instance: `$app_user_login = $client->AppUserLogin();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `array` |  |
 | `email` | `string` |  |
 | `metadata` | `array` |  |
 | `project_id` | `string` |  |
@@ -737,7 +764,6 @@ Create an instance: `$app_user_login = $client->AppUserLogin();`
 
 ```php
 $app_user_login = $client->AppUserLogin()->create([
-    "data" => null, // array
     "email" => null, // string
 ]);
 ```
@@ -753,16 +779,10 @@ Create an instance: `$app_user_session = $client->AppUserSession();`
 | --- | --- |
 | `load(match)` | Load a single entity by match criteria. |
 
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `data` | `array` |  |
-
 #### Example: Load
 
 ```php
-// load() returns the bare AppUserSession record (throws on error).
+// load() returns the ENTITY — call data_get() for the AppUserSession record (throws on error).
 $app_user_session = $client->AppUserSession()->load();
 ```
 
@@ -786,7 +806,7 @@ Create an instance: `$app_user_total = $client->AppUserTotal();`
 #### Example: Load
 
 ```php
-// load() returns the bare AppUserTotal record (throws on error).
+// load() returns the ENTITY — call data_get() for the AppUserTotal record (throws on error).
 $app_user_total = $client->AppUserTotal()->load(["project_id" => "project_id"]);
 ```
 
@@ -805,14 +825,12 @@ Create an instance: `$app_user_verify = $client->AppUserVerify();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `array` |  |
 | `token` | `string` |  |
 
 #### Example: Create
 
 ```php
 $app_user_verify = $client->AppUserVerify()->create([
-    "data" => null, // array
     "token" => null, // string
 ]);
 ```
@@ -855,7 +873,6 @@ Create an instance: `$collection = $client->Collection();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `created_at` | `string` |  |
-| `data` | `array` |  |
 | `id` | `string` |  |
 | `name` | `string` |  |
 | `project_id` | `string` |  |
@@ -868,7 +885,7 @@ Create an instance: `$collection = $client->Collection();`
 #### Example: Load
 
 ```php
-// load() returns the bare Collection record (throws on error).
+// load() returns the ENTITY — call data_get() for the Collection record (throws on error).
 $collection = $client->Collection()->load(["id" => "collection_id"]);
 ```
 
@@ -883,9 +900,9 @@ $collections = $client->Collection()->list();
 
 ```php
 $collection = $client->Collection()->create([
-    "data" => null, // array
     "id" => null, // string
     "name" => null, // string
+    "slug" => null, // string
 ]);
 ```
 
@@ -906,12 +923,20 @@ Create an instance: `$collection_record = $client->CollectionRecord();`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `app_user_id` | `string` |  |
+| `collection_id` | `string` |  |
+| `created_at` | `string` |  |
+| `created_by` | `string` |  |
 | `data` | `array` |  |
+| `deleted_at` | `string` |  |
+| `id` | `string` |  |
+| `project_id` | `string` |  |
+| `updated_at` | `string` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare CollectionRecord record (throws on error).
+// load() returns the ENTITY — call data_get() for the CollectionRecord record (throws on error).
 $collection_record = $client->CollectionRecord()->load(["id" => "collection_record_id", "collection_id" => "collection_id"]);
 ```
 
@@ -920,6 +945,8 @@ $collection_record = $client->CollectionRecord()->load(["id" => "collection_reco
 ```php
 $collection_record = $client->CollectionRecord()->create([
     "slug" => null, // string
+    "data" => null, // array
+    "id" => null, // string
 ]);
 ```
 
@@ -972,7 +999,7 @@ Create an instance: `$custom = $client->Custom();`
 #### Example: Load
 
 ```php
-// load() returns the bare Custom record (throws on error).
+// load() returns the ENTITY — call data_get() for the Custom record (throws on error).
 $custom = $client->Custom()->load(["id" => "custom_id"]);
 ```
 
@@ -1011,9 +1038,9 @@ Create an instance: `$legacy_mutation = $client->LegacyMutation();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `string` |  |
+| `createdAt` | `string` |  |
 | `id` | `string` |  |
-| `updated_at` | `string` |  |
+| `updatedAt` | `string` |  |
 
 #### Example: Create
 
@@ -1043,7 +1070,7 @@ Create an instance: `$legacy_unknown = $client->LegacyUnknown();`
 #### Example: Load
 
 ```php
-// load() returns the bare LegacyUnknown record (throws on error).
+// load() returns the ENTITY — call data_get() for the LegacyUnknown record (throws on error).
 $legacy_unknown = $client->LegacyUnknown()->load(["id" => 1]);
 ```
 
@@ -1096,7 +1123,7 @@ Create an instance: `$legacy_user = $client->LegacyUser();`
 #### Example: Load
 
 ```php
-// load() returns the bare LegacyUser record (throws on error).
+// load() returns the ENTITY — call data_get() for the LegacyUser record (throws on error).
 $legacy_user = $client->LegacyUser()->load(["id" => 1]);
 ```
 

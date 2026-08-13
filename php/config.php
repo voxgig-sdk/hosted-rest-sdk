@@ -56,10 +56,38 @@ class HostedRestConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'data',
+              'name' => 'deprecations',
+              'req' => true,
+              'type' => '`$ARRAY`',
+              'index$' => 0,
+            ],
+            [
+              'active' => true,
+              'name' => 'rate_limit_status',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 0,
+              'index$' => 1,
+            ],
+            [
+              'active' => true,
+              'name' => 'status',
+              'req' => true,
+              'type' => '`$STRING`',
+              'index$' => 2,
+            ],
+            [
+              'active' => true,
+              'name' => 'uptime_seconds',
+              'req' => true,
+              'type' => '`$INTEGER`',
+              'index$' => 3,
+            ],
+            [
+              'active' => true,
+              'name' => 'version',
+              'req' => true,
+              'type' => '`$STRING`',
+              'index$' => 4,
             ],
           ],
           'name' => 'agent_health',
@@ -71,6 +99,7 @@ class HostedRestConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/agent/v1/health',
                   'parts' => [
@@ -81,7 +110,7 @@ class HostedRestConfig
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 0,
                 ],
@@ -119,6 +148,7 @@ class HostedRestConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/agent/v1/auth/login',
                   'parts' => [
@@ -181,6 +211,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/agent/v1/orders',
                   'parts' => [
@@ -217,6 +248,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/agent/v1/scenarios/{scenario}',
                   'parts' => [
@@ -239,6 +271,7 @@ class HostedRestConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/agent/v1/scenarios',
                   'parts' => [
@@ -269,10 +302,73 @@ class HostedRestConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'data',
+              'name' => 'created_at',
+              'req' => true,
+              'type' => '`$STRING`',
+              'index$' => 0,
+            ],
+            [
+              'active' => true,
+              'name' => 'email',
+              'req' => true,
+              'type' => '`$STRING`',
+              'index$' => 1,
+            ],
+            [
+              'active' => true,
+              'name' => 'full_name',
+              'req' => true,
+              'type' => '`$STRING`',
+              'index$' => 2,
+            ],
+            [
+              'active' => true,
+              'name' => 'id',
+              'req' => true,
+              'type' => '`$STRING`',
+              'index$' => 3,
+            ],
+            [
+              'active' => true,
+              'name' => 'locale',
+              'req' => true,
+              'type' => '`$STRING`',
+              'index$' => 4,
+            ],
+            [
+              'active' => true,
+              'name' => 'preferences',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 0,
+              'index$' => 5,
+            ],
+            [
+              'active' => true,
+              'name' => 'profile',
+              'req' => true,
+              'type' => '`$OBJECT`',
+              'index$' => 6,
+            ],
+            [
+              'active' => true,
+              'name' => 'status',
+              'req' => true,
+              'type' => '`$STRING`',
+              'index$' => 7,
+            ],
+            [
+              'active' => true,
+              'name' => 'timezone',
+              'req' => true,
+              'type' => '`$STRING`',
+              'index$' => 8,
+            ],
+            [
+              'active' => true,
+              'name' => 'updated_at',
+              'req' => true,
+              'type' => '`$STRING`',
+              'index$' => 9,
             ],
           ],
           'name' => 'agent_user_detail',
@@ -306,6 +402,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/agent/v1/users/{id}',
                   'parts' => [
@@ -322,7 +419,7 @@ class HostedRestConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 0,
                 ],
@@ -373,7 +470,7 @@ class HostedRestConfig
             ],
             [
               'active' => true,
-              'name' => 'preference',
+              'name' => 'preferences',
               'req' => true,
               'type' => '`$OBJECT`',
               'index$' => 5,
@@ -453,6 +550,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/agent/v1/users',
                   'parts' => [
@@ -493,13 +591,6 @@ class HostedRestConfig
             ],
             [
               'active' => true,
-              'name' => 'data',
-              'req' => true,
-              'type' => '`$OBJECT`',
-              'index$' => 1,
-            ],
-            [
-              'active' => true,
               'name' => 'email',
               'op' => [
                 'update' => [
@@ -509,35 +600,35 @@ class HostedRestConfig
               ],
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 2,
+              'index$' => 1,
             ],
             [
               'active' => true,
               'name' => 'id',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 3,
+              'index$' => 2,
             ],
             [
               'active' => true,
               'name' => 'last_login_at',
               'req' => false,
               'type' => '`$STRING`',
-              'index$' => 4,
+              'index$' => 3,
             ],
             [
               'active' => true,
               'name' => 'metadata',
               'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 5,
+              'index$' => 4,
             ],
             [
               'active' => true,
               'name' => 'status',
               'req' => false,
               'type' => '`$STRING`',
-              'index$' => 6,
+              'index$' => 5,
             ],
           ],
           'name' => 'app_user',
@@ -561,6 +652,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/app-users/{id}/sessions/simulate',
                   'parts' => [
@@ -585,6 +677,7 @@ class HostedRestConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/app-users',
                   'parts' => [
@@ -594,7 +687,7 @@ class HostedRestConfig
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 1,
                 ],
@@ -640,6 +733,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/projects/{projectId}/app-users',
                   'parts' => [
@@ -662,7 +756,7 @@ class HostedRestConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 0,
                 ],
@@ -690,6 +784,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/app-users',
                   'parts' => [
@@ -704,7 +799,7 @@ class HostedRestConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 1,
                 ],
@@ -730,6 +825,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/app-users/{id}',
                   'parts' => [
@@ -744,7 +840,7 @@ class HostedRestConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 0,
                 ],
@@ -779,6 +875,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/app/collections/{slug}/records/{recordId}',
                   'parts' => [
@@ -821,6 +918,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/api/app-users/{id}',
                   'parts' => [
@@ -861,6 +959,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'PUT',
                   'orig' => '/api/app-users/{id}',
                   'parts' => [
@@ -875,7 +974,7 @@ class HostedRestConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 0,
                 ],
@@ -899,31 +998,24 @@ class HostedRestConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'data',
-              'req' => true,
-              'type' => '`$OBJECT`',
-              'index$' => 0,
-            ],
-            [
-              'active' => true,
               'name' => 'email',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 1,
+              'index$' => 0,
             ],
             [
               'active' => true,
               'name' => 'metadata',
               'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 2,
+              'index$' => 1,
             ],
             [
               'active' => true,
               'name' => 'project_id',
               'req' => false,
               'type' => '`$STRING`',
-              'index$' => 3,
+              'index$' => 2,
             ],
           ],
           'name' => 'app_user_login',
@@ -935,6 +1027,7 @@ class HostedRestConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/app-users/login',
                   'parts' => [
@@ -945,7 +1038,7 @@ class HostedRestConfig
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 0,
                 ],
@@ -958,15 +1051,7 @@ class HostedRestConfig
           ],
         ],
         'app_user_session' => [
-          'fields' => [
-            [
-              'active' => true,
-              'name' => 'data',
-              'req' => true,
-              'type' => '`$OBJECT`',
-              'index$' => 0,
-            ],
-          ],
+          'fields' => [],
           'name' => 'app_user_session',
           'op' => [
             'load' => [
@@ -976,6 +1061,7 @@ class HostedRestConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/app-users/me',
                   'parts' => [
@@ -986,13 +1072,14 @@ class HostedRestConfig
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 0,
                 ],
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/app/me',
                   'parts' => [
@@ -1002,7 +1089,7 @@ class HostedRestConfig
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 1,
                 ],
@@ -1055,6 +1142,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/projects/{projectId}/app-users/total',
                   'parts' => [
@@ -1097,17 +1185,10 @@ class HostedRestConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'data',
-              'req' => true,
-              'type' => '`$OBJECT`',
-              'index$' => 0,
-            ],
-            [
-              'active' => true,
               'name' => 'token',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 1,
+              'index$' => 0,
             ],
           ],
           'name' => 'app_user_verify',
@@ -1119,6 +1200,7 @@ class HostedRestConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/app-users/verify',
                   'parts' => [
@@ -1129,7 +1211,7 @@ class HostedRestConfig
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 0,
                 ],
@@ -1152,6 +1234,7 @@ class HostedRestConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/logout',
                   'parts' => [
@@ -1184,17 +1267,10 @@ class HostedRestConfig
             ],
             [
               'active' => true,
-              'name' => 'data',
-              'req' => true,
-              'type' => '`$OBJECT`',
-              'index$' => 1,
-            ],
-            [
-              'active' => true,
               'name' => 'id',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 2,
+              'index$' => 1,
             ],
             [
               'active' => true,
@@ -1207,55 +1283,59 @@ class HostedRestConfig
               ],
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 3,
+              'index$' => 2,
             ],
             [
               'active' => true,
               'name' => 'project_id',
               'req' => false,
               'type' => '`$STRING`',
-              'index$' => 4,
+              'index$' => 3,
             ],
             [
               'active' => true,
               'name' => 'schema',
               'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 5,
+              'index$' => 4,
             ],
             [
               'active' => true,
               'name' => 'slug',
               'op' => [
-                'list' => [
-                  'req' => true,
+                'create' => [
+                  'req' => false,
+                  'type' => '`$STRING`',
+                ],
+                'update' => [
+                  'req' => false,
                   'type' => '`$STRING`',
                 ],
               ],
-              'req' => false,
+              'req' => true,
               'type' => '`$STRING`',
-              'index$' => 6,
+              'index$' => 5,
             ],
             [
               'active' => true,
               'name' => 'updated_at',
               'req' => false,
               'type' => '`$STRING`',
-              'index$' => 7,
+              'index$' => 6,
             ],
             [
               'active' => true,
               'name' => 'user_id',
               'req' => false,
               'type' => '`$STRING`',
-              'index$' => 8,
+              'index$' => 7,
             ],
             [
               'active' => true,
               'name' => 'visibility',
               'req' => false,
               'type' => '`$STRING`',
-              'index$' => 9,
+              'index$' => 8,
             ],
           ],
           'name' => 'collection',
@@ -1278,6 +1358,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/collections',
                   'parts' => [
@@ -1291,7 +1372,7 @@ class HostedRestConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 0,
                 ],
@@ -1316,6 +1397,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/collections',
                   'parts' => [
@@ -1329,13 +1411,14 @@ class HostedRestConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 0,
                 ],
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/app/collections',
                   'parts' => [
@@ -1345,7 +1428,7 @@ class HostedRestConfig
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 1,
                 ],
@@ -1381,6 +1464,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/collections/{slug}',
                   'parts' => [
@@ -1401,7 +1485,7 @@ class HostedRestConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 0,
                 ],
@@ -1420,6 +1504,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/app/collections/{slug}',
                   'parts' => [
@@ -1439,7 +1524,7 @@ class HostedRestConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 1,
                 ],
@@ -1484,6 +1569,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/api/collections/{slug}/records/{recordId}',
                   'parts' => [
@@ -1537,6 +1623,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/api/collections/{slug}',
                   'parts' => [
@@ -1593,6 +1680,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'PUT',
                   'orig' => '/api/collections/{slug}',
                   'parts' => [
@@ -1613,7 +1701,7 @@ class HostedRestConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 0,
                 ],
@@ -1634,10 +1722,66 @@ class HostedRestConfig
           'fields' => [
             [
               'active' => true,
+              'name' => 'app_user_id',
+              'req' => false,
+              'type' => '`$STRING`',
+              'index$' => 0,
+            ],
+            [
+              'active' => true,
+              'name' => 'collection_id',
+              'req' => false,
+              'type' => '`$STRING`',
+              'index$' => 1,
+            ],
+            [
+              'active' => true,
+              'name' => 'created_at',
+              'req' => false,
+              'type' => '`$STRING`',
+              'index$' => 2,
+            ],
+            [
+              'active' => true,
+              'name' => 'created_by',
+              'req' => false,
+              'type' => '`$STRING`',
+              'index$' => 3,
+            ],
+            [
+              'active' => true,
               'name' => 'data',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 0,
+              'index$' => 4,
+            ],
+            [
+              'active' => true,
+              'name' => 'deleted_at',
+              'req' => false,
+              'type' => '`$STRING`',
+              'index$' => 5,
+            ],
+            [
+              'active' => true,
+              'name' => 'id',
+              'req' => true,
+              'type' => '`$STRING`',
+              'index$' => 6,
+            ],
+            [
+              'active' => true,
+              'name' => 'project_id',
+              'req' => false,
+              'type' => '`$STRING`',
+              'index$' => 7,
+            ],
+            [
+              'active' => true,
+              'name' => 'updated_at',
+              'req' => false,
+              'type' => '`$STRING`',
+              'index$' => 8,
             ],
           ],
           'name' => 'collection_record',
@@ -1671,6 +1815,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/collections/{slug}/records',
                   'parts' => [
@@ -1687,7 +1832,7 @@ class HostedRestConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 0,
                 ],
@@ -1706,6 +1851,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/app/collections/{slug}/records',
                   'parts' => [
@@ -1721,7 +1867,7 @@ class HostedRestConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 1,
                 ],
@@ -1766,6 +1912,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/collections/{slug}/records/{recordId}',
                   'parts' => [
@@ -1790,7 +1937,7 @@ class HostedRestConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 0,
                 ],
@@ -1818,6 +1965,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/app/collections/{slug}/records/{recordId}',
                   'parts' => [
@@ -1841,7 +1989,7 @@ class HostedRestConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 1,
                 ],
@@ -1886,6 +2034,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'PUT',
                   'orig' => '/api/collections/{slug}/records/{recordId}',
                   'parts' => [
@@ -1910,7 +2059,7 @@ class HostedRestConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 0,
                 ],
@@ -1938,6 +2087,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'PUT',
                   'orig' => '/app/collections/{slug}/records/{recordId}',
                   'parts' => [
@@ -1961,7 +2111,7 @@ class HostedRestConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.data`',
                   ],
                   'index$' => 1,
                 ],
@@ -2140,6 +2290,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/collections/{slug}/records',
                   'parts' => [
@@ -2183,6 +2334,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/app/collections/{slug}/records',
                   'parts' => [
@@ -2237,6 +2389,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/custom/{path}',
                   'parts' => [
@@ -2282,6 +2435,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/custom/{path}',
                   'parts' => [
@@ -2326,6 +2480,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/api/custom/{path}',
                   'parts' => [
@@ -2371,6 +2526,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/api/custom/{path}',
                   'parts' => [
@@ -2416,6 +2572,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'PUT',
                   'orig' => '/api/custom/{path}',
                   'parts' => [
@@ -2470,6 +2627,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/api/users/{id}',
                   'parts' => [
@@ -2500,7 +2658,7 @@ class HostedRestConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'created_at',
+              'name' => 'createdAt',
               'req' => false,
               'type' => '`$STRING`',
               'index$' => 0,
@@ -2514,7 +2672,7 @@ class HostedRestConfig
             ],
             [
               'active' => true,
-              'name' => 'updated_at',
+              'name' => 'updatedAt',
               'req' => false,
               'type' => '`$STRING`',
               'index$' => 2,
@@ -2529,6 +2687,7 @@ class HostedRestConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/users',
                   'parts' => [
@@ -2563,6 +2722,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/api/users/{id}',
                   'parts' => [
@@ -2603,6 +2763,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'PUT',
                   'orig' => '/api/users/{id}',
                   'parts' => [
@@ -2667,6 +2828,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/unknown/{id}',
                   'parts' => [
@@ -2760,6 +2922,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/unknown',
                   'parts' => [
@@ -2824,6 +2987,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/users/{id}',
                   'parts' => [
@@ -2917,6 +3081,7 @@ class HostedRestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/users',
                   'parts' => [
@@ -2976,6 +3141,7 @@ class HostedRestConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/login',
                   'parts' => [
@@ -3037,6 +3203,7 @@ class HostedRestConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/register',
                   'parts' => [

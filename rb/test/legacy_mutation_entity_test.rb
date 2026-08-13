@@ -26,7 +26,7 @@ class LegacyMutationEntityTest < Minitest::Test
     # The basic flow consumes synthetic IDs from the fixture. In live mode
     # without an *_ENTID env override, those IDs hit the live API and 4xx.
     if setup[:synthetic_only]
-      skip "live entity test uses synthetic IDs from fixture — set HOSTEDREST_TEST_LEGACY_MUTATION_ENTID JSON to run live"
+      skip "live entity test uses synthetic IDs from fixture — set HOSTED_REST_TEST_LEGACY_MUTATION_ENTID JSON to run live"
       return
     end
     client = setup[:client]
@@ -37,7 +37,7 @@ class LegacyMutationEntityTest < Minitest::Test
       Vs.getpath(setup[:data], "new.legacy_mutation"), "legacy_mutation_ref01"))
 
     legacy_mutation_ref01_data_result = legacy_mutation_ref01_ent.create(legacy_mutation_ref01_data, nil)
-    legacy_mutation_ref01_data = Helpers.to_map(legacy_mutation_ref01_data_result)
+    legacy_mutation_ref01_data = Helpers.to_map(legacy_mutation_ref01_data_result.respond_to?(:data_get) ? legacy_mutation_ref01_data_result.data_get : legacy_mutation_ref01_data_result)
     assert !legacy_mutation_ref01_data.nil?
     assert !legacy_mutation_ref01_data["id"].nil?
 
@@ -46,12 +46,12 @@ class LegacyMutationEntityTest < Minitest::Test
       "id" => legacy_mutation_ref01_data["id"],
     }
 
-    legacy_mutation_ref01_markdef_up0_name = "created_at"
+    legacy_mutation_ref01_markdef_up0_name = "createdAt"
     legacy_mutation_ref01_markdef_up0_value = "Mark01-legacy_mutation_ref01_#{setup[:now]}"
     legacy_mutation_ref01_data_up0_up[legacy_mutation_ref01_markdef_up0_name] = legacy_mutation_ref01_markdef_up0_value
 
     legacy_mutation_ref01_resdata_up0_result = legacy_mutation_ref01_ent.update(legacy_mutation_ref01_data_up0_up, nil)
-    legacy_mutation_ref01_resdata_up0 = Helpers.to_map(legacy_mutation_ref01_resdata_up0_result)
+    legacy_mutation_ref01_resdata_up0 = Helpers.to_map(legacy_mutation_ref01_resdata_up0_result.respond_to?(:data_get) ? legacy_mutation_ref01_resdata_up0_result.data_get : legacy_mutation_ref01_resdata_up0_result)
     assert !legacy_mutation_ref01_resdata_up0.nil?
     assert_equal legacy_mutation_ref01_resdata_up0["id"], legacy_mutation_ref01_data_up0_up["id"]
     assert_equal legacy_mutation_ref01_resdata_up0[legacy_mutation_ref01_markdef_up0_name], legacy_mutation_ref01_markdef_up0_value
@@ -85,39 +85,39 @@ def legacy_mutation_basic_setup(extra)
   # Detect ENTID env override before envOverride consumes it. When live
   # mode is on without a real override, the basic test runs against synthetic
   # IDs from the fixture and 4xx's. Surface this so the test can skip.
-  entid_env_raw = ENV["HOSTEDREST_TEST_LEGACY_MUTATION_ENTID"]
+  entid_env_raw = ENV["HOSTED_REST_TEST_LEGACY_MUTATION_ENTID"]
   idmap_overridden = !entid_env_raw.nil? && entid_env_raw.strip.start_with?("{")
 
   env = Runner.env_override({
-    "HOSTEDREST_TEST_LEGACY_MUTATION_ENTID" => idmap,
-    "HOSTEDREST_TEST_LIVE" => "FALSE",
-    "HOSTEDREST_TEST_EXPLAIN" => "FALSE",
-    "HOSTEDREST_APIKEY" => "NONE",
+    "HOSTED_REST_TEST_LEGACY_MUTATION_ENTID" => idmap,
+    "HOSTED_REST_TEST_LIVE" => "FALSE",
+    "HOSTED_REST_TEST_EXPLAIN" => "FALSE",
+    "HOSTED_REST_APIKEY" => "NONE",
   })
 
   idmap_resolved = Helpers.to_map(
-    env["HOSTEDREST_TEST_LEGACY_MUTATION_ENTID"])
+    env["HOSTED_REST_TEST_LEGACY_MUTATION_ENTID"])
   if idmap_resolved.nil?
     idmap_resolved = Helpers.to_map(idmap)
   end
 
-  if env["HOSTEDREST_TEST_LIVE"] == "TRUE"
+  if env["HOSTED_REST_TEST_LIVE"] == "TRUE"
     merged_opts = Vs.merge([
       {
-        "apikey" => env["HOSTEDREST_APIKEY"],
+        "apikey" => env["HOSTED_REST_APIKEY"],
       },
       extra || {},
     ])
     client = HostedRestSDK.new(Helpers.to_map(merged_opts))
   end
 
-  live = env["HOSTEDREST_TEST_LIVE"] == "TRUE"
+  live = env["HOSTED_REST_TEST_LIVE"] == "TRUE"
   {
     client: client,
     data: entity_data,
     idmap: idmap_resolved,
     env: env,
-    explain: env["HOSTEDREST_TEST_EXPLAIN"] == "TRUE",
+    explain: env["HOSTED_REST_TEST_EXPLAIN"] == "TRUE",
     live: live,
     synthetic_only: live && !idmap_overridden,
     now: (Time.now.to_f * 1000).to_i,

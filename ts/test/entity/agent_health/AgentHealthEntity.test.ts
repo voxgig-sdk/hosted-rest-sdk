@@ -26,8 +26,8 @@ import {
 describe('AgentHealthEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when HOSTEDREST_TEST_LIVE=TRUE.
-  afterEach(liveDelay('HOSTEDREST_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when HOSTED_REST_TEST_LIVE=TRUE.
+  afterEach(liveDelay('HOSTED_REST_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = HostedRestSDK.test()
@@ -62,7 +62,7 @@ describe('AgentHealthEntity', async () => {
     // LOAD
     const agent_health_ref01_ent = client.AgentHealth()
     const agent_health_ref01_match_dt0: any = {}
-    const agent_health_ref01_data_dt0 = await agent_health_ref01_ent.load(agent_health_ref01_match_dt0)
+    const agent_health_ref01_data_dt0 = (await agent_health_ref01_ent.load(agent_health_ref01_match_dt0)).data()
     assert(null != agent_health_ref01_data_dt0)
 
 

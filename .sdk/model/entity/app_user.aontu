@@ -11,11 +11,6 @@ main: kit: entity: app_user: {
       type: "`$STRING`"
     }
     {
-      name: "data"
-      req: true
-      type: "`$OBJECT`"
-    }
-    {
       name: "email"
       op: {
         update: {
@@ -99,7 +94,7 @@ main: kit: entity: app_user: {
           ]
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.data`"
           }
         }
       ]
@@ -159,7 +154,7 @@ main: kit: entity: app_user: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.data`"
           }
         }
         {
@@ -197,7 +192,7 @@ main: kit: entity: app_user: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.data`"
           }
         }
       ]
@@ -231,7 +226,7 @@ main: kit: entity: app_user: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.data`"
           }
         }
       ]
@@ -344,7 +339,7 @@ main: kit: entity: app_user: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.data`"
           }
         }
       ]

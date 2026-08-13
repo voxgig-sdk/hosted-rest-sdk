@@ -70,7 +70,7 @@ describe("AppUserEntity", function()
     -- The basic flow consumes synthetic IDs from the fixture. In live mode
     -- without an *_ENTID env override, those IDs hit the live API and 4xx.
     if setup.synthetic_only then
-      pending("live entity test uses synthetic IDs from fixture — set HOSTEDREST_TEST_APP_USER_ENTID JSON to run live")
+      pending("live entity test uses synthetic IDs from fixture — set HOSTED_REST_TEST_APP_USER_ENTID JSON to run live")
       return
     end
     local client = setup.client
@@ -84,7 +84,7 @@ describe("AppUserEntity", function()
 
     local app_user_ref01_data_result, err = app_user_ref01_ent:create(app_user_ref01_data, nil)
     assert.is_nil(err)
-    app_user_ref01_data = helpers.to_map(app_user_ref01_data_result)
+    app_user_ref01_data = helpers.to_map(type(app_user_ref01_data_result) == 'table' and app_user_ref01_data_result.data_get and app_user_ref01_data_result:data_get() or app_user_ref01_data_result)
     assert.is_not_nil(app_user_ref01_data)
     assert.is_not_nil(app_user_ref01_data["id"])
 
@@ -111,7 +111,7 @@ describe("AppUserEntity", function()
 
     local app_user_ref01_resdata_up0_result, err = app_user_ref01_ent:update(app_user_ref01_data_up0_up, nil)
     assert.is_nil(err)
-    local app_user_ref01_resdata_up0 = helpers.to_map(app_user_ref01_resdata_up0_result)
+    local app_user_ref01_resdata_up0 = helpers.to_map(type(app_user_ref01_resdata_up0_result) == 'table' and app_user_ref01_resdata_up0_result.data_get and app_user_ref01_resdata_up0_result:data_get() or app_user_ref01_resdata_up0_result)
     assert.is_not_nil(app_user_ref01_resdata_up0)
     assert.are.equal(app_user_ref01_resdata_up0["id"], app_user_ref01_data_up0_up["id"])
     assert.are.equal(app_user_ref01_resdata_up0[app_user_ref01_markdef_up0_name], app_user_ref01_markdef_up0_value)
@@ -122,7 +122,7 @@ describe("AppUserEntity", function()
     }
     local app_user_ref01_data_dt0_loaded, err = app_user_ref01_ent:load(app_user_ref01_match_dt0, nil)
     assert.is_nil(err)
-    local app_user_ref01_data_dt0_load_result = helpers.to_map(app_user_ref01_data_dt0_loaded)
+    local app_user_ref01_data_dt0_load_result = helpers.to_map(type(app_user_ref01_data_dt0_loaded) == 'table' and app_user_ref01_data_dt0_loaded.data_get and app_user_ref01_data_dt0_loaded:data_get() or app_user_ref01_data_dt0_loaded)
     assert.is_not_nil(app_user_ref01_data_dt0_load_result)
     assert.are.equal(app_user_ref01_data_dt0_load_result["id"], app_user_ref01_data["id"])
 
@@ -180,39 +180,39 @@ function app_user_basic_setup(extra)
   -- Detect ENTID env override before envOverride consumes it. When live
   -- mode is on without a real override, the basic test runs against synthetic
   -- IDs from the fixture and 4xx's. Surface this so the test can skip.
-  local entid_env_raw = os.getenv("HOSTEDREST_TEST_APP_USER_ENTID")
+  local entid_env_raw = os.getenv("HOSTED_REST_TEST_APP_USER_ENTID")
   local idmap_overridden = entid_env_raw ~= nil and entid_env_raw:match("^%s*{") ~= nil
 
   local env = runner.env_override({
-    ["HOSTEDREST_TEST_APP_USER_ENTID"] = idmap,
-    ["HOSTEDREST_TEST_LIVE"] = "FALSE",
-    ["HOSTEDREST_TEST_EXPLAIN"] = "FALSE",
-    ["HOSTEDREST_APIKEY"] = "NONE",
+    ["HOSTED_REST_TEST_APP_USER_ENTID"] = idmap,
+    ["HOSTED_REST_TEST_LIVE"] = "FALSE",
+    ["HOSTED_REST_TEST_EXPLAIN"] = "FALSE",
+    ["HOSTED_REST_APIKEY"] = "NONE",
   })
 
   local idmap_resolved = helpers.to_map(
-    env["HOSTEDREST_TEST_APP_USER_ENTID"])
+    env["HOSTED_REST_TEST_APP_USER_ENTID"])
   if idmap_resolved == nil then
     idmap_resolved = helpers.to_map(idmap)
   end
 
-  if env["HOSTEDREST_TEST_LIVE"] == "TRUE" then
+  if env["HOSTED_REST_TEST_LIVE"] == "TRUE" then
     local merged_opts = vs.merge({
       {
-        apikey = env["HOSTEDREST_APIKEY"],
+        apikey = env["HOSTED_REST_APIKEY"],
       },
       extra or {},
     })
     client = sdk.new(helpers.to_map(merged_opts))
   end
 
-  local live = env["HOSTEDREST_TEST_LIVE"] == "TRUE"
+  local live = env["HOSTED_REST_TEST_LIVE"] == "TRUE"
   return {
     client = client,
     data = entity_data,
     idmap = idmap_resolved,
     env = env,
-    explain = env["HOSTEDREST_TEST_EXPLAIN"] == "TRUE",
+    explain = env["HOSTED_REST_TEST_EXPLAIN"] == "TRUE",
     live = live,
     synthetic_only = live and not idmap_overridden,
     now = os.time() * 1000,

@@ -23,8 +23,8 @@ module HostedRestTestRunner
   end
 
   def self.env_override(m)
-    live = getenv("HOSTEDREST_TEST_LIVE")
-    override = getenv("HOSTEDREST_TEST_OVERRIDE")
+    live = getenv("HOSTED_REST_TEST_LIVE")
+    override = getenv("HOSTED_REST_TEST_OVERRIDE")
 
     if live == "TRUE" || override == "TRUE"
       m.each_key do |key|
@@ -44,8 +44,8 @@ module HostedRestTestRunner
       end
     end
 
-    explain = getenv("HOSTEDREST_TEST_EXPLAIN")
-    m["HOSTEDREST_TEST_EXPLAIN"] = explain if explain && !explain.empty?
+    explain = getenv("HOSTED_REST_TEST_EXPLAIN")
+    m["HOSTED_REST_TEST_EXPLAIN"] = explain if explain && !explain.empty?
 
     m
   end

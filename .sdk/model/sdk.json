@@ -5,6 +5,10 @@
       "desc": ""
     },
     "kit": {
+      "author": {
+        "name": "",
+        "url": ""
+      },
       "config": {
         "docs_order": [
           "ts",
@@ -18,6 +22,7 @@
           "content-type": "application/json"
         }
       },
+      "contributor": {},
       "entity": {
         "agent_health": {
           "active": true,
@@ -27,9 +32,33 @@
           "fields": [
             {
               "active": true,
-              "name": "data",
+              "name": "deprecations",
+              "req": true,
+              "type": "`$ARRAY`"
+            },
+            {
+              "active": true,
+              "name": "rate_limit_status",
               "req": true,
               "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "status",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "uptime_seconds",
+              "req": true,
+              "type": "`$INTEGER`"
+            },
+            {
+              "active": true,
+              "name": "version",
+              "req": true,
+              "type": "`$STRING`"
             }
           ],
           "name": "agent_health",
@@ -41,6 +70,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/agent/v1/health",
                   "parts": [
@@ -51,7 +81,7 @@
                   "select": {},
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 }
               ]
@@ -89,6 +119,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/agent/v1/auth/login",
                   "parts": [
@@ -149,6 +180,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/agent/v1/orders",
                   "parts": [
@@ -183,6 +215,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/agent/v1/scenarios/{scenario}",
                   "parts": [
@@ -204,6 +237,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/agent/v1/scenarios",
                   "parts": [
@@ -236,11 +270,69 @@
           "fields": [
             {
               "active": true,
-              "name": "data",
+              "name": "created_at",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "email",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "full_name",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "id",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "locale",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "preferences",
               "req": true,
               "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "profile",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "status",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "timezone",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "updated_at",
+              "req": true,
+              "type": "`$STRING`"
             }
           ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
           "name": "agent_user_detail",
           "op": {
             "load": {
@@ -271,6 +363,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/agent/v1/users/{id}",
                   "parts": [
@@ -287,7 +380,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 }
               ]
@@ -335,7 +428,7 @@
             },
             {
               "active": true,
-              "name": "preference",
+              "name": "preferences",
               "req": true,
               "type": "`$OBJECT`"
             },
@@ -414,6 +507,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/agent/v1/users",
                   "parts": [
@@ -452,12 +546,6 @@
               "name": "created_at",
               "req": false,
               "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "data",
-              "req": true,
-              "type": "`$OBJECT`"
             },
             {
               "active": true,
@@ -520,6 +608,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/api/app-users/{id}/sessions/simulate",
                   "parts": [
@@ -543,6 +632,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/api/app-users",
                   "parts": [
@@ -552,7 +642,7 @@
                   "select": {},
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 }
               ]
@@ -595,6 +685,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/api/projects/{projectId}/app-users",
                   "parts": [
@@ -617,7 +708,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 },
                 {
@@ -644,6 +735,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/api/app-users",
                   "parts": [
@@ -658,7 +750,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 }
               ]
@@ -681,6 +773,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/api/app-users/{id}",
                   "parts": [
@@ -695,7 +788,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 }
               ]
@@ -726,6 +819,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/app/collections/{slug}/records/{recordId}",
                   "parts": [
@@ -766,6 +860,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/api/app-users/{id}",
                   "parts": [
@@ -803,6 +898,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "PUT",
                   "orig": "/api/app-users/{id}",
                   "parts": [
@@ -817,7 +913,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 }
               ]
@@ -841,12 +937,6 @@
             "field": {}
           },
           "fields": [
-            {
-              "active": true,
-              "name": "data",
-              "req": true,
-              "type": "`$OBJECT`"
-            },
             {
               "active": true,
               "name": "email",
@@ -875,6 +965,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/api/app-users/login",
                   "parts": [
@@ -885,7 +976,7 @@
                   "select": {},
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 }
               ]
@@ -900,14 +991,7 @@
           "alias": {
             "field": {}
           },
-          "fields": [
-            {
-              "active": true,
-              "name": "data",
-              "req": true,
-              "type": "`$OBJECT`"
-            }
-          ],
+          "fields": [],
           "name": "app_user_session",
           "op": {
             "load": {
@@ -917,6 +1001,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/api/app-users/me",
                   "parts": [
@@ -927,12 +1012,13 @@
                   "select": {},
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 },
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/app/me",
                   "parts": [
@@ -942,7 +1028,7 @@
                   "select": {},
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 }
               ]
@@ -995,6 +1081,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/api/projects/{projectId}/app-users/total",
                   "parts": [
@@ -1039,12 +1126,6 @@
           "fields": [
             {
               "active": true,
-              "name": "data",
-              "req": true,
-              "type": "`$OBJECT`"
-            },
-            {
-              "active": true,
               "name": "token",
               "req": true,
               "type": "`$STRING`"
@@ -1059,6 +1140,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/api/app-users/verify",
                   "parts": [
@@ -1069,7 +1151,7 @@
                   "select": {},
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 }
               ]
@@ -1094,6 +1176,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/api/logout",
                   "parts": [
@@ -1124,12 +1207,6 @@
               "name": "created_at",
               "req": false,
               "type": "`$STRING`"
-            },
-            {
-              "active": true,
-              "name": "data",
-              "req": true,
-              "type": "`$OBJECT`"
             },
             {
               "active": true,
@@ -1165,12 +1242,16 @@
               "active": true,
               "name": "slug",
               "op": {
-                "list": {
-                  "req": true,
+                "create": {
+                  "req": false,
+                  "type": "`$STRING`"
+                },
+                "update": {
+                  "req": false,
                   "type": "`$STRING`"
                 }
               },
-              "req": false,
+              "req": true,
               "type": "`$STRING`"
             },
             {
@@ -1216,6 +1297,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/api/collections",
                   "parts": [
@@ -1229,7 +1311,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 }
               ]
@@ -1252,6 +1334,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/api/collections",
                   "parts": [
@@ -1265,12 +1348,13 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 },
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/app/collections",
                   "parts": [
@@ -1280,7 +1364,7 @@
                   "select": {},
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 }
               ]
@@ -1313,6 +1397,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/api/collections/{slug}",
                   "parts": [
@@ -1333,7 +1418,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 },
                 {
@@ -1350,6 +1435,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/app/collections/{slug}",
                   "parts": [
@@ -1369,7 +1455,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 }
               ]
@@ -1410,6 +1496,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/api/collections/{slug}/records/{recordId}",
                   "parts": [
@@ -1461,6 +1548,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/api/collections/{slug}",
                   "parts": [
@@ -1514,6 +1602,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "PUT",
                   "orig": "/api/collections/{slug}",
                   "parts": [
@@ -1534,7 +1623,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 }
               ]
@@ -1557,11 +1646,63 @@
           "fields": [
             {
               "active": true,
+              "name": "app_user_id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "collection_id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "created_at",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "created_by",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
               "name": "data",
               "req": true,
               "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "deleted_at",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "id",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "project_id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "updated_at",
+              "req": false,
+              "type": "`$STRING`"
             }
           ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
           "name": "collection_record",
           "op": {
             "create": {
@@ -1592,6 +1733,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/api/collections/{slug}/records",
                   "parts": [
@@ -1608,7 +1750,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 },
                 {
@@ -1625,6 +1767,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/app/collections/{slug}/records",
                   "parts": [
@@ -1640,7 +1783,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 }
               ]
@@ -1681,6 +1824,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/api/collections/{slug}/records/{recordId}",
                   "parts": [
@@ -1705,7 +1849,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 },
                 {
@@ -1730,6 +1874,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/app/collections/{slug}/records/{recordId}",
                   "parts": [
@@ -1753,7 +1898,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 }
               ]
@@ -1794,6 +1939,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "PUT",
                   "orig": "/api/collections/{slug}/records/{recordId}",
                   "parts": [
@@ -1818,7 +1964,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 },
                 {
@@ -1843,6 +1989,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "PUT",
                   "orig": "/app/collections/{slug}/records/{recordId}",
                   "parts": [
@@ -1866,7 +2013,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 }
               ]
@@ -2041,6 +2188,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/api/collections/{slug}/records",
                   "parts": [
@@ -2082,6 +2230,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/app/collections/{slug}/records",
                   "parts": [
@@ -2137,6 +2286,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/api/custom/{path}",
                   "parts": [
@@ -2179,6 +2329,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/api/custom/{path}",
                   "parts": [
@@ -2221,6 +2372,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "PATCH",
                   "orig": "/api/custom/{path}",
                   "parts": [
@@ -2263,6 +2415,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/api/custom/{path}",
                   "parts": [
@@ -2305,6 +2458,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "PUT",
                   "orig": "/api/custom/{path}",
                   "parts": [
@@ -2360,6 +2514,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/api/users/{id}",
                   "parts": [
@@ -2392,7 +2547,7 @@
           "fields": [
             {
               "active": true,
-              "name": "created_at",
+              "name": "createdAt",
               "req": false,
               "type": "`$STRING`"
             },
@@ -2404,7 +2559,7 @@
             },
             {
               "active": true,
-              "name": "updated_at",
+              "name": "updatedAt",
               "req": false,
               "type": "`$STRING`"
             }
@@ -2422,6 +2577,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/api/users",
                   "parts": [
@@ -2454,6 +2610,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "PATCH",
                   "orig": "/api/users/{id}",
                   "parts": [
@@ -2491,6 +2648,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "PUT",
                   "orig": "/api/users/{id}",
                   "parts": [
@@ -2554,6 +2712,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/api/unknown/{id}",
                   "parts": [
@@ -2648,6 +2807,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/api/unknown",
                   "parts": [
@@ -2711,6 +2871,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/api/users/{id}",
                   "parts": [
@@ -2805,6 +2966,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/api/users",
                   "parts": [
@@ -2863,6 +3025,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/api/login",
                   "parts": [
@@ -2926,6 +3089,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/api/register",
                   "parts": [
@@ -3553,7 +3717,8 @@
               "input": {
                 "ref": "collection_record_ref01",
                 "srcdatavar": "collection_record_ref01_data",
-                "suffix": "_up0"
+                "suffix": "_up0",
+                "textfield": "app_user_id"
               },
               "match": {},
               "op": "update",
@@ -3706,22 +3871,7 @@
           "kind": "basic",
           "name": "BasicLegacyFlow",
           "param": {},
-          "step": [
-            {
-              "active": true,
-              "data": {},
-              "input": {
-                "ref": "legacy_ref01",
-                "suffix": "_rm0"
-              },
-              "match": {
-                "id": "legacy01"
-              },
-              "op": "remove",
-              "spec": [],
-              "valid": []
-            }
-          ]
+          "step": []
         },
         "BasicLegacyMutationFlow": {
           "active": true,
@@ -3749,7 +3899,7 @@
                 "ref": "legacy_mutation_ref01",
                 "srcdatavar": "legacy_mutation_ref01_data",
                 "suffix": "_up0",
-                "textfield": "created_at"
+                "textfield": "createdAt"
               },
               "match": {},
               "op": "update",
@@ -3959,18 +4109,41 @@
         "website": "https://reqres.in"
       },
       "option": {},
+      "repo": {
+        "host": "github.com",
+        "path": ""
+      },
       "target": {
         "go": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [
+              "test/feature_test.go"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "hosted-rest"
+            "goversion": "",
+            "name": "hosted-rest",
+            "package": "",
+            "path": ""
           },
           "name": "go",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3992,22 +4165,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Golang"
         },
         "go-cli": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "hosted-rest"
+            "goversion": "",
+            "name": "hosted-rest",
+            "package": "",
+            "path": ""
           },
           "name": "go-cli",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "phase": {
             "agentguide": {
               "active": false
@@ -4046,21 +4237,39 @@
                 "recipe": "github"
               },
               "via": "root"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "Go CLI"
         },
         "go-mcp": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "hosted-rest"
+            "goversion": "",
+            "name": "hosted-rest",
+            "package": "",
+            "path": ""
           },
           "name": "go-mcp",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "phase": {
             "agentguide": {
               "active": false
@@ -4099,12 +4308,17 @@
                 "recipe": "github"
               },
               "via": "root"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "Go MCP server"
         },
         "lua": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "--"
           },
@@ -4116,10 +4330,23 @@
             }
           },
           "ext": "lua",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "hosted-rest"
+            "goversion": "",
+            "name": "hosted-rest",
+            "package": "",
+            "path": ""
           },
           "name": "lua",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -4141,22 +4368,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Lua"
         },
         "php": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "php",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "hosted-rest"
+            "goversion": "",
+            "name": "hosted-rest",
+            "package": "",
+            "path": ""
           },
           "name": "php",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -4178,13 +4423,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "PHP"
         },
         "py": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "#"
           },
@@ -4196,10 +4446,23 @@
             }
           },
           "ext": "py",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "hosted-rest"
+            "goversion": "",
+            "name": "hosted-rest",
+            "package": "",
+            "path": ""
           },
           "name": "py",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -4221,13 +4484,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Python"
         },
         "rb": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "#"
           },
@@ -4244,10 +4512,23 @@
             }
           },
           "ext": "rb",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "hosted-rest"
+            "goversion": "",
+            "name": "hosted-rest",
+            "package": "",
+            "path": ""
           },
           "name": "rb",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -4269,13 +4550,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Ruby"
         },
         "ts": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
@@ -4298,10 +4584,23 @@
             }
           },
           "ext": "ts",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "hosted-rest"
+            "goversion": "",
+            "name": "hosted-rest",
+            "package": "",
+            "path": ""
           },
           "name": "ts",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -4323,9 +4622,17 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "TypeScript"
+        }
+      },
+      "test": {
+        "live": {
+          "app": false,
+          "base": "",
+          "strict": false
         }
       }
     }

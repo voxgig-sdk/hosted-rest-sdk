@@ -5,19 +5,5 @@ main: kit: flow: BasicLegacyFlow:
   entity: "legacy",
   kind: "basic",
   name: "BasicLegacyFlow",
-  step: [
-    {
-      input: {
-        ref: "legacy_ref01",
-        suffix: "_rm0"
-      }
-
-      match: {
-        id: "legacy01"
-      }
-
-      op: "remove"
-    }
-  ],
   "key$": "BasicLegacyFlow"
 }

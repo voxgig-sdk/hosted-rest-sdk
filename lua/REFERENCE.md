@@ -175,7 +175,11 @@ local agent_health = client:AgentHealth(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `table` | Yes |  |
+| `deprecations` | `table` | Yes |  |
+| `rate_limit_status` | `table` | Yes |  |
+| `status` | `string` | Yes |  |
+| `uptime_seconds` | `number` | Yes |  |
+| `version` | `string` | Yes |  |
 
 ### Operations
 
@@ -291,7 +295,16 @@ local agent_user_detail = client:AgentUserDetail(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `table` | Yes |  |
+| `created_at` | `string` | Yes |  |
+| `email` | `string` | Yes |  |
+| `full_name` | `string` | Yes |  |
+| `id` | `string` | Yes |  |
+| `locale` | `string` | Yes |  |
+| `preferences` | `table` | Yes |  |
+| `profile` | `table` | Yes |  |
+| `status` | `string` | Yes |  |
+| `timezone` | `string` | Yes |  |
+| `updated_at` | `string` | Yes |  |
 
 ### Operations
 
@@ -348,7 +361,7 @@ local agent_user_list = client:AgentUserList(nil)
 | `full_name` | `string` | Yes |  |
 | `id` | `string` | Yes |  |
 | `locale` | `string` | Yes |  |
-| `preference` | `table` | Yes |  |
+| `preferences` | `table` | Yes |  |
 | `profile` | `table` | Yes |  |
 | `status` | `string` | Yes |  |
 | `timezone` | `string` | Yes |  |
@@ -405,7 +418,6 @@ local app_user = client:AppUser(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created_at` | `string` | No |  |
-| `data` | `table` | Yes |  |
 | `email` | `string` | Yes |  |
 | `id` | `string` | Yes |  |
 | `last_login_at` | `string` | No |  |
@@ -417,7 +429,6 @@ local app_user = client:AppUser(nil)
 | Field | load | list | create | update | remove |
 | --- | --- | --- | --- | --- | --- |
 | `created_at` | - | - | - | - | - |
-| `data` | - | - | - | - | - |
 | `email` | - | - | - | Yes | - |
 | `id` | - | - | - | - | - |
 | `last_login_at` | - | - | - | - | - |
@@ -432,7 +443,6 @@ Create a new entity with the given data.
 
 ```lua
 local result, err = client:AppUser():create({
-  data = --[[ table ]],
   email = --[[ string ]],
   id = --[[ string ]],
 })
@@ -513,7 +523,6 @@ local app_user_login = client:AppUserLogin(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `table` | Yes |  |
 | `email` | `string` | Yes |  |
 | `metadata` | `table` | No |  |
 | `project_id` | `string` | No |  |
@@ -526,7 +535,6 @@ Create a new entity with the given data.
 
 ```lua
 local result, err = client:AppUserLogin():create({
-  data = --[[ table ]],
   email = --[[ string ]],
 })
 ```
@@ -566,12 +574,6 @@ Return the entity name.
 ```lua
 local app_user_session = client:AppUserSession(nil)
 ```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `table` | Yes |  |
 
 ### Operations
 
@@ -675,7 +677,6 @@ local app_user_verify = client:AppUserVerify(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `table` | Yes |  |
 | `token` | `string` | Yes |  |
 
 ### Operations
@@ -686,7 +687,6 @@ Create a new entity with the given data.
 
 ```lua
 local result, err = client:AppUserVerify():create({
-  data = --[[ table ]],
   token = --[[ string ]],
 })
 ```
@@ -779,12 +779,11 @@ local collection = client:Collection(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created_at` | `string` | No |  |
-| `data` | `table` | Yes |  |
 | `id` | `string` | Yes |  |
 | `name` | `string` | Yes |  |
 | `project_id` | `string` | No |  |
 | `schema` | `table` | No |  |
-| `slug` | `string` | No |  |
+| `slug` | `string` | Yes |  |
 | `updated_at` | `string` | No |  |
 | `user_id` | `string` | No |  |
 | `visibility` | `string` | No |  |
@@ -794,12 +793,11 @@ local collection = client:Collection(nil)
 | Field | load | list | create | update | remove |
 | --- | --- | --- | --- | --- | --- |
 | `created_at` | - | - | - | - | - |
-| `data` | - | - | - | - | - |
 | `id` | - | - | - | - | - |
 | `name` | - | - | - | Yes | - |
 | `project_id` | - | - | - | - | - |
 | `schema` | - | - | - | - | - |
-| `slug` | - | Yes | - | - | - |
+| `slug` | - | - | Yes | Yes | - |
 | `updated_at` | - | - | - | - | - |
 | `user_id` | - | - | - | - | - |
 | `visibility` | - | - | - | - | - |
@@ -812,9 +810,9 @@ Create a new entity with the given data.
 
 ```lua
 local result, err = client:Collection():create({
-  data = --[[ table ]],
   id = --[[ string ]],
   name = --[[ string ]],
+  slug = --[[ string ]],
 })
 ```
 
@@ -893,7 +891,15 @@ local collection_record = client:CollectionRecord(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `app_user_id` | `string` | No |  |
+| `collection_id` | `string` | No |  |
+| `created_at` | `string` | No |  |
+| `created_by` | `string` | No |  |
 | `data` | `table` | Yes |  |
+| `deleted_at` | `string` | No |  |
+| `id` | `string` | Yes |  |
+| `project_id` | `string` | No |  |
+| `updated_at` | `string` | No |  |
 
 ### Operations
 
@@ -904,6 +910,8 @@ Create a new entity with the given data.
 ```lua
 local result, err = client:CollectionRecord():create({
   slug = --[[ string ]],
+  data = --[[ table ]],
+  id = --[[ string ]],
 })
 ```
 
@@ -1148,9 +1156,9 @@ local legacy_mutation = client:LegacyMutation(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `string` | No |  |
+| `createdAt` | `string` | No |  |
 | `id` | `string` | No |  |
-| `updated_at` | `string` | No |  |
+| `updatedAt` | `string` | No |  |
 
 ### Operations
 

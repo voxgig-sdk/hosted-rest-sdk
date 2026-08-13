@@ -42,7 +42,7 @@ client = HostedRestSDK({
 ### 3. Load an appusertotal
 
 AppUserTotal is nested under project, so provide the `project_id`.
-`load()` returns the bare record (a `dict`) and raises on error.
+`load()` returns the ENTITY — call data_get() for the record — and raises on error.
 
 ```python
 try:
@@ -126,7 +126,8 @@ Create a mock client for unit testing — no server required:
 ```python
 client = HostedRestSDK.test()
 
-# Entity ops return the bare record and raise on error.
+# Entity ops return the ENTITY and raises on error;
+# call data_get() for the record.
 agenthealth = client.AgentHealth().load()
 # agenthealth contains the mock response record
 ```
@@ -249,7 +250,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `dict` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (a `dict` for single-entity
 ops, a `list` for `list`) and raise on error. Wrap calls in
 `try`/`except` to handle failures.
 
@@ -271,7 +272,11 @@ On error, `ok` is `False` and `err` contains the error value.
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
+| `deprecations` |  |
+| `rate_limit_status` |  |
+| `status` |  |
+| `uptime_seconds` |  |
+| `version` |  |
 
 Operations: Load.
 
@@ -292,7 +297,16 @@ API path: `/agent/v1/auth/login`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
+| `created_at` |  |
+| `email` |  |
+| `full_name` |  |
+| `id` |  |
+| `locale` |  |
+| `preferences` |  |
+| `profile` |  |
+| `status` |  |
+| `timezone` |  |
+| `updated_at` |  |
 
 Operations: Load.
 
@@ -307,7 +321,7 @@ API path: `/agent/v1/users/{id}`
 | `full_name` |  |
 | `id` |  |
 | `locale` |  |
-| `preference` |  |
+| `preferences` |  |
 | `profile` |  |
 | `status` |  |
 | `timezone` |  |
@@ -322,7 +336,6 @@ API path: `/agent/v1/users`
 | Field | Description |
 | --- | --- |
 | `created_at` |  |
-| `data` |  |
 | `email` |  |
 | `id` |  |
 | `last_login_at` |  |
@@ -337,7 +350,6 @@ API path: `/api/app-users/{id}/sessions/simulate`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
 | `email` |  |
 | `metadata` |  |
 | `project_id` |  |
@@ -350,7 +362,6 @@ API path: `/api/app-users/login`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
 
 Operations: Load.
 
@@ -370,7 +381,6 @@ API path: `/api/projects/{projectId}/app-users/total`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
 | `token` |  |
 
 Operations: Create.
@@ -391,7 +401,6 @@ API path: `/api/logout`
 | Field | Description |
 | --- | --- |
 | `created_at` |  |
-| `data` |  |
 | `id` |  |
 | `name` |  |
 | `project_id` |  |
@@ -409,7 +418,15 @@ API path: `/api/collections`
 
 | Field | Description |
 | --- | --- |
+| `app_user_id` |  |
+| `collection_id` |  |
+| `created_at` |  |
+| `created_by` |  |
 | `data` |  |
+| `deleted_at` |  |
+| `id` |  |
+| `project_id` |  |
+| `updated_at` |  |
 
 Operations: Create, Load, Update.
 
@@ -455,9 +472,9 @@ API path: `/api/users/{id}`
 
 | Field | Description |
 | --- | --- |
-| `created_at` |  |
+| `createdAt` |  |
 | `id` |  |
-| `updated_at` |  |
+| `updatedAt` |  |
 
 Operations: Create, Patch, Update.
 
@@ -557,7 +574,11 @@ Create an instance: `agent_health = client.AgentHealth()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `dict` |  |
+| `deprecations` | `list` |  |
+| `rate_limit_status` | `dict` |  |
+| `status` | `str` |  |
+| `uptime_seconds` | `int` |  |
+| `version` | `str` |  |
 
 #### Example: Load
 
@@ -614,7 +635,16 @@ Create an instance: `agent_user_detail = client.AgentUserDetail()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `dict` |  |
+| `created_at` | `str` |  |
+| `email` | `str` |  |
+| `full_name` | `str` |  |
+| `id` | `str` |  |
+| `locale` | `str` |  |
+| `preferences` | `dict` |  |
+| `profile` | `dict` |  |
+| `status` | `str` |  |
+| `timezone` | `str` |  |
+| `updated_at` | `str` |  |
 
 #### Example: Load
 
@@ -642,7 +672,7 @@ Create an instance: `agent_user_list = client.AgentUserList()`
 | `full_name` | `str` |  |
 | `id` | `str` |  |
 | `locale` | `str` |  |
-| `preference` | `dict` |  |
+| `preferences` | `dict` |  |
 | `profile` | `dict` |  |
 | `status` | `str` |  |
 | `timezone` | `str` |  |
@@ -674,7 +704,6 @@ Create an instance: `app_user = client.AppUser()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `created_at` | `str` |  |
-| `data` | `dict` |  |
 | `email` | `str` |  |
 | `id` | `str` |  |
 | `last_login_at` | `str` |  |
@@ -697,7 +726,6 @@ app_users = client.AppUser().list()
 
 ```python
 app_user = client.AppUser().create({
-    "data": {},  # dict
     "email": "example_email",  # str
     "id": "example_id",  # str
 })
@@ -718,7 +746,6 @@ Create an instance: `app_user_login = client.AppUserLogin()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `dict` |  |
 | `email` | `str` |  |
 | `metadata` | `dict` |  |
 | `project_id` | `str` |  |
@@ -727,7 +754,6 @@ Create an instance: `app_user_login = client.AppUserLogin()`
 
 ```python
 app_user_login = client.AppUserLogin().create({
-    "data": {},  # dict
     "email": "example_email",  # str
 })
 ```
@@ -742,12 +768,6 @@ Create an instance: `app_user_session = client.AppUserSession()`
 | Method | Description |
 | --- | --- |
 | `load(match)` | Load a single entity by match criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `data` | `dict` |  |
 
 #### Example: Load
 
@@ -793,14 +813,12 @@ Create an instance: `app_user_verify = client.AppUserVerify()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `dict` |  |
 | `token` | `str` |  |
 
 #### Example: Create
 
 ```python
 app_user_verify = client.AppUserVerify().create({
-    "data": {},  # dict
     "token": "example_token",  # str
 })
 ```
@@ -843,7 +861,6 @@ Create an instance: `collection = client.Collection()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `created_at` | `str` |  |
-| `data` | `dict` |  |
 | `id` | `str` |  |
 | `name` | `str` |  |
 | `project_id` | `str` |  |
@@ -869,9 +886,9 @@ collections = client.Collection().list()
 
 ```python
 collection = client.Collection().create({
-    "data": {},  # dict
     "id": "example_id",  # str
     "name": "example_name",  # str
+    "slug": "example_slug",  # str
 })
 ```
 
@@ -892,7 +909,15 @@ Create an instance: `collection_record = client.CollectionRecord()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `app_user_id` | `str` |  |
+| `collection_id` | `str` |  |
+| `created_at` | `str` |  |
+| `created_by` | `str` |  |
 | `data` | `dict` |  |
+| `deleted_at` | `str` |  |
+| `id` | `str` |  |
+| `project_id` | `str` |  |
+| `updated_at` | `str` |  |
 
 #### Example: Load
 
@@ -905,6 +930,8 @@ collection_record = client.CollectionRecord().load({"id": "collection_record_id"
 ```python
 collection_record = client.CollectionRecord().create({
     "slug": "example_slug",  # str
+    "data": {},  # dict
+    "id": "example_id",  # str
 })
 ```
 
@@ -936,7 +963,7 @@ Create an instance: `collection_record_list = client.CollectionRecordList()`
 #### Example: List
 
 ```python
-collection_record_lists = client.CollectionRecordList().list()
+collection_record_lists = client.CollectionRecordList().list({"slug": "example"})
 ```
 
 
@@ -994,9 +1021,9 @@ Create an instance: `legacy_mutation = client.LegacyMutation()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created_at` | `str` |  |
+| `createdAt` | `str` |  |
 | `id` | `str` |  |
-| `updated_at` | `str` |  |
+| `updatedAt` | `str` |  |
 
 #### Example: Create
 

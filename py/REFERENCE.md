@@ -172,7 +172,11 @@ agent_health = client.AgentHealth()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `dict` | Yes |  |
+| `deprecations` | `list` | Yes |  |
+| `rate_limit_status` | `dict` | Yes |  |
+| `status` | `str` | Yes |  |
+| `uptime_seconds` | `int` | Yes |  |
+| `version` | `str` | Yes |  |
 
 ### Operations
 
@@ -286,7 +290,16 @@ agent_user_detail = client.AgentUserDetail()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `dict` | Yes |  |
+| `created_at` | `str` | Yes |  |
+| `email` | `str` | Yes |  |
+| `full_name` | `str` | Yes |  |
+| `id` | `str` | Yes |  |
+| `locale` | `str` | Yes |  |
+| `preferences` | `dict` | Yes |  |
+| `profile` | `dict` | Yes |  |
+| `status` | `str` | Yes |  |
+| `timezone` | `str` | Yes |  |
+| `updated_at` | `str` | Yes |  |
 
 ### Operations
 
@@ -342,7 +355,7 @@ agent_user_list = client.AgentUserList()
 | `full_name` | `str` | Yes |  |
 | `id` | `str` | Yes |  |
 | `locale` | `str` | Yes |  |
-| `preference` | `dict` | Yes |  |
+| `preferences` | `dict` | Yes |  |
 | `profile` | `dict` | Yes |  |
 | `status` | `str` | Yes |  |
 | `timezone` | `str` | Yes |  |
@@ -400,7 +413,6 @@ app_user = client.AppUser()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created_at` | `str` | No |  |
-| `data` | `dict` | Yes |  |
 | `email` | `str` | Yes |  |
 | `id` | `str` | Yes |  |
 | `last_login_at` | `str` | No |  |
@@ -412,7 +424,6 @@ app_user = client.AppUser()
 | Field | load | list | create | update | remove |
 | --- | --- | --- | --- | --- | --- |
 | `created_at` | - | - | - | - | - |
-| `data` | - | - | - | - | - |
 | `email` | - | - | - | Yes | - |
 | `id` | - | - | - | - | - |
 | `last_login_at` | - | - | - | - | - |
@@ -427,7 +438,6 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.AppUser().create({
-    "data": {},  # dict
     "email": "example_email",  # str
     "id": "example_id",  # str
 })
@@ -509,7 +519,6 @@ app_user_login = client.AppUserLogin()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `dict` | Yes |  |
 | `email` | `str` | Yes |  |
 | `metadata` | `dict` | No |  |
 | `project_id` | `str` | No |  |
@@ -522,7 +531,6 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.AppUserLogin().create({
-    "data": {},  # dict
     "email": "example_email",  # str
 })
 ```
@@ -561,12 +569,6 @@ Return the entity name.
 ```python
 app_user_session = client.AppUserSession()
 ```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `dict` | Yes |  |
 
 ### Operations
 
@@ -668,7 +670,6 @@ app_user_verify = client.AppUserVerify()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `dict` | Yes |  |
 | `token` | `str` | Yes |  |
 
 ### Operations
@@ -679,7 +680,6 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.AppUserVerify().create({
-    "data": {},  # dict
     "token": "example_token",  # str
 })
 ```
@@ -770,12 +770,11 @@ collection = client.Collection()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created_at` | `str` | No |  |
-| `data` | `dict` | Yes |  |
 | `id` | `str` | Yes |  |
 | `name` | `str` | Yes |  |
 | `project_id` | `str` | No |  |
 | `schema` | `dict` | No |  |
-| `slug` | `str` | No |  |
+| `slug` | `str` | Yes |  |
 | `updated_at` | `str` | No |  |
 | `user_id` | `str` | No |  |
 | `visibility` | `str` | No |  |
@@ -785,12 +784,11 @@ collection = client.Collection()
 | Field | load | list | create | update | remove |
 | --- | --- | --- | --- | --- | --- |
 | `created_at` | - | - | - | - | - |
-| `data` | - | - | - | - | - |
 | `id` | - | - | - | - | - |
 | `name` | - | - | - | Yes | - |
 | `project_id` | - | - | - | - | - |
 | `schema` | - | - | - | - | - |
-| `slug` | - | Yes | - | - | - |
+| `slug` | - | - | Yes | Yes | - |
 | `updated_at` | - | - | - | - | - |
 | `user_id` | - | - | - | - | - |
 | `visibility` | - | - | - | - | - |
@@ -803,9 +801,9 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.Collection().create({
-    "data": {},  # dict
     "id": "example_id",  # str
     "name": "example_name",  # str
+    "slug": "example_slug",  # str
 })
 ```
 
@@ -885,7 +883,15 @@ collection_record = client.CollectionRecord()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `app_user_id` | `str` | No |  |
+| `collection_id` | `str` | No |  |
+| `created_at` | `str` | No |  |
+| `created_by` | `str` | No |  |
 | `data` | `dict` | Yes |  |
+| `deleted_at` | `str` | No |  |
+| `id` | `str` | Yes |  |
+| `project_id` | `str` | No |  |
+| `updated_at` | `str` | No |  |
 
 ### Operations
 
@@ -896,6 +902,8 @@ Create a new entity with the given data. Returns the created entity data and rai
 ```python
 result = client.CollectionRecord().create({
     "slug": "example_slug",  # str
+    "data": {},  # dict
+    "id": "example_id",  # str
 })
 ```
 
@@ -975,7 +983,7 @@ collection_record_list = client.CollectionRecordList()
 List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.CollectionRecordList().list()
+results = client.CollectionRecordList().list({"slug": "example"})
 for collection_record_list in results:
     print(collection_record_list)
 ```
@@ -1138,9 +1146,9 @@ legacy_mutation = client.LegacyMutation()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `str` | No |  |
+| `createdAt` | `str` | No |  |
 | `id` | `str` | No |  |
-| `updated_at` | `str` | No |  |
+| `updatedAt` | `str` | No |  |
 
 ### Operations
 

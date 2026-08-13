@@ -183,7 +183,11 @@ fmt.Println(agentHealth.GetName()) // "agent_health"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `map[string]any` | Yes |  |
+| `deprecations` | `[]any` | Yes |  |
+| `rate_limit_status` | `map[string]any` | Yes |  |
+| `status` | `string` | Yes |  |
+| `uptime_seconds` | `int` | Yes |  |
+| `version` | `string` | Yes |  |
 
 ### Operations
 
@@ -301,7 +305,16 @@ fmt.Println(agentUserDetail.GetName()) // "agent_user_detail"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `map[string]any` | Yes |  |
+| `created_at` | `string` | Yes |  |
+| `email` | `string` | Yes |  |
+| `full_name` | `string` | Yes |  |
+| `id` | `string` | Yes |  |
+| `locale` | `string` | Yes |  |
+| `preferences` | `map[string]any` | Yes |  |
+| `profile` | `map[string]any` | Yes |  |
+| `status` | `string` | Yes |  |
+| `timezone` | `string` | Yes |  |
+| `updated_at` | `string` | Yes |  |
 
 ### Operations
 
@@ -357,7 +370,7 @@ fmt.Println(agentUserList.GetName()) // "agent_user_list"
 | `full_name` | `string` | Yes |  |
 | `id` | `string` | Yes |  |
 | `locale` | `string` | Yes |  |
-| `preference` | `map[string]any` | Yes |  |
+| `preferences` | `map[string]any` | Yes |  |
 | `profile` | `map[string]any` | Yes |  |
 | `status` | `string` | Yes |  |
 | `timezone` | `string` | Yes |  |
@@ -413,7 +426,6 @@ fmt.Println(appUser.GetName()) // "app_user"
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created_at` | `string` | No |  |
-| `data` | `map[string]any` | Yes |  |
 | `email` | `string` | Yes |  |
 | `id` | `string` | Yes |  |
 | `last_login_at` | `string` | No |  |
@@ -425,7 +437,6 @@ fmt.Println(appUser.GetName()) // "app_user"
 | Field | load | list | create | update | remove |
 | --- | --- | --- | --- | --- | --- |
 | `created_at` | - | - | - | - | - |
-| `data` | - | - | - | - | - |
 | `email` | - | - | - | Yes | - |
 | `id` | - | - | - | - | - |
 | `last_login_at` | - | - | - | - | - |
@@ -464,7 +475,6 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.AppUser(nil).Create(map[string]any{
-    "data": map[string]any{},
     "email": "example_email",
     "id": "example_id",
 }, nil)
@@ -536,7 +546,6 @@ fmt.Println(appUserLogin.GetName()) // "app_user_login"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `map[string]any` | Yes |  |
 | `email` | `string` | Yes |  |
 | `metadata` | `map[string]any` | No |  |
 | `project_id` | `string` | No |  |
@@ -549,7 +558,6 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.AppUserLogin(nil).Create(map[string]any{
-    "data": map[string]any{},
     "email": "example_email",
 }, nil)
 if err != nil {
@@ -588,12 +596,6 @@ Return the entity name.
 appUserSession := client.AppUserSession(nil)
 fmt.Println(appUserSession.GetName()) // "app_user_session"
 ```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `map[string]any` | Yes |  |
 
 ### Operations
 
@@ -695,7 +697,6 @@ fmt.Println(appUserVerify.GetName()) // "app_user_verify"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `map[string]any` | Yes |  |
 | `token` | `string` | Yes |  |
 
 ### Operations
@@ -706,7 +707,6 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.AppUserVerify(nil).Create(map[string]any{
-    "data": map[string]any{},
     "token": "example_token",
 }, nil)
 if err != nil {
@@ -797,12 +797,11 @@ fmt.Println(collection.GetName()) // "collection"
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created_at` | `string` | No |  |
-| `data` | `map[string]any` | Yes |  |
 | `id` | `string` | Yes |  |
 | `name` | `string` | Yes |  |
 | `project_id` | `string` | No |  |
 | `schema` | `map[string]any` | No |  |
-| `slug` | `string` | No |  |
+| `slug` | `string` | Yes |  |
 | `updated_at` | `string` | No |  |
 | `user_id` | `string` | No |  |
 | `visibility` | `string` | No |  |
@@ -812,12 +811,11 @@ fmt.Println(collection.GetName()) // "collection"
 | Field | load | list | create | update | remove |
 | --- | --- | --- | --- | --- | --- |
 | `created_at` | - | - | - | - | - |
-| `data` | - | - | - | - | - |
 | `id` | - | - | - | - | - |
 | `name` | - | - | - | Yes | - |
 | `project_id` | - | - | - | - | - |
 | `schema` | - | - | - | - | - |
-| `slug` | - | Yes | - | - | - |
+| `slug` | - | - | Yes | Yes | - |
 | `updated_at` | - | - | - | - | - |
 | `user_id` | - | - | - | - | - |
 | `visibility` | - | - | - | - | - |
@@ -854,9 +852,9 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.Collection(nil).Create(map[string]any{
-    "data": map[string]any{},
     "id": "example_id",
     "name": "example_name",
+    "slug": "example_slug",
 }, nil)
 if err != nil {
     panic(err)
@@ -926,7 +924,15 @@ fmt.Println(collectionRecord.GetName()) // "collection_record"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `app_user_id` | `string` | No |  |
+| `collection_id` | `string` | No |  |
+| `created_at` | `string` | No |  |
+| `created_by` | `string` | No |  |
 | `data` | `map[string]any` | Yes |  |
+| `deleted_at` | `string` | No |  |
+| `id` | `string` | Yes |  |
+| `project_id` | `string` | No |  |
+| `updated_at` | `string` | No |  |
 
 ### Operations
 
@@ -949,6 +955,8 @@ Create a new entity with the given data.
 ```go
 result, err := client.CollectionRecord(nil).Create(map[string]any{
     "slug": "example_slug",
+    "data": map[string]any{},
+    "id": "example_id",
 }, nil)
 if err != nil {
     panic(err)
@@ -1197,9 +1205,9 @@ fmt.Println(legacyMutation.GetName()) // "legacy_mutation"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `string` | No |  |
+| `createdAt` | `string` | No |  |
 | `id` | `string` | No |  |
-| `updated_at` | `string` | No |  |
+| `updatedAt` | `string` | No |  |
 
 ### Operations
 

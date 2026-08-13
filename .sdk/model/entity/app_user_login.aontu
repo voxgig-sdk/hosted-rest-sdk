@@ -6,11 +6,6 @@ main: kit: entity: app_user_login: {
 
   fields: [
     {
-      name: "data"
-      req: true
-      type: "`$OBJECT`"
-    }
-    {
       name: "email"
       req: true
       type: "`$STRING`"
@@ -42,7 +37,7 @@ main: kit: entity: app_user_login: {
           ]
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.data`"
           }
         }
       ]

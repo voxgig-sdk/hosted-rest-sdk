@@ -24,6 +24,7 @@ require_relative 'prepare_method'
 require_relative 'prepare_params'
 require_relative 'prepare_path'
 require_relative 'prepare_query'
+require_relative 'graphql'
 require_relative 'result_basic'
 require_relative 'result_body'
 require_relative 'result_headers'
@@ -55,6 +56,8 @@ HostedRestUtility.registrar = ->(u) {
   u.prepare_params = HostedRestUtilities::PrepareParams
   u.prepare_path = HostedRestUtilities::PreparePath
   u.prepare_query = HostedRestUtilities::PrepareQuery
+  u.graphql_body = HostedRestUtilities::GraphqlBody
+  u.graphql_errors = HostedRestUtilities::GraphqlErrors
   u.result_basic = HostedRestUtilities::ResultBasic
   u.result_body = HostedRestUtilities::ResultBody
   u.result_headers = HostedRestUtilities::ResultHeaders

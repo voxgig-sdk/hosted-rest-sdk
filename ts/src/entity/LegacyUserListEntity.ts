@@ -37,7 +37,7 @@ class LegacyUserListEntity extends HostedRestEntityBase<LegacyUserList> {
 
 
 
-  async list(this: any, reqmatch?: LegacyUserListListMatch, ctrl?: Control): Promise<LegacyUserList[]> {
+  async list(this: any, reqmatch?: LegacyUserListListMatch, ctrl?: Control): Promise<LegacyUserListEntity[]> {
 
     const utility = this._utility
 

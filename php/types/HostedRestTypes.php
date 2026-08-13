@@ -15,13 +15,21 @@ declare(strict_types=1);
 /** AgentHealth entity data model. */
 class AgentHealth
 {
-    public array $data;
+    public array $deprecations;
+    public array $rate_limit_status;
+    public string $status;
+    public int $uptime_seconds;
+    public string $version;
 }
 
 /** Request payload for AgentHealth#load. */
 class AgentHealthLoadMatch
 {
-    public ?array $data = null;
+    public ?array $deprecations = null;
+    public ?array $rate_limit_status = null;
+    public ?string $status = null;
+    public ?int $uptime_seconds = null;
+    public ?string $version = null;
 }
 
 /** AgentSandbox entity data model. */
@@ -47,7 +55,16 @@ class AgentSandboxCreateData
 /** AgentUserDetail entity data model. */
 class AgentUserDetail
 {
-    public array $data;
+    public string $created_at;
+    public string $email;
+    public string $full_name;
+    public string $id;
+    public string $locale;
+    public array $preferences;
+    public array $profile;
+    public string $status;
+    public string $timezone;
+    public string $updated_at;
 }
 
 /** Request payload for AgentUserDetail#load. */
@@ -64,7 +81,7 @@ class AgentUserList
     public string $full_name;
     public string $id;
     public string $locale;
-    public array $preference;
+    public array $preferences;
     public array $profile;
     public string $status;
     public string $timezone;
@@ -79,7 +96,7 @@ class AgentUserListListMatch
     public ?string $full_name = null;
     public ?string $id = null;
     public ?string $locale = null;
-    public ?array $preference = null;
+    public ?array $preferences = null;
     public ?array $profile = null;
     public ?string $status = null;
     public ?string $timezone = null;
@@ -90,7 +107,6 @@ class AgentUserListListMatch
 class AppUser
 {
     public ?string $created_at = null;
-    public array $data;
     public string $email;
     public string $id;
     public ?string $last_login_at = null;
@@ -114,7 +130,6 @@ class AppUserListMatch
 class AppUserCreateData
 {
     public ?string $created_at = null;
-    public array $data;
     public string $email;
     public string $id;
     public ?string $last_login_at = null;
@@ -126,6 +141,11 @@ class AppUserCreateData
 class AppUserUpdateData
 {
     public string $id;
+    public ?string $created_at = null;
+    public ?string $email = null;
+    public ?string $last_login_at = null;
+    public ?array $metadata = null;
+    public ?string $status = null;
 }
 
 /** Request payload for AppUser#remove. */
@@ -139,7 +159,6 @@ class AppUserRemoveMatch
 /** AppUserLogin entity data model. */
 class AppUserLogin
 {
-    public array $data;
     public string $email;
     public ?array $metadata = null;
     public ?string $project_id = null;
@@ -148,7 +167,6 @@ class AppUserLogin
 /** Request payload for AppUserLogin#create. */
 class AppUserLoginCreateData
 {
-    public array $data;
     public string $email;
     public ?array $metadata = null;
     public ?string $project_id = null;
@@ -157,13 +175,11 @@ class AppUserLoginCreateData
 /** AppUserSession entity data model. */
 class AppUserSession
 {
-    public array $data;
 }
 
 /** Request payload for AppUserSession#load. */
 class AppUserSessionLoadMatch
 {
-    public ?array $data = null;
 }
 
 /** AppUserTotal entity data model. */
@@ -181,14 +197,12 @@ class AppUserTotalLoadMatch
 /** AppUserVerify entity data model. */
 class AppUserVerify
 {
-    public array $data;
     public string $token;
 }
 
 /** Request payload for AppUserVerify#create. */
 class AppUserVerifyCreateData
 {
-    public array $data;
     public string $token;
 }
 
@@ -206,12 +220,11 @@ class AuthenticationCreateData
 class Collection
 {
     public ?string $created_at = null;
-    public array $data;
     public string $id;
     public string $name;
     public ?string $project_id = null;
     public ?array $schema = null;
-    public ?string $slug = null;
+    public string $slug;
     public ?string $updated_at = null;
     public ?string $user_id = null;
     public ?string $visibility = null;
@@ -227,7 +240,6 @@ class CollectionLoadMatch
 class CollectionListMatch
 {
     public ?string $created_at = null;
-    public ?array $data = null;
     public ?string $id = null;
     public ?string $name = null;
     public ?string $project_id = null;
@@ -242,12 +254,11 @@ class CollectionListMatch
 class CollectionCreateData
 {
     public ?string $created_at = null;
-    public array $data;
     public string $id;
     public string $name;
     public ?string $project_id = null;
     public ?array $schema = null;
-    public ?string $slug = null;
+    public string $slug;
     public ?string $updated_at = null;
     public ?string $user_id = null;
     public ?string $visibility = null;
@@ -257,6 +268,14 @@ class CollectionCreateData
 class CollectionUpdateData
 {
     public string $id;
+    public ?string $created_at = null;
+    public ?string $name = null;
+    public ?string $project_id = null;
+    public ?array $schema = null;
+    public ?string $slug = null;
+    public ?string $updated_at = null;
+    public ?string $user_id = null;
+    public ?string $visibility = null;
 }
 
 /** Request payload for Collection#remove. */
@@ -270,7 +289,15 @@ class CollectionRemoveMatch
 /** CollectionRecord entity data model. */
 class CollectionRecord
 {
+    public ?string $app_user_id = null;
+    public ?string $collection_id = null;
+    public ?string $created_at = null;
+    public ?string $created_by = null;
     public array $data;
+    public ?string $deleted_at = null;
+    public string $id;
+    public ?string $project_id = null;
+    public ?string $updated_at = null;
 }
 
 /** Request payload for CollectionRecord#load. */
@@ -284,6 +311,15 @@ class CollectionRecordLoadMatch
 class CollectionRecordCreateData
 {
     public string $slug;
+    public ?string $app_user_id = null;
+    public ?string $collection_id = null;
+    public ?string $created_at = null;
+    public ?string $created_by = null;
+    public array $data;
+    public ?string $deleted_at = null;
+    public string $id;
+    public ?string $project_id = null;
+    public ?string $updated_at = null;
 }
 
 /** Request payload for CollectionRecord#update. */
@@ -291,6 +327,13 @@ class CollectionRecordUpdateData
 {
     public string $collection_id;
     public string $id;
+    public ?string $app_user_id = null;
+    public ?string $created_at = null;
+    public ?string $created_by = null;
+    public ?array $data = null;
+    public ?string $deleted_at = null;
+    public ?string $project_id = null;
+    public ?string $updated_at = null;
 }
 
 /** CollectionRecordList entity data model. */
@@ -356,23 +399,25 @@ class LegacyRemoveMatch
 /** LegacyMutation entity data model. */
 class LegacyMutation
 {
-    public ?string $created_at = null;
+    public ?string $createdAt = null;
     public ?string $id = null;
-    public ?string $updated_at = null;
+    public ?string $updatedAt = null;
 }
 
 /** Request payload for LegacyMutation#create. */
 class LegacyMutationCreateData
 {
-    public ?string $created_at = null;
+    public ?string $createdAt = null;
     public ?string $id = null;
-    public ?string $updated_at = null;
+    public ?string $updatedAt = null;
 }
 
 /** Request payload for LegacyMutation#update. */
 class LegacyMutationUpdateData
 {
     public int $id;
+    public ?string $createdAt = null;
+    public ?string $updatedAt = null;
 }
 
 /** LegacyUnknown entity data model. */

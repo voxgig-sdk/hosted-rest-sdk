@@ -2,18 +2,15 @@
   "existing": {
     "app_user_verify": {
       "APP_USER_VERIFY00": {
-        "data": {},
-        "token": "s15",
+        "token": "sa",
         "id": "APP_USER_VERIFY00"
       },
       "APP_USER_VERIFY01": {
-        "data": {},
-        "token": "s29",
+        "token": "s14",
         "id": "APP_USER_VERIFY01"
       },
       "APP_USER_VERIFY02": {
-        "data": {},
-        "token": "s3d",
+        "token": "s1e",
         "id": "APP_USER_VERIFY02"
       }
     }
@@ -21,8 +18,7 @@
   "new": {
     "app_user_verify": {
       "app_user_verify_ref01": {
-        "data": {},
-        "token": "s51"
+        "token": "s28"
       }
     }
   }

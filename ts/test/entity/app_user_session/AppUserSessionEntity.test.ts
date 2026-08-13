@@ -26,8 +26,8 @@ import {
 describe('AppUserSessionEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when HOSTEDREST_TEST_LIVE=TRUE.
-  afterEach(liveDelay('HOSTEDREST_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when HOSTED_REST_TEST_LIVE=TRUE.
+  afterEach(liveDelay('HOSTED_REST_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = HostedRestSDK.test()
@@ -62,7 +62,7 @@ describe('AppUserSessionEntity', async () => {
     // LOAD
     const app_user_session_ref01_ent = client.AppUserSession()
     const app_user_session_ref01_match_dt0: any = {}
-    const app_user_session_ref01_data_dt0 = await app_user_session_ref01_ent.load(app_user_session_ref01_match_dt0)
+    const app_user_session_ref01_data_dt0 = (await app_user_session_ref01_ent.load(app_user_session_ref01_match_dt0)).data()
     assert(null != app_user_session_ref01_data_dt0)
 
 

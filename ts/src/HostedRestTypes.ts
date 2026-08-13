@@ -6,11 +6,19 @@
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 
 export interface AgentHealth {
-  data: Record<string, any>
+  deprecations: any[]
+  rate_limit_status: Record<string, any>
+  status: string
+  uptime_seconds: number
+  version: string
 }
 
 export interface AgentHealthLoadMatch {
-  data?: Record<string, any>
+  deprecations?: any[]
+  rate_limit_status?: Record<string, any>
+  status?: string
+  uptime_seconds?: number
+  version?: string
 }
 
 export interface AgentSandbox {
@@ -28,7 +36,16 @@ export interface AgentSandboxCreateData {
 }
 
 export interface AgentUserDetail {
-  data: Record<string, any>
+  created_at: string
+  email: string
+  full_name: string
+  id: string
+  locale: string
+  preferences: Record<string, any>
+  profile: Record<string, any>
+  status: string
+  timezone: string
+  updated_at: string
 }
 
 export interface AgentUserDetailLoadMatch {
@@ -41,7 +58,7 @@ export interface AgentUserList {
   full_name: string
   id: string
   locale: string
-  preference: Record<string, any>
+  preferences: Record<string, any>
   profile: Record<string, any>
   status: string
   timezone: string
@@ -54,7 +71,7 @@ export interface AgentUserListListMatch {
   full_name?: string
   id?: string
   locale?: string
-  preference?: Record<string, any>
+  preferences?: Record<string, any>
   profile?: Record<string, any>
   status?: string
   timezone?: string
@@ -63,7 +80,6 @@ export interface AgentUserListListMatch {
 
 export interface AppUser {
   created_at?: string
-  data: Record<string, any>
   email: string
   id: string
   last_login_at?: string
@@ -81,16 +97,26 @@ export interface AppUserListMatch {
 
 export interface AppUserCreateData {
   created_at?: string
-  data: Record<string, any>
   email: string
   id: string
   last_login_at?: string
   metadata?: Record<string, any>
   status?: string
+
+  // Selects a custom action instead of the plain create:
+  //   'session_simulate'
+  // The remaining keys are that action's own payload.
+  $action?: string
+  [action: string]: any
 }
 
 export interface AppUserUpdateData {
   id: string
+  created_at?: string
+  email?: string
+  last_login_at?: string
+  metadata?: Record<string, any>
+  status?: string
 }
 
 export interface AppUserRemoveMatch {
@@ -100,25 +126,21 @@ export interface AppUserRemoveMatch {
 }
 
 export interface AppUserLogin {
-  data: Record<string, any>
   email: string
   metadata?: Record<string, any>
   project_id?: string
 }
 
 export interface AppUserLoginCreateData {
-  data: Record<string, any>
   email: string
   metadata?: Record<string, any>
   project_id?: string
 }
 
 export interface AppUserSession {
-  data: Record<string, any>
 }
 
 export interface AppUserSessionLoadMatch {
-  data?: Record<string, any>
 }
 
 export interface AppUserTotal {
@@ -130,12 +152,10 @@ export interface AppUserTotalLoadMatch {
 }
 
 export interface AppUserVerify {
-  data: Record<string, any>
   token: string
 }
 
 export interface AppUserVerifyCreateData {
-  data: Record<string, any>
   token: string
 }
 
@@ -147,12 +167,11 @@ export interface AuthenticationCreateData {
 
 export interface Collection {
   created_at?: string
-  data: Record<string, any>
   id: string
   name: string
   project_id?: string
   schema?: Record<string, any>
-  slug?: string
+  slug: string
   updated_at?: string
   user_id?: string
   visibility?: string
@@ -164,7 +183,6 @@ export interface CollectionLoadMatch {
 
 export interface CollectionListMatch {
   created_at?: string
-  data?: Record<string, any>
   id?: string
   name?: string
   project_id?: string
@@ -177,12 +195,11 @@ export interface CollectionListMatch {
 
 export interface CollectionCreateData {
   created_at?: string
-  data: Record<string, any>
   id: string
   name: string
   project_id?: string
   schema?: Record<string, any>
-  slug?: string
+  slug: string
   updated_at?: string
   user_id?: string
   visibility?: string
@@ -190,6 +207,14 @@ export interface CollectionCreateData {
 
 export interface CollectionUpdateData {
   id: string
+  created_at?: string
+  name?: string
+  project_id?: string
+  schema?: Record<string, any>
+  slug?: string
+  updated_at?: string
+  user_id?: string
+  visibility?: string
 }
 
 export interface CollectionRemoveMatch {
@@ -199,7 +224,15 @@ export interface CollectionRemoveMatch {
 }
 
 export interface CollectionRecord {
+  app_user_id?: string
+  collection_id?: string
+  created_at?: string
+  created_by?: string
   data: Record<string, any>
+  deleted_at?: string
+  id: string
+  project_id?: string
+  updated_at?: string
 }
 
 export interface CollectionRecordLoadMatch {
@@ -209,11 +242,27 @@ export interface CollectionRecordLoadMatch {
 
 export interface CollectionRecordCreateData {
   slug: string
+  app_user_id?: string
+  collection_id?: string
+  created_at?: string
+  created_by?: string
+  data: Record<string, any>
+  deleted_at?: string
+  id: string
+  project_id?: string
+  updated_at?: string
 }
 
 export interface CollectionRecordUpdateData {
   collection_id: string
   id: string
+  app_user_id?: string
+  created_at?: string
+  created_by?: string
+  data?: Record<string, any>
+  deleted_at?: string
+  project_id?: string
+  updated_at?: string
 }
 
 export interface CollectionRecordList {
@@ -259,19 +308,21 @@ export interface LegacyRemoveMatch {
 }
 
 export interface LegacyMutation {
-  created_at?: string
+  createdAt?: string
   id?: string
-  updated_at?: string
+  updatedAt?: string
 }
 
 export interface LegacyMutationCreateData {
-  created_at?: string
+  createdAt?: string
   id?: string
-  updated_at?: string
+  updatedAt?: string
 }
 
 export interface LegacyMutationUpdateData {
   id: number
+  createdAt?: string
+  updatedAt?: string
 }
 
 export interface LegacyUnknown {

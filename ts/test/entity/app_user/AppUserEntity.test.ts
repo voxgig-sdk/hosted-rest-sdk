@@ -26,8 +26,8 @@ import {
 describe('AppUserEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when HOSTEDREST_TEST_LIVE=TRUE.
-  afterEach(liveDelay('HOSTEDREST_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when HOSTED_REST_TEST_LIVE=TRUE.
+  afterEach(liveDelay('HOSTED_REST_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = HostedRestSDK.test()
@@ -64,14 +64,14 @@ describe('AppUserEntity', async () => {
     app_user_ref01_data['collection_id'] = setup.idmap['collection01']
     app_user_ref01_data['project_id'] = setup.idmap['project01']
 
-    app_user_ref01_data = await app_user_ref01_ent.create(app_user_ref01_data)
+    app_user_ref01_data = (await app_user_ref01_ent.create(app_user_ref01_data)).data()
     assert(null != app_user_ref01_data.id)
 
 
     // LIST
     const app_user_ref01_match: any = {}
 
-    const app_user_ref01_list = await app_user_ref01_ent.list(app_user_ref01_match)
+    const app_user_ref01_list = (await app_user_ref01_ent.list(app_user_ref01_match)).map((e: any) => e.data())
 
     assert(!isempty(select(app_user_ref01_list, { id: app_user_ref01_data.id })))
 
@@ -83,7 +83,7 @@ describe('AppUserEntity', async () => {
     const app_user_ref01_markdef_up0 = { name: 'created_at', value: 'Mark01-app_user_ref01_' + setup.now }
     ;(app_user_ref01_data_up0 as any)[app_user_ref01_markdef_up0.name] = app_user_ref01_markdef_up0.value
 
-    const app_user_ref01_resdata_up0 = await app_user_ref01_ent.update(app_user_ref01_data_up0)
+    const app_user_ref01_resdata_up0 = (await app_user_ref01_ent.update(app_user_ref01_data_up0)).data()
     assert(app_user_ref01_resdata_up0.id === app_user_ref01_data_up0.id)
 
     assert((app_user_ref01_resdata_up0 as any)[app_user_ref01_markdef_up0.name] === app_user_ref01_markdef_up0.value)
@@ -92,7 +92,7 @@ describe('AppUserEntity', async () => {
     // LOAD
     const app_user_ref01_match_dt0: any = {}
     app_user_ref01_match_dt0.id = app_user_ref01_data.id
-    const app_user_ref01_data_dt0 = await app_user_ref01_ent.load(app_user_ref01_match_dt0)
+    const app_user_ref01_data_dt0 = (await app_user_ref01_ent.load(app_user_ref01_match_dt0)).data()
     assert(app_user_ref01_data_dt0.id === app_user_ref01_data.id)
 
 
@@ -104,7 +104,7 @@ describe('AppUserEntity', async () => {
     // LIST
     const app_user_ref01_match_rt0: any = {}
 
-    const app_user_ref01_list_rt0 = await app_user_ref01_ent.list(app_user_ref01_match_rt0)
+    const app_user_ref01_list_rt0 = (await app_user_ref01_ent.list(app_user_ref01_match_rt0)).map((e: any) => e.data())
 
     assert(isempty(select(app_user_ref01_list_rt0, { id: app_user_ref01_data.id })))
 

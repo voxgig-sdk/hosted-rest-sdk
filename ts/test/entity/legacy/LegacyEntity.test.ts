@@ -26,8 +26,8 @@ import {
 describe('LegacyEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when HOSTEDREST_TEST_LIVE=TRUE.
-  afterEach(liveDelay('HOSTEDREST_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when HOSTED_REST_TEST_LIVE=TRUE.
+  afterEach(liveDelay('HOSTED_REST_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = HostedRestSDK.test()
@@ -39,7 +39,7 @@ describe('LegacyEntity', async () => {
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.HOSTED_REST_TEST_LIVE
-    for (const op of ['remove']) {
+    for (const op of []) {
       if (maybeSkipControl(t, 'entityOp', 'legacy.' + op, live)) return
     }
 

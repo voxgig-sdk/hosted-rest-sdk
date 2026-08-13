@@ -26,8 +26,8 @@ import {
 describe('CustomEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when HOSTEDREST_TEST_LIVE=TRUE.
-  afterEach(liveDelay('HOSTEDREST_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when HOSTED_REST_TEST_LIVE=TRUE.
+  afterEach(liveDelay('HOSTED_REST_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = HostedRestSDK.test()
@@ -63,22 +63,18 @@ describe('CustomEntity', async () => {
     let custom_ref01_data = setup.data.new.custom['custom_ref01']
     custom_ref01_data['path'] = setup.idmap['path01']
 
-    custom_ref01_data = await custom_ref01_ent.create(custom_ref01_data)
+    custom_ref01_data = (await custom_ref01_ent.create(custom_ref01_data)).data()
     assert(null != custom_ref01_data)
 
 
     // UPDATE
     const custom_ref01_data_up0: any = {}
 
-    const custom_ref01_resdata_up0 = await custom_ref01_ent.update(custom_ref01_data_up0)
+    const custom_ref01_resdata_up0 = (await custom_ref01_ent.update(custom_ref01_data_up0)).data()
     assert(null != custom_ref01_resdata_up0)
 
 
 
-    // REMOVE
-    const custom_ref01_match_rm0: any = { id: custom_ref01_data.id }
-    await custom_ref01_ent.remove(custom_ref01_match_rm0)
-  
 
   })
 })

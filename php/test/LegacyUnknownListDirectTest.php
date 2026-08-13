@@ -66,16 +66,16 @@ function legacy_unknown_list_direct_setup($mockres)
     $calls = new \ArrayObject();
 
     $env = Runner::env_override([
-        "HOSTEDREST_TEST_LEGACY_UNKNOWN_LIST_ENTID" => [],
-        "HOSTEDREST_TEST_LIVE" => "FALSE",
-        "HOSTEDREST_APIKEY" => "NONE",
+        "HOSTED_REST_TEST_LEGACY_UNKNOWN_LIST_ENTID" => [],
+        "HOSTED_REST_TEST_LIVE" => "FALSE",
+        "HOSTED_REST_APIKEY" => "NONE",
     ]);
 
-    $live = $env["HOSTEDREST_TEST_LIVE"] === "TRUE";
+    $live = $env["HOSTED_REST_TEST_LIVE"] === "TRUE";
 
     if ($live) {
         $merged_opts = [
-            "apikey" => $env["HOSTEDREST_APIKEY"],
+            "apikey" => $env["HOSTED_REST_APIKEY"],
         ];
         $client = new HostedRestSDK($merged_opts);
         return [

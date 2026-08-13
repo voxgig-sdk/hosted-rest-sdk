@@ -33,7 +33,7 @@ class RegisterEntityTest extends TestCase
         // The basic flow consumes synthetic IDs from the fixture. In live mode
         // without an *_ENTID env override, those IDs hit the live API and 4xx.
         if (!empty($setup["synthetic_only"])) {
-            $this->markTestSkipped("live entity test uses synthetic IDs from fixture — set HOSTEDREST_TEST_REGISTER_ENTID JSON to run live");
+            $this->markTestSkipped("live entity test uses synthetic IDs from fixture — set HOSTED_REST_TEST_REGISTER_ENTID JSON to run live");
             return;
         }
         $client = $setup["client"];
@@ -44,7 +44,7 @@ class RegisterEntityTest extends TestCase
             Vs::getpath($setup["data"], "new.register"), "register_ref01"));
 
         $register_ref01_data_result = $register_ref01_ent->create($register_ref01_data, null);
-        $register_ref01_data = Helpers::to_map($register_ref01_data_result);
+        $register_ref01_data = Helpers::to_map(is_object($register_ref01_data_result) && method_exists($register_ref01_data_result, 'data_get') ? $register_ref01_data_result->data_get() : $register_ref01_data_result);
         $this->assertNotNull($register_ref01_data);
         $this->assertNotNull($register_ref01_data["id"]);
 
@@ -73,39 +73,39 @@ function register_basic_setup($extra)
     // Detect ENTID env override before envOverride consumes it. When live
     // mode is on without a real override, the basic test runs against synthetic
     // IDs from the fixture and 4xx's. Surface this so the test can skip.
-    $entid_env_raw = getenv("HOSTEDREST_TEST_REGISTER_ENTID");
+    $entid_env_raw = getenv("HOSTED_REST_TEST_REGISTER_ENTID");
     $idmap_overridden = $entid_env_raw !== false && str_starts_with(trim($entid_env_raw), "{");
 
     $env = Runner::env_override([
-        "HOSTEDREST_TEST_REGISTER_ENTID" => $idmap,
-        "HOSTEDREST_TEST_LIVE" => "FALSE",
-        "HOSTEDREST_TEST_EXPLAIN" => "FALSE",
-        "HOSTEDREST_APIKEY" => "NONE",
+        "HOSTED_REST_TEST_REGISTER_ENTID" => $idmap,
+        "HOSTED_REST_TEST_LIVE" => "FALSE",
+        "HOSTED_REST_TEST_EXPLAIN" => "FALSE",
+        "HOSTED_REST_APIKEY" => "NONE",
     ]);
 
     $idmap_resolved = Helpers::to_map(
-        $env["HOSTEDREST_TEST_REGISTER_ENTID"]);
+        $env["HOSTED_REST_TEST_REGISTER_ENTID"]);
     if ($idmap_resolved === null) {
         $idmap_resolved = Helpers::to_map($idmap);
     }
 
-    if ($env["HOSTEDREST_TEST_LIVE"] === "TRUE") {
+    if ($env["HOSTED_REST_TEST_LIVE"] === "TRUE") {
         $merged_opts = Vs::merge([
             [
-                "apikey" => $env["HOSTEDREST_APIKEY"],
+                "apikey" => $env["HOSTED_REST_APIKEY"],
             ],
             $extra ?? [],
         ]);
         $client = new HostedRestSDK(Helpers::to_map($merged_opts));
     }
 
-    $live = $env["HOSTEDREST_TEST_LIVE"] === "TRUE";
+    $live = $env["HOSTED_REST_TEST_LIVE"] === "TRUE";
     return [
         "client" => $client,
         "data" => $entity_data,
         "idmap" => $idmap_resolved,
         "env" => $env,
-        "explain" => $env["HOSTEDREST_TEST_EXPLAIN"] === "TRUE",
+        "explain" => $env["HOSTED_REST_TEST_EXPLAIN"] === "TRUE",
         "live" => $live,
         "synthetic_only" => $live && !$idmap_overridden,
         "now" => (int)(microtime(true) * 1000),

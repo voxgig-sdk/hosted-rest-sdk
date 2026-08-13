@@ -6,16 +6,28 @@
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 package entity
 
-import "encoding/json"
+import (
+	"encoding/json"
+
+	"github.com/voxgig-sdk/hosted-rest-sdk/go/core"
+)
 
 // AgentHealth is the typed data model for the agent_health entity.
 type AgentHealth struct {
-	Data map[string]any `json:"data"`
+	Deprecations []any `json:"deprecations"`
+	RateLimitStatus map[string]any `json:"rate_limit_status"`
+	Status string `json:"status"`
+	UptimeSeconds int `json:"uptime_seconds"`
+	Version string `json:"version"`
 }
 
 // AgentHealthLoadMatch is the typed request payload for AgentHealth.LoadTyped.
 type AgentHealthLoadMatch struct {
-	Data *map[string]any `json:"data,omitempty"`
+	Deprecations *[]any `json:"deprecations,omitempty"`
+	RateLimitStatus *map[string]any `json:"rate_limit_status,omitempty"`
+	Status *string `json:"status,omitempty"`
+	UptimeSeconds *int `json:"uptime_seconds,omitempty"`
+	Version *string `json:"version,omitempty"`
 }
 
 // AgentSandbox is the typed data model for the agent_sandbox entity.
@@ -37,7 +49,16 @@ type AgentSandboxCreateData struct {
 
 // AgentUserDetail is the typed data model for the agent_user_detail entity.
 type AgentUserDetail struct {
-	Data map[string]any `json:"data"`
+	CreatedAt string `json:"created_at"`
+	Email string `json:"email"`
+	FullName string `json:"full_name"`
+	Id string `json:"id"`
+	Locale string `json:"locale"`
+	Preferences map[string]any `json:"preferences"`
+	Profile map[string]any `json:"profile"`
+	Status string `json:"status"`
+	Timezone string `json:"timezone"`
+	UpdatedAt string `json:"updated_at"`
 }
 
 // AgentUserDetailLoadMatch is the typed request payload for AgentUserDetail.LoadTyped.
@@ -52,7 +73,7 @@ type AgentUserList struct {
 	FullName string `json:"full_name"`
 	Id string `json:"id"`
 	Locale string `json:"locale"`
-	Preference map[string]any `json:"preference"`
+	Preferences map[string]any `json:"preferences"`
 	Profile map[string]any `json:"profile"`
 	Status string `json:"status"`
 	Timezone string `json:"timezone"`
@@ -66,7 +87,7 @@ type AgentUserListListMatch struct {
 	FullName *string `json:"full_name,omitempty"`
 	Id *string `json:"id,omitempty"`
 	Locale *string `json:"locale,omitempty"`
-	Preference *map[string]any `json:"preference,omitempty"`
+	Preferences *map[string]any `json:"preferences,omitempty"`
 	Profile *map[string]any `json:"profile,omitempty"`
 	Status *string `json:"status,omitempty"`
 	Timezone *string `json:"timezone,omitempty"`
@@ -76,7 +97,6 @@ type AgentUserListListMatch struct {
 // AppUser is the typed data model for the app_user entity.
 type AppUser struct {
 	CreatedAt *string `json:"created_at,omitempty"`
-	Data map[string]any `json:"data"`
 	Email string `json:"email"`
 	Id string `json:"id"`
 	LastLoginAt *string `json:"last_login_at,omitempty"`
@@ -97,7 +117,6 @@ type AppUserListMatch struct {
 // AppUserCreateData is the typed request payload for AppUser.CreateTyped.
 type AppUserCreateData struct {
 	CreatedAt *string `json:"created_at,omitempty"`
-	Data map[string]any `json:"data"`
 	Email string `json:"email"`
 	Id string `json:"id"`
 	LastLoginAt *string `json:"last_login_at,omitempty"`
@@ -108,6 +127,11 @@ type AppUserCreateData struct {
 // AppUserUpdateData is the typed request payload for AppUser.UpdateTyped.
 type AppUserUpdateData struct {
 	Id string `json:"id"`
+	CreatedAt *string `json:"created_at,omitempty"`
+	Email *string `json:"email,omitempty"`
+	LastLoginAt *string `json:"last_login_at,omitempty"`
+	Metadata *map[string]any `json:"metadata,omitempty"`
+	Status *string `json:"status,omitempty"`
 }
 
 // AppUserRemoveMatch is the typed request payload for AppUser.RemoveTyped.
@@ -119,7 +143,6 @@ type AppUserRemoveMatch struct {
 
 // AppUserLogin is the typed data model for the app_user_login entity.
 type AppUserLogin struct {
-	Data map[string]any `json:"data"`
 	Email string `json:"email"`
 	Metadata *map[string]any `json:"metadata,omitempty"`
 	ProjectId *string `json:"project_id,omitempty"`
@@ -127,7 +150,6 @@ type AppUserLogin struct {
 
 // AppUserLoginCreateData is the typed request payload for AppUserLogin.CreateTyped.
 type AppUserLoginCreateData struct {
-	Data map[string]any `json:"data"`
 	Email string `json:"email"`
 	Metadata *map[string]any `json:"metadata,omitempty"`
 	ProjectId *string `json:"project_id,omitempty"`
@@ -135,12 +157,10 @@ type AppUserLoginCreateData struct {
 
 // AppUserSession is the typed data model for the app_user_session entity.
 type AppUserSession struct {
-	Data map[string]any `json:"data"`
 }
 
 // AppUserSessionLoadMatch is the typed request payload for AppUserSession.LoadTyped.
 type AppUserSessionLoadMatch struct {
-	Data *map[string]any `json:"data,omitempty"`
 }
 
 // AppUserTotal is the typed data model for the app_user_total entity.
@@ -155,13 +175,11 @@ type AppUserTotalLoadMatch struct {
 
 // AppUserVerify is the typed data model for the app_user_verify entity.
 type AppUserVerify struct {
-	Data map[string]any `json:"data"`
 	Token string `json:"token"`
 }
 
 // AppUserVerifyCreateData is the typed request payload for AppUserVerify.CreateTyped.
 type AppUserVerifyCreateData struct {
-	Data map[string]any `json:"data"`
 	Token string `json:"token"`
 }
 
@@ -176,12 +194,11 @@ type AuthenticationCreateData struct {
 // Collection is the typed data model for the collection entity.
 type Collection struct {
 	CreatedAt *string `json:"created_at,omitempty"`
-	Data map[string]any `json:"data"`
 	Id string `json:"id"`
 	Name string `json:"name"`
 	ProjectId *string `json:"project_id,omitempty"`
 	Schema *map[string]any `json:"schema,omitempty"`
-	Slug *string `json:"slug,omitempty"`
+	Slug string `json:"slug"`
 	UpdatedAt *string `json:"updated_at,omitempty"`
 	UserId *string `json:"user_id,omitempty"`
 	Visibility *string `json:"visibility,omitempty"`
@@ -195,7 +212,6 @@ type CollectionLoadMatch struct {
 // CollectionListMatch is the typed request payload for Collection.ListTyped.
 type CollectionListMatch struct {
 	CreatedAt *string `json:"created_at,omitempty"`
-	Data *map[string]any `json:"data,omitempty"`
 	Id *string `json:"id,omitempty"`
 	Name *string `json:"name,omitempty"`
 	ProjectId *string `json:"project_id,omitempty"`
@@ -209,12 +225,11 @@ type CollectionListMatch struct {
 // CollectionCreateData is the typed request payload for Collection.CreateTyped.
 type CollectionCreateData struct {
 	CreatedAt *string `json:"created_at,omitempty"`
-	Data map[string]any `json:"data"`
 	Id string `json:"id"`
 	Name string `json:"name"`
 	ProjectId *string `json:"project_id,omitempty"`
 	Schema *map[string]any `json:"schema,omitempty"`
-	Slug *string `json:"slug,omitempty"`
+	Slug string `json:"slug"`
 	UpdatedAt *string `json:"updated_at,omitempty"`
 	UserId *string `json:"user_id,omitempty"`
 	Visibility *string `json:"visibility,omitempty"`
@@ -223,6 +238,14 @@ type CollectionCreateData struct {
 // CollectionUpdateData is the typed request payload for Collection.UpdateTyped.
 type CollectionUpdateData struct {
 	Id string `json:"id"`
+	CreatedAt *string `json:"created_at,omitempty"`
+	Name *string `json:"name,omitempty"`
+	ProjectId *string `json:"project_id,omitempty"`
+	Schema *map[string]any `json:"schema,omitempty"`
+	Slug *string `json:"slug,omitempty"`
+	UpdatedAt *string `json:"updated_at,omitempty"`
+	UserId *string `json:"user_id,omitempty"`
+	Visibility *string `json:"visibility,omitempty"`
 }
 
 // CollectionRemoveMatch is the typed request payload for Collection.RemoveTyped.
@@ -234,7 +257,15 @@ type CollectionRemoveMatch struct {
 
 // CollectionRecord is the typed data model for the collection_record entity.
 type CollectionRecord struct {
+	AppUserId *string `json:"app_user_id,omitempty"`
+	CollectionId *string `json:"collection_id,omitempty"`
+	CreatedAt *string `json:"created_at,omitempty"`
+	CreatedBy *string `json:"created_by,omitempty"`
 	Data map[string]any `json:"data"`
+	DeletedAt *string `json:"deleted_at,omitempty"`
+	Id string `json:"id"`
+	ProjectId *string `json:"project_id,omitempty"`
+	UpdatedAt *string `json:"updated_at,omitempty"`
 }
 
 // CollectionRecordLoadMatch is the typed request payload for CollectionRecord.LoadTyped.
@@ -246,12 +277,28 @@ type CollectionRecordLoadMatch struct {
 // CollectionRecordCreateData is the typed request payload for CollectionRecord.CreateTyped.
 type CollectionRecordCreateData struct {
 	Slug string `json:"slug"`
+	AppUserId *string `json:"app_user_id,omitempty"`
+	CollectionId *string `json:"collection_id,omitempty"`
+	CreatedAt *string `json:"created_at,omitempty"`
+	CreatedBy *string `json:"created_by,omitempty"`
+	Data map[string]any `json:"data"`
+	DeletedAt *string `json:"deleted_at,omitempty"`
+	Id string `json:"id"`
+	ProjectId *string `json:"project_id,omitempty"`
+	UpdatedAt *string `json:"updated_at,omitempty"`
 }
 
 // CollectionRecordUpdateData is the typed request payload for CollectionRecord.UpdateTyped.
 type CollectionRecordUpdateData struct {
 	CollectionId string `json:"collection_id"`
 	Id string `json:"id"`
+	AppUserId *string `json:"app_user_id,omitempty"`
+	CreatedAt *string `json:"created_at,omitempty"`
+	CreatedBy *string `json:"created_by,omitempty"`
+	Data *map[string]any `json:"data,omitempty"`
+	DeletedAt *string `json:"deleted_at,omitempty"`
+	ProjectId *string `json:"project_id,omitempty"`
+	UpdatedAt *string `json:"updated_at,omitempty"`
 }
 
 // CollectionRecordList is the typed data model for the collection_record_list entity.
@@ -307,21 +354,23 @@ type LegacyRemoveMatch struct {
 
 // LegacyMutation is the typed data model for the legacy_mutation entity.
 type LegacyMutation struct {
-	CreatedAt *string `json:"created_at,omitempty"`
+	CreatedAt *string `json:"createdAt,omitempty"`
 	Id *string `json:"id,omitempty"`
-	UpdatedAt *string `json:"updated_at,omitempty"`
+	UpdatedAt *string `json:"updatedAt,omitempty"`
 }
 
 // LegacyMutationCreateData is the typed request payload for LegacyMutation.CreateTyped.
 type LegacyMutationCreateData struct {
-	CreatedAt *string `json:"created_at,omitempty"`
+	CreatedAt *string `json:"createdAt,omitempty"`
 	Id *string `json:"id,omitempty"`
-	UpdatedAt *string `json:"updated_at,omitempty"`
+	UpdatedAt *string `json:"updatedAt,omitempty"`
 }
 
 // LegacyMutationUpdateData is the typed request payload for LegacyMutation.UpdateTyped.
 type LegacyMutationUpdateData struct {
 	Id int `json:"id"`
+	CreatedAt *string `json:"createdAt,omitempty"`
+	UpdatedAt *string `json:"updatedAt,omitempty"`
 }
 
 // LegacyUnknown is the typed data model for the legacy_unknown entity.
@@ -424,12 +473,26 @@ func asMap(v any) map[string]any {
 	return out
 }
 
-// typedFrom decodes a runtime value (a map[string]any produced by the op
-// pipeline) into a typed model T via a JSON round-trip. On any error it
-// returns the zero value of T; the op's own (value, error) tuple carries the
-// real error.
+// entityData unwraps an entity to its data map.
+//
+// Operations resolve to the ENTITY, not the raw data (see AGENTS.md), and an
+// entity's fields are UNEXPORTED — marshalling one directly yields `{}`, so
+// every typed accessor would silently hand back a zero-valued struct. The
+// typed boundary therefore takes the data hop first.
+func entityData(v any) any {
+	if ent, ok := v.(core.Entity); ok {
+		return ent.Data()
+	}
+	return v
+}
+
+// typedFrom decodes a runtime value (an entity, or the map[string]any the op
+// pipeline produced) into a typed model T via a JSON round-trip. On any error
+// it returns the zero value of T; the op's own (value, error) tuple carries
+// the real error.
 func typedFrom[T any](v any) T {
 	var out T
+	v = entityData(v)
 	if v == nil {
 		return out
 	}
@@ -441,12 +504,20 @@ func typedFrom[T any](v any) T {
 	return out
 }
 
-// typedSliceFrom decodes a runtime list value ([]any of maps) into a typed
-// slice []T via a JSON round-trip, for list ops.
+// typedSliceFrom decodes a runtime list value into a typed slice []T via a
+// JSON round-trip, for list ops. `list` resolves to a slice of ENTITY
+// instances, so each element takes the data hop.
 func typedSliceFrom[T any](v any) []T {
 	var out []T
 	if v == nil {
 		return out
+	}
+	if list, ok := v.([]any); ok {
+		unwrapped := make([]any, 0, len(list))
+		for _, item := range list {
+			unwrapped = append(unwrapped, entityData(item))
+		}
+		v = unwrapped
 	}
 	b, err := json.Marshal(v)
 	if err != nil {

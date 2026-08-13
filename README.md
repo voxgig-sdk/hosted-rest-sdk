@@ -38,9 +38,18 @@ network, and no credentials:
 ### TypeScript
 
 ```ts
-const client = HostedRestSDK.test()
+// The offline mock starts EMPTY — seed it with the records the test needs.
+// Shape: { entity: { <entity-name>: { <id>: <record> } } }
+const client = HostedRestSDK.test({
+  entity: {
+    agent_health: {
+      test01: { id: 'test01' },
+    },
+  },
+})
 const agenthealth = await client.AgentHealth().load()
-// agenthealth is a bare AgentHealth populated with mock data
+// agenthealth is the AgentHealth entity, populated with mock data
+// — call agenthealth.data() for the record itself
 console.log(agenthealth)
 ```
 
@@ -159,17 +168,17 @@ The API exposes 22 entities:
 | Entity | Description | API path |
 | --- | --- | --- |
 | **AgentHealth** | The AgentHealth entity (load). | `/agent/v1/health` |
-| **AgentSandbox** | The AgentSandbox entity (create, load). | `/agent/v1/auth/login` |
+| **AgentSandbox** | The AgentSandbox entity (create, load). | `/agent/v1/orders` |
 | **AgentUserDetail** | The AgentUserDetail entity (load). | `/agent/v1/users/{id}` |
 | **AgentUserList** | The AgentUserList entity (list). | `/agent/v1/users` |
-| **AppUser** | The AppUser entity (create, list, load, remove, update). | `/api/app-users/{id}/sessions/simulate` |
+| **AppUser** | The AppUser entity (create, list, load, remove, update). | `/api/projects/{projectId}/app-users` |
 | **AppUserLogin** | The AppUserLogin entity (create). | `/api/app-users/login` |
 | **AppUserSession** | The AppUserSession entity (load). | `/api/app-users/me` |
 | **AppUserTotal** | The AppUserTotal entity (load). | `/api/projects/{projectId}/app-users/total` |
 | **AppUserVerify** | The AppUserVerify entity (create). | `/api/app-users/verify` |
 | **Authentication** | The Authentication entity (create). | `/api/logout` |
 | **Collection** | The Collection entity (create, list, load, remove, update). | `/api/collections` |
-| **CollectionRecord** | The CollectionRecord entity (create, load, update). | `/api/collections/{slug}/records` |
+| **CollectionRecord** | The CollectionRecord entity (create, load, update). | `/api/collections/{slug}/records/{recordId}` |
 | **CollectionRecordList** | The CollectionRecordList entity (list). | `/api/collections/{slug}/records` |
 | **Custom** | The Custom entity (create, load, patch, remove, update). | `/api/custom/{path}` |
 | **Legacy** | The Legacy entity (remove). | `/api/users/{id}` |
@@ -213,7 +222,7 @@ $client = new HostedRestSDK([
 ]);
 
 
-// Load a specific agenthealth (returns the bare record; throws on error)
+// Load a specific agenthealth (returns the ENTITY; call data_get() for the record; throws on error)
 $agenthealth = $client->AgentHealth()->load();
 print_r($agenthealth);
 ```
@@ -248,7 +257,7 @@ client = HostedRestSDK.new({
 })
 
 
-# Load a specific agenthealth (returns the bare record; raises on error)
+# Load a specific agenthealth (returns the ENTITY; call data_get for the record)
 agenthealth = client.AgentHealth.load()
 puts agenthealth
 ```
@@ -384,6 +393,9 @@ Pass custom features via the `extend` option at construction time.
 
 This SDK is generated from the upstream OpenAPI specification. It is an
 unofficial client and is not affiliated with the API provider.
+
+The OpenAPI spec(s) this SDK was generated from are kept in the
+[`.sdk/def/`](.sdk/def/) folder.
 
 - Upstream API: [https://reqres.in](https://reqres.in)
 

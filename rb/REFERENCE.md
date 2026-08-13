@@ -178,7 +178,11 @@ agent_health = client.AgentHealth
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `Hash` | Yes |  |
+| `deprecations` | `Array` | Yes |  |
+| `rate_limit_status` | `Hash` | Yes |  |
+| `status` | `String` | Yes |  |
+| `uptime_seconds` | `Integer` | Yes |  |
+| `version` | `String` | Yes |  |
 
 ### Operations
 
@@ -294,7 +298,16 @@ agent_user_detail = client.AgentUserDetail
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `Hash` | Yes |  |
+| `created_at` | `String` | Yes |  |
+| `email` | `String` | Yes |  |
+| `full_name` | `String` | Yes |  |
+| `id` | `String` | Yes |  |
+| `locale` | `String` | Yes |  |
+| `preferences` | `Hash` | Yes |  |
+| `profile` | `Hash` | Yes |  |
+| `status` | `String` | Yes |  |
+| `timezone` | `String` | Yes |  |
+| `updated_at` | `String` | Yes |  |
 
 ### Operations
 
@@ -351,7 +364,7 @@ agent_user_list = client.AgentUserList
 | `full_name` | `String` | Yes |  |
 | `id` | `String` | Yes |  |
 | `locale` | `String` | Yes |  |
-| `preference` | `Hash` | Yes |  |
+| `preferences` | `Hash` | Yes |  |
 | `profile` | `Hash` | Yes |  |
 | `status` | `String` | Yes |  |
 | `timezone` | `String` | Yes |  |
@@ -408,7 +421,6 @@ app_user = client.AppUser
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created_at` | `String` | No |  |
-| `data` | `Hash` | Yes |  |
 | `email` | `String` | Yes |  |
 | `id` | `String` | Yes |  |
 | `last_login_at` | `String` | No |  |
@@ -420,7 +432,6 @@ app_user = client.AppUser
 | Field | load | list | create | update | remove |
 | --- | --- | --- | --- | --- | --- |
 | `created_at` | - | - | - | - | - |
-| `data` | - | - | - | - | - |
 | `email` | - | - | - | Yes | - |
 | `id` | - | - | - | - | - |
 | `last_login_at` | - | - | - | - | - |
@@ -435,7 +446,6 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.AppUser.create({
-  "data" => {}, # Hash
   "email" => "example_email", # String
   "id" => "example_id", # String
 })
@@ -516,7 +526,6 @@ app_user_login = client.AppUserLogin
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `Hash` | Yes |  |
 | `email` | `String` | Yes |  |
 | `metadata` | `Hash` | No |  |
 | `project_id` | `String` | No |  |
@@ -529,7 +538,6 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.AppUserLogin.create({
-  "data" => {}, # Hash
   "email" => "example_email", # String
 })
 ```
@@ -569,12 +577,6 @@ Return the entity name.
 ```ruby
 app_user_session = client.AppUserSession
 ```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `Hash` | Yes |  |
 
 ### Operations
 
@@ -678,7 +680,6 @@ app_user_verify = client.AppUserVerify
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `Hash` | Yes |  |
 | `token` | `String` | Yes |  |
 
 ### Operations
@@ -689,7 +690,6 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.AppUserVerify.create({
-  "data" => {}, # Hash
   "token" => "example_token", # String
 })
 ```
@@ -782,12 +782,11 @@ collection = client.Collection
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created_at` | `String` | No |  |
-| `data` | `Hash` | Yes |  |
 | `id` | `String` | Yes |  |
 | `name` | `String` | Yes |  |
 | `project_id` | `String` | No |  |
 | `schema` | `Hash` | No |  |
-| `slug` | `String` | No |  |
+| `slug` | `String` | Yes |  |
 | `updated_at` | `String` | No |  |
 | `user_id` | `String` | No |  |
 | `visibility` | `String` | No |  |
@@ -797,12 +796,11 @@ collection = client.Collection
 | Field | load | list | create | update | remove |
 | --- | --- | --- | --- | --- | --- |
 | `created_at` | - | - | - | - | - |
-| `data` | - | - | - | - | - |
 | `id` | - | - | - | - | - |
 | `name` | - | - | - | Yes | - |
 | `project_id` | - | - | - | - | - |
 | `schema` | - | - | - | - | - |
-| `slug` | - | Yes | - | - | - |
+| `slug` | - | - | Yes | Yes | - |
 | `updated_at` | - | - | - | - | - |
 | `user_id` | - | - | - | - | - |
 | `visibility` | - | - | - | - | - |
@@ -815,9 +813,9 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.Collection.create({
-  "data" => {}, # Hash
   "id" => "example_id", # String
   "name" => "example_name", # String
+  "slug" => "example_slug", # String
 })
 ```
 
@@ -896,7 +894,15 @@ collection_record = client.CollectionRecord
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `app_user_id` | `String` | No |  |
+| `collection_id` | `String` | No |  |
+| `created_at` | `String` | No |  |
+| `created_by` | `String` | No |  |
 | `data` | `Hash` | Yes |  |
+| `deleted_at` | `String` | No |  |
+| `id` | `String` | Yes |  |
+| `project_id` | `String` | No |  |
+| `updated_at` | `String` | No |  |
 
 ### Operations
 
@@ -907,6 +913,8 @@ Create a new entity with the given data. Raises on error.
 ```ruby
 result = client.CollectionRecord.create({
   "slug" => "example_slug", # String
+  "data" => {}, # Hash
+  "id" => "example_id", # String
 })
 ```
 
@@ -1151,9 +1159,9 @@ legacy_mutation = client.LegacyMutation
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created_at` | `String` | No |  |
+| `createdAt` | `String` | No |  |
 | `id` | `String` | No |  |
-| `updated_at` | `String` | No |  |
+| `updatedAt` | `String` | No |  |
 
 ### Operations
 

@@ -6,9 +6,9 @@ import time
 
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from hostedrest_sdk.utility.voxgig_struct import voxgig_struct as vs
 from hostedrest_sdk import HostedRestSDK
-from core import helpers
+from hostedrest_sdk.core import helpers
 
 _TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 from test import runner
@@ -36,7 +36,7 @@ class TestCustomEntity:
         # without an *_ENTID env override, those IDs hit the live API and 4xx.
         if setup.get("synthetic_only"):
             pytest.skip("live entity test uses synthetic IDs from fixture — "
-                        "set HOSTEDREST_TEST_CUSTOM_ENTID JSON to run live")
+                        "set HOSTED_REST_TEST_CUSTOM_ENTID JSON to run live")
         client = setup["client"]
 
         # CREATE
@@ -45,14 +45,14 @@ class TestCustomEntity:
             vs.getpath(setup["data"], "new.custom"), "custom_ref01"))
         custom_ref01_data["path"] = setup["idmap"]["path01"]
 
-        custom_ref01_data = helpers.to_map(custom_ref01_ent.create(custom_ref01_data, None))
+        custom_ref01_data = helpers.to_map(runner.entity_data(custom_ref01_ent.create(custom_ref01_data, None)))
         assert custom_ref01_data is not None
 
         # UPDATE
         custom_ref01_data_up0_up = {
         }
 
-        custom_ref01_resdata_up0 = helpers.to_map(custom_ref01_ent.update(custom_ref01_data_up0_up, None))
+        custom_ref01_resdata_up0 = helpers.to_map(runner.entity_data(custom_ref01_ent.update(custom_ref01_data_up0_up, None)))
         assert custom_ref01_resdata_up0 is not None
 
         # LOAD
@@ -60,11 +60,6 @@ class TestCustomEntity:
         custom_ref01_data_dt0_loaded = custom_ref01_ent.load(custom_ref01_match_dt0, None)
         assert custom_ref01_data_dt0_loaded is not None
 
-        # REMOVE
-        custom_ref01_match_rm0 = {
-            "id": custom_ref01_data["id"],
-        }
-        custom_ref01_ent.remove(custom_ref01_match_rm0, None)
 
 
 
@@ -97,37 +92,37 @@ def _custom_basic_setup(extra):
     # mode is on without a real override, the basic test runs against synthetic
     # IDs from the fixture and 4xx's. We surface this so the test can skip.
     _entid_env_raw = os.environ.get(
-        "HOSTEDREST_TEST_CUSTOM_ENTID")
+        "HOSTED_REST_TEST_CUSTOM_ENTID")
     _idmap_overridden = _entid_env_raw is not None and _entid_env_raw.strip().startswith("{")
 
     env = runner.env_override({
-        "HOSTEDREST_TEST_CUSTOM_ENTID": idmap,
-        "HOSTEDREST_TEST_LIVE": "FALSE",
-        "HOSTEDREST_TEST_EXPLAIN": "FALSE",
-        "HOSTEDREST_APIKEY": "NONE",
+        "HOSTED_REST_TEST_CUSTOM_ENTID": idmap,
+        "HOSTED_REST_TEST_LIVE": "FALSE",
+        "HOSTED_REST_TEST_EXPLAIN": "FALSE",
+        "HOSTED_REST_APIKEY": "NONE",
     })
 
     idmap_resolved = helpers.to_map(
-        env.get("HOSTEDREST_TEST_CUSTOM_ENTID"))
+        env.get("HOSTED_REST_TEST_CUSTOM_ENTID"))
     if idmap_resolved is None:
         idmap_resolved = helpers.to_map(idmap)
 
-    if env.get("HOSTEDREST_TEST_LIVE") == "TRUE":
+    if env.get("HOSTED_REST_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
             {
-                "apikey": env.get("HOSTEDREST_APIKEY"),
+                "apikey": env.get("HOSTED_REST_APIKEY"),
             },
             extra or {},
         ])
         client = HostedRestSDK(helpers.to_map(merged_opts))
 
-    _live = env.get("HOSTEDREST_TEST_LIVE") == "TRUE"
+    _live = env.get("HOSTED_REST_TEST_LIVE") == "TRUE"
     return {
         "client": client,
         "data": entity_data,
         "idmap": idmap_resolved,
         "env": env,
-        "explain": env.get("HOSTEDREST_TEST_EXPLAIN") == "TRUE",
+        "explain": env.get("HOSTED_REST_TEST_EXPLAIN") == "TRUE",
         "live": _live,
         "synthetic_only": _live and not _idmap_overridden,
         "now": int(time.time() * 1000),

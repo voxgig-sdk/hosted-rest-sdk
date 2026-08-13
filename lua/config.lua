@@ -50,10 +50,38 @@ local function make_config()
         ["fields"] = {
           {
             ["active"] = true,
-            ["name"] = "data",
+            ["name"] = "deprecations",
+            ["req"] = true,
+            ["type"] = "`$ARRAY`",
+            ["index$"] = 0,
+          },
+          {
+            ["active"] = true,
+            ["name"] = "rate_limit_status",
             ["req"] = true,
             ["type"] = "`$OBJECT`",
-            ["index$"] = 0,
+            ["index$"] = 1,
+          },
+          {
+            ["active"] = true,
+            ["name"] = "status",
+            ["req"] = true,
+            ["type"] = "`$STRING`",
+            ["index$"] = 2,
+          },
+          {
+            ["active"] = true,
+            ["name"] = "uptime_seconds",
+            ["req"] = true,
+            ["type"] = "`$INTEGER`",
+            ["index$"] = 3,
+          },
+          {
+            ["active"] = true,
+            ["name"] = "version",
+            ["req"] = true,
+            ["type"] = "`$STRING`",
+            ["index$"] = 4,
           },
         },
         ["name"] = "agent_health",
@@ -65,6 +93,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/agent/v1/health",
                 ["parts"] = {
@@ -75,7 +104,7 @@ local function make_config()
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.data`",
                 },
                 ["index$"] = 0,
               },
@@ -113,6 +142,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/agent/v1/auth/login",
                 ["parts"] = {
@@ -175,6 +205,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/agent/v1/orders",
                 ["parts"] = {
@@ -211,6 +242,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/agent/v1/scenarios/{scenario}",
                 ["parts"] = {
@@ -233,6 +265,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/agent/v1/scenarios",
                 ["parts"] = {
@@ -263,10 +296,73 @@ local function make_config()
         ["fields"] = {
           {
             ["active"] = true,
-            ["name"] = "data",
+            ["name"] = "created_at",
+            ["req"] = true,
+            ["type"] = "`$STRING`",
+            ["index$"] = 0,
+          },
+          {
+            ["active"] = true,
+            ["name"] = "email",
+            ["req"] = true,
+            ["type"] = "`$STRING`",
+            ["index$"] = 1,
+          },
+          {
+            ["active"] = true,
+            ["name"] = "full_name",
+            ["req"] = true,
+            ["type"] = "`$STRING`",
+            ["index$"] = 2,
+          },
+          {
+            ["active"] = true,
+            ["name"] = "id",
+            ["req"] = true,
+            ["type"] = "`$STRING`",
+            ["index$"] = 3,
+          },
+          {
+            ["active"] = true,
+            ["name"] = "locale",
+            ["req"] = true,
+            ["type"] = "`$STRING`",
+            ["index$"] = 4,
+          },
+          {
+            ["active"] = true,
+            ["name"] = "preferences",
             ["req"] = true,
             ["type"] = "`$OBJECT`",
-            ["index$"] = 0,
+            ["index$"] = 5,
+          },
+          {
+            ["active"] = true,
+            ["name"] = "profile",
+            ["req"] = true,
+            ["type"] = "`$OBJECT`",
+            ["index$"] = 6,
+          },
+          {
+            ["active"] = true,
+            ["name"] = "status",
+            ["req"] = true,
+            ["type"] = "`$STRING`",
+            ["index$"] = 7,
+          },
+          {
+            ["active"] = true,
+            ["name"] = "timezone",
+            ["req"] = true,
+            ["type"] = "`$STRING`",
+            ["index$"] = 8,
+          },
+          {
+            ["active"] = true,
+            ["name"] = "updated_at",
+            ["req"] = true,
+            ["type"] = "`$STRING`",
+            ["index$"] = 9,
           },
         },
         ["name"] = "agent_user_detail",
@@ -300,6 +396,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/agent/v1/users/{id}",
                 ["parts"] = {
@@ -316,7 +413,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.data`",
                 },
                 ["index$"] = 0,
               },
@@ -367,7 +464,7 @@ local function make_config()
           },
           {
             ["active"] = true,
-            ["name"] = "preference",
+            ["name"] = "preferences",
             ["req"] = true,
             ["type"] = "`$OBJECT`",
             ["index$"] = 5,
@@ -447,6 +544,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/agent/v1/users",
                 ["parts"] = {
@@ -487,13 +585,6 @@ local function make_config()
           },
           {
             ["active"] = true,
-            ["name"] = "data",
-            ["req"] = true,
-            ["type"] = "`$OBJECT`",
-            ["index$"] = 1,
-          },
-          {
-            ["active"] = true,
             ["name"] = "email",
             ["op"] = {
               ["update"] = {
@@ -503,35 +594,35 @@ local function make_config()
             },
             ["req"] = true,
             ["type"] = "`$STRING`",
-            ["index$"] = 2,
+            ["index$"] = 1,
           },
           {
             ["active"] = true,
             ["name"] = "id",
             ["req"] = true,
             ["type"] = "`$STRING`",
-            ["index$"] = 3,
+            ["index$"] = 2,
           },
           {
             ["active"] = true,
             ["name"] = "last_login_at",
             ["req"] = false,
             ["type"] = "`$STRING`",
-            ["index$"] = 4,
+            ["index$"] = 3,
           },
           {
             ["active"] = true,
             ["name"] = "metadata",
             ["req"] = false,
             ["type"] = "`$OBJECT`",
-            ["index$"] = 5,
+            ["index$"] = 4,
           },
           {
             ["active"] = true,
             ["name"] = "status",
             ["req"] = false,
             ["type"] = "`$STRING`",
-            ["index$"] = 6,
+            ["index$"] = 5,
           },
         },
         ["name"] = "app_user",
@@ -555,6 +646,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/app-users/{id}/sessions/simulate",
                 ["parts"] = {
@@ -579,6 +671,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/app-users",
                 ["parts"] = {
@@ -588,7 +681,7 @@ local function make_config()
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.data`",
                 },
                 ["index$"] = 1,
               },
@@ -634,6 +727,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/projects/{projectId}/app-users",
                 ["parts"] = {
@@ -656,7 +750,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.data`",
                 },
                 ["index$"] = 0,
               },
@@ -684,6 +778,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/app-users",
                 ["parts"] = {
@@ -698,7 +793,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.data`",
                 },
                 ["index$"] = 1,
               },
@@ -724,6 +819,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/app-users/{id}",
                 ["parts"] = {
@@ -738,7 +834,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.data`",
                 },
                 ["index$"] = 0,
               },
@@ -773,6 +869,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/app/collections/{slug}/records/{recordId}",
                 ["parts"] = {
@@ -815,6 +912,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/api/app-users/{id}",
                 ["parts"] = {
@@ -855,6 +953,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "PUT",
                 ["orig"] = "/api/app-users/{id}",
                 ["parts"] = {
@@ -869,7 +968,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.data`",
                 },
                 ["index$"] = 0,
               },
@@ -893,31 +992,24 @@ local function make_config()
         ["fields"] = {
           {
             ["active"] = true,
-            ["name"] = "data",
-            ["req"] = true,
-            ["type"] = "`$OBJECT`",
-            ["index$"] = 0,
-          },
-          {
-            ["active"] = true,
             ["name"] = "email",
             ["req"] = true,
             ["type"] = "`$STRING`",
-            ["index$"] = 1,
+            ["index$"] = 0,
           },
           {
             ["active"] = true,
             ["name"] = "metadata",
             ["req"] = false,
             ["type"] = "`$OBJECT`",
-            ["index$"] = 2,
+            ["index$"] = 1,
           },
           {
             ["active"] = true,
             ["name"] = "project_id",
             ["req"] = false,
             ["type"] = "`$STRING`",
-            ["index$"] = 3,
+            ["index$"] = 2,
           },
         },
         ["name"] = "app_user_login",
@@ -929,6 +1021,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/app-users/login",
                 ["parts"] = {
@@ -939,7 +1032,7 @@ local function make_config()
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.data`",
                 },
                 ["index$"] = 0,
               },
@@ -952,15 +1045,7 @@ local function make_config()
         },
       },
       ["app_user_session"] = {
-        ["fields"] = {
-          {
-            ["active"] = true,
-            ["name"] = "data",
-            ["req"] = true,
-            ["type"] = "`$OBJECT`",
-            ["index$"] = 0,
-          },
-        },
+        ["fields"] = {},
         ["name"] = "app_user_session",
         ["op"] = {
           ["load"] = {
@@ -970,6 +1055,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/app-users/me",
                 ["parts"] = {
@@ -980,13 +1066,14 @@ local function make_config()
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.data`",
                 },
                 ["index$"] = 0,
               },
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/app/me",
                 ["parts"] = {
@@ -996,7 +1083,7 @@ local function make_config()
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.data`",
                 },
                 ["index$"] = 1,
               },
@@ -1049,6 +1136,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/projects/{projectId}/app-users/total",
                 ["parts"] = {
@@ -1091,17 +1179,10 @@ local function make_config()
         ["fields"] = {
           {
             ["active"] = true,
-            ["name"] = "data",
-            ["req"] = true,
-            ["type"] = "`$OBJECT`",
-            ["index$"] = 0,
-          },
-          {
-            ["active"] = true,
             ["name"] = "token",
             ["req"] = true,
             ["type"] = "`$STRING`",
-            ["index$"] = 1,
+            ["index$"] = 0,
           },
         },
         ["name"] = "app_user_verify",
@@ -1113,6 +1194,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/app-users/verify",
                 ["parts"] = {
@@ -1123,7 +1205,7 @@ local function make_config()
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.data`",
                 },
                 ["index$"] = 0,
               },
@@ -1146,6 +1228,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/logout",
                 ["parts"] = {
@@ -1178,17 +1261,10 @@ local function make_config()
           },
           {
             ["active"] = true,
-            ["name"] = "data",
-            ["req"] = true,
-            ["type"] = "`$OBJECT`",
-            ["index$"] = 1,
-          },
-          {
-            ["active"] = true,
             ["name"] = "id",
             ["req"] = true,
             ["type"] = "`$STRING`",
-            ["index$"] = 2,
+            ["index$"] = 1,
           },
           {
             ["active"] = true,
@@ -1201,55 +1277,59 @@ local function make_config()
             },
             ["req"] = true,
             ["type"] = "`$STRING`",
-            ["index$"] = 3,
+            ["index$"] = 2,
           },
           {
             ["active"] = true,
             ["name"] = "project_id",
             ["req"] = false,
             ["type"] = "`$STRING`",
-            ["index$"] = 4,
+            ["index$"] = 3,
           },
           {
             ["active"] = true,
             ["name"] = "schema",
             ["req"] = false,
             ["type"] = "`$OBJECT`",
-            ["index$"] = 5,
+            ["index$"] = 4,
           },
           {
             ["active"] = true,
             ["name"] = "slug",
             ["op"] = {
-              ["list"] = {
-                ["req"] = true,
+              ["create"] = {
+                ["req"] = false,
+                ["type"] = "`$STRING`",
+              },
+              ["update"] = {
+                ["req"] = false,
                 ["type"] = "`$STRING`",
               },
             },
-            ["req"] = false,
+            ["req"] = true,
             ["type"] = "`$STRING`",
-            ["index$"] = 6,
+            ["index$"] = 5,
           },
           {
             ["active"] = true,
             ["name"] = "updated_at",
             ["req"] = false,
             ["type"] = "`$STRING`",
-            ["index$"] = 7,
+            ["index$"] = 6,
           },
           {
             ["active"] = true,
             ["name"] = "user_id",
             ["req"] = false,
             ["type"] = "`$STRING`",
-            ["index$"] = 8,
+            ["index$"] = 7,
           },
           {
             ["active"] = true,
             ["name"] = "visibility",
             ["req"] = false,
             ["type"] = "`$STRING`",
-            ["index$"] = 9,
+            ["index$"] = 8,
           },
         },
         ["name"] = "collection",
@@ -1272,6 +1352,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/collections",
                 ["parts"] = {
@@ -1285,7 +1366,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.data`",
                 },
                 ["index$"] = 0,
               },
@@ -1310,6 +1391,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/collections",
                 ["parts"] = {
@@ -1323,13 +1405,14 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.data`",
                 },
                 ["index$"] = 0,
               },
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/app/collections",
                 ["parts"] = {
@@ -1339,7 +1422,7 @@ local function make_config()
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.data`",
                 },
                 ["index$"] = 1,
               },
@@ -1375,6 +1458,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/collections/{slug}",
                 ["parts"] = {
@@ -1395,7 +1479,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.data`",
                 },
                 ["index$"] = 0,
               },
@@ -1414,6 +1498,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/app/collections/{slug}",
                 ["parts"] = {
@@ -1433,7 +1518,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.data`",
                 },
                 ["index$"] = 1,
               },
@@ -1478,6 +1563,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/api/collections/{slug}/records/{recordId}",
                 ["parts"] = {
@@ -1531,6 +1617,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/api/collections/{slug}",
                 ["parts"] = {
@@ -1587,6 +1674,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "PUT",
                 ["orig"] = "/api/collections/{slug}",
                 ["parts"] = {
@@ -1607,7 +1695,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.data`",
                 },
                 ["index$"] = 0,
               },
@@ -1628,10 +1716,66 @@ local function make_config()
         ["fields"] = {
           {
             ["active"] = true,
+            ["name"] = "app_user_id",
+            ["req"] = false,
+            ["type"] = "`$STRING`",
+            ["index$"] = 0,
+          },
+          {
+            ["active"] = true,
+            ["name"] = "collection_id",
+            ["req"] = false,
+            ["type"] = "`$STRING`",
+            ["index$"] = 1,
+          },
+          {
+            ["active"] = true,
+            ["name"] = "created_at",
+            ["req"] = false,
+            ["type"] = "`$STRING`",
+            ["index$"] = 2,
+          },
+          {
+            ["active"] = true,
+            ["name"] = "created_by",
+            ["req"] = false,
+            ["type"] = "`$STRING`",
+            ["index$"] = 3,
+          },
+          {
+            ["active"] = true,
             ["name"] = "data",
             ["req"] = true,
             ["type"] = "`$OBJECT`",
-            ["index$"] = 0,
+            ["index$"] = 4,
+          },
+          {
+            ["active"] = true,
+            ["name"] = "deleted_at",
+            ["req"] = false,
+            ["type"] = "`$STRING`",
+            ["index$"] = 5,
+          },
+          {
+            ["active"] = true,
+            ["name"] = "id",
+            ["req"] = true,
+            ["type"] = "`$STRING`",
+            ["index$"] = 6,
+          },
+          {
+            ["active"] = true,
+            ["name"] = "project_id",
+            ["req"] = false,
+            ["type"] = "`$STRING`",
+            ["index$"] = 7,
+          },
+          {
+            ["active"] = true,
+            ["name"] = "updated_at",
+            ["req"] = false,
+            ["type"] = "`$STRING`",
+            ["index$"] = 8,
           },
         },
         ["name"] = "collection_record",
@@ -1665,6 +1809,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/collections/{slug}/records",
                 ["parts"] = {
@@ -1681,7 +1826,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.data`",
                 },
                 ["index$"] = 0,
               },
@@ -1700,6 +1845,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/app/collections/{slug}/records",
                 ["parts"] = {
@@ -1715,7 +1861,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.data`",
                 },
                 ["index$"] = 1,
               },
@@ -1760,6 +1906,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/collections/{slug}/records/{recordId}",
                 ["parts"] = {
@@ -1784,7 +1931,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.data`",
                 },
                 ["index$"] = 0,
               },
@@ -1812,6 +1959,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/app/collections/{slug}/records/{recordId}",
                 ["parts"] = {
@@ -1835,7 +1983,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.data`",
                 },
                 ["index$"] = 1,
               },
@@ -1880,6 +2028,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "PUT",
                 ["orig"] = "/api/collections/{slug}/records/{recordId}",
                 ["parts"] = {
@@ -1904,7 +2053,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.data`",
                 },
                 ["index$"] = 0,
               },
@@ -1932,6 +2081,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "PUT",
                 ["orig"] = "/app/collections/{slug}/records/{recordId}",
                 ["parts"] = {
@@ -1955,7 +2105,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.data`",
                 },
                 ["index$"] = 1,
               },
@@ -2134,6 +2284,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/collections/{slug}/records",
                 ["parts"] = {
@@ -2177,6 +2328,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/app/collections/{slug}/records",
                 ["parts"] = {
@@ -2231,6 +2383,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/custom/{path}",
                 ["parts"] = {
@@ -2276,6 +2429,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/custom/{path}",
                 ["parts"] = {
@@ -2320,6 +2474,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "PATCH",
                 ["orig"] = "/api/custom/{path}",
                 ["parts"] = {
@@ -2365,6 +2520,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/api/custom/{path}",
                 ["parts"] = {
@@ -2410,6 +2566,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "PUT",
                 ["orig"] = "/api/custom/{path}",
                 ["parts"] = {
@@ -2464,6 +2621,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/api/users/{id}",
                 ["parts"] = {
@@ -2494,7 +2652,7 @@ local function make_config()
         ["fields"] = {
           {
             ["active"] = true,
-            ["name"] = "created_at",
+            ["name"] = "createdAt",
             ["req"] = false,
             ["type"] = "`$STRING`",
             ["index$"] = 0,
@@ -2508,7 +2666,7 @@ local function make_config()
           },
           {
             ["active"] = true,
-            ["name"] = "updated_at",
+            ["name"] = "updatedAt",
             ["req"] = false,
             ["type"] = "`$STRING`",
             ["index$"] = 2,
@@ -2523,6 +2681,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/users",
                 ["parts"] = {
@@ -2557,6 +2716,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "PATCH",
                 ["orig"] = "/api/users/{id}",
                 ["parts"] = {
@@ -2597,6 +2757,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "PUT",
                 ["orig"] = "/api/users/{id}",
                 ["parts"] = {
@@ -2661,6 +2822,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/unknown/{id}",
                 ["parts"] = {
@@ -2754,6 +2916,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/unknown",
                 ["parts"] = {
@@ -2818,6 +2981,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/users/{id}",
                 ["parts"] = {
@@ -2911,6 +3075,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/users",
                 ["parts"] = {
@@ -2970,6 +3135,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/login",
                 ["parts"] = {
@@ -3031,6 +3197,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/register",
                 ["parts"] = {

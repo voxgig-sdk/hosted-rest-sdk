@@ -26,8 +26,8 @@ import {
 describe('LegacyMutationEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when HOSTEDREST_TEST_LIVE=TRUE.
-  afterEach(liveDelay('HOSTEDREST_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when HOSTED_REST_TEST_LIVE=TRUE.
+  afterEach(liveDelay('HOSTED_REST_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = HostedRestSDK.test()
@@ -62,7 +62,7 @@ describe('LegacyMutationEntity', async () => {
     const legacy_mutation_ref01_ent = client.LegacyMutation()
     let legacy_mutation_ref01_data = setup.data.new.legacy_mutation['legacy_mutation_ref01']
 
-    legacy_mutation_ref01_data = await legacy_mutation_ref01_ent.create(legacy_mutation_ref01_data)
+    legacy_mutation_ref01_data = (await legacy_mutation_ref01_ent.create(legacy_mutation_ref01_data)).data()
     assert(null != legacy_mutation_ref01_data.id)
 
 
@@ -70,10 +70,10 @@ describe('LegacyMutationEntity', async () => {
     const legacy_mutation_ref01_data_up0: any = {}
     legacy_mutation_ref01_data_up0.id = legacy_mutation_ref01_data.id
 
-    const legacy_mutation_ref01_markdef_up0 = { name: 'created_at', value: 'Mark01-legacy_mutation_ref01_' + setup.now }
+    const legacy_mutation_ref01_markdef_up0 = { name: 'createdAt', value: 'Mark01-legacy_mutation_ref01_' + setup.now }
     ;(legacy_mutation_ref01_data_up0 as any)[legacy_mutation_ref01_markdef_up0.name] = legacy_mutation_ref01_markdef_up0.value
 
-    const legacy_mutation_ref01_resdata_up0 = await legacy_mutation_ref01_ent.update(legacy_mutation_ref01_data_up0)
+    const legacy_mutation_ref01_resdata_up0 = (await legacy_mutation_ref01_ent.update(legacy_mutation_ref01_data_up0)).data()
     assert(legacy_mutation_ref01_resdata_up0.id === legacy_mutation_ref01_data_up0.id)
 
     assert((legacy_mutation_ref01_resdata_up0 as any)[legacy_mutation_ref01_markdef_up0.name] === legacy_mutation_ref01_markdef_up0.value)

@@ -7,10 +7,18 @@
 -- edit by hand.
 
 ---@class AgentHealth
----@field data table
+---@field deprecations table
+---@field rate_limit_status table
+---@field status string
+---@field uptime_seconds number
+---@field version string
 
 ---@class AgentHealthLoadMatch
----@field data? table
+---@field deprecations? table
+---@field rate_limit_status? table
+---@field status? string
+---@field uptime_seconds? number
+---@field version? string
 
 ---@class AgentSandbox
 ---@field email string
@@ -24,7 +32,16 @@
 ---@field password string
 
 ---@class AgentUserDetail
----@field data table
+---@field created_at string
+---@field email string
+---@field full_name string
+---@field id string
+---@field locale string
+---@field preferences table
+---@field profile table
+---@field status string
+---@field timezone string
+---@field updated_at string
 
 ---@class AgentUserDetailLoadMatch
 ---@field id string
@@ -35,7 +52,7 @@
 ---@field full_name string
 ---@field id string
 ---@field locale string
----@field preference table
+---@field preferences table
 ---@field profile table
 ---@field status string
 ---@field timezone string
@@ -47,7 +64,7 @@
 ---@field full_name? string
 ---@field id? string
 ---@field locale? string
----@field preference? table
+---@field preferences? table
 ---@field profile? table
 ---@field status? string
 ---@field timezone? string
@@ -55,7 +72,6 @@
 
 ---@class AppUser
 ---@field created_at? string
----@field data table
 ---@field email string
 ---@field id string
 ---@field last_login_at? string
@@ -70,7 +86,6 @@
 
 ---@class AppUserCreateData
 ---@field created_at? string
----@field data table
 ---@field email string
 ---@field id string
 ---@field last_login_at? string
@@ -79,6 +94,11 @@
 
 ---@class AppUserUpdateData
 ---@field id string
+---@field created_at? string
+---@field email? string
+---@field last_login_at? string
+---@field metadata? table
+---@field status? string
 
 ---@class AppUserRemoveMatch
 ---@field collection_id? string
@@ -86,22 +106,18 @@
 ---@field id? string
 
 ---@class AppUserLogin
----@field data table
 ---@field email string
 ---@field metadata? table
 ---@field project_id? string
 
 ---@class AppUserLoginCreateData
----@field data table
 ---@field email string
 ---@field metadata? table
 ---@field project_id? string
 
 ---@class AppUserSession
----@field data table
 
 ---@class AppUserSessionLoadMatch
----@field data? table
 
 ---@class AppUserTotal
 ---@field total number
@@ -110,11 +126,9 @@
 ---@field project_id string
 
 ---@class AppUserVerify
----@field data table
 ---@field token string
 
 ---@class AppUserVerifyCreateData
----@field data table
 ---@field token string
 
 ---@class Authentication
@@ -123,12 +137,11 @@
 
 ---@class Collection
 ---@field created_at? string
----@field data table
 ---@field id string
 ---@field name string
 ---@field project_id? string
 ---@field schema? table
----@field slug? string
+---@field slug string
 ---@field updated_at? string
 ---@field user_id? string
 ---@field visibility? string
@@ -138,7 +151,6 @@
 
 ---@class CollectionListMatch
 ---@field created_at? string
----@field data? table
 ---@field id? string
 ---@field name? string
 ---@field project_id? string
@@ -150,9 +162,19 @@
 
 ---@class CollectionCreateData
 ---@field created_at? string
----@field data table
 ---@field id string
 ---@field name string
+---@field project_id? string
+---@field schema? table
+---@field slug string
+---@field updated_at? string
+---@field user_id? string
+---@field visibility? string
+
+---@class CollectionUpdateData
+---@field id string
+---@field created_at? string
+---@field name? string
 ---@field project_id? string
 ---@field schema? table
 ---@field slug? string
@@ -160,16 +182,21 @@
 ---@field user_id? string
 ---@field visibility? string
 
----@class CollectionUpdateData
----@field id string
-
 ---@class CollectionRemoveMatch
 ---@field collection_id? string
 ---@field record_id? string
 ---@field id? string
 
 ---@class CollectionRecord
+---@field app_user_id? string
+---@field collection_id? string
+---@field created_at? string
+---@field created_by? string
 ---@field data table
+---@field deleted_at? string
+---@field id string
+---@field project_id? string
+---@field updated_at? string
 
 ---@class CollectionRecordLoadMatch
 ---@field collection_id string
@@ -177,10 +204,26 @@
 
 ---@class CollectionRecordCreateData
 ---@field slug string
+---@field app_user_id? string
+---@field collection_id? string
+---@field created_at? string
+---@field created_by? string
+---@field data table
+---@field deleted_at? string
+---@field id string
+---@field project_id? string
+---@field updated_at? string
 
 ---@class CollectionRecordUpdateData
 ---@field collection_id string
 ---@field id string
+---@field app_user_id? string
+---@field created_at? string
+---@field created_by? string
+---@field data? table
+---@field deleted_at? string
+---@field project_id? string
+---@field updated_at? string
 
 ---@class CollectionRecordList
 ---@field app_user_id? string
@@ -216,17 +259,19 @@
 ---@field id number
 
 ---@class LegacyMutation
----@field created_at? string
+---@field createdAt? string
 ---@field id? string
----@field updated_at? string
+---@field updatedAt? string
 
 ---@class LegacyMutationCreateData
----@field created_at? string
+---@field createdAt? string
 ---@field id? string
----@field updated_at? string
+---@field updatedAt? string
 
 ---@class LegacyMutationUpdateData
 ---@field id number
+---@field createdAt? string
+---@field updatedAt? string
 
 ---@class LegacyUnknown
 ---@field data table

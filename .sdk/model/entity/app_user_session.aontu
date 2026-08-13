@@ -4,14 +4,6 @@ main: kit: entity: app_user_session: {
 
   alias: field: {}
 
-  fields: [
-    {
-      name: "data"
-      req: true
-      type: "`$OBJECT`"
-    }
-  ]
-
   name: "app_user_session"
   op: {
     load: {
@@ -27,7 +19,7 @@ main: kit: entity: app_user_session: {
           ]
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.data`"
           }
         }
         {
@@ -39,7 +31,7 @@ main: kit: entity: app_user_session: {
           ]
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.data`"
           }
         }
       ]

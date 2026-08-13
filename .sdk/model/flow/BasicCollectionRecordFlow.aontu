@@ -27,7 +27,8 @@ main: kit: flow: BasicCollectionRecordFlow:
       input: {
         ref: "collection_record_ref01",
         srcdatavar: "collection_record_ref01_data",
-        suffix: "_up0"
+        suffix: "_up0",
+        textfield: "app_user_id"
       }
 
       op: "update",

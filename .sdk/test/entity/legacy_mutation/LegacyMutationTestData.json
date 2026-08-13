@@ -2,27 +2,27 @@
   "existing": {
     "legacy_mutation": {
       "LEGACY_MUTATION00": {
-        "created_at": "s1e",
+        "createdAt": "s1e",
         "id": "LEGACY_MUTATION00",
-        "updated_at": "s20"
+        "updatedAt": "s20"
       },
       "LEGACY_MUTATION01": {
-        "created_at": "s3c",
+        "createdAt": "s3c",
         "id": "LEGACY_MUTATION01",
-        "updated_at": "s3e"
+        "updatedAt": "s3e"
       },
       "LEGACY_MUTATION02": {
-        "created_at": "s5a",
+        "createdAt": "s5a",
         "id": "LEGACY_MUTATION02",
-        "updated_at": "s5c"
+        "updatedAt": "s5c"
       }
     }
   },
   "new": {
     "legacy_mutation": {
       "legacy_mutation_ref01": {
-        "created_at": "s78",
-        "updated_at": "s7a"
+        "createdAt": "s78",
+        "updatedAt": "s7a"
       }
     }
   }

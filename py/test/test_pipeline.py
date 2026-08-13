@@ -16,11 +16,11 @@
 import pytest
 
 from hostedrest_sdk import HostedRestSDK
-from core.error import HostedRestError
-from core.result import HostedRestResult
-from core.response import HostedRestResponse
-from core.spec import HostedRestSpec
-from feature.base_feature import HostedRestBaseFeature
+from hostedrest_sdk.core.error import HostedRestError
+from hostedrest_sdk.core.result import HostedRestResult
+from hostedrest_sdk.core.response import HostedRestResponse
+from hostedrest_sdk.core.spec import HostedRestSpec
+from hostedrest_sdk.feature.base_feature import HostedRestBaseFeature
 
 
 def _client():
