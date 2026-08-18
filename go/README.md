@@ -629,7 +629,7 @@ Create an instance: `agentSandbox := client.AgentSandbox(nil)`
 #### Example: Load
 
 ```go
-agentSandbox, err := client.AgentSandbox(nil).Load(nil, nil)
+agentSandbox, err := client.AgentSandbox(nil).Load(map[string]any{"scenario": "scenario"}, nil)
 if err != nil {
     panic(err)
 }

@@ -33,7 +33,7 @@ class CollectionRecordListEntityTest < Minitest::Test
     assert_equal 3, seen.length
 
     # Inbound: streaming active -> yields each item from the feature.
-    cfg = HostedRestConfig.make_config
+    cfg = HostedRestConfig.shared_config
     if cfg["feature"].is_a?(Hash) && cfg["feature"].key?("streaming")
       sdk = HostedRestSDK.test(seed, { "feature" => { "streaming" => { "active" => true } } })
       got = []

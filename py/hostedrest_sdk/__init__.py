@@ -23,8 +23,8 @@ class HostedRestSDK:
         utility = HostedRestUtility()
         self._utility = utility
 
-        from hostedrest_sdk.config import make_config
-        config = make_config()
+        from hostedrest_sdk.config import shared_config
+        config = shared_config()
 
         self._rootctx = utility.make_context({
             "client": self,

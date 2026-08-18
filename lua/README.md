@@ -35,14 +35,14 @@ local client = sdk.new({
 })
 ```
 
-### 3. Load an appusertotal
+### 3. Load an agentsandbox
 
-AppUserTotal is nested under project, so provide the `project_id`.
+AgentSandbox is nested under scenario, so provide the `scenario`.
 
 ```lua
-local appusertotal, err = client:AppUserTotal():load({ project_id = "example_project_id" })
+local agentsandbox, err = client:AgentSandbox():load({ scenario = "example_scenario" })
 if err then error(err) end
-print(appusertotal)
+print(agentsandbox)
 ```
 
 
@@ -593,7 +593,7 @@ Create an instance: `local agent_sandbox = client:AgentSandbox(nil)`
 #### Example: Load
 
 ```lua
-local agent_sandbox, err = client:AgentSandbox():load()
+local agent_sandbox, err = client:AgentSandbox():load({ scenario = "scenario" })
 ```
 
 #### Example: Create

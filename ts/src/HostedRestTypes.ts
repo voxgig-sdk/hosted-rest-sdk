@@ -27,7 +27,7 @@ export interface AgentSandbox {
 }
 
 export interface AgentSandboxLoadMatch {
-  scenario?: string
+  scenario: string
 }
 
 export interface AgentSandboxCreateData {
@@ -92,7 +92,12 @@ export interface AppUserLoadMatch {
 }
 
 export interface AppUserListMatch {
-  project_id?: string
+  created_at?: string
+  email?: string
+  id?: string
+  last_login_at?: string
+  metadata?: Record<string, any>
+  status?: string
 }
 
 export interface AppUserCreateData {
@@ -120,9 +125,7 @@ export interface AppUserUpdateData {
 }
 
 export interface AppUserRemoveMatch {
-  collection_id?: string
-  record_id?: string
-  id?: string
+  id: string
 }
 
 export interface AppUserLogin {
@@ -218,9 +221,7 @@ export interface CollectionUpdateData {
 }
 
 export interface CollectionRemoveMatch {
-  collection_id?: string
-  record_id?: string
-  id?: string
+  id: string
 }
 
 export interface CollectionRecord {

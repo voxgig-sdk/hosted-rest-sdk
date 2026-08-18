@@ -28,7 +28,7 @@ class HostedRestSDK
     utility = HostedRestUtility.new
     @_utility = utility
 
-    config = HostedRestConfig.make_config
+    config = HostedRestConfig.shared_config
 
     @_rootctx = utility.make_context.call({
       "client" => self,

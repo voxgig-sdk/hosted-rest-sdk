@@ -33,15 +33,15 @@ $client = new HostedRestSDK([
 ]);
 ```
 
-### 3. Load an appusertotal
+### 3. Load an agentsandbox
 
-AppUserTotal is nested under project, so provide the `project_id`.
+AgentSandbox is nested under scenario, so provide the `scenario`.
 
 ```php
 try {
-    // load() returns the ENTITY — call data_get() for the AppUserTotal record (throws on error).
-    $appusertotal = $client->AppUserTotal()->load(["project_id" => "example_project_id"]);
-    print_r($appusertotal);
+    // load() returns the ENTITY — call data_get() for the AgentSandbox record (throws on error).
+    $agentsandbox = $client->AgentSandbox()->load(["scenario" => "example_scenario"]);
+    print_r($agentsandbox);
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -614,7 +614,7 @@ Create an instance: `$agent_sandbox = $client->AgentSandbox();`
 
 ```php
 // load() returns the ENTITY — call data_get() for the AgentSandbox record (throws on error).
-$agent_sandbox = $client->AgentSandbox()->load();
+$agent_sandbox = $client->AgentSandbox()->load(["scenario" => "scenario"]);
 ```
 
 #### Example: Create

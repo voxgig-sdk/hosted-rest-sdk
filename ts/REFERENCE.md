@@ -444,7 +444,7 @@ const result = await client.AgentSandbox().create({
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.AgentSandbox().load()
+const result = await client.AgentSandbox().load({ scenario: 'scenario' })
 ```
 
 ### Common Methods

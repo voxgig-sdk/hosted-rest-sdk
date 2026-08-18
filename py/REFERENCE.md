@@ -248,7 +248,7 @@ result = client.AgentSandbox().create({
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.AgentSandbox().load()
+result = client.AgentSandbox().load({"scenario": "scenario"})
 ```
 
 ### Common Methods

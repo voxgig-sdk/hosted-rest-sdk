@@ -122,11 +122,11 @@ const client = new HostedRestSDK({
 })
 
 
-// Load a specific appusertotal (returns a AppUserTotal)
-const appusertotal = await client.AppUserTotal().load({
-  project_id: 'example_project_id',
+// Load a specific agentsandbox (returns a AgentSandbox)
+const agentsandbox = await client.AgentSandbox().load({
+  scenario: 'example_scenario',
 })
-console.log(appusertotal)
+console.log(agentsandbox)
 ```
 
 See the [TypeScript README](ts/README.md) for the full guide.
@@ -237,14 +237,14 @@ client := sdk.NewHostedRestSDK(map[string]any{
 })
 
 
-// Load a specific appusertotal
-appUserTotal, err := client.AppUserTotal(nil).Load(
-    map[string]any{"project_id": "example_project_id"}, nil,
+// Load a specific agentsandbox
+agentSandbox, err := client.AgentSandbox(nil).Load(
+    map[string]any{"scenario": "example_scenario"}, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(appUserTotal)
+fmt.Println(agentSandbox)
 ```
 
 ### Ruby

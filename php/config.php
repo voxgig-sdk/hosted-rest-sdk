@@ -5,6 +5,29 @@ declare(strict_types=1);
 
 class HostedRestConfig
 {
+    /** @var array<string,mixed>|null */
+    private static ?array $shared_config = null;
+
+    /**
+     * Return the process-wide config, built once on first use. The SDK reads
+     * the config on every request and never writes to it, so one instance is
+     * shared by every client rather than rebuilt per client.
+     *
+     * PHP arrays are copy-on-write, so callers that do mutate the result get
+     * their own copy and cannot disturb the shared one.
+     */
+    public static function shared_config(): array
+    {
+        if (self::$shared_config === null) {
+            self::$shared_config = self::make_config();
+        }
+        return self::$shared_config;
+    }
+
+    /**
+     * Build a fresh, fully materialised config array. Every call rebuilds the
+     * whole structure, so prefer shared_config unless you need a private copy.
+     */
     public static function make_config(): array
     {
         return [
@@ -55,39 +78,29 @@ class HostedRestConfig
         'agent_health' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'deprecations',
               'req' => true,
               'type' => '`$ARRAY`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'rate_limit_status',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'status',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 2,
             ],
             [
-              'active' => true,
               'name' => 'uptime_seconds',
               'req' => true,
               'type' => '`$INTEGER`',
-              'index$' => 3,
             ],
             [
-              'active' => true,
               'name' => 'version',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 4,
             ],
           ],
           'name' => 'agent_health',
@@ -97,7 +110,6 @@ class HostedRestConfig
               'name' => 'load',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'GET',
@@ -112,10 +124,8 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'load',
             ],
           ],
           'relations' => [
@@ -125,18 +135,14 @@ class HostedRestConfig
         'agent_sandbox' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'email',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'password',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 1,
             ],
           ],
           'name' => 'agent_sandbox',
@@ -146,7 +152,6 @@ class HostedRestConfig
               'name' => 'create',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
@@ -162,51 +167,40 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'create',
             ],
             'load' => [
               'input' => 'data',
               'name' => 'load',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'query' => [
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'cursor',
                         'orig' => 'cursor',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'example' => 20,
                         'kind' => 'query',
                         'name' => 'limit',
                         'orig' => 'limit',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                       [
-                        'active' => true,
                         'example' => 42,
                         'kind' => 'query',
                         'name' => 'seed',
                         'orig' => 'seed',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'status',
                         'orig' => 'status',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                     ],
@@ -231,20 +225,16 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'scenario',
                         'orig' => 'scenario',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -266,10 +256,8 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 1,
                 ],
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'GET',
@@ -284,10 +272,8 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 2,
                 ],
               ],
-              'key$' => 'load',
             ],
           ],
           'relations' => [
@@ -301,74 +287,54 @@ class HostedRestConfig
         'agent_user_detail' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'created_at',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'email',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'full_name',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 2,
             ],
             [
-              'active' => true,
               'name' => 'id',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 3,
             ],
             [
-              'active' => true,
               'name' => 'locale',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 4,
             ],
             [
-              'active' => true,
               'name' => 'preferences',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 5,
             ],
             [
-              'active' => true,
               'name' => 'profile',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 6,
             ],
             [
-              'active' => true,
               'name' => 'status',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 7,
             ],
             [
-              'active' => true,
               'name' => 'timezone',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 8,
             ],
             [
-              'active' => true,
               'name' => 'updated_at',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 9,
             ],
           ],
           'name' => 'agent_user_detail',
@@ -378,26 +344,21 @@ class HostedRestConfig
               'name' => 'load',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                     'query' => [
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'expand',
                         'orig' => 'expand',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                     ],
@@ -421,10 +382,8 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'load',
             ],
           ],
           'relations' => [
@@ -434,74 +393,54 @@ class HostedRestConfig
         'agent_user_list' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'created_at',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'email',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'full_name',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 2,
             ],
             [
-              'active' => true,
               'name' => 'id',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 3,
             ],
             [
-              'active' => true,
               'name' => 'locale',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 4,
             ],
             [
-              'active' => true,
               'name' => 'preferences',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 5,
             ],
             [
-              'active' => true,
               'name' => 'profile',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 6,
             ],
             [
-              'active' => true,
               'name' => 'status',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 7,
             ],
             [
-              'active' => true,
               'name' => 'timezone',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 8,
             ],
             [
-              'active' => true,
               'name' => 'updated_at',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 9,
             ],
           ],
           'name' => 'agent_user_list',
@@ -511,41 +450,32 @@ class HostedRestConfig
               'name' => 'list',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'query' => [
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'cursor',
                         'orig' => 'cursor',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'field',
                         'orig' => 'field',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'example' => 20,
                         'kind' => 'query',
                         'name' => 'limit',
                         'orig' => 'limit',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                       [
-                        'active' => true,
                         'example' => 42,
                         'kind' => 'query',
                         'name' => 'seed',
                         'orig' => 'seed',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                     ],
@@ -570,10 +500,8 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'list',
             ],
           ],
           'relations' => [
@@ -583,52 +511,35 @@ class HostedRestConfig
         'app_user' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'created_at',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'email',
               'op' => [
                 'update' => [
-                  'req' => false,
                   'type' => '`$STRING`',
                 ],
               ],
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'id',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 2,
             ],
             [
-              'active' => true,
               'name' => 'last_login_at',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 3,
             ],
             [
-              'active' => true,
               'name' => 'metadata',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 4,
             ],
             [
-              'active' => true,
               'name' => 'status',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 5,
             ],
           ],
           'name' => 'app_user',
@@ -638,17 +549,14 @@ class HostedRestConfig
               'name' => 'create',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -672,10 +580,8 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
@@ -689,46 +595,37 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
                   ],
-                  'index$' => 1,
                 ],
               ],
-              'key$' => 'create',
             ],
             'list' => [
               'input' => 'data',
               'name' => 'list',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'header' => [
                       [
-                        'active' => true,
                         'kind' => 'header',
                         'name' => 'x_reqres_env',
                         'orig' => 'x_reqres_env',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                     ],
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'project_id',
                         'orig' => 'project_id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                     'query' => [
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'status',
                         'orig' => 'status',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                     ],
@@ -758,28 +655,22 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
                   ],
-                  'index$' => 0,
                 ],
                 [
-                  'active' => true,
                   'args' => [
                     'header' => [
                       [
-                        'active' => true,
                         'kind' => 'header',
                         'name' => 'x_reqres_env',
                         'orig' => 'x_reqres_env',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                     ],
                     'query' => [
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'limit',
                         'orig' => 'limit',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                     ],
@@ -801,27 +692,22 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
                   ],
-                  'index$' => 1,
                 ],
               ],
-              'key$' => 'list',
             ],
             'load' => [
               'input' => 'data',
               'name' => 'load',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -842,36 +728,29 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'load',
             ],
             'remove' => [
               'input' => 'data',
               'name' => 'remove',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'collection_id',
                         'orig' => 'slug',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'record_id',
                         'orig' => 'record_id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 1,
                       ],
                     ],
                   ],
@@ -901,20 +780,16 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -935,27 +810,22 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 1,
                 ],
               ],
-              'key$' => 'remove',
             ],
             'update' => [
               'input' => 'data',
               'name' => 'update',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -976,10 +846,8 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'update',
             ],
           ],
           'relations' => [
@@ -997,25 +865,22 @@ class HostedRestConfig
         'app_user_login' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'email',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'metadata',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'project_id',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 2,
+              'union' => [
+                'branches' => 2,
+                'count' => 1,
+                'depth' => 0,
+              ],
             ],
           ],
           'name' => 'app_user_login',
@@ -1025,7 +890,6 @@ class HostedRestConfig
               'name' => 'create',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
@@ -1040,10 +904,8 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'create',
             ],
           ],
           'relations' => [
@@ -1059,7 +921,6 @@ class HostedRestConfig
               'name' => 'load',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'GET',
@@ -1074,10 +935,8 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
                   ],
-                  'index$' => 0,
                 ],
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'GET',
@@ -1091,10 +950,8 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
                   ],
-                  'index$' => 1,
                 ],
               ],
-              'key$' => 'load',
             ],
           ],
           'relations' => [
@@ -1104,11 +961,9 @@ class HostedRestConfig
         'app_user_total' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'total',
               'req' => true,
               'type' => '`$INTEGER`',
-              'index$' => 0,
             ],
           ],
           'name' => 'app_user_total',
@@ -1118,27 +973,22 @@ class HostedRestConfig
               'name' => 'load',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'header' => [
                       [
-                        'active' => true,
                         'kind' => 'header',
                         'name' => 'x_reqres_env',
                         'orig' => 'x_reqres_env',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                     ],
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'project_id',
                         'orig' => 'project_id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -1167,10 +1017,8 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'load',
             ],
           ],
           'relations' => [
@@ -1184,11 +1032,9 @@ class HostedRestConfig
         'app_user_verify' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'token',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 0,
             ],
           ],
           'name' => 'app_user_verify',
@@ -1198,7 +1044,6 @@ class HostedRestConfig
               'name' => 'create',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
@@ -1213,10 +1058,8 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'create',
             ],
           ],
           'relations' => [
@@ -1232,7 +1075,6 @@ class HostedRestConfig
               'name' => 'create',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
@@ -1246,10 +1088,8 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'create',
             ],
           ],
           'relations' => [
@@ -1259,83 +1099,56 @@ class HostedRestConfig
         'collection' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'created_at',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'id',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'name',
               'op' => [
                 'update' => [
-                  'req' => false,
                   'type' => '`$STRING`',
                 ],
               ],
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 2,
             ],
             [
-              'active' => true,
               'name' => 'project_id',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 3,
             ],
             [
-              'active' => true,
               'name' => 'schema',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 4,
             ],
             [
-              'active' => true,
               'name' => 'slug',
               'op' => [
                 'create' => [
-                  'req' => false,
                   'type' => '`$STRING`',
                 ],
                 'update' => [
-                  'req' => false,
                   'type' => '`$STRING`',
                 ],
               ],
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 5,
             ],
             [
-              'active' => true,
               'name' => 'updated_at',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 6,
             ],
             [
-              'active' => true,
               'name' => 'user_id',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 7,
             ],
             [
-              'active' => true,
               'name' => 'visibility',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 8,
             ],
           ],
           'name' => 'collection',
@@ -1345,15 +1158,12 @@ class HostedRestConfig
               'name' => 'create',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'header' => [
                       [
-                        'active' => true,
                         'kind' => 'header',
                         'name' => 'x_reqres_env',
                         'orig' => 'x_reqres_env',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                     ],
@@ -1374,25 +1184,20 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'create',
             ],
             'list' => [
               'input' => 'data',
               'name' => 'list',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'header' => [
                       [
-                        'active' => true,
                         'kind' => 'header',
                         'name' => 'x_reqres_env',
                         'orig' => 'x_reqres_env',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                     ],
@@ -1413,10 +1218,8 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
                   ],
-                  'index$' => 0,
                 ],
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'GET',
@@ -1430,37 +1233,30 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
                   ],
-                  'index$' => 1,
                 ],
               ],
-              'key$' => 'list',
             ],
             'load' => [
               'input' => 'data',
               'name' => 'load',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'header' => [
                       [
-                        'active' => true,
                         'kind' => 'header',
                         'name' => 'x_reqres_env',
                         'orig' => 'x_reqres_env',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                     ],
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'slug',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -1487,20 +1283,16 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
                   ],
-                  'index$' => 0,
                 ],
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'slug',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -1526,46 +1318,37 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
                   ],
-                  'index$' => 1,
                 ],
               ],
-              'key$' => 'load',
             ],
             'remove' => [
               'input' => 'data',
               'name' => 'remove',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'header' => [
                       [
-                        'active' => true,
                         'kind' => 'header',
                         'name' => 'x_reqres_env',
                         'orig' => 'x_reqres_env',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                     ],
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'collection_id',
                         'orig' => 'slug',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'record_id',
                         'orig' => 'record_id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 1,
                       ],
                     ],
                   ],
@@ -1596,30 +1379,24 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
                 [
-                  'active' => true,
                   'args' => [
                     'header' => [
                       [
-                        'active' => true,
                         'kind' => 'header',
                         'name' => 'x_reqres_env',
                         'orig' => 'x_reqres_env',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                     ],
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'slug',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -1646,37 +1423,30 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 1,
                 ],
               ],
-              'key$' => 'remove',
             ],
             'update' => [
               'input' => 'data',
               'name' => 'update',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'header' => [
                       [
-                        'active' => true,
                         'kind' => 'header',
                         'name' => 'x_reqres_env',
                         'orig' => 'x_reqres_env',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                     ],
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'slug',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -1703,10 +1473,8 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'update',
             ],
           ],
           'relations' => [
@@ -1721,67 +1489,42 @@ class HostedRestConfig
         'collection_record' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'app_user_id',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'collection_id',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'created_at',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 2,
             ],
             [
-              'active' => true,
               'name' => 'created_by',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 3,
             ],
             [
-              'active' => true,
               'name' => 'data',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 4,
             ],
             [
-              'active' => true,
               'name' => 'deleted_at',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 5,
             ],
             [
-              'active' => true,
               'name' => 'id',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 6,
             ],
             [
-              'active' => true,
               'name' => 'project_id',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 7,
             ],
             [
-              'active' => true,
               'name' => 'updated_at',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 8,
             ],
           ],
           'name' => 'collection_record',
@@ -1791,27 +1534,22 @@ class HostedRestConfig
               'name' => 'create',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'header' => [
                       [
-                        'active' => true,
                         'kind' => 'header',
                         'name' => 'x_reqres_env',
                         'orig' => 'x_reqres_env',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                     ],
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'slug',
                         'orig' => 'slug',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -1834,20 +1572,16 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
                   ],
-                  'index$' => 0,
                 ],
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'slug',
                         'orig' => 'slug',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -1869,46 +1603,37 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
                   ],
-                  'index$' => 1,
                 ],
               ],
-              'key$' => 'create',
             ],
             'load' => [
               'input' => 'data',
               'name' => 'load',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'header' => [
                       [
-                        'active' => true,
                         'kind' => 'header',
                         'name' => 'x_reqres_env',
                         'orig' => 'x_reqres_env',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                     ],
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'collection_id',
                         'orig' => 'slug',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'record_id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 1,
                       ],
                     ],
                   ],
@@ -1939,29 +1664,23 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
                   ],
-                  'index$' => 0,
                 ],
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'collection_id',
                         'orig' => 'slug',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'record_id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 1,
                       ],
                     ],
                   ],
@@ -1991,46 +1710,37 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
                   ],
-                  'index$' => 1,
                 ],
               ],
-              'key$' => 'load',
             ],
             'update' => [
               'input' => 'data',
               'name' => 'update',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'header' => [
                       [
-                        'active' => true,
                         'kind' => 'header',
                         'name' => 'x_reqres_env',
                         'orig' => 'x_reqres_env',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                     ],
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'collection_id',
                         'orig' => 'slug',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'record_id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 1,
                       ],
                     ],
                   ],
@@ -2061,29 +1771,23 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
                   ],
-                  'index$' => 0,
                 ],
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'collection_id',
                         'orig' => 'slug',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'record_id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 1,
                       ],
                     ],
                   ],
@@ -2113,10 +1817,8 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
                   ],
-                  'index$' => 1,
                 ],
               ],
-              'key$' => 'update',
             ],
           ],
           'relations' => [
@@ -2130,67 +1832,42 @@ class HostedRestConfig
         'collection_record_list' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'app_user_id',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'collection_id',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'created_at',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 2,
             ],
             [
-              'active' => true,
               'name' => 'created_by',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 3,
             ],
             [
-              'active' => true,
               'name' => 'data',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 4,
             ],
             [
-              'active' => true,
               'name' => 'deleted_at',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 5,
             ],
             [
-              'active' => true,
               'name' => 'id',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 6,
             ],
             [
-              'active' => true,
               'name' => 'project_id',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 7,
             ],
             [
-              'active' => true,
               'name' => 'updated_at',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 8,
             ],
           ],
           'name' => 'collection_record_list',
@@ -2200,92 +1877,71 @@ class HostedRestConfig
               'name' => 'list',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'header' => [
                       [
-                        'active' => true,
                         'kind' => 'header',
                         'name' => 'x_reqres_env',
                         'orig' => 'x_reqres_env',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                     ],
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'slug',
                         'orig' => 'slug',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                     'query' => [
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'created_after',
                         'orig' => 'created_after',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'created_before',
                         'orig' => 'created_before',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'data_contain',
                         'orig' => 'data_contain',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'include_deleted',
                         'orig' => 'include_deleted',
-                        'reqd' => false,
                         'type' => '`$BOOLEAN`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'limit',
                         'orig' => 'limit',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'order',
                         'orig' => 'order',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'page',
                         'orig' => 'page',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'search',
                         'orig' => 'search',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                     ],
@@ -2317,20 +1973,16 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'slug',
                         'orig' => 'slug',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -2352,10 +2004,8 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 1,
                 ],
               ],
-              'key$' => 'list',
             ],
           ],
           'relations' => [
@@ -2375,17 +2025,14 @@ class HostedRestConfig
               'name' => 'create',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'path',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -2411,27 +2058,22 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'create',
             ],
             'load' => [
               'input' => 'data',
               'name' => 'load',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'path',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -2457,21 +2099,17 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'load',
             ],
             'patch' => [
               'input' => 'data',
               'name' => 'patch',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'path',
@@ -2502,27 +2140,22 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'patch',
             ],
             'remove' => [
               'input' => 'data',
               'name' => 'remove',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'path',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -2548,27 +2181,22 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'remove',
             ],
             'update' => [
               'input' => 'data',
               'name' => 'update',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'path',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -2594,10 +2222,8 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'update',
             ],
           ],
           'relations' => [
@@ -2613,17 +2239,14 @@ class HostedRestConfig
               'name' => 'remove',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$INTEGER`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -2644,10 +2267,8 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'remove',
             ],
           ],
           'relations' => [
@@ -2657,25 +2278,16 @@ class HostedRestConfig
         'legacy_mutation' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'createdAt',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'id',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'updatedAt',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 2,
             ],
           ],
           'name' => 'legacy_mutation',
@@ -2685,7 +2297,6 @@ class HostedRestConfig
               'name' => 'create',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
@@ -2699,21 +2310,17 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'create',
             ],
             'patch' => [
               'input' => 'data',
               'name' => 'patch',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
@@ -2739,27 +2346,22 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'patch',
             ],
             'update' => [
               'input' => 'data',
               'name' => 'update',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$INTEGER`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -2780,10 +2382,8 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'update',
             ],
           ],
           'relations' => [
@@ -2793,18 +2393,13 @@ class HostedRestConfig
         'legacy_unknown' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'data',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'support',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 1,
             ],
           ],
           'name' => 'legacy_unknown',
@@ -2814,17 +2409,14 @@ class HostedRestConfig
               'name' => 'load',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$INTEGER`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -2845,10 +2437,8 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'load',
             ],
           ],
           'relations' => [
@@ -2858,39 +2448,29 @@ class HostedRestConfig
         'legacy_unknown_list' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'color',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'id',
               'req' => true,
               'type' => '`$INTEGER`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'name',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 2,
             ],
             [
-              'active' => true,
               'name' => 'pantone_value',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 3,
             ],
             [
-              'active' => true,
               'name' => 'year',
               'req' => true,
               'type' => '`$INTEGER`',
-              'index$' => 4,
             ],
           ],
           'name' => 'legacy_unknown_list',
@@ -2900,24 +2480,19 @@ class HostedRestConfig
               'name' => 'list',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'query' => [
                       [
-                        'active' => true,
                         'example' => 1,
                         'kind' => 'query',
                         'name' => 'page',
                         'orig' => 'page',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'per_page',
                         'orig' => 'per_page',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                     ],
@@ -2939,10 +2514,8 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'list',
             ],
           ],
           'relations' => [
@@ -2952,18 +2525,13 @@ class HostedRestConfig
         'legacy_user' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'data',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'support',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 1,
             ],
           ],
           'name' => 'legacy_user',
@@ -2973,17 +2541,14 @@ class HostedRestConfig
               'name' => 'load',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$INTEGER`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -3004,10 +2569,8 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'load',
             ],
           ],
           'relations' => [
@@ -3017,39 +2580,29 @@ class HostedRestConfig
         'legacy_user_list' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'avatar',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'email',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'first_name',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 2,
             ],
             [
-              'active' => true,
               'name' => 'id',
               'req' => true,
               'type' => '`$INTEGER`',
-              'index$' => 3,
             ],
             [
-              'active' => true,
               'name' => 'last_name',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 4,
             ],
           ],
           'name' => 'legacy_user_list',
@@ -3059,24 +2612,19 @@ class HostedRestConfig
               'name' => 'list',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'query' => [
                       [
-                        'active' => true,
                         'example' => 1,
                         'kind' => 'query',
                         'name' => 'page',
                         'orig' => 'page',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'per_page',
                         'orig' => 'per_page',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                     ],
@@ -3098,10 +2646,8 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'list',
             ],
           ],
           'relations' => [
@@ -3111,25 +2657,19 @@ class HostedRestConfig
         'login' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'email',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'password',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'token',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 2,
             ],
           ],
           'name' => 'login',
@@ -3139,7 +2679,6 @@ class HostedRestConfig
               'name' => 'create',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
@@ -3153,10 +2692,8 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'create',
             ],
           ],
           'relations' => [
@@ -3166,32 +2703,23 @@ class HostedRestConfig
         'register' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'email',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'id',
-              'req' => false,
               'type' => '`$INTEGER`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'password',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 2,
             ],
             [
-              'active' => true,
               'name' => 'token',
               'req' => true,
               'type' => '`$STRING`',
-              'index$' => 3,
             ],
           ],
           'name' => 'register',
@@ -3201,7 +2729,6 @@ class HostedRestConfig
               'name' => 'create',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
@@ -3215,10 +2742,8 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'create',
             ],
           ],
           'relations' => [

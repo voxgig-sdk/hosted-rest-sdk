@@ -38,7 +38,7 @@ type AgentSandbox struct {
 
 // AgentSandboxLoadMatch is the typed request payload for AgentSandbox.LoadTyped.
 type AgentSandboxLoadMatch struct {
-	Scenario *string `json:"scenario,omitempty"`
+	Scenario string `json:"scenario"`
 }
 
 // AgentSandboxCreateData is the typed request payload for AgentSandbox.CreateTyped.
@@ -111,7 +111,12 @@ type AppUserLoadMatch struct {
 
 // AppUserListMatch is the typed request payload for AppUser.ListTyped.
 type AppUserListMatch struct {
-	ProjectId *string `json:"project_id,omitempty"`
+	CreatedAt *string `json:"created_at,omitempty"`
+	Email *string `json:"email,omitempty"`
+	Id *string `json:"id,omitempty"`
+	LastLoginAt *string `json:"last_login_at,omitempty"`
+	Metadata *map[string]any `json:"metadata,omitempty"`
+	Status *string `json:"status,omitempty"`
 }
 
 // AppUserCreateData is the typed request payload for AppUser.CreateTyped.
@@ -136,9 +141,7 @@ type AppUserUpdateData struct {
 
 // AppUserRemoveMatch is the typed request payload for AppUser.RemoveTyped.
 type AppUserRemoveMatch struct {
-	CollectionId *string `json:"collection_id,omitempty"`
-	RecordId *string `json:"record_id,omitempty"`
-	Id *string `json:"id,omitempty"`
+	Id string `json:"id"`
 }
 
 // AppUserLogin is the typed data model for the app_user_login entity.
@@ -250,9 +253,7 @@ type CollectionUpdateData struct {
 
 // CollectionRemoveMatch is the typed request payload for Collection.RemoveTyped.
 type CollectionRemoveMatch struct {
-	CollectionId *string `json:"collection_id,omitempty"`
-	RecordId *string `json:"record_id,omitempty"`
-	Id *string `json:"id,omitempty"`
+	Id string `json:"id"`
 }
 
 // CollectionRecord is the typed data model for the collection_record entity.

@@ -42,7 +42,7 @@ class AgentSandbox
 /** Request payload for AgentSandbox#load. */
 class AgentSandboxLoadMatch
 {
-    public ?string $scenario = null;
+    public string $scenario;
 }
 
 /** Request payload for AgentSandbox#create. */
@@ -123,7 +123,12 @@ class AppUserLoadMatch
 /** Request payload for AppUser#list. */
 class AppUserListMatch
 {
-    public ?string $project_id = null;
+    public ?string $created_at = null;
+    public ?string $email = null;
+    public ?string $id = null;
+    public ?string $last_login_at = null;
+    public ?array $metadata = null;
+    public ?string $status = null;
 }
 
 /** Request payload for AppUser#create. */
@@ -151,9 +156,7 @@ class AppUserUpdateData
 /** Request payload for AppUser#remove. */
 class AppUserRemoveMatch
 {
-    public ?string $collection_id = null;
-    public ?string $record_id = null;
-    public ?string $id = null;
+    public string $id;
 }
 
 /** AppUserLogin entity data model. */
@@ -281,9 +284,7 @@ class CollectionUpdateData
 /** Request payload for Collection#remove. */
 class CollectionRemoveMatch
 {
-    public ?string $collection_id = null;
-    public ?string $record_id = null;
-    public ?string $id = null;
+    public string $id;
 }
 
 /** CollectionRecord entity data model. */

@@ -35,17 +35,17 @@ const client = new HostedRestSDK({
 })
 ```
 
-### 3. Load an appusertotal
+### 3. Load an agentsandbox
 
-AppUserTotal is nested under project, so provide the `project_id`.
+AgentSandbox is nested under scenario, so provide the `scenario`.
 `load()` returns the entity directly and throws on failure:
 
 ```ts
 try {
-  const appusertotal = await client.AppUserTotal().load({
-    project_id: 'example_project_id',
+  const agentsandbox = await client.AgentSandbox().load({
+    scenario: 'example_scenario',
   })
-  console.log(appusertotal)
+  console.log(agentsandbox)
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -658,7 +658,7 @@ Create an instance: `const agent_sandbox = client.AgentSandbox()`
 #### Example: Load
 
 ```ts
-const agent_sandbox = await client.AgentSandbox().load()
+const agent_sandbox = await client.AgentSandbox().load({ scenario: 'scenario' })
 ```
 
 #### Example: Create

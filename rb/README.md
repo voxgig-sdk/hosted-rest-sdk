@@ -32,15 +32,15 @@ client = HostedRestSDK.new({
 })
 ```
 
-### 3. Load an appusertotal
+### 3. Load an agentsandbox
 
-AppUserTotal is nested under project, so provide the `project_id`.
+AgentSandbox is nested under scenario, so provide the `scenario`.
 
 ```ruby
 begin
-  # load returns the ENTITY — call data_get for the AppUserTotal record (raises on error).
-  appusertotal = client.AppUserTotal.load({ "project_id" => "example_project_id" })
-  puts appusertotal
+  # load returns the ENTITY — call data_get for the AgentSandbox record (raises on error).
+  agentsandbox = client.AgentSandbox.load({ "scenario" => "example_scenario" })
+  puts agentsandbox
 rescue => err
   warn "load failed: #{err}"
 end
@@ -604,7 +604,7 @@ Create an instance: `agent_sandbox = client.AgentSandbox`
 
 ```ruby
 # load returns the ENTITY — call data_get for the AgentSandbox record (raises on error).
-agent_sandbox = client.AgentSandbox.load()
+agent_sandbox = client.AgentSandbox.load({ "scenario" => "scenario" })
 ```
 
 #### Example: Create

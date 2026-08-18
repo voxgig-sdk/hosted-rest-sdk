@@ -254,7 +254,7 @@ $result = $client->AgentSandbox()->create([
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->AgentSandbox()->load();
+$result = $client->AgentSandbox()->load(["scenario" => "scenario"]);
 ```
 
 ### Common Methods

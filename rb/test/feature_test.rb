@@ -15,7 +15,7 @@ require_relative "../HostedRest_sdk"
 module HostedRestFeatureHarness
   # True when this SDK was generated with the named feature.
   def self.has_feature?(name)
-    f = HostedRestConfig.make_config["feature"]
+    f = HostedRestConfig.shared_config["feature"]
     f.is_a?(Hash) && !f[name].nil?
   end
 

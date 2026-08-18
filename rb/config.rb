@@ -1,6 +1,20 @@
 # HostedRest SDK configuration
 
 module HostedRestConfig
+  # Return the process-wide config, built once on first use. The SDK reads
+  # the config on every request and never writes to it, so one instance is
+  # shared by every client rather than rebuilt per client.
+  #
+  # The returned hash is shared: treat it as read-only. Callers that need to
+  # mutate should use make_config, which always returns a fresh copy.
+  def self.shared_config
+    @shared_config ||= make_config
+  end
+
+
+  # Build a fresh, fully materialised config hash. Every call rebuilds the
+  # whole structure, so prefer shared_config unless you need a private copy
+  # you intend to mutate.
   def self.make_config
     {
       "main" => {
@@ -50,39 +64,29 @@ module HostedRestConfig
         "agent_health" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "deprecations",
               "req" => true,
               "type" => "`$ARRAY`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "rate_limit_status",
               "req" => true,
               "type" => "`$OBJECT`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "status",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 2,
             },
             {
-              "active" => true,
               "name" => "uptime_seconds",
               "req" => true,
               "type" => "`$INTEGER`",
-              "index$" => 3,
             },
             {
-              "active" => true,
               "name" => "version",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 4,
             },
           ],
           "name" => "agent_health",
@@ -92,7 +96,6 @@ module HostedRestConfig
               "name" => "load",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {},
                   "kind" => "http",
                   "method" => "GET",
@@ -107,10 +110,8 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body.data`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "load",
             },
           },
           "relations" => {
@@ -120,18 +121,14 @@ module HostedRestConfig
         "agent_sandbox" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "email",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "password",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 1,
             },
           ],
           "name" => "agent_sandbox",
@@ -141,7 +138,6 @@ module HostedRestConfig
               "name" => "create",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {},
                   "kind" => "http",
                   "method" => "POST",
@@ -157,51 +153,40 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "create",
             },
             "load" => {
               "input" => "data",
               "name" => "load",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "query" => [
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "cursor",
                         "orig" => "cursor",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                       {
-                        "active" => true,
                         "example" => 20,
                         "kind" => "query",
                         "name" => "limit",
                         "orig" => "limit",
-                        "reqd" => false,
                         "type" => "`$INTEGER`",
                       },
                       {
-                        "active" => true,
                         "example" => 42,
                         "kind" => "query",
                         "name" => "seed",
                         "orig" => "seed",
-                        "reqd" => false,
                         "type" => "`$INTEGER`",
                       },
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "status",
                         "orig" => "status",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
@@ -226,20 +211,16 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "scenario",
                         "orig" => "scenario",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                     ],
                   },
@@ -261,10 +242,8 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 1,
                 },
                 {
-                  "active" => true,
                   "args" => {},
                   "kind" => "http",
                   "method" => "GET",
@@ -279,10 +258,8 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 2,
                 },
               ],
-              "key$" => "load",
             },
           },
           "relations" => {
@@ -296,74 +273,54 @@ module HostedRestConfig
         "agent_user_detail" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "created_at",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "email",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "full_name",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 2,
             },
             {
-              "active" => true,
               "name" => "id",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 3,
             },
             {
-              "active" => true,
               "name" => "locale",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 4,
             },
             {
-              "active" => true,
               "name" => "preferences",
               "req" => true,
               "type" => "`$OBJECT`",
-              "index$" => 5,
             },
             {
-              "active" => true,
               "name" => "profile",
               "req" => true,
               "type" => "`$OBJECT`",
-              "index$" => 6,
             },
             {
-              "active" => true,
               "name" => "status",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 7,
             },
             {
-              "active" => true,
               "name" => "timezone",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 8,
             },
             {
-              "active" => true,
               "name" => "updated_at",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 9,
             },
           ],
           "name" => "agent_user_detail",
@@ -373,26 +330,21 @@ module HostedRestConfig
               "name" => "load",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                     ],
                     "query" => [
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "expand",
                         "orig" => "expand",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
@@ -416,10 +368,8 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body.data`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "load",
             },
           },
           "relations" => {
@@ -429,74 +379,54 @@ module HostedRestConfig
         "agent_user_list" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "created_at",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "email",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "full_name",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 2,
             },
             {
-              "active" => true,
               "name" => "id",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 3,
             },
             {
-              "active" => true,
               "name" => "locale",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 4,
             },
             {
-              "active" => true,
               "name" => "preferences",
               "req" => true,
               "type" => "`$OBJECT`",
-              "index$" => 5,
             },
             {
-              "active" => true,
               "name" => "profile",
               "req" => true,
               "type" => "`$OBJECT`",
-              "index$" => 6,
             },
             {
-              "active" => true,
               "name" => "status",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 7,
             },
             {
-              "active" => true,
               "name" => "timezone",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 8,
             },
             {
-              "active" => true,
               "name" => "updated_at",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 9,
             },
           ],
           "name" => "agent_user_list",
@@ -506,41 +436,32 @@ module HostedRestConfig
               "name" => "list",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "query" => [
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "cursor",
                         "orig" => "cursor",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "field",
                         "orig" => "field",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                       {
-                        "active" => true,
                         "example" => 20,
                         "kind" => "query",
                         "name" => "limit",
                         "orig" => "limit",
-                        "reqd" => false,
                         "type" => "`$INTEGER`",
                       },
                       {
-                        "active" => true,
                         "example" => 42,
                         "kind" => "query",
                         "name" => "seed",
                         "orig" => "seed",
-                        "reqd" => false,
                         "type" => "`$INTEGER`",
                       },
                     ],
@@ -565,10 +486,8 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "list",
             },
           },
           "relations" => {
@@ -578,52 +497,35 @@ module HostedRestConfig
         "app_user" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "created_at",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "email",
               "op" => {
                 "update" => {
-                  "req" => false,
                   "type" => "`$STRING`",
                 },
               },
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "id",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 2,
             },
             {
-              "active" => true,
               "name" => "last_login_at",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 3,
             },
             {
-              "active" => true,
               "name" => "metadata",
-              "req" => false,
               "type" => "`$OBJECT`",
-              "index$" => 4,
             },
             {
-              "active" => true,
               "name" => "status",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 5,
             },
           ],
           "name" => "app_user",
@@ -633,17 +535,14 @@ module HostedRestConfig
               "name" => "create",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                     ],
                   },
@@ -667,10 +566,8 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
                 {
-                  "active" => true,
                   "args" => {},
                   "kind" => "http",
                   "method" => "POST",
@@ -684,46 +581,37 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body.data`",
                   },
-                  "index$" => 1,
                 },
               ],
-              "key$" => "create",
             },
             "list" => {
               "input" => "data",
               "name" => "list",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_reqres_env",
                         "orig" => "x_reqres_env",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "project_id",
                         "orig" => "project_id",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                     ],
                     "query" => [
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "status",
                         "orig" => "status",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
@@ -753,28 +641,22 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body.data`",
                   },
-                  "index$" => 0,
                 },
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_reqres_env",
                         "orig" => "x_reqres_env",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
                     "query" => [
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "limit",
                         "orig" => "limit",
-                        "reqd" => false,
                         "type" => "`$INTEGER`",
                       },
                     ],
@@ -796,27 +678,22 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body.data`",
                   },
-                  "index$" => 1,
                 },
               ],
-              "key$" => "list",
             },
             "load" => {
               "input" => "data",
               "name" => "load",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                     ],
                   },
@@ -837,36 +714,29 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body.data`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "load",
             },
             "remove" => {
               "input" => "data",
               "name" => "remove",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "collection_id",
                         "orig" => "slug",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "record_id",
                         "orig" => "record_id",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 1,
                       },
                     ],
                   },
@@ -896,20 +766,16 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                     ],
                   },
@@ -930,27 +796,22 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 1,
                 },
               ],
-              "key$" => "remove",
             },
             "update" => {
               "input" => "data",
               "name" => "update",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                     ],
                   },
@@ -971,10 +832,8 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body.data`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "update",
             },
           },
           "relations" => {
@@ -992,25 +851,22 @@ module HostedRestConfig
         "app_user_login" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "email",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "metadata",
-              "req" => false,
               "type" => "`$OBJECT`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "project_id",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 2,
+              "union" => {
+                "branches" => 2,
+                "count" => 1,
+                "depth" => 0,
+              },
             },
           ],
           "name" => "app_user_login",
@@ -1020,7 +876,6 @@ module HostedRestConfig
               "name" => "create",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {},
                   "kind" => "http",
                   "method" => "POST",
@@ -1035,10 +890,8 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body.data`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "create",
             },
           },
           "relations" => {
@@ -1054,7 +907,6 @@ module HostedRestConfig
               "name" => "load",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {},
                   "kind" => "http",
                   "method" => "GET",
@@ -1069,10 +921,8 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body.data`",
                   },
-                  "index$" => 0,
                 },
                 {
-                  "active" => true,
                   "args" => {},
                   "kind" => "http",
                   "method" => "GET",
@@ -1086,10 +936,8 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body.data`",
                   },
-                  "index$" => 1,
                 },
               ],
-              "key$" => "load",
             },
           },
           "relations" => {
@@ -1099,11 +947,9 @@ module HostedRestConfig
         "app_user_total" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "total",
               "req" => true,
               "type" => "`$INTEGER`",
-              "index$" => 0,
             },
           ],
           "name" => "app_user_total",
@@ -1113,27 +959,22 @@ module HostedRestConfig
               "name" => "load",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_reqres_env",
                         "orig" => "x_reqres_env",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "project_id",
                         "orig" => "project_id",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                     ],
                   },
@@ -1162,10 +1003,8 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "load",
             },
           },
           "relations" => {
@@ -1179,11 +1018,9 @@ module HostedRestConfig
         "app_user_verify" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "token",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 0,
             },
           ],
           "name" => "app_user_verify",
@@ -1193,7 +1030,6 @@ module HostedRestConfig
               "name" => "create",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {},
                   "kind" => "http",
                   "method" => "POST",
@@ -1208,10 +1044,8 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body.data`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "create",
             },
           },
           "relations" => {
@@ -1227,7 +1061,6 @@ module HostedRestConfig
               "name" => "create",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {},
                   "kind" => "http",
                   "method" => "POST",
@@ -1241,10 +1074,8 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "create",
             },
           },
           "relations" => {
@@ -1254,83 +1085,56 @@ module HostedRestConfig
         "collection" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "created_at",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "id",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "name",
               "op" => {
                 "update" => {
-                  "req" => false,
                   "type" => "`$STRING`",
                 },
               },
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 2,
             },
             {
-              "active" => true,
               "name" => "project_id",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 3,
             },
             {
-              "active" => true,
               "name" => "schema",
-              "req" => false,
               "type" => "`$OBJECT`",
-              "index$" => 4,
             },
             {
-              "active" => true,
               "name" => "slug",
               "op" => {
                 "create" => {
-                  "req" => false,
                   "type" => "`$STRING`",
                 },
                 "update" => {
-                  "req" => false,
                   "type" => "`$STRING`",
                 },
               },
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 5,
             },
             {
-              "active" => true,
               "name" => "updated_at",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 6,
             },
             {
-              "active" => true,
               "name" => "user_id",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 7,
             },
             {
-              "active" => true,
               "name" => "visibility",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 8,
             },
           ],
           "name" => "collection",
@@ -1340,15 +1144,12 @@ module HostedRestConfig
               "name" => "create",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_reqres_env",
                         "orig" => "x_reqres_env",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
@@ -1369,25 +1170,20 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body.data`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "create",
             },
             "list" => {
               "input" => "data",
               "name" => "list",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_reqres_env",
                         "orig" => "x_reqres_env",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
@@ -1408,10 +1204,8 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body.data`",
                   },
-                  "index$" => 0,
                 },
                 {
-                  "active" => true,
                   "args" => {},
                   "kind" => "http",
                   "method" => "GET",
@@ -1425,37 +1219,30 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body.data`",
                   },
-                  "index$" => 1,
                 },
               ],
-              "key$" => "list",
             },
             "load" => {
               "input" => "data",
               "name" => "load",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_reqres_env",
                         "orig" => "x_reqres_env",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "slug",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                     ],
                   },
@@ -1482,20 +1269,16 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body.data`",
                   },
-                  "index$" => 0,
                 },
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "slug",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                     ],
                   },
@@ -1521,46 +1304,37 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body.data`",
                   },
-                  "index$" => 1,
                 },
               ],
-              "key$" => "load",
             },
             "remove" => {
               "input" => "data",
               "name" => "remove",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_reqres_env",
                         "orig" => "x_reqres_env",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "collection_id",
                         "orig" => "slug",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "record_id",
                         "orig" => "record_id",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 1,
                       },
                     ],
                   },
@@ -1591,30 +1365,24 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_reqres_env",
                         "orig" => "x_reqres_env",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "slug",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                     ],
                   },
@@ -1641,37 +1409,30 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 1,
                 },
               ],
-              "key$" => "remove",
             },
             "update" => {
               "input" => "data",
               "name" => "update",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_reqres_env",
                         "orig" => "x_reqres_env",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "slug",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                     ],
                   },
@@ -1698,10 +1459,8 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body.data`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "update",
             },
           },
           "relations" => {
@@ -1716,67 +1475,42 @@ module HostedRestConfig
         "collection_record" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "app_user_id",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "collection_id",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "created_at",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 2,
             },
             {
-              "active" => true,
               "name" => "created_by",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 3,
             },
             {
-              "active" => true,
               "name" => "data",
               "req" => true,
               "type" => "`$OBJECT`",
-              "index$" => 4,
             },
             {
-              "active" => true,
               "name" => "deleted_at",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 5,
             },
             {
-              "active" => true,
               "name" => "id",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 6,
             },
             {
-              "active" => true,
               "name" => "project_id",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 7,
             },
             {
-              "active" => true,
               "name" => "updated_at",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 8,
             },
           ],
           "name" => "collection_record",
@@ -1786,27 +1520,22 @@ module HostedRestConfig
               "name" => "create",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_reqres_env",
                         "orig" => "x_reqres_env",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "slug",
                         "orig" => "slug",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                     ],
                   },
@@ -1829,20 +1558,16 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body.data`",
                   },
-                  "index$" => 0,
                 },
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "slug",
                         "orig" => "slug",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                     ],
                   },
@@ -1864,46 +1589,37 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body.data`",
                   },
-                  "index$" => 1,
                 },
               ],
-              "key$" => "create",
             },
             "load" => {
               "input" => "data",
               "name" => "load",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_reqres_env",
                         "orig" => "x_reqres_env",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "collection_id",
                         "orig" => "slug",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "record_id",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 1,
                       },
                     ],
                   },
@@ -1934,29 +1650,23 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body.data`",
                   },
-                  "index$" => 0,
                 },
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "collection_id",
                         "orig" => "slug",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "record_id",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 1,
                       },
                     ],
                   },
@@ -1986,46 +1696,37 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body.data`",
                   },
-                  "index$" => 1,
                 },
               ],
-              "key$" => "load",
             },
             "update" => {
               "input" => "data",
               "name" => "update",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_reqres_env",
                         "orig" => "x_reqres_env",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "collection_id",
                         "orig" => "slug",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "record_id",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 1,
                       },
                     ],
                   },
@@ -2056,29 +1757,23 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body.data`",
                   },
-                  "index$" => 0,
                 },
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "collection_id",
                         "orig" => "slug",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "record_id",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 1,
                       },
                     ],
                   },
@@ -2108,10 +1803,8 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body.data`",
                   },
-                  "index$" => 1,
                 },
               ],
-              "key$" => "update",
             },
           },
           "relations" => {
@@ -2125,67 +1818,42 @@ module HostedRestConfig
         "collection_record_list" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "app_user_id",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "collection_id",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "created_at",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 2,
             },
             {
-              "active" => true,
               "name" => "created_by",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 3,
             },
             {
-              "active" => true,
               "name" => "data",
               "req" => true,
               "type" => "`$OBJECT`",
-              "index$" => 4,
             },
             {
-              "active" => true,
               "name" => "deleted_at",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 5,
             },
             {
-              "active" => true,
               "name" => "id",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 6,
             },
             {
-              "active" => true,
               "name" => "project_id",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 7,
             },
             {
-              "active" => true,
               "name" => "updated_at",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 8,
             },
           ],
           "name" => "collection_record_list",
@@ -2195,92 +1863,71 @@ module HostedRestConfig
               "name" => "list",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "header" => [
                       {
-                        "active" => true,
                         "kind" => "header",
                         "name" => "x_reqres_env",
                         "orig" => "x_reqres_env",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "slug",
                         "orig" => "slug",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                     ],
                     "query" => [
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "created_after",
                         "orig" => "created_after",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "created_before",
                         "orig" => "created_before",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "data_contain",
                         "orig" => "data_contain",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "include_deleted",
                         "orig" => "include_deleted",
-                        "reqd" => false,
                         "type" => "`$BOOLEAN`",
                       },
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "limit",
                         "orig" => "limit",
-                        "reqd" => false,
                         "type" => "`$INTEGER`",
                       },
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "order",
                         "orig" => "order",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "page",
                         "orig" => "page",
-                        "reqd" => false,
                         "type" => "`$INTEGER`",
                       },
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "search",
                         "orig" => "search",
-                        "reqd" => false,
                         "type" => "`$STRING`",
                       },
                     ],
@@ -2312,20 +1959,16 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "slug",
                         "orig" => "slug",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                     ],
                   },
@@ -2347,10 +1990,8 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 1,
                 },
               ],
-              "key$" => "list",
             },
           },
           "relations" => {
@@ -2370,17 +2011,14 @@ module HostedRestConfig
               "name" => "create",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "path",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                     ],
                   },
@@ -2406,27 +2044,22 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "create",
             },
             "load" => {
               "input" => "data",
               "name" => "load",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "path",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                     ],
                   },
@@ -2452,21 +2085,17 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "load",
             },
             "patch" => {
               "input" => "data",
               "name" => "patch",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "path",
@@ -2497,27 +2126,22 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "patch",
             },
             "remove" => {
               "input" => "data",
               "name" => "remove",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "path",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                     ],
                   },
@@ -2543,27 +2167,22 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "remove",
             },
             "update" => {
               "input" => "data",
               "name" => "update",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "path",
                         "reqd" => true,
                         "type" => "`$STRING`",
-                        "index$" => 0,
                       },
                     ],
                   },
@@ -2589,10 +2208,8 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "update",
             },
           },
           "relations" => {
@@ -2608,17 +2225,14 @@ module HostedRestConfig
               "name" => "remove",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
                         "type" => "`$INTEGER`",
-                        "index$" => 0,
                       },
                     ],
                   },
@@ -2639,10 +2253,8 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "remove",
             },
           },
           "relations" => {
@@ -2652,25 +2264,16 @@ module HostedRestConfig
         "legacy_mutation" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "createdAt",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "id",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "updatedAt",
-              "req" => false,
               "type" => "`$STRING`",
-              "index$" => 2,
             },
           ],
           "name" => "legacy_mutation",
@@ -2680,7 +2283,6 @@ module HostedRestConfig
               "name" => "create",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {},
                   "kind" => "http",
                   "method" => "POST",
@@ -2694,21 +2296,17 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "create",
             },
             "patch" => {
               "input" => "data",
               "name" => "patch",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
@@ -2734,27 +2332,22 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "patch",
             },
             "update" => {
               "input" => "data",
               "name" => "update",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
                         "type" => "`$INTEGER`",
-                        "index$" => 0,
                       },
                     ],
                   },
@@ -2775,10 +2368,8 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "update",
             },
           },
           "relations" => {
@@ -2788,18 +2379,13 @@ module HostedRestConfig
         "legacy_unknown" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "data",
               "req" => true,
               "type" => "`$OBJECT`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "support",
-              "req" => false,
               "type" => "`$OBJECT`",
-              "index$" => 1,
             },
           ],
           "name" => "legacy_unknown",
@@ -2809,17 +2395,14 @@ module HostedRestConfig
               "name" => "load",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
                         "type" => "`$INTEGER`",
-                        "index$" => 0,
                       },
                     ],
                   },
@@ -2840,10 +2423,8 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "load",
             },
           },
           "relations" => {
@@ -2853,39 +2434,29 @@ module HostedRestConfig
         "legacy_unknown_list" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "color",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "id",
               "req" => true,
               "type" => "`$INTEGER`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "name",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 2,
             },
             {
-              "active" => true,
               "name" => "pantone_value",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 3,
             },
             {
-              "active" => true,
               "name" => "year",
               "req" => true,
               "type" => "`$INTEGER`",
-              "index$" => 4,
             },
           ],
           "name" => "legacy_unknown_list",
@@ -2895,24 +2466,19 @@ module HostedRestConfig
               "name" => "list",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "query" => [
                       {
-                        "active" => true,
                         "example" => 1,
                         "kind" => "query",
                         "name" => "page",
                         "orig" => "page",
-                        "reqd" => false,
                         "type" => "`$INTEGER`",
                       },
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "per_page",
                         "orig" => "per_page",
-                        "reqd" => false,
                         "type" => "`$INTEGER`",
                       },
                     ],
@@ -2934,10 +2500,8 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "list",
             },
           },
           "relations" => {
@@ -2947,18 +2511,13 @@ module HostedRestConfig
         "legacy_user" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "data",
               "req" => true,
               "type" => "`$OBJECT`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "support",
-              "req" => false,
               "type" => "`$OBJECT`",
-              "index$" => 1,
             },
           ],
           "name" => "legacy_user",
@@ -2968,17 +2527,14 @@ module HostedRestConfig
               "name" => "load",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "params" => [
                       {
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
                         "type" => "`$INTEGER`",
-                        "index$" => 0,
                       },
                     ],
                   },
@@ -2999,10 +2555,8 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "load",
             },
           },
           "relations" => {
@@ -3012,39 +2566,29 @@ module HostedRestConfig
         "legacy_user_list" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "avatar",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "email",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "first_name",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 2,
             },
             {
-              "active" => true,
               "name" => "id",
               "req" => true,
               "type" => "`$INTEGER`",
-              "index$" => 3,
             },
             {
-              "active" => true,
               "name" => "last_name",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 4,
             },
           ],
           "name" => "legacy_user_list",
@@ -3054,24 +2598,19 @@ module HostedRestConfig
               "name" => "list",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {
                     "query" => [
                       {
-                        "active" => true,
                         "example" => 1,
                         "kind" => "query",
                         "name" => "page",
                         "orig" => "page",
-                        "reqd" => false,
                         "type" => "`$INTEGER`",
                       },
                       {
-                        "active" => true,
                         "kind" => "query",
                         "name" => "per_page",
                         "orig" => "per_page",
-                        "reqd" => false,
                         "type" => "`$INTEGER`",
                       },
                     ],
@@ -3093,10 +2632,8 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "list",
             },
           },
           "relations" => {
@@ -3106,25 +2643,19 @@ module HostedRestConfig
         "login" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "email",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "password",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "token",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 2,
             },
           ],
           "name" => "login",
@@ -3134,7 +2665,6 @@ module HostedRestConfig
               "name" => "create",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {},
                   "kind" => "http",
                   "method" => "POST",
@@ -3148,10 +2678,8 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "create",
             },
           },
           "relations" => {
@@ -3161,32 +2689,23 @@ module HostedRestConfig
         "register" => {
           "fields" => [
             {
-              "active" => true,
               "name" => "email",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 0,
             },
             {
-              "active" => true,
               "name" => "id",
-              "req" => false,
               "type" => "`$INTEGER`",
-              "index$" => 1,
             },
             {
-              "active" => true,
               "name" => "password",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 2,
             },
             {
-              "active" => true,
               "name" => "token",
               "req" => true,
               "type" => "`$STRING`",
-              "index$" => 3,
             },
           ],
           "name" => "register",
@@ -3196,7 +2715,6 @@ module HostedRestConfig
               "name" => "create",
               "points" => [
                 {
-                  "active" => true,
                   "args" => {},
                   "kind" => "http",
                   "method" => "POST",
@@ -3210,10 +2728,8 @@ module HostedRestConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "index$" => 0,
                 },
               ],
-              "key$" => "create",
             },
           },
           "relations" => {

@@ -40,7 +40,7 @@ class HostedRestSDK
         $utility = new HostedRestUtility();
         $this->_utility = $utility;
 
-        $config = HostedRestConfig::make_config();
+        $config = HostedRestConfig::shared_config();
 
         $this->_rootctx = ($utility->make_context)([
             "client" => $this,

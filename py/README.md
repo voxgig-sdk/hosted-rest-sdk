@@ -39,15 +39,15 @@ client = HostedRestSDK({
 })
 ```
 
-### 3. Load an appusertotal
+### 3. Load an agentsandbox
 
-AppUserTotal is nested under project, so provide the `project_id`.
+AgentSandbox is nested under scenario, so provide the `scenario`.
 `load()` returns the ENTITY — call data_get() for the record — and raises on error.
 
 ```python
 try:
-    appusertotal = client.AppUserTotal().load({"project_id": "example_project_id"})
-    print(appusertotal)
+    agentsandbox = client.AgentSandbox().load({"scenario": "example_scenario"})
+    print(agentsandbox)
 except Exception as err:
     print(f"load failed: {err}")
 ```
@@ -608,7 +608,7 @@ Create an instance: `agent_sandbox = client.AgentSandbox()`
 #### Example: Load
 
 ```python
-agent_sandbox = client.AgentSandbox().load()
+agent_sandbox = client.AgentSandbox().load({"scenario": "scenario"})
 ```
 
 #### Example: Create

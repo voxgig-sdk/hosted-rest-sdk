@@ -248,7 +248,7 @@ fmt.Println(agentSandbox.GetName()) // "agent_sandbox"
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.AgentSandbox(nil).Load(nil, nil)
+result, err := client.AgentSandbox(nil).Load(map[string]any{"scenario": "scenario"}, nil)
 if err != nil {
     panic(err)
 }
