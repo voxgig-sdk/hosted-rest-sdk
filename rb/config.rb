@@ -19,6 +19,9 @@ module HostedRestConfig
     {
       "main" => {
         "name" => "HostedRest",
+        "slug" => "hosted-rest",
+        "version" => "0.0.1",
+        "target" => "rb",
       },
       "feature" => {
         "test" => {

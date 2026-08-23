@@ -33,6 +33,9 @@ class HostedRestConfig
         return [
             "main" => [
                 "name" => "HostedRest",
+                "slug" => "hosted-rest",
+                "version" => "0.0.1",
+                "target" => "php",
             ],
             "feature" => [
                 "test" => [
