@@ -1031,6 +1031,12 @@ Return the entity name.
 local custom = client:Custom(nil)
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
 ### Operations
 
 #### `create(reqdata, ctrl) -> any, err`
@@ -1105,6 +1111,12 @@ Return the entity name.
 ```lua
 local legacy = client:Legacy(nil)
 ```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
 
 ### Operations
 
@@ -1223,6 +1235,7 @@ local legacy_unknown = client:LegacyUnknown(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `data` | `table` | Yes |  |
+| `id` | `string` | No |  |
 | `support` | `table` | No |  |
 
 ### Operations
@@ -1332,6 +1345,7 @@ local legacy_user = client:LegacyUser(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `data` | `table` | Yes |  |
+| `id` | `string` | No |  |
 | `support` | `table` | No |  |
 
 ### Operations

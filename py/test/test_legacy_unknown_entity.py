@@ -48,9 +48,13 @@ class TestLegacyUnknownEntity:
 
         # LOAD
         legacy_unknown_ref01_ent = client.LegacyUnknown(None)
-        legacy_unknown_ref01_match_dt0 = {}
+        legacy_unknown_ref01_match_dt0 = {
+            "id": legacy_unknown_ref01_data["id"],
+        }
         legacy_unknown_ref01_data_dt0_loaded = legacy_unknown_ref01_ent.load(legacy_unknown_ref01_match_dt0, None)
-        assert legacy_unknown_ref01_data_dt0_loaded is not None
+        legacy_unknown_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(legacy_unknown_ref01_data_dt0_loaded))
+        assert legacy_unknown_ref01_data_dt0_load_result is not None
+        assert legacy_unknown_ref01_data_dt0_load_result["id"] == legacy_unknown_ref01_data["id"]
 
 
 

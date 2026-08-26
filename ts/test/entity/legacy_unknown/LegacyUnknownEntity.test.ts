@@ -59,9 +59,12 @@ describe('LegacyUnknownEntity', async () => {
 
     let legacy_unknown_ref01_data = Object.values(setup.data.existing.legacy_unknown)[0] as any
 
-    // LOAD: skipped — no entity id field and load requires path params.
-    // Entity-var is declared here so later flow steps still compile.
+    // LOAD
     const legacy_unknown_ref01_ent = client.LegacyUnknown()
+    const legacy_unknown_ref01_match_dt0: any = {}
+    legacy_unknown_ref01_match_dt0.id = legacy_unknown_ref01_data.id
+    const legacy_unknown_ref01_data_dt0 = (await legacy_unknown_ref01_ent.load(legacy_unknown_ref01_match_dt0)).data()
+    assert(legacy_unknown_ref01_data_dt0.id === legacy_unknown_ref01_data.id)
 
 
   })

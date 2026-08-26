@@ -61,13 +61,19 @@ func TestLegacyUserEntity(t *testing.T) {
 
 		// LOAD
 		legacyUserRef01Ent := client.LegacyUser(nil)
-		legacyUserRef01MatchDt0 := map[string]any{}
+		legacyUserRef01MatchDt0 := map[string]any{
+			"id": legacyUserRef01Data["id"],
+		}
 		legacyUserRef01DataDt0Loaded, err := legacyUserRef01Ent.Load(legacyUserRef01MatchDt0, nil)
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		if legacyUserRef01DataDt0Loaded == nil {
-			t.Fatal("expected load result to be non-nil")
+		legacyUserRef01DataDt0LoadResult := core.ToMapAny(entityData(legacyUserRef01DataDt0Loaded))
+		if legacyUserRef01DataDt0LoadResult == nil {
+			t.Fatal("expected load result to be a map")
+		}
+		if legacyUserRef01DataDt0LoadResult["id"] != legacyUserRef01Data["id"] {
+			t.Fatal("expected load result id to match")
 		}
 
 	})

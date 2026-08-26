@@ -44,22 +44,35 @@ describe("CustomEntity", function()
     assert.is_nil(err)
     custom_ref01_data = helpers.to_map(type(custom_ref01_data_result) == 'table' and custom_ref01_data_result.data_get and custom_ref01_data_result:data_get() or custom_ref01_data_result)
     assert.is_not_nil(custom_ref01_data)
+    assert.is_not_nil(custom_ref01_data["id"])
 
     -- UPDATE
     local custom_ref01_data_up0_up = {
+      id = custom_ref01_data["id"],
     }
 
     local custom_ref01_resdata_up0_result, err = custom_ref01_ent:update(custom_ref01_data_up0_up, nil)
     assert.is_nil(err)
     local custom_ref01_resdata_up0 = helpers.to_map(type(custom_ref01_resdata_up0_result) == 'table' and custom_ref01_resdata_up0_result.data_get and custom_ref01_resdata_up0_result:data_get() or custom_ref01_resdata_up0_result)
     assert.is_not_nil(custom_ref01_resdata_up0)
+    assert.are.equal(custom_ref01_resdata_up0["id"], custom_ref01_data_up0_up["id"])
 
     -- LOAD
-    local custom_ref01_match_dt0 = {}
+    local custom_ref01_match_dt0 = {
+      id = custom_ref01_data["id"],
+    }
     local custom_ref01_data_dt0_loaded, err = custom_ref01_ent:load(custom_ref01_match_dt0, nil)
     assert.is_nil(err)
-    assert.is_not_nil(custom_ref01_data_dt0_loaded)
+    local custom_ref01_data_dt0_load_result = helpers.to_map(type(custom_ref01_data_dt0_loaded) == 'table' and custom_ref01_data_dt0_loaded.data_get and custom_ref01_data_dt0_loaded:data_get() or custom_ref01_data_dt0_loaded)
+    assert.is_not_nil(custom_ref01_data_dt0_load_result)
+    assert.are.equal(custom_ref01_data_dt0_load_result["id"], custom_ref01_data["id"])
 
+    -- REMOVE
+    local custom_ref01_match_rm0 = {
+      id = custom_ref01_data["id"],
+    }
+    local _, err = custom_ref01_ent:remove(custom_ref01_match_rm0, nil)
+    assert.is_nil(err)
 
   end)
 end)

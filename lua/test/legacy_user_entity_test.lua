@@ -44,10 +44,14 @@ describe("LegacyUserEntity", function()
 
     -- LOAD
     local legacy_user_ref01_ent = client:LegacyUser(nil)
-    local legacy_user_ref01_match_dt0 = {}
+    local legacy_user_ref01_match_dt0 = {
+      id = legacy_user_ref01_data["id"],
+    }
     local legacy_user_ref01_data_dt0_loaded, err = legacy_user_ref01_ent:load(legacy_user_ref01_match_dt0, nil)
     assert.is_nil(err)
-    assert.is_not_nil(legacy_user_ref01_data_dt0_loaded)
+    local legacy_user_ref01_data_dt0_load_result = helpers.to_map(type(legacy_user_ref01_data_dt0_loaded) == 'table' and legacy_user_ref01_data_dt0_loaded.data_get and legacy_user_ref01_data_dt0_loaded:data_get() or legacy_user_ref01_data_dt0_loaded)
+    assert.is_not_nil(legacy_user_ref01_data_dt0_load_result)
+    assert.are.equal(legacy_user_ref01_data_dt0_load_result["id"], legacy_user_ref01_data["id"])
 
   end)
 end)

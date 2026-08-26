@@ -1219,6 +1219,12 @@ Return a copy of the entity options.
 const custom = client.Custom()
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
@@ -1291,6 +1297,12 @@ Return a copy of the entity options.
 ```ts
 const legacy = client.Legacy()
 ```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
 
 ### Operations
 
@@ -1405,6 +1417,7 @@ const legacy_unknown = client.LegacyUnknown()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `data` | `Record<string, any>` | Yes |  |
+| `id` | `string` | No |  |
 | `support` | `Record<string, any>` | No |  |
 
 ### Operations
@@ -1510,6 +1523,7 @@ const legacy_user = client.LegacyUser()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `data` | `Record<string, any>` | Yes |  |
+| `id` | `string` | No |  |
 | `support` | `Record<string, any>` | No |  |
 
 ### Operations

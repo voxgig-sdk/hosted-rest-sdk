@@ -241,6 +241,7 @@
 ---@field slug string
 
 ---@class Custom
+---@field id? string
 
 ---@class CustomLoadMatch
 ---@field id string
@@ -255,6 +256,7 @@
 ---@field id string
 
 ---@class Legacy
+---@field id? string
 
 ---@class LegacyRemoveMatch
 ---@field id number
@@ -276,6 +278,7 @@
 
 ---@class LegacyUnknown
 ---@field data table
+---@field id? string
 ---@field support? table
 
 ---@class LegacyUnknownLoadMatch
@@ -297,6 +300,7 @@
 
 ---@class LegacyUser
 ---@field data table
+---@field id? string
 ---@field support? table
 
 ---@class LegacyUserLoadMatch

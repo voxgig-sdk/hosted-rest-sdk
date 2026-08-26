@@ -1033,6 +1033,12 @@ Return the entity name.
 $custom = $client->Custom();
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
@@ -1107,6 +1113,12 @@ Return the entity name.
 ```php
 $legacy = $client->Legacy();
 ```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
 
 ### Operations
 
@@ -1225,6 +1237,7 @@ $legacy_unknown = $client->LegacyUnknown();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `data` | `array` | Yes |  |
+| `id` | `string` | No |  |
 | `support` | `array` | No |  |
 
 ### Operations
@@ -1334,6 +1347,7 @@ $legacy_user = $client->LegacyUser();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `data` | `array` | Yes |  |
+| `id` | `string` | No |  |
 | `support` | `array` | No |  |
 
 ### Operations

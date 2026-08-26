@@ -1070,6 +1070,12 @@ custom := client.Custom(nil)
 fmt.Println(custom.GetName()) // "custom"
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
 ### Operations
 
 #### `Load(reqmatch, ctrl map[string]any) (any, error)`
@@ -1155,6 +1161,12 @@ Return the entity name.
 legacy := client.Legacy(nil)
 fmt.Println(legacy.GetName()) // "legacy"
 ```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
 
 ### Operations
 
@@ -1275,6 +1287,7 @@ fmt.Println(legacyUnknown.GetName()) // "legacy_unknown"
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `data` | `map[string]any` | Yes |  |
+| `id` | `string` | No |  |
 | `support` | `map[string]any` | No |  |
 
 ### Operations
@@ -1382,6 +1395,7 @@ fmt.Println(legacyUser.GetName()) // "legacy_user"
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `data` | `map[string]any` | Yes |  |
+| `id` | `string` | No |  |
 | `support` | `map[string]any` | No |  |
 
 ### Operations

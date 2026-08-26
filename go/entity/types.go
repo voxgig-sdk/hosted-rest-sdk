@@ -322,6 +322,7 @@ type CollectionRecordListListMatch struct {
 
 // Custom is the typed data model for the custom entity.
 type Custom struct {
+	Id *string `json:"id,omitempty"`
 }
 
 // CustomLoadMatch is the typed request payload for Custom.LoadTyped.
@@ -346,6 +347,7 @@ type CustomRemoveMatch struct {
 
 // Legacy is the typed data model for the legacy entity.
 type Legacy struct {
+	Id *string `json:"id,omitempty"`
 }
 
 // LegacyRemoveMatch is the typed request payload for Legacy.RemoveTyped.
@@ -377,6 +379,7 @@ type LegacyMutationUpdateData struct {
 // LegacyUnknown is the typed data model for the legacy_unknown entity.
 type LegacyUnknown struct {
 	Data map[string]any `json:"data"`
+	Id *string `json:"id,omitempty"`
 	Support *map[string]any `json:"support,omitempty"`
 }
 
@@ -406,6 +409,7 @@ type LegacyUnknownListListMatch struct {
 // LegacyUser is the typed data model for the legacy_user entity.
 type LegacyUser struct {
 	Data map[string]any `json:"data"`
+	Id *string `json:"id,omitempty"`
 	Support *map[string]any `json:"support,omitempty"`
 }
 

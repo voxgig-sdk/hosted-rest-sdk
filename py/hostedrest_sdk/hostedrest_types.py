@@ -327,8 +327,8 @@ class CollectionRecordListListMatch(TypedDict):
     slug: str
 
 
-class Custom(TypedDict):
-    pass
+class Custom(TypedDict, total=False):
+    id: str
 
 
 class CustomLoadMatch(TypedDict):
@@ -347,8 +347,8 @@ class CustomRemoveMatch(TypedDict):
     id: str
 
 
-class Legacy(TypedDict):
-    pass
+class Legacy(TypedDict, total=False):
+    id: str
 
 
 class LegacyRemoveMatch(TypedDict):
@@ -381,6 +381,7 @@ class LegacyUnknownRequired(TypedDict):
 
 
 class LegacyUnknown(LegacyUnknownRequired, total=False):
+    id: str
     support: dict
 
 
@@ -409,6 +410,7 @@ class LegacyUserRequired(TypedDict):
 
 
 class LegacyUser(LegacyUserRequired, total=False):
+    id: str
     support: dict
 
 

@@ -64,17 +64,28 @@ describe('CustomEntity', async () => {
     custom_ref01_data['path'] = setup.idmap['path01']
 
     custom_ref01_data = (await custom_ref01_ent.create(custom_ref01_data)).data()
-    assert(null != custom_ref01_data)
+    assert(null != custom_ref01_data.id)
 
 
     // UPDATE
     const custom_ref01_data_up0: any = {}
+    custom_ref01_data_up0.id = custom_ref01_data.id
 
     const custom_ref01_resdata_up0 = (await custom_ref01_ent.update(custom_ref01_data_up0)).data()
-    assert(null != custom_ref01_resdata_up0)
+    assert(custom_ref01_resdata_up0.id === custom_ref01_data_up0.id)
 
 
+    // LOAD
+    const custom_ref01_match_dt0: any = {}
+    custom_ref01_match_dt0.id = custom_ref01_data.id
+    const custom_ref01_data_dt0 = (await custom_ref01_ent.load(custom_ref01_match_dt0)).data()
+    assert(custom_ref01_data_dt0.id === custom_ref01_data.id)
 
+
+    // REMOVE
+    const custom_ref01_match_rm0: any = { id: custom_ref01_data.id }
+    await custom_ref01_ent.remove(custom_ref01_match_rm0)
+  
 
   })
 })

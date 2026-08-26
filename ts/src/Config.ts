@@ -40,7 +40,8 @@ class Config {
      test:     {
       "options": {
         "active": false
-      }
+      },
+      "transport": "base"
     },
 
   }
@@ -2072,7 +2073,12 @@ class Config {
       }
     },
     "custom": {
-      "fields": [],
+      "fields": [
+        {
+          "name": "id",
+          "type": "`$STRING`"
+        }
+      ],
       "name": "custom",
       "op": {
         "create": {
@@ -2286,7 +2292,12 @@ class Config {
       }
     },
     "legacy": {
-      "fields": [],
+      "fields": [
+        {
+          "name": "id",
+          "type": "`$STRING`"
+        }
+      ],
       "name": "legacy",
       "op": {
         "remove": {
@@ -2453,6 +2464,10 @@ class Config {
           "type": "`$OBJECT`"
         },
         {
+          "name": "id",
+          "type": "`$STRING`"
+        },
+        {
           "name": "support",
           "type": "`$OBJECT`"
         }
@@ -2583,6 +2598,10 @@ class Config {
           "name": "data",
           "req": true,
           "type": "`$OBJECT`"
+        },
+        {
+          "name": "id",
+          "type": "`$STRING`"
         },
         {
           "name": "support",

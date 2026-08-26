@@ -3,18 +3,18 @@
     "legacy_user": {
       "LEGACY_USER00": {
         "data": {},
-        "support": {},
-        "id": "LEGACY_USER00"
+        "id": "LEGACY_USER00",
+        "support": {}
       },
       "LEGACY_USER01": {
         "data": {},
-        "support": {},
-        "id": "LEGACY_USER01"
+        "id": "LEGACY_USER01",
+        "support": {}
       },
       "LEGACY_USER02": {
         "data": {},
-        "support": {},
-        "id": "LEGACY_USER02"
+        "id": "LEGACY_USER02",
+        "support": {}
       }
     }
   },

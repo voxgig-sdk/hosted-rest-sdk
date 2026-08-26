@@ -283,6 +283,7 @@ export interface CollectionRecordListListMatch {
 }
 
 export interface Custom {
+  id?: string
 }
 
 export interface CustomLoadMatch {
@@ -302,6 +303,7 @@ export interface CustomRemoveMatch {
 }
 
 export interface Legacy {
+  id?: string
 }
 
 export interface LegacyRemoveMatch {
@@ -328,6 +330,7 @@ export interface LegacyMutationUpdateData {
 
 export interface LegacyUnknown {
   data: Record<string, any>
+  id?: string
   support?: Record<string, any>
 }
 
@@ -353,6 +356,7 @@ export interface LegacyUnknownListListMatch {
 
 export interface LegacyUser {
   data: Record<string, any>
+  id?: string
   support?: Record<string, any>
 }
 

@@ -360,6 +360,7 @@ class CollectionRecordListListMatch
 /** Custom entity data model. */
 class Custom
 {
+    public ?string $id = null;
 }
 
 /** Request payload for Custom#load. */
@@ -389,6 +390,7 @@ class CustomRemoveMatch
 /** Legacy entity data model. */
 class Legacy
 {
+    public ?string $id = null;
 }
 
 /** Request payload for Legacy#remove. */
@@ -425,6 +427,7 @@ class LegacyMutationUpdateData
 class LegacyUnknown
 {
     public array $data;
+    public ?string $id = null;
     public ?array $support = null;
 }
 
@@ -458,6 +461,7 @@ class LegacyUnknownListListMatch
 class LegacyUser
 {
     public array $data;
+    public ?string $id = null;
     public ?array $support = null;
 }
 

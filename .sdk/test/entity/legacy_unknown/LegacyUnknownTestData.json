@@ -3,18 +3,18 @@
     "legacy_unknown": {
       "LEGACY_UNKNOWN00": {
         "data": {},
-        "support": {},
-        "id": "LEGACY_UNKNOWN00"
+        "id": "LEGACY_UNKNOWN00",
+        "support": {}
       },
       "LEGACY_UNKNOWN01": {
         "data": {},
-        "support": {},
-        "id": "LEGACY_UNKNOWN01"
+        "id": "LEGACY_UNKNOWN01",
+        "support": {}
       },
       "LEGACY_UNKNOWN02": {
         "data": {},
-        "support": {},
-        "id": "LEGACY_UNKNOWN02"
+        "id": "LEGACY_UNKNOWN02",
+        "support": {}
       }
     }
   },

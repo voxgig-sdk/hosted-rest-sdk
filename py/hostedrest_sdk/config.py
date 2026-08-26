@@ -37,6 +37,7 @@ def make_config():
         "options": {
           "active": False,
         },
+        "transport": "base",
       },
         },
         "options": {
@@ -2015,7 +2016,12 @@ def make_config():
         },
       },
       "custom": {
-        "fields": [],
+        "fields": [
+          {
+            "name": "id",
+            "type": "`$STRING`",
+          },
+        ],
         "name": "custom",
         "op": {
           "create": {
@@ -2229,7 +2235,12 @@ def make_config():
         },
       },
       "legacy": {
-        "fields": [],
+        "fields": [
+          {
+            "name": "id",
+            "type": "`$STRING`",
+          },
+        ],
         "name": "legacy",
         "op": {
           "remove": {
@@ -2396,6 +2407,10 @@ def make_config():
             "type": "`$OBJECT`",
           },
           {
+            "name": "id",
+            "type": "`$STRING`",
+          },
+          {
             "name": "support",
             "type": "`$OBJECT`",
           },
@@ -2526,6 +2541,10 @@ def make_config():
             "name": "data",
             "req": True,
             "type": "`$OBJECT`",
+          },
+          {
+            "name": "id",
+            "type": "`$STRING`",
           },
           {
             "name": "support",

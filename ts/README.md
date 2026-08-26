@@ -504,6 +504,7 @@ API path: `/api/collections/{slug}/records`
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 
 Operations: create, load, patch, remove, update.
 
@@ -513,6 +514,7 @@ API path: `/api/custom/{path}`
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 
 Operations: remove.
 
@@ -535,6 +537,7 @@ API path: `/api/users`
 | Field | Description |
 | --- | --- |
 | `data` |  |
+| `id` |  |
 | `support` |  |
 
 Operations: load.
@@ -560,6 +563,7 @@ API path: `/api/unknown`
 | Field | Description |
 | --- | --- |
 | `data` |  |
+| `id` |  |
 | `support` |  |
 
 Operations: load.
@@ -1030,6 +1034,12 @@ Create an instance: `const custom = client.Custom()`
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+
 #### Example: Load
 
 ```ts
@@ -1054,6 +1064,12 @@ Create an instance: `const legacy = client.Legacy()`
 | Method | Description |
 | --- | --- |
 | `remove(match)` | Remove the matching entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
 
 
 ### LegacyMutation
@@ -1098,6 +1114,7 @@ Create an instance: `const legacy_unknown = client.LegacyUnknown()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `data` | `Record<string, any>` |  |
+| `id` | `string` |  |
 | `support` | `Record<string, any>` |  |
 
 #### Example: Load
@@ -1149,6 +1166,7 @@ Create an instance: `const legacy_user = client.LegacyUser()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `data` | `Record<string, any>` |  |
+| `id` | `string` |  |
 | `support` | `Record<string, any>` |  |
 
 #### Example: Load

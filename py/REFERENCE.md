@@ -1023,6 +1023,12 @@ Return the entity name.
 custom = client.Custom()
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `str` | No |  |
+
 ### Operations
 
 #### `create(reqdata, ctrl=None) -> dict`
@@ -1096,6 +1102,12 @@ Return the entity name.
 ```python
 legacy = client.Legacy()
 ```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `str` | No |  |
 
 ### Operations
 
@@ -1212,6 +1224,7 @@ legacy_unknown = client.LegacyUnknown()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `data` | `dict` | Yes |  |
+| `id` | `str` | No |  |
 | `support` | `dict` | No |  |
 
 ### Operations
@@ -1321,6 +1334,7 @@ legacy_user = client.LegacyUser()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `data` | `dict` | Yes |  |
+| `id` | `str` | No |  |
 | `support` | `dict` | No |  |
 
 ### Operations

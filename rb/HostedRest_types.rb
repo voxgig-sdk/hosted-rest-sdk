@@ -830,8 +830,13 @@ CollectionRecordListListMatch = Struct.new(
 )
 
 # Custom entity data model.
-class Custom
-end
+#
+# @!attribute [rw] id
+#   @return [String, nil]
+Custom = Struct.new(
+  :id,
+  keyword_init: true
+)
 
 # Request payload for Custom#load.
 #
@@ -870,8 +875,13 @@ CustomRemoveMatch = Struct.new(
 )
 
 # Legacy entity data model.
-class Legacy
-end
+#
+# @!attribute [rw] id
+#   @return [String, nil]
+Legacy = Struct.new(
+  :id,
+  keyword_init: true
+)
 
 # Request payload for Legacy#remove.
 #
@@ -938,10 +948,14 @@ LegacyMutationUpdateData = Struct.new(
 # @!attribute [rw] data
 #   @return [Hash]
 #
+# @!attribute [rw] id
+#   @return [String, nil]
+#
 # @!attribute [rw] support
 #   @return [Hash, nil]
 LegacyUnknown = Struct.new(
   :data,
+  :id,
   :support,
   keyword_init: true
 )
@@ -1010,10 +1024,14 @@ LegacyUnknownListListMatch = Struct.new(
 # @!attribute [rw] data
 #   @return [Hash]
 #
+# @!attribute [rw] id
+#   @return [String, nil]
+#
 # @!attribute [rw] support
 #   @return [Hash, nil]
 LegacyUser = Struct.new(
   :data,
+  :id,
   :support,
   keyword_init: true
 )

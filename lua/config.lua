@@ -16,6 +16,7 @@ local function make_config()
         ["options"] = {
           ["active"] = false,
         },
+        ["transport"] = "base",
       },
     },
     options = {
@@ -1994,7 +1995,12 @@ local function make_config()
         },
       },
       ["custom"] = {
-        ["fields"] = {},
+        ["fields"] = {
+          {
+            ["name"] = "id",
+            ["type"] = "`$STRING`",
+          },
+        },
         ["name"] = "custom",
         ["op"] = {
           ["create"] = {
@@ -2208,7 +2214,12 @@ local function make_config()
         },
       },
       ["legacy"] = {
-        ["fields"] = {},
+        ["fields"] = {
+          {
+            ["name"] = "id",
+            ["type"] = "`$STRING`",
+          },
+        },
         ["name"] = "legacy",
         ["op"] = {
           ["remove"] = {
@@ -2375,6 +2386,10 @@ local function make_config()
             ["type"] = "`$OBJECT`",
           },
           {
+            ["name"] = "id",
+            ["type"] = "`$STRING`",
+          },
+          {
             ["name"] = "support",
             ["type"] = "`$OBJECT`",
           },
@@ -2505,6 +2520,10 @@ local function make_config()
             ["name"] = "data",
             ["req"] = true,
             ["type"] = "`$OBJECT`",
+          },
+          {
+            ["name"] = "id",
+            ["type"] = "`$STRING`",
           },
           {
             ["name"] = "support",

@@ -28,6 +28,7 @@ module HostedRestConfig
           "options" => {
             "active" => false,
           },
+          "transport" => "base",
         },
       },
       "options" => {
@@ -2006,7 +2007,12 @@ module HostedRestConfig
           },
         },
         "custom" => {
-          "fields" => [],
+          "fields" => [
+            {
+              "name" => "id",
+              "type" => "`$STRING`",
+            },
+          ],
           "name" => "custom",
           "op" => {
             "create" => {
@@ -2220,7 +2226,12 @@ module HostedRestConfig
           },
         },
         "legacy" => {
-          "fields" => [],
+          "fields" => [
+            {
+              "name" => "id",
+              "type" => "`$STRING`",
+            },
+          ],
           "name" => "legacy",
           "op" => {
             "remove" => {
@@ -2387,6 +2398,10 @@ module HostedRestConfig
               "type" => "`$OBJECT`",
             },
             {
+              "name" => "id",
+              "type" => "`$STRING`",
+            },
+            {
               "name" => "support",
               "type" => "`$OBJECT`",
             },
@@ -2517,6 +2532,10 @@ module HostedRestConfig
               "name" => "data",
               "req" => true,
               "type" => "`$OBJECT`",
+            },
+            {
+              "name" => "id",
+              "type" => "`$STRING`",
             },
             {
               "name" => "support",

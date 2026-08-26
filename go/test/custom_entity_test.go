@@ -63,9 +63,13 @@ func TestCustomEntity(t *testing.T) {
 		if customRef01Data == nil {
 			t.Fatal("expected create result to be a map")
 		}
+		if customRef01Data["id"] == nil {
+			t.Fatal("expected created entity to have an id")
+		}
 
 		// UPDATE
 		customRef01DataUp0Up := map[string]any{
+			"id": customRef01Data["id"],
 		}
 
 		customRef01ResdataUp0Result, err := customRef01Ent.Update(customRef01DataUp0Up, nil)
@@ -76,17 +80,34 @@ func TestCustomEntity(t *testing.T) {
 		if customRef01ResdataUp0 == nil {
 			t.Fatal("expected update result to be a map")
 		}
+		if customRef01ResdataUp0["id"] != customRef01DataUp0Up["id"] {
+			t.Fatal("expected update result id to match")
+		}
 
 		// LOAD
-		customRef01MatchDt0 := map[string]any{}
+		customRef01MatchDt0 := map[string]any{
+			"id": customRef01Data["id"],
+		}
 		customRef01DataDt0Loaded, err := customRef01Ent.Load(customRef01MatchDt0, nil)
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		if customRef01DataDt0Loaded == nil {
-			t.Fatal("expected load result to be non-nil")
+		customRef01DataDt0LoadResult := core.ToMapAny(entityData(customRef01DataDt0Loaded))
+		if customRef01DataDt0LoadResult == nil {
+			t.Fatal("expected load result to be a map")
+		}
+		if customRef01DataDt0LoadResult["id"] != customRef01Data["id"] {
+			t.Fatal("expected load result id to match")
 		}
 
+		// REMOVE
+		customRef01MatchRm0 := map[string]any{
+			"id": customRef01Data["id"],
+		}
+		_, err = customRef01Ent.Remove(customRef01MatchRm0, nil)
+		if err != nil {
+			t.Fatalf("remove failed: %v", err)
+		}
 
 	})
 }

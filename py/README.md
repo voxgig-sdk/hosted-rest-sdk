@@ -454,6 +454,7 @@ API path: `/api/collections/{slug}/records`
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 
 Operations: Create, Load, Patch, Remove, Update.
 
@@ -463,6 +464,7 @@ API path: `/api/custom/{path}`
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 
 Operations: Remove.
 
@@ -485,6 +487,7 @@ API path: `/api/users`
 | Field | Description |
 | --- | --- |
 | `data` |  |
+| `id` |  |
 | `support` |  |
 
 Operations: Load.
@@ -510,6 +513,7 @@ API path: `/api/unknown`
 | Field | Description |
 | --- | --- |
 | `data` |  |
+| `id` |  |
 | `support` |  |
 
 Operations: Load.
@@ -980,6 +984,12 @@ Create an instance: `custom = client.Custom()`
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `str` |  |
+
 #### Example: Load
 
 ```python
@@ -1004,6 +1014,12 @@ Create an instance: `legacy = client.Legacy()`
 | Method | Description |
 | --- | --- |
 | `remove(match)` | Remove the matching entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `str` |  |
 
 
 ### LegacyMutation
@@ -1048,6 +1064,7 @@ Create an instance: `legacy_unknown = client.LegacyUnknown()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `data` | `dict` |  |
+| `id` | `str` |  |
 | `support` | `dict` |  |
 
 #### Example: Load
@@ -1099,6 +1116,7 @@ Create an instance: `legacy_user = client.LegacyUser()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `data` | `dict` |  |
+| `id` | `str` |  |
 | `support` | `dict` |  |
 
 #### Example: Load

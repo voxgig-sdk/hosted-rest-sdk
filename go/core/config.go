@@ -20,6 +20,7 @@ func MakeConfig() map[string]any {
 				"options": map[string]any{
 					"active": false,
 				},
+				"transport": "base",
 			},
 		},
 		"options": map[string]any{
@@ -1998,7 +1999,12 @@ func MakeConfig() map[string]any {
 				},
 			},
 			"custom": map[string]any{
-				"fields": []any{},
+				"fields": []any{
+					map[string]any{
+						"name": "id",
+						"type": "`$STRING`",
+					},
+				},
 				"name": "custom",
 				"op": map[string]any{
 					"create": map[string]any{
@@ -2212,7 +2218,12 @@ func MakeConfig() map[string]any {
 				},
 			},
 			"legacy": map[string]any{
-				"fields": []any{},
+				"fields": []any{
+					map[string]any{
+						"name": "id",
+						"type": "`$STRING`",
+					},
+				},
 				"name": "legacy",
 				"op": map[string]any{
 					"remove": map[string]any{
@@ -2379,6 +2390,10 @@ func MakeConfig() map[string]any {
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
+						"name": "id",
+						"type": "`$STRING`",
+					},
+					map[string]any{
 						"name": "support",
 						"type": "`$OBJECT`",
 					},
@@ -2509,6 +2524,10 @@ func MakeConfig() map[string]any {
 						"name": "data",
 						"req": true,
 						"type": "`$OBJECT`",
+					},
+					map[string]any{
+						"name": "id",
+						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "support",

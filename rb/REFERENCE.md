@@ -1034,6 +1034,12 @@ Return the entity name.
 custom = client.Custom
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `String` | No |  |
+
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
@@ -1108,6 +1114,12 @@ Return the entity name.
 ```ruby
 legacy = client.Legacy
 ```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `String` | No |  |
 
 ### Operations
 
@@ -1226,6 +1238,7 @@ legacy_unknown = client.LegacyUnknown
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `data` | `Hash` | Yes |  |
+| `id` | `String` | No |  |
 | `support` | `Hash` | No |  |
 
 ### Operations
@@ -1335,6 +1348,7 @@ legacy_user = client.LegacyUser
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `data` | `Hash` | Yes |  |
+| `id` | `String` | No |  |
 | `support` | `Hash` | No |  |
 
 ### Operations

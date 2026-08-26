@@ -61,13 +61,19 @@ func TestLegacyUnknownEntity(t *testing.T) {
 
 		// LOAD
 		legacyUnknownRef01Ent := client.LegacyUnknown(nil)
-		legacyUnknownRef01MatchDt0 := map[string]any{}
+		legacyUnknownRef01MatchDt0 := map[string]any{
+			"id": legacyUnknownRef01Data["id"],
+		}
 		legacyUnknownRef01DataDt0Loaded, err := legacyUnknownRef01Ent.Load(legacyUnknownRef01MatchDt0, nil)
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		if legacyUnknownRef01DataDt0Loaded == nil {
-			t.Fatal("expected load result to be non-nil")
+		legacyUnknownRef01DataDt0LoadResult := core.ToMapAny(entityData(legacyUnknownRef01DataDt0Loaded))
+		if legacyUnknownRef01DataDt0LoadResult == nil {
+			t.Fatal("expected load result to be a map")
+		}
+		if legacyUnknownRef01DataDt0LoadResult["id"] != legacyUnknownRef01Data["id"] {
+			t.Fatal("expected load result id to match")
 		}
 
 	})

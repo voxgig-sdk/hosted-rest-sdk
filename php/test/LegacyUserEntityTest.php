@@ -48,9 +48,13 @@ class LegacyUserEntityTest extends TestCase
 
         // LOAD
         $legacy_user_ref01_ent = $client->LegacyUser(null);
-        $legacy_user_ref01_match_dt0 = [];
+        $legacy_user_ref01_match_dt0 = [
+            "id" => $legacy_user_ref01_data["id"],
+        ];
         $legacy_user_ref01_data_dt0_loaded = $legacy_user_ref01_ent->load($legacy_user_ref01_match_dt0, null);
-        $this->assertNotNull($legacy_user_ref01_data_dt0_loaded);
+        $legacy_user_ref01_data_dt0_load_result = Helpers::to_map(is_object($legacy_user_ref01_data_dt0_loaded) && method_exists($legacy_user_ref01_data_dt0_loaded, 'data_get') ? $legacy_user_ref01_data_dt0_loaded->data_get() : $legacy_user_ref01_data_dt0_loaded);
+        $this->assertNotNull($legacy_user_ref01_data_dt0_load_result);
+        $this->assertEquals($legacy_user_ref01_data_dt0_load_result["id"], $legacy_user_ref01_data["id"]);
 
     }
 }

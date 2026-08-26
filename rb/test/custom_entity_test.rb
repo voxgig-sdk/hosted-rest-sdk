@@ -40,20 +40,32 @@ class CustomEntityTest < Minitest::Test
     custom_ref01_data_result = custom_ref01_ent.create(custom_ref01_data, nil)
     custom_ref01_data = Helpers.to_map(custom_ref01_data_result.respond_to?(:data_get) ? custom_ref01_data_result.data_get : custom_ref01_data_result)
     assert !custom_ref01_data.nil?
+    assert !custom_ref01_data["id"].nil?
 
     # UPDATE
     custom_ref01_data_up0_up = {
+      "id" => custom_ref01_data["id"],
     }
 
     custom_ref01_resdata_up0_result = custom_ref01_ent.update(custom_ref01_data_up0_up, nil)
     custom_ref01_resdata_up0 = Helpers.to_map(custom_ref01_resdata_up0_result.respond_to?(:data_get) ? custom_ref01_resdata_up0_result.data_get : custom_ref01_resdata_up0_result)
     assert !custom_ref01_resdata_up0.nil?
+    assert_equal custom_ref01_resdata_up0["id"], custom_ref01_data_up0_up["id"]
 
     # LOAD
-    custom_ref01_match_dt0 = {}
+    custom_ref01_match_dt0 = {
+      "id" => custom_ref01_data["id"],
+    }
     custom_ref01_data_dt0_loaded = custom_ref01_ent.load(custom_ref01_match_dt0, nil)
-    assert !custom_ref01_data_dt0_loaded.nil?
+    custom_ref01_data_dt0_load_result = Helpers.to_map(custom_ref01_data_dt0_loaded.respond_to?(:data_get) ? custom_ref01_data_dt0_loaded.data_get : custom_ref01_data_dt0_loaded)
+    assert !custom_ref01_data_dt0_load_result.nil?
+    assert_equal custom_ref01_data_dt0_load_result["id"], custom_ref01_data["id"]
 
+    # REMOVE
+    custom_ref01_match_rm0 = {
+      "id" => custom_ref01_data["id"],
+    }
+    custom_ref01_ent.remove(custom_ref01_match_rm0, nil)
 
   end
 end

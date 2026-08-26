@@ -41,9 +41,13 @@ class LegacyUnknownEntityTest < Minitest::Test
 
     # LOAD
     legacy_unknown_ref01_ent = client.LegacyUnknown(nil)
-    legacy_unknown_ref01_match_dt0 = {}
+    legacy_unknown_ref01_match_dt0 = {
+      "id" => legacy_unknown_ref01_data["id"],
+    }
     legacy_unknown_ref01_data_dt0_loaded = legacy_unknown_ref01_ent.load(legacy_unknown_ref01_match_dt0, nil)
-    assert !legacy_unknown_ref01_data_dt0_loaded.nil?
+    legacy_unknown_ref01_data_dt0_load_result = Helpers.to_map(legacy_unknown_ref01_data_dt0_loaded.respond_to?(:data_get) ? legacy_unknown_ref01_data_dt0_loaded.data_get : legacy_unknown_ref01_data_dt0_loaded)
+    assert !legacy_unknown_ref01_data_dt0_load_result.nil?
+    assert_equal legacy_unknown_ref01_data_dt0_load_result["id"], legacy_unknown_ref01_data["id"]
 
   end
 end

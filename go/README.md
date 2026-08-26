@@ -471,6 +471,7 @@ API path: `/api/collections/{slug}/records`
 
 | Field | Description |
 | --- | --- |
+| `"id"` |  |
 
 Operations: Create, Load, Patch, Remove, Update.
 
@@ -480,6 +481,7 @@ API path: `/api/custom/{path}`
 
 | Field | Description |
 | --- | --- |
+| `"id"` |  |
 
 Operations: Remove.
 
@@ -502,6 +504,7 @@ API path: `/api/users`
 | Field | Description |
 | --- | --- |
 | `"data"` |  |
+| `"id"` |  |
 | `"support"` |  |
 
 Operations: Load.
@@ -527,6 +530,7 @@ API path: `/api/unknown`
 | Field | Description |
 | --- | --- |
 | `"data"` |  |
+| `"id"` |  |
 | `"support"` |  |
 
 Operations: Load.
@@ -1073,6 +1077,12 @@ Create an instance: `custom := client.Custom(nil)`
 | `Update(data, ctrl)` | Update an existing entity. |
 | `Remove(match, ctrl)` | Remove the matching entity. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+
 #### Example: Load
 
 ```go
@@ -1105,6 +1115,12 @@ Create an instance: `legacy := client.Legacy(nil)`
 | Method | Description |
 | --- | --- |
 | `Remove(match, ctrl)` | Remove the matching entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
 
 
 ### LegacyMutation
@@ -1153,6 +1169,7 @@ Create an instance: `legacyUnknown := client.LegacyUnknown(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `data` | `map[string]any` |  |
+| `id` | `string` |  |
 | `support` | `map[string]any` |  |
 
 #### Example: Load
@@ -1212,6 +1229,7 @@ Create an instance: `legacyUser := client.LegacyUser(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `data` | `map[string]any` |  |
+| `id` | `string` |  |
 | `support` | `map[string]any` |  |
 
 #### Example: Load

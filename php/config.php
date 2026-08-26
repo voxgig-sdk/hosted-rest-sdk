@@ -42,6 +42,7 @@ class HostedRestConfig
           'options' => [
             'active' => false,
           ],
+          'transport' => 'base',
         ],
             ],
             "options" => [
@@ -2020,7 +2021,12 @@ class HostedRestConfig
           ],
         ],
         'custom' => [
-          'fields' => [],
+          'fields' => [
+            [
+              'name' => 'id',
+              'type' => '`$STRING`',
+            ],
+          ],
           'name' => 'custom',
           'op' => [
             'create' => [
@@ -2234,7 +2240,12 @@ class HostedRestConfig
           ],
         ],
         'legacy' => [
-          'fields' => [],
+          'fields' => [
+            [
+              'name' => 'id',
+              'type' => '`$STRING`',
+            ],
+          ],
           'name' => 'legacy',
           'op' => [
             'remove' => [
@@ -2401,6 +2412,10 @@ class HostedRestConfig
               'type' => '`$OBJECT`',
             ],
             [
+              'name' => 'id',
+              'type' => '`$STRING`',
+            ],
+            [
               'name' => 'support',
               'type' => '`$OBJECT`',
             ],
@@ -2531,6 +2546,10 @@ class HostedRestConfig
               'name' => 'data',
               'req' => true,
               'type' => '`$OBJECT`',
+            ],
+            [
+              'name' => 'id',
+              'type' => '`$STRING`',
             ],
             [
               'name' => 'support',
