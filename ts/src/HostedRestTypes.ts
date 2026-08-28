@@ -50,6 +50,7 @@ export interface AgentUserDetail {
 
 export interface AgentUserDetailLoadMatch {
   id: string
+  expand?: string
 }
 
 export interface AgentUserList {
@@ -66,16 +67,10 @@ export interface AgentUserList {
 }
 
 export interface AgentUserListListMatch {
-  created_at?: string
-  email?: string
-  full_name?: string
-  id?: string
-  locale?: string
-  preferences?: Record<string, any>
-  profile?: Record<string, any>
-  status?: string
-  timezone?: string
-  updated_at?: string
+  cursor?: string
+  field?: string
+  limit?: number
+  seed?: number
 }
 
 export interface AppUser {
@@ -92,12 +87,7 @@ export interface AppUserLoadMatch {
 }
 
 export interface AppUserListMatch {
-  created_at?: string
-  email?: string
-  id?: string
-  last_login_at?: string
-  metadata?: Record<string, any>
-  status?: string
+  limit?: number
 }
 
 export interface AppUserCreateData {
@@ -280,6 +270,14 @@ export interface CollectionRecordList {
 
 export interface CollectionRecordListListMatch {
   slug: string
+  created_after?: string
+  created_before?: string
+  data_contain?: string
+  include_deleted?: boolean
+  limit?: number
+  order?: string
+  page?: number
+  search?: string
 }
 
 export interface Custom {
@@ -347,11 +345,8 @@ export interface LegacyUnknownList {
 }
 
 export interface LegacyUnknownListListMatch {
-  color?: string
-  id?: number
-  name?: string
-  pantone_value?: string
-  year?: number
+  page?: number
+  per_page?: number
 }
 
 export interface LegacyUser {
@@ -373,11 +368,8 @@ export interface LegacyUserList {
 }
 
 export interface LegacyUserListListMatch {
-  avatar?: string
-  email?: string
-  first_name?: string
-  id?: number
-  last_name?: string
+  page?: number
+  per_page?: number
 }
 
 export interface Login {

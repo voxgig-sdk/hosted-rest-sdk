@@ -64,6 +64,7 @@ type AgentUserDetail struct {
 // AgentUserDetailLoadMatch is the typed request payload for AgentUserDetail.LoadTyped.
 type AgentUserDetailLoadMatch struct {
 	Id string `json:"id"`
+	Expand *string `json:"expand,omitempty"`
 }
 
 // AgentUserList is the typed data model for the agent_user_list entity.
@@ -82,16 +83,10 @@ type AgentUserList struct {
 
 // AgentUserListListMatch is the typed request payload for AgentUserList.ListTyped.
 type AgentUserListListMatch struct {
-	CreatedAt *string `json:"created_at,omitempty"`
-	Email *string `json:"email,omitempty"`
-	FullName *string `json:"full_name,omitempty"`
-	Id *string `json:"id,omitempty"`
-	Locale *string `json:"locale,omitempty"`
-	Preferences *map[string]any `json:"preferences,omitempty"`
-	Profile *map[string]any `json:"profile,omitempty"`
-	Status *string `json:"status,omitempty"`
-	Timezone *string `json:"timezone,omitempty"`
-	UpdatedAt *string `json:"updated_at,omitempty"`
+	Cursor *string `json:"cursor,omitempty"`
+	Field *string `json:"field,omitempty"`
+	Limit *int `json:"limit,omitempty"`
+	Seed *int `json:"seed,omitempty"`
 }
 
 // AppUser is the typed data model for the app_user entity.
@@ -111,12 +106,7 @@ type AppUserLoadMatch struct {
 
 // AppUserListMatch is the typed request payload for AppUser.ListTyped.
 type AppUserListMatch struct {
-	CreatedAt *string `json:"created_at,omitempty"`
-	Email *string `json:"email,omitempty"`
-	Id *string `json:"id,omitempty"`
-	LastLoginAt *string `json:"last_login_at,omitempty"`
-	Metadata *map[string]any `json:"metadata,omitempty"`
-	Status *string `json:"status,omitempty"`
+	Limit *int `json:"limit,omitempty"`
 }
 
 // AppUserCreateData is the typed request payload for AppUser.CreateTyped.
@@ -318,6 +308,14 @@ type CollectionRecordList struct {
 // CollectionRecordListListMatch is the typed request payload for CollectionRecordList.ListTyped.
 type CollectionRecordListListMatch struct {
 	Slug string `json:"slug"`
+	CreatedAfter *string `json:"created_after,omitempty"`
+	CreatedBefore *string `json:"created_before,omitempty"`
+	DataContain *string `json:"data_contain,omitempty"`
+	IncludeDeleted *bool `json:"include_deleted,omitempty"`
+	Limit *int `json:"limit,omitempty"`
+	Order *string `json:"order,omitempty"`
+	Page *int `json:"page,omitempty"`
+	Search *string `json:"search,omitempty"`
 }
 
 // Custom is the typed data model for the custom entity.
@@ -399,11 +397,8 @@ type LegacyUnknownList struct {
 
 // LegacyUnknownListListMatch is the typed request payload for LegacyUnknownList.ListTyped.
 type LegacyUnknownListListMatch struct {
-	Color *string `json:"color,omitempty"`
-	Id *int `json:"id,omitempty"`
-	Name *string `json:"name,omitempty"`
-	PantoneValue *string `json:"pantone_value,omitempty"`
-	Year *int `json:"year,omitempty"`
+	Page *int `json:"page,omitempty"`
+	PerPage *int `json:"per_page,omitempty"`
 }
 
 // LegacyUser is the typed data model for the legacy_user entity.
@@ -429,11 +424,8 @@ type LegacyUserList struct {
 
 // LegacyUserListListMatch is the typed request payload for LegacyUserList.ListTyped.
 type LegacyUserListListMatch struct {
-	Avatar *string `json:"avatar,omitempty"`
-	Email *string `json:"email,omitempty"`
-	FirstName *string `json:"first_name,omitempty"`
-	Id *int `json:"id,omitempty"`
-	LastName *string `json:"last_name,omitempty"`
+	Page *int `json:"page,omitempty"`
+	PerPage *int `json:"per_page,omitempty"`
 }
 
 // Login is the typed data model for the login entity.

@@ -71,6 +71,7 @@ class AgentUserDetail
 class AgentUserDetailLoadMatch
 {
     public string $id;
+    public ?string $expand = null;
 }
 
 /** AgentUserList entity data model. */
@@ -91,16 +92,10 @@ class AgentUserList
 /** Request payload for AgentUserList#list. */
 class AgentUserListListMatch
 {
-    public ?string $created_at = null;
-    public ?string $email = null;
-    public ?string $full_name = null;
-    public ?string $id = null;
-    public ?string $locale = null;
-    public ?array $preferences = null;
-    public ?array $profile = null;
-    public ?string $status = null;
-    public ?string $timezone = null;
-    public ?string $updated_at = null;
+    public ?string $cursor = null;
+    public ?string $field = null;
+    public ?int $limit = null;
+    public ?int $seed = null;
 }
 
 /** AppUser entity data model. */
@@ -123,12 +118,7 @@ class AppUserLoadMatch
 /** Request payload for AppUser#list. */
 class AppUserListMatch
 {
-    public ?string $created_at = null;
-    public ?string $email = null;
-    public ?string $id = null;
-    public ?string $last_login_at = null;
-    public ?array $metadata = null;
-    public ?string $status = null;
+    public ?int $limit = null;
 }
 
 /** Request payload for AppUser#create. */
@@ -355,6 +345,14 @@ class CollectionRecordList
 class CollectionRecordListListMatch
 {
     public string $slug;
+    public ?string $created_after = null;
+    public ?string $created_before = null;
+    public ?string $data_contain = null;
+    public ?bool $include_deleted = null;
+    public ?int $limit = null;
+    public ?string $order = null;
+    public ?int $page = null;
+    public ?string $search = null;
 }
 
 /** Custom entity data model. */
@@ -450,11 +448,8 @@ class LegacyUnknownList
 /** Request payload for LegacyUnknownList#list. */
 class LegacyUnknownListListMatch
 {
-    public ?string $color = null;
-    public ?int $id = null;
-    public ?string $name = null;
-    public ?string $pantone_value = null;
-    public ?int $year = null;
+    public ?int $page = null;
+    public ?int $per_page = null;
 }
 
 /** LegacyUser entity data model. */
@@ -484,11 +479,8 @@ class LegacyUserList
 /** Request payload for LegacyUserList#list. */
 class LegacyUserListListMatch
 {
-    public ?string $avatar = null;
-    public ?string $email = null;
-    public ?string $first_name = null;
-    public ?int $id = null;
-    public ?string $last_name = null;
+    public ?int $page = null;
+    public ?int $per_page = null;
 }
 
 /** Login entity data model. */

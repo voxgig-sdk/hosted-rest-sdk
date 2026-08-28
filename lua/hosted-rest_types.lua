@@ -45,6 +45,7 @@
 
 ---@class AgentUserDetailLoadMatch
 ---@field id string
+---@field expand? string
 
 ---@class AgentUserList
 ---@field created_at string
@@ -59,16 +60,10 @@
 ---@field updated_at string
 
 ---@class AgentUserListListMatch
----@field created_at? string
----@field email? string
----@field full_name? string
----@field id? string
----@field locale? string
----@field preferences? table
----@field profile? table
----@field status? string
----@field timezone? string
----@field updated_at? string
+---@field cursor? string
+---@field field? string
+---@field limit? number
+---@field seed? number
 
 ---@class AppUser
 ---@field created_at? string
@@ -82,12 +77,7 @@
 ---@field id string
 
 ---@class AppUserListMatch
----@field created_at? string
----@field email? string
----@field id? string
----@field last_login_at? string
----@field metadata? table
----@field status? string
+---@field limit? number
 
 ---@class AppUserCreateData
 ---@field created_at? string
@@ -239,6 +229,14 @@
 
 ---@class CollectionRecordListListMatch
 ---@field slug string
+---@field created_after? string
+---@field created_before? string
+---@field data_contain? string
+---@field include_deleted? boolean
+---@field limit? number
+---@field order? string
+---@field page? number
+---@field search? string
 
 ---@class Custom
 ---@field id? string
@@ -292,11 +290,8 @@
 ---@field year number
 
 ---@class LegacyUnknownListListMatch
----@field color? string
----@field id? number
----@field name? string
----@field pantone_value? string
----@field year? number
+---@field page? number
+---@field per_page? number
 
 ---@class LegacyUser
 ---@field data table
@@ -314,11 +309,8 @@
 ---@field last_name string
 
 ---@class LegacyUserListListMatch
----@field avatar? string
----@field email? string
----@field first_name? string
----@field id? number
----@field last_name? string
+---@field page? number
+---@field per_page? number
 
 ---@class Login
 ---@field email string

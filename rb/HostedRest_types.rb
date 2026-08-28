@@ -142,8 +142,12 @@ AgentUserDetail = Struct.new(
 #
 # @!attribute [rw] id
 #   @return [String]
+#
+# @!attribute [rw] expand
+#   @return [String, nil]
 AgentUserDetailLoadMatch = Struct.new(
   :id,
+  :expand,
   keyword_init: true
 )
 
@@ -194,46 +198,22 @@ AgentUserList = Struct.new(
 
 # Request payload for AgentUserList#list.
 #
-# @!attribute [rw] created_at
+# @!attribute [rw] cursor
 #   @return [String, nil]
 #
-# @!attribute [rw] email
+# @!attribute [rw] field
 #   @return [String, nil]
 #
-# @!attribute [rw] full_name
-#   @return [String, nil]
+# @!attribute [rw] limit
+#   @return [Integer, nil]
 #
-# @!attribute [rw] id
-#   @return [String, nil]
-#
-# @!attribute [rw] locale
-#   @return [String, nil]
-#
-# @!attribute [rw] preferences
-#   @return [Hash, nil]
-#
-# @!attribute [rw] profile
-#   @return [Hash, nil]
-#
-# @!attribute [rw] status
-#   @return [String, nil]
-#
-# @!attribute [rw] timezone
-#   @return [String, nil]
-#
-# @!attribute [rw] updated_at
-#   @return [String, nil]
+# @!attribute [rw] seed
+#   @return [Integer, nil]
 AgentUserListListMatch = Struct.new(
-  :created_at,
-  :email,
-  :full_name,
-  :id,
-  :locale,
-  :preferences,
-  :profile,
-  :status,
-  :timezone,
-  :updated_at,
+  :cursor,
+  :field,
+  :limit,
+  :seed,
   keyword_init: true
 )
 
@@ -277,30 +257,10 @@ AppUserLoadMatch = Struct.new(
 
 # Request payload for AppUser#list.
 #
-# @!attribute [rw] created_at
-#   @return [String, nil]
-#
-# @!attribute [rw] email
-#   @return [String, nil]
-#
-# @!attribute [rw] id
-#   @return [String, nil]
-#
-# @!attribute [rw] last_login_at
-#   @return [String, nil]
-#
-# @!attribute [rw] metadata
-#   @return [Hash, nil]
-#
-# @!attribute [rw] status
-#   @return [String, nil]
+# @!attribute [rw] limit
+#   @return [Integer, nil]
 AppUserListMatch = Struct.new(
-  :created_at,
-  :email,
-  :id,
-  :last_login_at,
-  :metadata,
-  :status,
+  :limit,
   keyword_init: true
 )
 
@@ -824,8 +784,40 @@ CollectionRecordList = Struct.new(
 #
 # @!attribute [rw] slug
 #   @return [String]
+#
+# @!attribute [rw] created_after
+#   @return [String, nil]
+#
+# @!attribute [rw] created_before
+#   @return [String, nil]
+#
+# @!attribute [rw] data_contain
+#   @return [String, nil]
+#
+# @!attribute [rw] include_deleted
+#   @return [Boolean, nil]
+#
+# @!attribute [rw] limit
+#   @return [Integer, nil]
+#
+# @!attribute [rw] order
+#   @return [String, nil]
+#
+# @!attribute [rw] page
+#   @return [Integer, nil]
+#
+# @!attribute [rw] search
+#   @return [String, nil]
 CollectionRecordListListMatch = Struct.new(
   :slug,
+  :created_after,
+  :created_before,
+  :data_contain,
+  :include_deleted,
+  :limit,
+  :order,
+  :page,
+  :search,
   keyword_init: true
 )
 
@@ -996,26 +988,14 @@ LegacyUnknownList = Struct.new(
 
 # Request payload for LegacyUnknownList#list.
 #
-# @!attribute [rw] color
-#   @return [String, nil]
-#
-# @!attribute [rw] id
+# @!attribute [rw] page
 #   @return [Integer, nil]
 #
-# @!attribute [rw] name
-#   @return [String, nil]
-#
-# @!attribute [rw] pantone_value
-#   @return [String, nil]
-#
-# @!attribute [rw] year
+# @!attribute [rw] per_page
 #   @return [Integer, nil]
 LegacyUnknownListListMatch = Struct.new(
-  :color,
-  :id,
-  :name,
-  :pantone_value,
-  :year,
+  :page,
+  :per_page,
   keyword_init: true
 )
 
@@ -1072,26 +1052,14 @@ LegacyUserList = Struct.new(
 
 # Request payload for LegacyUserList#list.
 #
-# @!attribute [rw] avatar
-#   @return [String, nil]
-#
-# @!attribute [rw] email
-#   @return [String, nil]
-#
-# @!attribute [rw] first_name
-#   @return [String, nil]
-#
-# @!attribute [rw] id
+# @!attribute [rw] page
 #   @return [Integer, nil]
 #
-# @!attribute [rw] last_name
-#   @return [String, nil]
+# @!attribute [rw] per_page
+#   @return [Integer, nil]
 LegacyUserListListMatch = Struct.new(
-  :avatar,
-  :email,
-  :first_name,
-  :id,
-  :last_name,
+  :page,
+  :per_page,
   keyword_init: true
 )
 

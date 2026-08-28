@@ -59,8 +59,12 @@ class AgentUserDetail(TypedDict):
     updated_at: str
 
 
-class AgentUserDetailLoadMatch(TypedDict):
+class AgentUserDetailLoadMatchRequired(TypedDict):
     id: str
+
+
+class AgentUserDetailLoadMatch(AgentUserDetailLoadMatchRequired, total=False):
+    expand: str
 
 
 class AgentUserList(TypedDict):
@@ -77,16 +81,10 @@ class AgentUserList(TypedDict):
 
 
 class AgentUserListListMatch(TypedDict, total=False):
-    created_at: str
-    email: str
-    full_name: str
-    id: str
-    locale: str
-    preferences: dict
-    profile: dict
-    status: str
-    timezone: str
-    updated_at: str
+    cursor: str
+    field: str
+    limit: int
+    seed: int
 
 
 class AppUserRequired(TypedDict):
@@ -106,12 +104,7 @@ class AppUserLoadMatch(TypedDict):
 
 
 class AppUserListMatch(TypedDict, total=False):
-    created_at: str
-    email: str
-    id: str
-    last_login_at: str
-    metadata: dict
-    status: str
+    limit: int
 
 
 class AppUserCreateDataRequired(TypedDict):
@@ -323,8 +316,19 @@ class CollectionRecordList(CollectionRecordListRequired, total=False):
     updated_at: str
 
 
-class CollectionRecordListListMatch(TypedDict):
+class CollectionRecordListListMatchRequired(TypedDict):
     slug: str
+
+
+class CollectionRecordListListMatch(CollectionRecordListListMatchRequired, total=False):
+    created_after: str
+    created_before: str
+    data_contain: str
+    include_deleted: bool
+    limit: int
+    order: str
+    page: int
+    search: str
 
 
 class Custom(TypedDict, total=False):
@@ -398,11 +402,8 @@ class LegacyUnknownList(TypedDict):
 
 
 class LegacyUnknownListListMatch(TypedDict, total=False):
-    color: str
-    id: int
-    name: str
-    pantone_value: str
-    year: int
+    page: int
+    per_page: int
 
 
 class LegacyUserRequired(TypedDict):
@@ -427,11 +428,8 @@ class LegacyUserList(TypedDict):
 
 
 class LegacyUserListListMatch(TypedDict, total=False):
-    avatar: str
-    email: str
-    first_name: str
-    id: int
-    last_name: str
+    page: int
+    per_page: int
 
 
 class Login(TypedDict):
