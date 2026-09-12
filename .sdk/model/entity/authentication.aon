@@ -12,9 +12,13 @@ main: kit: entity: authentication: {
         {
           method: "POST"
           orig: "/api/logout"
-          parts: [
-            "api"
-            "logout"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "logout"
+            }
           ]
           transform: {
             req: "`reqdata`"

@@ -61,15 +61,17 @@ def app_user_session_direct_setup(mockres)
   env = Runner.env_override({
     "HOSTED_REST_TEST_APP_USER_SESSION_ENTID" => {},
     "HOSTED_REST_TEST_LIVE" => "FALSE",
-    "HOSTED_REST_APIKEY" => "NONE",
+    "HOSTED_REST_APIKEY" => "",
   })
 
   live = env["HOSTED_REST_TEST_LIVE"] == "TRUE"
 
   if live
-    merged_opts = {
+    # Merged so the generated fields win: sdk-test-control.json's
+    # test.client.options adds to the live client, it does not redirect it.
+    merged_opts = Runner.live_client_options.merge({
       "apikey" => env["HOSTED_REST_APIKEY"],
-    }
+    })
     client = HostedRestSDK.new(merged_opts)
     return {
       client: client,

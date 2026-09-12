@@ -11,6 +11,7 @@ main: kit: entity: legacy_user_list: {
       type: "`$STRING`"
     }
     {
+      format: "email"
       name: "email"
       req: true
       type: "`$STRING`"
@@ -64,9 +65,13 @@ main: kit: entity: legacy_user_list: {
           }
           method: "GET"
           orig: "/api/users"
-          parts: [
-            "api"
-            "users"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "users"
+            }
           ]
           select: {
             exist: [

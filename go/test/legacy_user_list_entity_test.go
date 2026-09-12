@@ -98,7 +98,7 @@ func TestLegacyUserListEntity(t *testing.T) {
 		client := setup.client
 
 		// Bootstrap entity data from existing test data (no create step in flow).
-		legacyUserListRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath("existing.legacy_user_list", setup.data)))
+		legacyUserListRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.legacy_user_list")))
 		var legacyUserListRef01Data map[string]any
 		if len(legacyUserListRef01DataRaw) > 0 {
 			legacyUserListRef01Data = core.ToMapAny(legacyUserListRef01DataRaw[0][1])
@@ -147,7 +147,7 @@ func legacy_user_listBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"legacy_user_list01", "legacy_user_list02", "legacy_user_list03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -167,7 +167,7 @@ func legacy_user_listBasicSetup(extra map[string]any) *entityTestSetup {
 		"HOSTED_REST_TEST_LEGACY_USER_LIST_ENTID": idmap,
 		"HOSTED_REST_TEST_LIVE":      "FALSE",
 		"HOSTED_REST_TEST_EXPLAIN":   "FALSE",
-		"HOSTED_REST_APIKEY":         "NONE",
+		"HOSTED_REST_APIKEY":         "",
 	})
 
 	idmapResolved := core.ToMapAny(env["HOSTED_REST_TEST_LEGACY_USER_LIST_ENTID"])
@@ -176,11 +176,23 @@ func legacy_user_listBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["HOSTED_REST_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 				"apikey": env["HOSTED_REST_APIKEY"],
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewHostedRestSDK(core.ToMapAny(mergedOpts))
 	}

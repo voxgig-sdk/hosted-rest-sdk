@@ -75,10 +75,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/agent/v1/health",
-                  "parts": [
-                    "agent",
-                    "v1",
-                    "health"
+                  "segments": [
+                    {
+                      "lit": "agent"
+                    },
+                    {
+                      "lit": "v1"
+                    },
+                    {
+                      "lit": "health"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -101,6 +107,7 @@
           "fields": [
             {
               "active": true,
+              "format": "email",
               "name": "email",
               "req": true,
               "type": "`$STRING`"
@@ -124,11 +131,19 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/agent/v1/auth/login",
-                  "parts": [
-                    "agent",
-                    "v1",
-                    "auth",
-                    "login"
+                  "segments": [
+                    {
+                      "lit": "agent"
+                    },
+                    {
+                      "lit": "v1"
+                    },
+                    {
+                      "lit": "auth"
+                    },
+                    {
+                      "lit": "login"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -185,10 +200,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/agent/v1/orders",
-                  "parts": [
-                    "agent",
-                    "v1",
-                    "orders"
+                  "segments": [
+                    {
+                      "lit": "agent"
+                    },
+                    {
+                      "lit": "v1"
+                    },
+                    {
+                      "lit": "orders"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -220,11 +241,19 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/agent/v1/scenarios/{scenario}",
-                  "parts": [
-                    "agent",
-                    "v1",
-                    "scenarios",
-                    "{scenario}"
+                  "segments": [
+                    {
+                      "lit": "agent"
+                    },
+                    {
+                      "lit": "v1"
+                    },
+                    {
+                      "lit": "scenarios"
+                    },
+                    {
+                      "var": "scenario"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -242,10 +271,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/agent/v1/scenarios",
-                  "parts": [
-                    "agent",
-                    "v1",
-                    "scenarios"
+                  "segments": [
+                    {
+                      "lit": "agent"
+                    },
+                    {
+                      "lit": "v1"
+                    },
+                    {
+                      "lit": "scenarios"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -272,12 +307,14 @@
           "fields": [
             {
               "active": true,
+              "format": "date-time",
               "name": "created_at",
               "req": true,
               "type": "`$STRING`"
             },
             {
               "active": true,
+              "format": "email",
               "name": "email",
               "req": true,
               "type": "`$STRING`"
@@ -326,6 +363,7 @@
             },
             {
               "active": true,
+              "format": "date-time",
               "name": "updated_at",
               "req": true,
               "type": "`$STRING`"
@@ -368,11 +406,19 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/agent/v1/users/{id}",
-                  "parts": [
-                    "agent",
-                    "v1",
-                    "users",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "agent"
+                    },
+                    {
+                      "lit": "v1"
+                    },
+                    {
+                      "lit": "users"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -400,12 +446,14 @@
           "fields": [
             {
               "active": true,
+              "format": "date-time",
               "name": "created_at",
               "req": true,
               "type": "`$STRING`"
             },
             {
               "active": true,
+              "format": "email",
               "name": "email",
               "req": true,
               "type": "`$STRING`"
@@ -454,6 +502,7 @@
             },
             {
               "active": true,
+              "format": "date-time",
               "name": "updated_at",
               "req": true,
               "type": "`$STRING`"
@@ -512,10 +561,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/agent/v1/users",
-                  "parts": [
-                    "agent",
-                    "v1",
-                    "users"
+                  "segments": [
+                    {
+                      "lit": "agent"
+                    },
+                    {
+                      "lit": "v1"
+                    },
+                    {
+                      "lit": "users"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -545,12 +600,14 @@
           "fields": [
             {
               "active": true,
+              "format": "date-time",
               "name": "created_at",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
+              "format": "email",
               "name": "email",
               "op": {
                 "update": {
@@ -569,6 +626,7 @@
             },
             {
               "active": true,
+              "format": "date-time",
               "name": "last_login_at",
               "req": false,
               "type": "`$STRING`"
@@ -613,12 +671,22 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/api/app-users/{id}/sessions/simulate",
-                  "parts": [
-                    "api",
-                    "app-users",
-                    "{id}",
-                    "sessions",
-                    "simulate"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "app-users"
+                    },
+                    {
+                      "var": "id"
+                    },
+                    {
+                      "lit": "sessions"
+                    },
+                    {
+                      "lit": "simulate"
+                    }
                   ],
                   "select": {
                     "$action": "session_simulate",
@@ -637,9 +705,13 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/api/app-users",
-                  "parts": [
-                    "api",
-                    "app-users"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "app-users"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -690,17 +762,25 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/api/projects/{projectId}/app-users",
-                  "parts": [
-                    "api",
-                    "projects",
-                    "{project_id}",
-                    "app-users"
-                  ],
                   "rename": {
                     "param": {
                       "projectId": "project_id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "projects"
+                    },
+                    {
+                      "var": "project_id"
+                    },
+                    {
+                      "lit": "app-users"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "project_id",
@@ -740,9 +820,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/api/app-users",
-                  "parts": [
-                    "api",
-                    "app-users"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "app-users"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -778,10 +862,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/api/app-users/{id}",
-                  "parts": [
-                    "api",
-                    "app-users",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "app-users"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -824,19 +914,29 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/app/collections/{slug}/records/{recordId}",
-                  "parts": [
-                    "app",
-                    "collections",
-                    "{collection_id}",
-                    "records",
-                    "{record_id}"
-                  ],
                   "rename": {
                     "param": {
                       "recordId": "record_id",
                       "slug": "collection_id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "app"
+                    },
+                    {
+                      "lit": "collections"
+                    },
+                    {
+                      "var": "collection_id"
+                    },
+                    {
+                      "lit": "records"
+                    },
+                    {
+                      "var": "record_id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "collection_id",
@@ -865,10 +965,16 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/api/app-users/{id}",
-                  "parts": [
-                    "api",
-                    "app-users",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "app-users"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -903,10 +1009,16 @@
                   "kind": "http",
                   "method": "PUT",
                   "orig": "/api/app-users/{id}",
-                  "parts": [
-                    "api",
-                    "app-users",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "app-users"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -941,6 +1053,7 @@
           "fields": [
             {
               "active": true,
+              "format": "email",
               "name": "email",
               "req": true,
               "type": "`$STRING`"
@@ -975,10 +1088,16 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/api/app-users/login",
-                  "parts": [
-                    "api",
-                    "app-users",
-                    "login"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "app-users"
+                    },
+                    {
+                      "lit": "login"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -1011,10 +1130,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/api/app-users/me",
-                  "parts": [
-                    "api",
-                    "app-users",
-                    "me"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "app-users"
+                    },
+                    {
+                      "lit": "me"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -1028,9 +1153,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/app/me",
-                  "parts": [
-                    "app",
-                    "me"
+                  "segments": [
+                    {
+                      "lit": "app"
+                    },
+                    {
+                      "lit": "me"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -1091,18 +1220,28 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/api/projects/{projectId}/app-users/total",
-                  "parts": [
-                    "api",
-                    "projects",
-                    "{project_id}",
-                    "app-users",
-                    "total"
-                  ],
                   "rename": {
                     "param": {
                       "projectId": "project_id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "projects"
+                    },
+                    {
+                      "var": "project_id"
+                    },
+                    {
+                      "lit": "app-users"
+                    },
+                    {
+                      "lit": "total"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "project_id",
@@ -1150,10 +1289,16 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/api/app-users/verify",
-                  "parts": [
-                    "api",
-                    "app-users",
-                    "verify"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "app-users"
+                    },
+                    {
+                      "lit": "verify"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -1186,9 +1331,13 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/api/logout",
-                  "parts": [
-                    "api",
-                    "logout"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "logout"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -1211,6 +1360,7 @@
           "fields": [
             {
               "active": true,
+              "format": "date-time",
               "name": "created_at",
               "req": false,
               "type": "`$STRING`"
@@ -1263,6 +1413,7 @@
             },
             {
               "active": true,
+              "format": "date-time",
               "name": "updated_at",
               "req": false,
               "type": "`$STRING`"
@@ -1307,9 +1458,13 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/api/collections",
-                  "parts": [
-                    "api",
-                    "collections"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "collections"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1344,9 +1499,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/api/collections",
-                  "parts": [
-                    "api",
-                    "collections"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "collections"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1364,9 +1523,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/app/collections",
-                  "parts": [
-                    "app",
-                    "collections"
+                  "segments": [
+                    {
+                      "lit": "app"
+                    },
+                    {
+                      "lit": "collections"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -1407,16 +1570,22 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/api/collections/{slug}",
-                  "parts": [
-                    "api",
-                    "collections",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "slug": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "collections"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id",
@@ -1445,16 +1614,22 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/app/collections/{slug}",
-                  "parts": [
-                    "app",
-                    "collections",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "slug": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "app"
+                    },
+                    {
+                      "lit": "collections"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id"
@@ -1506,19 +1681,29 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/api/collections/{slug}/records/{recordId}",
-                  "parts": [
-                    "api",
-                    "collections",
-                    "{collection_id}",
-                    "records",
-                    "{record_id}"
-                  ],
                   "rename": {
                     "param": {
                       "recordId": "record_id",
                       "slug": "collection_id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "collections"
+                    },
+                    {
+                      "var": "collection_id"
+                    },
+                    {
+                      "lit": "records"
+                    },
+                    {
+                      "var": "record_id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "collection_id",
@@ -1558,16 +1743,22 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/api/collections/{slug}",
-                  "parts": [
-                    "api",
-                    "collections",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "slug": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "collections"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id",
@@ -1612,16 +1803,22 @@
                   "kind": "http",
                   "method": "PUT",
                   "orig": "/api/collections/{slug}",
-                  "parts": [
-                    "api",
-                    "collections",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "slug": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "collections"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id",
@@ -1665,6 +1862,7 @@
             },
             {
               "active": true,
+              "format": "date-time",
               "name": "created_at",
               "req": false,
               "type": "`$STRING`"
@@ -1683,6 +1881,7 @@
             },
             {
               "active": true,
+              "format": "date-time",
               "name": "deleted_at",
               "req": false,
               "type": "`$STRING`"
@@ -1701,6 +1900,7 @@
             },
             {
               "active": true,
+              "format": "date-time",
               "name": "updated_at",
               "req": false,
               "type": "`$STRING`"
@@ -1743,11 +1943,19 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/api/collections/{slug}/records",
-                  "parts": [
-                    "api",
-                    "collections",
-                    "{slug}",
-                    "records"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "collections"
+                    },
+                    {
+                      "var": "slug"
+                    },
+                    {
+                      "lit": "records"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1777,11 +1985,19 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/app/collections/{slug}/records",
-                  "parts": [
-                    "app",
-                    "collections",
-                    "{slug}",
-                    "records"
+                  "segments": [
+                    {
+                      "lit": "app"
+                    },
+                    {
+                      "lit": "collections"
+                    },
+                    {
+                      "var": "slug"
+                    },
+                    {
+                      "lit": "records"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1834,19 +2050,29 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/api/collections/{slug}/records/{recordId}",
-                  "parts": [
-                    "api",
-                    "collections",
-                    "{collection_id}",
-                    "records",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "recordId": "id",
                       "slug": "collection_id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "collections"
+                    },
+                    {
+                      "var": "collection_id"
+                    },
+                    {
+                      "lit": "records"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "collection_id",
@@ -1884,19 +2110,29 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/app/collections/{slug}/records/{recordId}",
-                  "parts": [
-                    "app",
-                    "collections",
-                    "{collection_id}",
-                    "records",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "recordId": "id",
                       "slug": "collection_id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "app"
+                    },
+                    {
+                      "lit": "collections"
+                    },
+                    {
+                      "var": "collection_id"
+                    },
+                    {
+                      "lit": "records"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "collection_id",
@@ -1949,19 +2185,29 @@
                   "kind": "http",
                   "method": "PUT",
                   "orig": "/api/collections/{slug}/records/{recordId}",
-                  "parts": [
-                    "api",
-                    "collections",
-                    "{collection_id}",
-                    "records",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "recordId": "id",
                       "slug": "collection_id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "collections"
+                    },
+                    {
+                      "var": "collection_id"
+                    },
+                    {
+                      "lit": "records"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "collection_id",
@@ -1999,19 +2245,29 @@
                   "kind": "http",
                   "method": "PUT",
                   "orig": "/app/collections/{slug}/records/{recordId}",
-                  "parts": [
-                    "app",
-                    "collections",
-                    "{collection_id}",
-                    "records",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "recordId": "id",
                       "slug": "collection_id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "app"
+                    },
+                    {
+                      "lit": "collections"
+                    },
+                    {
+                      "var": "collection_id"
+                    },
+                    {
+                      "lit": "records"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "collection_id",
@@ -2054,6 +2310,7 @@
             },
             {
               "active": true,
+              "format": "date-time",
               "name": "created_at",
               "req": false,
               "type": "`$STRING`"
@@ -2072,6 +2329,7 @@
             },
             {
               "active": true,
+              "format": "date-time",
               "name": "deleted_at",
               "req": false,
               "type": "`$STRING`"
@@ -2090,6 +2348,7 @@
             },
             {
               "active": true,
+              "format": "date-time",
               "name": "updated_at",
               "req": false,
               "type": "`$STRING`"
@@ -2198,11 +2457,19 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/api/collections/{slug}/records",
-                  "parts": [
-                    "api",
-                    "collections",
-                    "{slug}",
-                    "records"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "collections"
+                    },
+                    {
+                      "var": "slug"
+                    },
+                    {
+                      "lit": "records"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2240,11 +2507,19 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/app/collections/{slug}/records",
-                  "parts": [
-                    "app",
-                    "collections",
-                    "{slug}",
-                    "records"
+                  "segments": [
+                    {
+                      "lit": "app"
+                    },
+                    {
+                      "lit": "collections"
+                    },
+                    {
+                      "var": "slug"
+                    },
+                    {
+                      "lit": "records"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2307,16 +2582,22 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/api/custom/{path}",
-                  "parts": [
-                    "api",
-                    "custom",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "path": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "custom"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id"
@@ -2350,16 +2631,22 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/api/custom/{path}",
-                  "parts": [
-                    "api",
-                    "custom",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "path": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "custom"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id"
@@ -2393,16 +2680,22 @@
                   "kind": "http",
                   "method": "PATCH",
                   "orig": "/api/custom/{path}",
-                  "parts": [
-                    "api",
-                    "custom",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "path": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "custom"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id"
@@ -2436,16 +2729,22 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/api/custom/{path}",
-                  "parts": [
-                    "api",
-                    "custom",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "path": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "custom"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id"
@@ -2479,16 +2778,22 @@
                   "kind": "http",
                   "method": "PUT",
                   "orig": "/api/custom/{path}",
-                  "parts": [
-                    "api",
-                    "custom",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "path": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "custom"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id"
@@ -2546,10 +2851,16 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/api/users/{id}",
-                  "parts": [
-                    "api",
-                    "users",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "users"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2576,6 +2887,7 @@
           "fields": [
             {
               "active": true,
+              "format": "date-time",
               "name": "createdAt",
               "req": false,
               "type": "`$STRING`"
@@ -2588,6 +2900,7 @@
             },
             {
               "active": true,
+              "format": "date-time",
               "name": "updatedAt",
               "req": false,
               "type": "`$STRING`"
@@ -2609,9 +2922,13 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/api/users",
-                  "parts": [
-                    "api",
-                    "users"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "users"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -2642,10 +2959,16 @@
                   "kind": "http",
                   "method": "PATCH",
                   "orig": "/api/users/{id}",
-                  "parts": [
-                    "api",
-                    "users",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "users"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2680,10 +3003,16 @@
                   "kind": "http",
                   "method": "PUT",
                   "orig": "/api/users/{id}",
-                  "parts": [
-                    "api",
-                    "users",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "users"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2754,10 +3083,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/api/unknown/{id}",
-                  "parts": [
-                    "api",
-                    "unknown",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "unknown"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2849,9 +3184,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/api/unknown",
-                  "parts": [
-                    "api",
-                    "unknown"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "unknown"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2923,10 +3262,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/api/users/{id}",
-                  "parts": [
-                    "api",
-                    "users",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "users"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2959,6 +3304,7 @@
             },
             {
               "active": true,
+              "format": "email",
               "name": "email",
               "req": true,
               "type": "`$STRING`"
@@ -3018,9 +3364,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/api/users",
-                  "parts": [
-                    "api",
-                    "users"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "users"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -3048,6 +3398,7 @@
           "fields": [
             {
               "active": true,
+              "format": "email",
               "name": "email",
               "req": true,
               "type": "`$STRING`"
@@ -3077,9 +3428,13 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/api/login",
-                  "parts": [
-                    "api",
-                    "login"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "login"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -3102,6 +3457,7 @@
           "fields": [
             {
               "active": true,
+              "format": "email",
               "name": "email",
               "req": true,
               "type": "`$STRING`"
@@ -3141,9 +3497,13 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/api/register",
-                  "parts": [
-                    "api",
-                    "register"
+                  "segments": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "register"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -3223,8 +3583,11 @@
             }
           },
           "name": "test",
+          "needs": {},
           "origname": "",
           "package": "@voxgig/sdkgen",
+          "plugin": {},
+          "spec": {},
           "target": {
             "go": {
               "deps": {}
@@ -4201,6 +4564,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -4226,6 +4592,10 @@
             "version": "0.0.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/runner_test.go",
+            "test/struct_runner_test.go"
+          ],
           "title": "Golang"
         },
         "go-cli": {
@@ -4277,6 +4647,7 @@
               "active": false
             }
           },
+          "provides": {},
           "publish": {
             "registry": {
               "active": false,
@@ -4301,6 +4672,7 @@
             },
             "version": "0.0.1"
           },
+          "superseded": [],
           "title": "Go CLI"
         },
         "go-mcp": {
@@ -4352,6 +4724,7 @@
               "active": false
             }
           },
+          "provides": {},
           "publish": {
             "registry": {
               "active": false,
@@ -4376,6 +4749,7 @@
             },
             "version": "0.0.1"
           },
+          "superseded": [],
           "title": "Go MCP server"
         },
         "lua": {
@@ -4416,6 +4790,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -4441,6 +4818,9 @@
             "version": "0.0.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.lua"
+          ],
           "title": "Lua"
         },
         "php": {
@@ -4475,6 +4855,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -4500,6 +4883,9 @@
             "version": "0.0.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/StructRunner.php"
+          ],
           "title": "PHP"
         },
         "py": {
@@ -4540,6 +4926,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -4565,6 +4954,9 @@
             "version": "0.0.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.py"
+          ],
           "title": "Python"
         },
         "rb": {
@@ -4610,6 +5002,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -4635,6 +5030,9 @@
             "version": "0.0.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.rb"
+          ],
           "title": "Ruby"
         },
         "ts": {
@@ -4652,11 +5050,6 @@
               "active": true,
               "kind": "dev",
               "version": "^25.6.0"
-            },
-            "dotenv": {
-              "active": true,
-              "kind": "dev",
-              "version": "^17.4.2"
             },
             "typescript": {
               "active": true,
@@ -4685,6 +5078,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -4709,6 +5105,14 @@
             },
             "version": "0.0.1"
           },
+          "superseded": [
+            "test/runner.ts",
+            "test/vendor/omni/compat.ts",
+            "src/feature/secrets/sekreto/Providers.ts",
+            "src/feature/secrets/sekreto/Sigv4.ts",
+            "src/feature/secrets/sekreto/provider/Registry.ts",
+            "src/feature/secrets/sekreto/provider/http.ts"
+          ],
           "title": "TypeScript"
         }
       },

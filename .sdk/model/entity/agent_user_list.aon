@@ -6,11 +6,13 @@ main: kit: entity: agent_user_list: {
 
   fields: [
     {
+      format: "date-time"
       name: "created_at"
       req: true
       type: "`$STRING`"
     }
     {
+      format: "email"
       name: "email"
       req: true
       type: "`$STRING`"
@@ -51,6 +53,7 @@ main: kit: entity: agent_user_list: {
       type: "`$STRING`"
     }
     {
+      format: "date-time"
       name: "updated_at"
       req: true
       type: "`$STRING`"
@@ -104,10 +107,16 @@ main: kit: entity: agent_user_list: {
           }
           method: "GET"
           orig: "/agent/v1/users"
-          parts: [
-            "agent"
-            "v1"
-            "users"
+          segments: [
+            {
+              lit: "agent"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "users"
+            }
           ]
           select: {
             exist: [

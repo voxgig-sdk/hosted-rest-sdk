@@ -52,7 +52,7 @@ func TestAppUserVerifyEntity(t *testing.T) {
 		// CREATE
 		appUserVerifyRef01Ent := client.AppUserVerify(nil)
 		appUserVerifyRef01Data := core.ToMapAny(vs.GetProp(
-			vs.GetPath([]any{"new", "app_user_verify"}, setup.data), "app_user_verify_ref01"))
+			vs.GetPath(setup.data, []any{"new", "app_user_verify"}), "app_user_verify_ref01"))
 
 		appUserVerifyRef01DataResult, err := appUserVerifyRef01Ent.Create(appUserVerifyRef01Data, nil)
 		if err != nil {
@@ -90,7 +90,7 @@ func app_user_verifyBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"app_user_verify01", "app_user_verify02", "app_user_verify03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -110,7 +110,7 @@ func app_user_verifyBasicSetup(extra map[string]any) *entityTestSetup {
 		"HOSTED_REST_TEST_APP_USER_VERIFY_ENTID": idmap,
 		"HOSTED_REST_TEST_LIVE":      "FALSE",
 		"HOSTED_REST_TEST_EXPLAIN":   "FALSE",
-		"HOSTED_REST_APIKEY":         "NONE",
+		"HOSTED_REST_APIKEY":         "",
 	})
 
 	idmapResolved := core.ToMapAny(env["HOSTED_REST_TEST_APP_USER_VERIFY_ENTID"])
@@ -119,11 +119,23 @@ func app_user_verifyBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["HOSTED_REST_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 				"apikey": env["HOSTED_REST_APIKEY"],
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewHostedRestSDK(core.ToMapAny(mergedOpts))
 	}

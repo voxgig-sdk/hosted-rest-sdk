@@ -16,6 +16,7 @@ main: kit: entity: collection_record_list: {
       type: "`$STRING`"
     }
     {
+      format: "date-time"
       name: "created_at"
       req: false
       type: "`$STRING`"
@@ -31,6 +32,7 @@ main: kit: entity: collection_record_list: {
       type: "`$OBJECT`"
     }
     {
+      format: "date-time"
       name: "deleted_at"
       req: false
       type: "`$STRING`"
@@ -46,6 +48,7 @@ main: kit: entity: collection_record_list: {
       type: "`$STRING`"
     }
     {
+      format: "date-time"
       name: "updated_at"
       req: false
       type: "`$STRING`"
@@ -143,11 +146,19 @@ main: kit: entity: collection_record_list: {
           }
           method: "GET"
           orig: "/api/collections/{slug}/records"
-          parts: [
-            "api"
-            "collections"
-            "{slug}"
-            "records"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "collections"
+            }
+            {
+              var: "slug"
+            }
+            {
+              lit: "records"
+            }
           ]
           select: {
             exist: [
@@ -182,11 +193,19 @@ main: kit: entity: collection_record_list: {
           }
           method: "GET"
           orig: "/app/collections/{slug}/records"
-          parts: [
-            "app"
-            "collections"
-            "{slug}"
-            "records"
+          segments: [
+            {
+              lit: "app"
+            }
+            {
+              lit: "collections"
+            }
+            {
+              var: "slug"
+            }
+            {
+              lit: "records"
+            }
           ]
           select: {
             exist: [

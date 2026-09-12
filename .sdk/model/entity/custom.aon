@@ -36,16 +36,22 @@ main: kit: entity: custom: {
           }
           method: "POST"
           orig: "/api/custom/{path}"
-          parts: [
-            "api"
-            "custom"
-            "{id}"
-          ]
           rename: {
             param: {
               path: "id"
             }
           }
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "custom"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"
@@ -75,16 +81,22 @@ main: kit: entity: custom: {
           }
           method: "GET"
           orig: "/api/custom/{path}"
-          parts: [
-            "api"
-            "custom"
-            "{id}"
-          ]
           rename: {
             param: {
               path: "id"
             }
           }
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "custom"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"
@@ -114,16 +126,22 @@ main: kit: entity: custom: {
           }
           method: "PATCH"
           orig: "/api/custom/{path}"
-          parts: [
-            "api"
-            "custom"
-            "{id}"
-          ]
           rename: {
             param: {
               path: "id"
             }
           }
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "custom"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"
@@ -153,16 +171,22 @@ main: kit: entity: custom: {
           }
           method: "DELETE"
           orig: "/api/custom/{path}"
-          parts: [
-            "api"
-            "custom"
-            "{id}"
-          ]
           rename: {
             param: {
               path: "id"
             }
           }
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "custom"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"
@@ -192,16 +216,22 @@ main: kit: entity: custom: {
           }
           method: "PUT"
           orig: "/api/custom/{path}"
-          parts: [
-            "api"
-            "custom"
-            "{id}"
-          ]
           rename: {
             param: {
               path: "id"
             }
           }
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "custom"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"

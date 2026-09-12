@@ -36,10 +36,16 @@ main: kit: entity: legacy: {
           }
           method: "DELETE"
           orig: "/api/users/{id}"
-          parts: [
-            "api"
-            "users"
-            "{id}"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "users"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [

@@ -20,10 +20,16 @@ main: kit: entity: app_user_verify: {
         {
           method: "POST"
           orig: "/api/app-users/verify"
-          parts: [
-            "api"
-            "app-users"
-            "verify"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "app-users"
+            }
+            {
+              lit: "verify"
+            }
           ]
           transform: {
             req: "`reqdata`"

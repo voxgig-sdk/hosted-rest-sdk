@@ -10,6 +10,17 @@ const FEATURE_CLASS: Record<string, typeof BaseFeature> = {
 }
 
 
+// Per-feature plugin DEFINITIONS (voxgig/plugin `Definition` values), from
+// the model's active plugin groups. A feature that takes a `plugins` option
+// (secrets over sekreto) reads its own entry; a feature with no plugins has
+// none. Named imports above make each definition statically reachable, so
+// an SDK carries exactly the plugin modules its model selects — the same
+// leanness the old side-effect registry imports bought, without a registry.
+const FEATURE_PLUGINS: Record<string, any[]> = {
+  
+}
+
+
 class Config {
 
   makeFeature(this: any, fn: string) {
@@ -170,16 +181,27 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/agent/v1/health",
-              "parts": [
-                "agent",
-                "v1",
-                "health"
+              "segments": [
+                {
+                  "lit": "agent"
+                },
+                {
+                  "lit": "v1"
+                },
+                {
+                  "lit": "health"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "agent",
+                "v1",
+                "health"
+              ]
             }
           ]
         }
@@ -191,6 +213,7 @@ class Config {
     "agent_sandbox": {
       "fields": [
         {
+          "format": "email",
           "name": "email",
           "req": true,
           "type": "`$STRING`"
@@ -212,17 +235,31 @@ class Config {
               "kind": "http",
               "method": "POST",
               "orig": "/agent/v1/auth/login",
-              "parts": [
-                "agent",
-                "v1",
-                "auth",
-                "login"
+              "segments": [
+                {
+                  "lit": "agent"
+                },
+                {
+                  "lit": "v1"
+                },
+                {
+                  "lit": "auth"
+                },
+                {
+                  "lit": "login"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "agent",
+                "v1",
+                "auth",
+                "login"
+              ]
             }
           ]
         },
@@ -264,10 +301,16 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/agent/v1/orders",
-              "parts": [
-                "agent",
-                "v1",
-                "orders"
+              "segments": [
+                {
+                  "lit": "agent"
+                },
+                {
+                  "lit": "v1"
+                },
+                {
+                  "lit": "orders"
+                }
               ],
               "select": {
                 "exist": [
@@ -280,7 +323,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "agent",
+                "v1",
+                "orders"
+              ]
             },
             {
               "args": {
@@ -297,11 +345,19 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/agent/v1/scenarios/{scenario}",
-              "parts": [
-                "agent",
-                "v1",
-                "scenarios",
-                "{scenario}"
+              "segments": [
+                {
+                  "lit": "agent"
+                },
+                {
+                  "lit": "v1"
+                },
+                {
+                  "lit": "scenarios"
+                },
+                {
+                  "var": "scenario"
+                }
               ],
               "select": {
                 "exist": [
@@ -311,23 +367,40 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "agent",
+                "v1",
+                "scenarios",
+                "{scenario}"
+              ]
             },
             {
               "args": {},
               "kind": "http",
               "method": "GET",
               "orig": "/agent/v1/scenarios",
-              "parts": [
-                "agent",
-                "v1",
-                "scenarios"
+              "segments": [
+                {
+                  "lit": "agent"
+                },
+                {
+                  "lit": "v1"
+                },
+                {
+                  "lit": "scenarios"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "agent",
+                "v1",
+                "scenarios"
+              ]
             }
           ]
         }
@@ -343,11 +416,13 @@ class Config {
     "agent_user_detail": {
       "fields": [
         {
+          "format": "date-time",
           "name": "created_at",
           "req": true,
           "type": "`$STRING`"
         },
         {
+          "format": "email",
           "name": "email",
           "req": true,
           "type": "`$STRING`"
@@ -388,11 +463,16 @@ class Config {
           "type": "`$STRING`"
         },
         {
+          "format": "date-time",
           "name": "updated_at",
           "req": true,
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "agent_user_detail",
       "op": {
         "load": {
@@ -422,11 +502,19 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/agent/v1/users/{id}",
-              "parts": [
-                "agent",
-                "v1",
-                "users",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "agent"
+                },
+                {
+                  "lit": "v1"
+                },
+                {
+                  "lit": "users"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -437,7 +525,13 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "agent",
+                "v1",
+                "users",
+                "{id}"
+              ]
             }
           ]
         }
@@ -449,11 +543,13 @@ class Config {
     "agent_user_list": {
       "fields": [
         {
+          "format": "date-time",
           "name": "created_at",
           "req": true,
           "type": "`$STRING`"
         },
         {
+          "format": "email",
           "name": "email",
           "req": true,
           "type": "`$STRING`"
@@ -494,11 +590,16 @@ class Config {
           "type": "`$STRING`"
         },
         {
+          "format": "date-time",
           "name": "updated_at",
           "req": true,
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "agent_user_list",
       "op": {
         "list": {
@@ -539,10 +640,16 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/agent/v1/users",
-              "parts": [
-                "agent",
-                "v1",
-                "users"
+              "segments": [
+                {
+                  "lit": "agent"
+                },
+                {
+                  "lit": "v1"
+                },
+                {
+                  "lit": "users"
+                }
               ],
               "select": {
                 "exist": [
@@ -555,7 +662,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "agent",
+                "v1",
+                "users"
+              ]
             }
           ]
         }
@@ -567,10 +679,12 @@ class Config {
     "app_user": {
       "fields": [
         {
+          "format": "date-time",
           "name": "created_at",
           "type": "`$STRING`"
         },
         {
+          "format": "email",
           "name": "email",
           "op": {
             "update": {
@@ -586,6 +700,7 @@ class Config {
           "type": "`$STRING`"
         },
         {
+          "format": "date-time",
           "name": "last_login_at",
           "type": "`$STRING`"
         },
@@ -598,6 +713,10 @@ class Config {
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "app_user",
       "op": {
         "create": {
@@ -619,12 +738,22 @@ class Config {
               "kind": "http",
               "method": "POST",
               "orig": "/api/app-users/{id}/sessions/simulate",
-              "parts": [
-                "api",
-                "app-users",
-                "{id}",
-                "sessions",
-                "simulate"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "app-users"
+                },
+                {
+                  "var": "id"
+                },
+                {
+                  "lit": "sessions"
+                },
+                {
+                  "lit": "simulate"
+                }
               ],
               "select": {
                 "$action": "session_simulate",
@@ -635,22 +764,37 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "app-users",
+                "{id}",
+                "sessions",
+                "simulate"
+              ]
             },
             {
               "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/api/app-users",
-              "parts": [
-                "api",
-                "app-users"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "app-users"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "api",
+                "app-users"
+              ]
             }
           ]
         },
@@ -689,17 +833,25 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/api/projects/{projectId}/app-users",
-              "parts": [
-                "api",
-                "projects",
-                "{project_id}",
-                "app-users"
-              ],
               "rename": {
                 "param": {
                   "projectId": "project_id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "projects"
+                },
+                {
+                  "var": "project_id"
+                },
+                {
+                  "lit": "app-users"
+                }
+              ],
               "select": {
                 "exist": [
                   "project_id",
@@ -710,7 +862,13 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "api",
+                "projects",
+                "{project_id}",
+                "app-users"
+              ]
             },
             {
               "args": {
@@ -734,9 +892,13 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/api/app-users",
-              "parts": [
-                "api",
-                "app-users"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "app-users"
+                }
               ],
               "select": {
                 "exist": [
@@ -747,7 +909,11 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "api",
+                "app-users"
+              ]
             }
           ]
         },
@@ -770,10 +936,16 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/api/app-users/{id}",
-              "parts": [
-                "api",
-                "app-users",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "app-users"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -783,7 +955,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "api",
+                "app-users",
+                "{id}"
+              ]
             }
           ]
         },
@@ -813,19 +990,29 @@ class Config {
               "kind": "http",
               "method": "DELETE",
               "orig": "/app/collections/{slug}/records/{recordId}",
-              "parts": [
-                "app",
-                "collections",
-                "{collection_id}",
-                "records",
-                "{record_id}"
-              ],
               "rename": {
                 "param": {
                   "recordId": "record_id",
                   "slug": "collection_id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "app"
+                },
+                {
+                  "lit": "collections"
+                },
+                {
+                  "var": "collection_id"
+                },
+                {
+                  "lit": "records"
+                },
+                {
+                  "var": "record_id"
+                }
+              ],
               "select": {
                 "exist": [
                   "collection_id",
@@ -835,7 +1022,14 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "app",
+                "collections",
+                "{collection_id}",
+                "records",
+                "{record_id}"
+              ]
             },
             {
               "args": {
@@ -852,10 +1046,16 @@ class Config {
               "kind": "http",
               "method": "DELETE",
               "orig": "/api/app-users/{id}",
-              "parts": [
-                "api",
-                "app-users",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "app-users"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -865,7 +1065,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "app-users",
+                "{id}"
+              ]
             }
           ]
         },
@@ -888,10 +1093,16 @@ class Config {
               "kind": "http",
               "method": "PUT",
               "orig": "/api/app-users/{id}",
-              "parts": [
-                "api",
-                "app-users",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "app-users"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -901,7 +1112,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "api",
+                "app-users",
+                "{id}"
+              ]
             }
           ]
         }
@@ -921,6 +1137,7 @@ class Config {
     "app_user_login": {
       "fields": [
         {
+          "format": "email",
           "name": "email",
           "req": true,
           "type": "`$STRING`"
@@ -950,16 +1167,27 @@ class Config {
               "kind": "http",
               "method": "POST",
               "orig": "/api/app-users/login",
-              "parts": [
-                "api",
-                "app-users",
-                "login"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "app-users"
+                },
+                {
+                  "lit": "login"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "api",
+                "app-users",
+                "login"
+              ]
             }
           ]
         }
@@ -981,31 +1209,50 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/api/app-users/me",
-              "parts": [
-                "api",
-                "app-users",
-                "me"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "app-users"
+                },
+                {
+                  "lit": "me"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "api",
+                "app-users",
+                "me"
+              ]
             },
             {
               "args": {},
               "kind": "http",
               "method": "GET",
               "orig": "/app/me",
-              "parts": [
-                "app",
-                "me"
+              "segments": [
+                {
+                  "lit": "app"
+                },
+                {
+                  "lit": "me"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "app",
+                "me"
+              ]
             }
           ]
         }
@@ -1051,18 +1298,28 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/api/projects/{projectId}/app-users/total",
-              "parts": [
-                "api",
-                "projects",
-                "{project_id}",
-                "app-users",
-                "total"
-              ],
               "rename": {
                 "param": {
                   "projectId": "project_id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "projects"
+                },
+                {
+                  "var": "project_id"
+                },
+                {
+                  "lit": "app-users"
+                },
+                {
+                  "lit": "total"
+                }
+              ],
               "select": {
                 "exist": [
                   "project_id",
@@ -1072,7 +1329,14 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "projects",
+                "{project_id}",
+                "app-users",
+                "total"
+              ]
             }
           ]
         }
@@ -1104,16 +1368,27 @@ class Config {
               "kind": "http",
               "method": "POST",
               "orig": "/api/app-users/verify",
-              "parts": [
-                "api",
-                "app-users",
-                "verify"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "app-users"
+                },
+                {
+                  "lit": "verify"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "api",
+                "app-users",
+                "verify"
+              ]
             }
           ]
         }
@@ -1135,15 +1410,23 @@ class Config {
               "kind": "http",
               "method": "POST",
               "orig": "/api/logout",
-              "parts": [
-                "api",
-                "logout"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "logout"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "logout"
+              ]
             }
           ]
         }
@@ -1155,6 +1438,7 @@ class Config {
     "collection": {
       "fields": [
         {
+          "format": "date-time",
           "name": "created_at",
           "type": "`$STRING`"
         },
@@ -1195,6 +1479,7 @@ class Config {
           "type": "`$STRING`"
         },
         {
+          "format": "date-time",
           "name": "updated_at",
           "type": "`$STRING`"
         },
@@ -1207,6 +1492,10 @@ class Config {
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "collection",
       "op": {
         "create": {
@@ -1227,9 +1516,13 @@ class Config {
               "kind": "http",
               "method": "POST",
               "orig": "/api/collections",
-              "parts": [
-                "api",
-                "collections"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "collections"
+                }
               ],
               "select": {
                 "exist": [
@@ -1239,7 +1532,11 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "api",
+                "collections"
+              ]
             }
           ]
         },
@@ -1261,9 +1558,13 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/api/collections",
-              "parts": [
-                "api",
-                "collections"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "collections"
+                }
               ],
               "select": {
                 "exist": [
@@ -1273,22 +1574,34 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "api",
+                "collections"
+              ]
             },
             {
               "args": {},
               "kind": "http",
               "method": "GET",
               "orig": "/app/collections",
-              "parts": [
-                "app",
-                "collections"
+              "segments": [
+                {
+                  "lit": "app"
+                },
+                {
+                  "lit": "collections"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "app",
+                "collections"
+              ]
             }
           ]
         },
@@ -1319,16 +1632,22 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/api/collections/{slug}",
-              "parts": [
-                "api",
-                "collections",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "slug": "id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "collections"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "id",
@@ -1338,7 +1657,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "api",
+                "collections",
+                "{id}"
+              ]
             },
             {
               "args": {
@@ -1355,16 +1679,22 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/app/collections/{slug}",
-              "parts": [
-                "app",
-                "collections",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "slug": "id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "app"
+                },
+                {
+                  "lit": "collections"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "id"
@@ -1373,7 +1703,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "app",
+                "collections",
+                "{id}"
+              ]
             }
           ]
         },
@@ -1411,19 +1746,29 @@ class Config {
               "kind": "http",
               "method": "DELETE",
               "orig": "/api/collections/{slug}/records/{recordId}",
-              "parts": [
-                "api",
-                "collections",
-                "{collection_id}",
-                "records",
-                "{record_id}"
-              ],
               "rename": {
                 "param": {
                   "recordId": "record_id",
                   "slug": "collection_id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "collections"
+                },
+                {
+                  "var": "collection_id"
+                },
+                {
+                  "lit": "records"
+                },
+                {
+                  "var": "record_id"
+                }
+              ],
               "select": {
                 "exist": [
                   "collection_id",
@@ -1434,7 +1779,14 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "collections",
+                "{collection_id}",
+                "records",
+                "{record_id}"
+              ]
             },
             {
               "args": {
@@ -1459,16 +1811,22 @@ class Config {
               "kind": "http",
               "method": "DELETE",
               "orig": "/api/collections/{slug}",
-              "parts": [
-                "api",
-                "collections",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "slug": "id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "collections"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "id",
@@ -1478,7 +1836,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "collections",
+                "{id}"
+              ]
             }
           ]
         },
@@ -1509,16 +1872,22 @@ class Config {
               "kind": "http",
               "method": "PUT",
               "orig": "/api/collections/{slug}",
-              "parts": [
-                "api",
-                "collections",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "slug": "id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "collections"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "id",
@@ -1528,7 +1897,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "api",
+                "collections",
+                "{id}"
+              ]
             }
           ]
         }
@@ -1553,6 +1927,7 @@ class Config {
           "type": "`$STRING`"
         },
         {
+          "format": "date-time",
           "name": "created_at",
           "type": "`$STRING`"
         },
@@ -1566,6 +1941,7 @@ class Config {
           "type": "`$OBJECT`"
         },
         {
+          "format": "date-time",
           "name": "deleted_at",
           "type": "`$STRING`"
         },
@@ -1579,10 +1955,15 @@ class Config {
           "type": "`$STRING`"
         },
         {
+          "format": "date-time",
           "name": "updated_at",
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "collection_record",
       "op": {
         "create": {
@@ -1612,11 +1993,19 @@ class Config {
               "kind": "http",
               "method": "POST",
               "orig": "/api/collections/{slug}/records",
-              "parts": [
-                "api",
-                "collections",
-                "{slug}",
-                "records"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "collections"
+                },
+                {
+                  "var": "slug"
+                },
+                {
+                  "lit": "records"
+                }
               ],
               "select": {
                 "exist": [
@@ -1627,7 +2016,13 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "api",
+                "collections",
+                "{slug}",
+                "records"
+              ]
             },
             {
               "args": {
@@ -1644,11 +2039,19 @@ class Config {
               "kind": "http",
               "method": "POST",
               "orig": "/app/collections/{slug}/records",
-              "parts": [
-                "app",
-                "collections",
-                "{slug}",
-                "records"
+              "segments": [
+                {
+                  "lit": "app"
+                },
+                {
+                  "lit": "collections"
+                },
+                {
+                  "var": "slug"
+                },
+                {
+                  "lit": "records"
+                }
               ],
               "select": {
                 "exist": [
@@ -1658,7 +2061,13 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "app",
+                "collections",
+                "{slug}",
+                "records"
+              ]
             }
           ]
         },
@@ -1696,19 +2105,29 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/api/collections/{slug}/records/{recordId}",
-              "parts": [
-                "api",
-                "collections",
-                "{collection_id}",
-                "records",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "recordId": "id",
                   "slug": "collection_id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "collections"
+                },
+                {
+                  "var": "collection_id"
+                },
+                {
+                  "lit": "records"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "collection_id",
@@ -1719,7 +2138,14 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "api",
+                "collections",
+                "{collection_id}",
+                "records",
+                "{id}"
+              ]
             },
             {
               "args": {
@@ -1743,19 +2169,29 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/app/collections/{slug}/records/{recordId}",
-              "parts": [
-                "app",
-                "collections",
-                "{collection_id}",
-                "records",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "recordId": "id",
                   "slug": "collection_id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "app"
+                },
+                {
+                  "lit": "collections"
+                },
+                {
+                  "var": "collection_id"
+                },
+                {
+                  "lit": "records"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "collection_id",
@@ -1765,7 +2201,14 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "app",
+                "collections",
+                "{collection_id}",
+                "records",
+                "{id}"
+              ]
             }
           ]
         },
@@ -1803,19 +2246,29 @@ class Config {
               "kind": "http",
               "method": "PUT",
               "orig": "/api/collections/{slug}/records/{recordId}",
-              "parts": [
-                "api",
-                "collections",
-                "{collection_id}",
-                "records",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "recordId": "id",
                   "slug": "collection_id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "collections"
+                },
+                {
+                  "var": "collection_id"
+                },
+                {
+                  "lit": "records"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "collection_id",
@@ -1826,7 +2279,14 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "api",
+                "collections",
+                "{collection_id}",
+                "records",
+                "{id}"
+              ]
             },
             {
               "args": {
@@ -1850,19 +2310,29 @@ class Config {
               "kind": "http",
               "method": "PUT",
               "orig": "/app/collections/{slug}/records/{recordId}",
-              "parts": [
-                "app",
-                "collections",
-                "{collection_id}",
-                "records",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "recordId": "id",
                   "slug": "collection_id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "app"
+                },
+                {
+                  "lit": "collections"
+                },
+                {
+                  "var": "collection_id"
+                },
+                {
+                  "lit": "records"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "collection_id",
@@ -1872,7 +2342,14 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "app",
+                "collections",
+                "{collection_id}",
+                "records",
+                "{id}"
+              ]
             }
           ]
         }
@@ -1896,6 +2373,7 @@ class Config {
           "type": "`$STRING`"
         },
         {
+          "format": "date-time",
           "name": "created_at",
           "type": "`$STRING`"
         },
@@ -1909,6 +2387,7 @@ class Config {
           "type": "`$OBJECT`"
         },
         {
+          "format": "date-time",
           "name": "deleted_at",
           "type": "`$STRING`"
         },
@@ -1922,10 +2401,15 @@ class Config {
           "type": "`$STRING`"
         },
         {
+          "format": "date-time",
           "name": "updated_at",
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "collection_record_list",
       "op": {
         "list": {
@@ -2005,11 +2489,19 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/api/collections/{slug}/records",
-              "parts": [
-                "api",
-                "collections",
-                "{slug}",
-                "records"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "collections"
+                },
+                {
+                  "var": "slug"
+                },
+                {
+                  "lit": "records"
+                }
               ],
               "select": {
                 "exist": [
@@ -2028,7 +2520,13 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "collections",
+                "{slug}",
+                "records"
+              ]
             },
             {
               "args": {
@@ -2045,11 +2543,19 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/app/collections/{slug}/records",
-              "parts": [
-                "app",
-                "collections",
-                "{slug}",
-                "records"
+              "segments": [
+                {
+                  "lit": "app"
+                },
+                {
+                  "lit": "collections"
+                },
+                {
+                  "var": "slug"
+                },
+                {
+                  "lit": "records"
+                }
               ],
               "select": {
                 "exist": [
@@ -2059,7 +2565,13 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "app",
+                "collections",
+                "{slug}",
+                "records"
+              ]
             }
           ]
         }
@@ -2079,6 +2591,10 @@ class Config {
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "custom",
       "op": {
         "create": {
@@ -2100,16 +2616,22 @@ class Config {
               "kind": "http",
               "method": "POST",
               "orig": "/api/custom/{path}",
-              "parts": [
-                "api",
-                "custom",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "path": "id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "custom"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "id"
@@ -2118,7 +2640,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "custom",
+                "{id}"
+              ]
             }
           ]
         },
@@ -2141,16 +2668,22 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/api/custom/{path}",
-              "parts": [
-                "api",
-                "custom",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "path": "id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "custom"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "id"
@@ -2159,7 +2692,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "custom",
+                "{id}"
+              ]
             }
           ]
         },
@@ -2182,16 +2720,22 @@ class Config {
               "kind": "http",
               "method": "PATCH",
               "orig": "/api/custom/{path}",
-              "parts": [
-                "api",
-                "custom",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "path": "id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "custom"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "id"
@@ -2200,7 +2744,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "custom",
+                "{id}"
+              ]
             }
           ]
         },
@@ -2223,16 +2772,22 @@ class Config {
               "kind": "http",
               "method": "DELETE",
               "orig": "/api/custom/{path}",
-              "parts": [
-                "api",
-                "custom",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "path": "id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "custom"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "id"
@@ -2241,7 +2796,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "custom",
+                "{id}"
+              ]
             }
           ]
         },
@@ -2264,16 +2824,22 @@ class Config {
               "kind": "http",
               "method": "PUT",
               "orig": "/api/custom/{path}",
-              "parts": [
-                "api",
-                "custom",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "path": "id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "custom"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "id"
@@ -2282,7 +2848,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "custom",
+                "{id}"
+              ]
             }
           ]
         }
@@ -2298,6 +2869,10 @@ class Config {
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "legacy",
       "op": {
         "remove": {
@@ -2319,10 +2894,16 @@ class Config {
               "kind": "http",
               "method": "DELETE",
               "orig": "/api/users/{id}",
-              "parts": [
-                "api",
-                "users",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "users"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -2332,7 +2913,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "users",
+                "{id}"
+              ]
             }
           ]
         }
@@ -2344,6 +2930,7 @@ class Config {
     "legacy_mutation": {
       "fields": [
         {
+          "format": "date-time",
           "name": "createdAt",
           "type": "`$STRING`"
         },
@@ -2352,10 +2939,15 @@ class Config {
           "type": "`$STRING`"
         },
         {
+          "format": "date-time",
           "name": "updatedAt",
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "legacy_mutation",
       "op": {
         "create": {
@@ -2367,15 +2959,23 @@ class Config {
               "kind": "http",
               "method": "POST",
               "orig": "/api/users",
-              "parts": [
-                "api",
-                "users"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "users"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "users"
+              ]
             }
           ]
         },
@@ -2398,10 +2998,16 @@ class Config {
               "kind": "http",
               "method": "PATCH",
               "orig": "/api/users/{id}",
-              "parts": [
-                "api",
-                "users",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "users"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -2411,7 +3017,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "users",
+                "{id}"
+              ]
             }
           ]
         },
@@ -2434,10 +3045,16 @@ class Config {
               "kind": "http",
               "method": "PUT",
               "orig": "/api/users/{id}",
-              "parts": [
-                "api",
-                "users",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "users"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -2447,7 +3064,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "users",
+                "{id}"
+              ]
             }
           ]
         }
@@ -2472,6 +3094,10 @@ class Config {
           "type": "`$OBJECT`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "legacy_unknown",
       "op": {
         "load": {
@@ -2493,10 +3119,16 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/api/unknown/{id}",
-              "parts": [
-                "api",
-                "unknown",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "unknown"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -2506,7 +3138,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "unknown",
+                "{id}"
+              ]
             }
           ]
         }
@@ -2543,6 +3180,10 @@ class Config {
           "type": "`$INTEGER`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "legacy_unknown_list",
       "op": {
         "list": {
@@ -2570,9 +3211,13 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/api/unknown",
-              "parts": [
-                "api",
-                "unknown"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "unknown"
+                }
               ],
               "select": {
                 "exist": [
@@ -2583,7 +3228,11 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "unknown"
+              ]
             }
           ]
         }
@@ -2608,6 +3257,10 @@ class Config {
           "type": "`$OBJECT`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "legacy_user",
       "op": {
         "load": {
@@ -2629,10 +3282,16 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/api/users/{id}",
-              "parts": [
-                "api",
-                "users",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "users"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -2642,7 +3301,12 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "users",
+                "{id}"
+              ]
             }
           ]
         }
@@ -2659,6 +3323,7 @@ class Config {
           "type": "`$STRING`"
         },
         {
+          "format": "email",
           "name": "email",
           "req": true,
           "type": "`$STRING`"
@@ -2679,6 +3344,10 @@ class Config {
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "legacy_user_list",
       "op": {
         "list": {
@@ -2706,9 +3375,13 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/api/users",
-              "parts": [
-                "api",
-                "users"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "users"
+                }
               ],
               "select": {
                 "exist": [
@@ -2719,7 +3392,11 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "users"
+              ]
             }
           ]
         }
@@ -2731,6 +3408,7 @@ class Config {
     "login": {
       "fields": [
         {
+          "format": "email",
           "name": "email",
           "req": true,
           "type": "`$STRING`"
@@ -2757,15 +3435,23 @@ class Config {
               "kind": "http",
               "method": "POST",
               "orig": "/api/login",
-              "parts": [
-                "api",
-                "login"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "login"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "login"
+              ]
             }
           ]
         }
@@ -2777,6 +3463,7 @@ class Config {
     "register": {
       "fields": [
         {
+          "format": "email",
           "name": "email",
           "req": true,
           "type": "`$STRING`"
@@ -2796,6 +3483,10 @@ class Config {
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "register",
       "op": {
         "create": {
@@ -2807,15 +3498,23 @@ class Config {
               "kind": "http",
               "method": "POST",
               "orig": "/api/register",
-              "parts": [
-                "api",
-                "register"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "register"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "register"
+              ]
             }
           ]
         }
@@ -2831,6 +3530,7 @@ class Config {
 const config = new Config()
 
 export {
-  config
+  config,
+  FEATURE_PLUGINS,
 }
 

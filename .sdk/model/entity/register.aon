@@ -6,6 +6,7 @@ main: kit: entity: register: {
 
   fields: [
     {
+      format: "email"
       name: "email"
       req: true
       type: "`$STRING`"
@@ -40,9 +41,13 @@ main: kit: entity: register: {
         {
           method: "POST"
           orig: "/api/register"
-          parts: [
-            "api"
-            "register"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "register"
+            }
           ]
           transform: {
             req: "`reqdata`"

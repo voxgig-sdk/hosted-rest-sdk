@@ -63,7 +63,7 @@ function agent_user_list_direct_setup(mockres)
   local env = runner.env_override({
     ["HOSTED_REST_TEST_AGENT_USER_LIST_ENTID"] = {},
     ["HOSTED_REST_TEST_LIVE"] = "FALSE",
-    ["HOSTED_REST_APIKEY"] = "NONE",
+    ["HOSTED_REST_APIKEY"] = "",
   })
 
   local live = env["HOSTED_REST_TEST_LIVE"] == "TRUE"
@@ -72,6 +72,13 @@ function agent_user_list_direct_setup(mockres)
     local merged_opts = {
       apikey = env["HOSTED_REST_APIKEY"],
     }
+    -- sdk-test-control.json's test.client.options goes UNDER the generated
+    -- fields: it adds to the live client, it does not redirect it.
+    for _k, _v in pairs(runner.live_client_options()) do
+      if merged_opts[_k] == nil then
+        merged_opts[_k] = _v
+      end
+    end
     local client = sdk.new(merged_opts)
     return {
       client = client,

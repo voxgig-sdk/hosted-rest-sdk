@@ -64,9 +64,13 @@ main: kit: entity: legacy_unknown_list: {
           }
           method: "GET"
           orig: "/api/unknown"
-          parts: [
-            "api"
-            "unknown"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "unknown"
+            }
           ]
           select: {
             exist: [

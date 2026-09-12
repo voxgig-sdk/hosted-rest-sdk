@@ -6,11 +6,13 @@ main: kit: entity: app_user: {
 
   fields: [
     {
+      format: "date-time"
       name: "created_at"
       req: false
       type: "`$STRING`"
     }
     {
+      format: "email"
       name: "email"
       op: {
         update: {
@@ -27,6 +29,7 @@ main: kit: entity: app_user: {
       type: "`$STRING`"
     }
     {
+      format: "date-time"
       name: "last_login_at"
       req: false
       type: "`$STRING`"
@@ -67,12 +70,22 @@ main: kit: entity: app_user: {
           }
           method: "POST"
           orig: "/api/app-users/{id}/sessions/simulate"
-          parts: [
-            "api"
-            "app-users"
-            "{id}"
-            "sessions"
-            "simulate"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "app-users"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "sessions"
+            }
+            {
+              lit: "simulate"
+            }
           ]
           select: {
             "$action": "session_simulate"
@@ -88,9 +101,13 @@ main: kit: entity: app_user: {
         {
           method: "POST"
           orig: "/api/app-users"
-          parts: [
-            "api"
-            "app-users"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "app-users"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -134,17 +151,25 @@ main: kit: entity: app_user: {
           }
           method: "GET"
           orig: "/api/projects/{projectId}/app-users"
-          parts: [
-            "api"
-            "projects"
-            "{project_id}"
-            "app-users"
-          ]
           rename: {
             param: {
               projectId: "project_id"
             }
           }
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "projects"
+            }
+            {
+              var: "project_id"
+            }
+            {
+              lit: "app-users"
+            }
+          ]
           select: {
             exist: [
               "project_id"
@@ -180,9 +205,13 @@ main: kit: entity: app_user: {
           }
           method: "GET"
           orig: "/api/app-users"
-          parts: [
-            "api"
-            "app-users"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "app-users"
+            }
           ]
           select: {
             exist: [
@@ -214,10 +243,16 @@ main: kit: entity: app_user: {
           }
           method: "GET"
           orig: "/api/app-users/{id}"
-          parts: [
-            "api"
-            "app-users"
-            "{id}"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "app-users"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -255,19 +290,29 @@ main: kit: entity: app_user: {
           }
           method: "DELETE"
           orig: "/app/collections/{slug}/records/{recordId}"
-          parts: [
-            "app"
-            "collections"
-            "{collection_id}"
-            "records"
-            "{record_id}"
-          ]
           rename: {
             param: {
               recordId: "record_id"
               slug: "collection_id"
             }
           }
+          segments: [
+            {
+              lit: "app"
+            }
+            {
+              lit: "collections"
+            }
+            {
+              var: "collection_id"
+            }
+            {
+              lit: "records"
+            }
+            {
+              var: "record_id"
+            }
+          ]
           select: {
             exist: [
               "collection_id"
@@ -293,10 +338,16 @@ main: kit: entity: app_user: {
           }
           method: "DELETE"
           orig: "/api/app-users/{id}"
-          parts: [
-            "api"
-            "app-users"
-            "{id}"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "app-users"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -327,10 +378,16 @@ main: kit: entity: app_user: {
           }
           method: "PUT"
           orig: "/api/app-users/{id}"
-          parts: [
-            "api"
-            "app-users"
-            "{id}"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "app-users"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [

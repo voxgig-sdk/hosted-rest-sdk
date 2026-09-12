@@ -6,6 +6,7 @@ main: kit: entity: legacy_mutation: {
 
   fields: [
     {
+      format: "date-time"
       name: "createdAt"
       req: false
       type: "`$STRING`"
@@ -16,6 +17,7 @@ main: kit: entity: legacy_mutation: {
       type: "`$STRING`"
     }
     {
+      format: "date-time"
       name: "updatedAt"
       req: false
       type: "`$STRING`"
@@ -35,9 +37,13 @@ main: kit: entity: legacy_mutation: {
         {
           method: "POST"
           orig: "/api/users"
-          parts: [
-            "api"
-            "users"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "users"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -63,10 +69,16 @@ main: kit: entity: legacy_mutation: {
           }
           method: "PATCH"
           orig: "/api/users/{id}"
-          parts: [
-            "api"
-            "users"
-            "{id}"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "users"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -97,10 +109,16 @@ main: kit: entity: legacy_mutation: {
           }
           method: "PUT"
           orig: "/api/users/{id}"
-          parts: [
-            "api"
-            "users"
-            "{id}"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "users"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [

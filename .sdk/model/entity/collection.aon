@@ -6,6 +6,7 @@ main: kit: entity: collection: {
 
   fields: [
     {
+      format: "date-time"
       name: "created_at"
       req: false
       type: "`$STRING`"
@@ -52,6 +53,7 @@ main: kit: entity: collection: {
       type: "`$STRING`"
     }
     {
+      format: "date-time"
       name: "updated_at"
       req: false
       type: "`$STRING`"
@@ -92,9 +94,13 @@ main: kit: entity: collection: {
           }
           method: "POST"
           orig: "/api/collections"
-          parts: [
-            "api"
-            "collections"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "collections"
+            }
           ]
           select: {
             exist: [
@@ -125,9 +131,13 @@ main: kit: entity: collection: {
           }
           method: "GET"
           orig: "/api/collections"
-          parts: [
-            "api"
-            "collections"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "collections"
+            }
           ]
           select: {
             exist: [
@@ -142,9 +152,13 @@ main: kit: entity: collection: {
         {
           method: "GET"
           orig: "/app/collections"
-          parts: [
-            "app"
-            "collections"
+          segments: [
+            {
+              lit: "app"
+            }
+            {
+              lit: "collections"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -179,16 +193,22 @@ main: kit: entity: collection: {
           }
           method: "GET"
           orig: "/api/collections/{slug}"
-          parts: [
-            "api"
-            "collections"
-            "{id}"
-          ]
           rename: {
             param: {
               slug: "id"
             }
           }
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "collections"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"
@@ -214,16 +234,22 @@ main: kit: entity: collection: {
           }
           method: "GET"
           orig: "/app/collections/{slug}"
-          parts: [
-            "app"
-            "collections"
-            "{id}"
-          ]
           rename: {
             param: {
               slug: "id"
             }
           }
+          segments: [
+            {
+              lit: "app"
+            }
+            {
+              lit: "collections"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"
@@ -269,19 +295,29 @@ main: kit: entity: collection: {
           }
           method: "DELETE"
           orig: "/api/collections/{slug}/records/{recordId}"
-          parts: [
-            "api"
-            "collections"
-            "{collection_id}"
-            "records"
-            "{record_id}"
-          ]
           rename: {
             param: {
               recordId: "record_id"
               slug: "collection_id"
             }
           }
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "collections"
+            }
+            {
+              var: "collection_id"
+            }
+            {
+              lit: "records"
+            }
+            {
+              var: "record_id"
+            }
+          ]
           select: {
             exist: [
               "collection_id"
@@ -317,16 +353,22 @@ main: kit: entity: collection: {
           }
           method: "DELETE"
           orig: "/api/collections/{slug}"
-          parts: [
-            "api"
-            "collections"
-            "{id}"
-          ]
           rename: {
             param: {
               slug: "id"
             }
           }
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "collections"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"
@@ -366,16 +408,22 @@ main: kit: entity: collection: {
           }
           method: "PUT"
           orig: "/api/collections/{slug}"
-          parts: [
-            "api"
-            "collections"
-            "{id}"
-          ]
           rename: {
             param: {
               slug: "id"
             }
           }
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "collections"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"

@@ -60,15 +60,18 @@ def _legacy_unknown_list_direct_setup(mockres):
     env = runner.env_override({
         "HOSTED_REST_TEST_LEGACY_UNKNOWN_LIST_ENTID": {},
         "HOSTED_REST_TEST_LIVE": "FALSE",
-        "HOSTED_REST_APIKEY": "NONE",
+        "HOSTED_REST_APIKEY": "",
     })
 
     live = env.get("HOSTED_REST_TEST_LIVE") == "TRUE"
 
     if live:
-        merged_opts = {
+        # sdk-test-control.json's test.client.options seeds the live
+        # client; the generated fields below overwrite anything they name.
+        merged_opts = dict(runner.live_client_options())
+        merged_opts.update({
             "apikey": env.get("HOSTED_REST_APIKEY"),
-        }
+        })
         client = HostedRestSDK(merged_opts)
         return {
             "client": client,

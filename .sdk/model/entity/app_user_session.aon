@@ -12,10 +12,16 @@ main: kit: entity: app_user_session: {
         {
           method: "GET"
           orig: "/api/app-users/me"
-          parts: [
-            "api"
-            "app-users"
-            "me"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "app-users"
+            }
+            {
+              lit: "me"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -25,9 +31,13 @@ main: kit: entity: app_user_session: {
         {
           method: "GET"
           orig: "/app/me"
-          parts: [
-            "app"
-            "me"
+          segments: [
+            {
+              lit: "app"
+            }
+            {
+              lit: "me"
+            }
           ]
           transform: {
             req: "`reqdata`"

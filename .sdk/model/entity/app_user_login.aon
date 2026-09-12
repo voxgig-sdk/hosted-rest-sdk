@@ -6,6 +6,7 @@ main: kit: entity: app_user_login: {
 
   fields: [
     {
+      format: "email"
       name: "email"
       req: true
       type: "`$STRING`"
@@ -35,10 +36,16 @@ main: kit: entity: app_user_login: {
         {
           method: "POST"
           orig: "/api/app-users/login"
-          parts: [
-            "api"
-            "app-users"
-            "login"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "app-users"
+            }
+            {
+              lit: "login"
+            }
           ]
           transform: {
             req: "`reqdata`"

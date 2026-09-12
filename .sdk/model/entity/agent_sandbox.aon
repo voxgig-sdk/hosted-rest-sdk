@@ -6,6 +6,7 @@ main: kit: entity: agent_sandbox: {
 
   fields: [
     {
+      format: "email"
       name: "email"
       req: true
       type: "`$STRING`"
@@ -25,11 +26,19 @@ main: kit: entity: agent_sandbox: {
         {
           method: "POST"
           orig: "/agent/v1/auth/login"
-          parts: [
-            "agent"
-            "v1"
-            "auth"
-            "login"
+          segments: [
+            {
+              lit: "agent"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "auth"
+            }
+            {
+              lit: "login"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -78,10 +87,16 @@ main: kit: entity: agent_sandbox: {
           }
           method: "GET"
           orig: "/agent/v1/orders"
-          parts: [
-            "agent"
-            "v1"
-            "orders"
+          segments: [
+            {
+              lit: "agent"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "orders"
+            }
           ]
           select: {
             exist: [
@@ -110,11 +125,19 @@ main: kit: entity: agent_sandbox: {
           }
           method: "GET"
           orig: "/agent/v1/scenarios/{scenario}"
-          parts: [
-            "agent"
-            "v1"
-            "scenarios"
-            "{scenario}"
+          segments: [
+            {
+              lit: "agent"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "scenarios"
+            }
+            {
+              var: "scenario"
+            }
           ]
           select: {
             exist: [
@@ -129,10 +152,16 @@ main: kit: entity: agent_sandbox: {
         {
           method: "GET"
           orig: "/agent/v1/scenarios"
-          parts: [
-            "agent"
-            "v1"
-            "scenarios"
+          segments: [
+            {
+              lit: "agent"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "scenarios"
+            }
           ]
           transform: {
             req: "`reqdata`"

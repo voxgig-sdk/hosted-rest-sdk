@@ -46,10 +46,16 @@ main: kit: entity: legacy_unknown: {
           }
           method: "GET"
           orig: "/api/unknown/{id}"
-          parts: [
-            "api"
-            "unknown"
-            "{id}"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "unknown"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [

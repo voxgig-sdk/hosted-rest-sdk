@@ -118,15 +118,26 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/agent/v1/health',
-                  'parts' => [
-                    'agent',
-                    'v1',
-                    'health',
+                  'segments' => [
+                    [
+                      'lit' => 'agent',
+                    ],
+                    [
+                      'lit' => 'v1',
+                    ],
+                    [
+                      'lit' => 'health',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'agent',
+                    'v1',
+                    'health',
                   ],
                 ],
               ],
@@ -139,6 +150,7 @@ class HostedRestConfig
         'agent_sandbox' => [
           'fields' => [
             [
+              'format' => 'email',
               'name' => 'email',
               'req' => true,
               'type' => '`$STRING`',
@@ -160,16 +172,30 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/agent/v1/auth/login',
-                  'parts' => [
-                    'agent',
-                    'v1',
-                    'auth',
-                    'login',
+                  'segments' => [
+                    [
+                      'lit' => 'agent',
+                    ],
+                    [
+                      'lit' => 'v1',
+                    ],
+                    [
+                      'lit' => 'auth',
+                    ],
+                    [
+                      'lit' => 'login',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'agent',
+                    'v1',
+                    'auth',
+                    'login',
                   ],
                 ],
               ],
@@ -212,10 +238,16 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/agent/v1/orders',
-                  'parts' => [
-                    'agent',
-                    'v1',
-                    'orders',
+                  'segments' => [
+                    [
+                      'lit' => 'agent',
+                    ],
+                    [
+                      'lit' => 'v1',
+                    ],
+                    [
+                      'lit' => 'orders',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -228,6 +260,11 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'agent',
+                    'v1',
+                    'orders',
                   ],
                 ],
                 [
@@ -245,11 +282,19 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/agent/v1/scenarios/{scenario}',
-                  'parts' => [
-                    'agent',
-                    'v1',
-                    'scenarios',
-                    '{scenario}',
+                  'segments' => [
+                    [
+                      'lit' => 'agent',
+                    ],
+                    [
+                      'lit' => 'v1',
+                    ],
+                    [
+                      'lit' => 'scenarios',
+                    ],
+                    [
+                      'var' => 'scenario',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -260,21 +305,38 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
+                  'parts' => [
+                    'agent',
+                    'v1',
+                    'scenarios',
+                    '{scenario}',
+                  ],
                 ],
                 [
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/agent/v1/scenarios',
-                  'parts' => [
-                    'agent',
-                    'v1',
-                    'scenarios',
+                  'segments' => [
+                    [
+                      'lit' => 'agent',
+                    ],
+                    [
+                      'lit' => 'v1',
+                    ],
+                    [
+                      'lit' => 'scenarios',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'agent',
+                    'v1',
+                    'scenarios',
                   ],
                 ],
               ],
@@ -291,11 +353,13 @@ class HostedRestConfig
         'agent_user_detail' => [
           'fields' => [
             [
+              'format' => 'date-time',
               'name' => 'created_at',
               'req' => true,
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'email',
               'name' => 'email',
               'req' => true,
               'type' => '`$STRING`',
@@ -336,10 +400,15 @@ class HostedRestConfig
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'date-time',
               'name' => 'updated_at',
               'req' => true,
               'type' => '`$STRING`',
             ],
+          ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
           ],
           'name' => 'agent_user_detail',
           'op' => [
@@ -370,11 +439,19 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/agent/v1/users/{id}',
-                  'parts' => [
-                    'agent',
-                    'v1',
-                    'users',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'agent',
+                    ],
+                    [
+                      'lit' => 'v1',
+                    ],
+                    [
+                      'lit' => 'users',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -385,6 +462,12 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'agent',
+                    'v1',
+                    'users',
+                    '{id}',
                   ],
                 ],
               ],
@@ -397,11 +480,13 @@ class HostedRestConfig
         'agent_user_list' => [
           'fields' => [
             [
+              'format' => 'date-time',
               'name' => 'created_at',
               'req' => true,
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'email',
               'name' => 'email',
               'req' => true,
               'type' => '`$STRING`',
@@ -442,10 +527,15 @@ class HostedRestConfig
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'date-time',
               'name' => 'updated_at',
               'req' => true,
               'type' => '`$STRING`',
             ],
+          ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
           ],
           'name' => 'agent_user_list',
           'op' => [
@@ -487,10 +577,16 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/agent/v1/users',
-                  'parts' => [
-                    'agent',
-                    'v1',
-                    'users',
+                  'segments' => [
+                    [
+                      'lit' => 'agent',
+                    ],
+                    [
+                      'lit' => 'v1',
+                    ],
+                    [
+                      'lit' => 'users',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -504,6 +600,11 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
+                  'parts' => [
+                    'agent',
+                    'v1',
+                    'users',
+                  ],
                 ],
               ],
             ],
@@ -515,10 +616,12 @@ class HostedRestConfig
         'app_user' => [
           'fields' => [
             [
+              'format' => 'date-time',
               'name' => 'created_at',
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'email',
               'name' => 'email',
               'op' => [
                 'update' => [
@@ -534,6 +637,7 @@ class HostedRestConfig
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'date-time',
               'name' => 'last_login_at',
               'type' => '`$STRING`',
             ],
@@ -545,6 +649,10 @@ class HostedRestConfig
               'name' => 'status',
               'type' => '`$STRING`',
             ],
+          ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
           ],
           'name' => 'app_user',
           'op' => [
@@ -567,12 +675,22 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/app-users/{id}/sessions/simulate',
-                  'parts' => [
-                    'api',
-                    'app-users',
-                    '{id}',
-                    'sessions',
-                    'simulate',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'app-users',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
+                    [
+                      'lit' => 'sessions',
+                    ],
+                    [
+                      'lit' => 'simulate',
+                    ],
                   ],
                   'select' => [
                     '$action' => 'session_simulate',
@@ -584,20 +702,35 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
+                  'parts' => [
+                    'api',
+                    'app-users',
+                    '{id}',
+                    'sessions',
+                    'simulate',
+                  ],
                 ],
                 [
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/app-users',
-                  'parts' => [
-                    'api',
-                    'app-users',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'app-users',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'app-users',
                   ],
                 ],
               ],
@@ -637,15 +770,23 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/projects/{projectId}/app-users',
-                  'parts' => [
-                    'api',
-                    'projects',
-                    '{project_id}',
-                    'app-users',
-                  ],
                   'rename' => [
                     'param' => [
                       'projectId' => 'project_id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'projects',
+                    ],
+                    [
+                      'var' => 'project_id',
+                    ],
+                    [
+                      'lit' => 'app-users',
                     ],
                   ],
                   'select' => [
@@ -658,6 +799,12 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'projects',
+                    '{project_id}',
+                    'app-users',
                   ],
                 ],
                 [
@@ -682,9 +829,13 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/app-users',
-                  'parts' => [
-                    'api',
-                    'app-users',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'app-users',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -695,6 +846,10 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'app-users',
                   ],
                 ],
               ],
@@ -718,10 +873,16 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/app-users/{id}',
-                  'parts' => [
-                    'api',
-                    'app-users',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'app-users',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -731,6 +892,11 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'app-users',
+                    '{id}',
                   ],
                 ],
               ],
@@ -761,17 +927,27 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/app/collections/{slug}/records/{recordId}',
-                  'parts' => [
-                    'app',
-                    'collections',
-                    '{collection_id}',
-                    'records',
-                    '{record_id}',
-                  ],
                   'rename' => [
                     'param' => [
                       'recordId' => 'record_id',
                       'slug' => 'collection_id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'app',
+                    ],
+                    [
+                      'lit' => 'collections',
+                    ],
+                    [
+                      'var' => 'collection_id',
+                    ],
+                    [
+                      'lit' => 'records',
+                    ],
+                    [
+                      'var' => 'record_id',
                     ],
                   ],
                   'select' => [
@@ -783,6 +959,13 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'app',
+                    'collections',
+                    '{collection_id}',
+                    'records',
+                    '{record_id}',
                   ],
                 ],
                 [
@@ -800,10 +983,16 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/api/app-users/{id}',
-                  'parts' => [
-                    'api',
-                    'app-users',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'app-users',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -813,6 +1002,11 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'app-users',
+                    '{id}',
                   ],
                 ],
               ],
@@ -836,10 +1030,16 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'PUT',
                   'orig' => '/api/app-users/{id}',
-                  'parts' => [
-                    'api',
-                    'app-users',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'app-users',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -849,6 +1049,11 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'app-users',
+                    '{id}',
                   ],
                 ],
               ],
@@ -869,6 +1074,7 @@ class HostedRestConfig
         'app_user_login' => [
           'fields' => [
             [
+              'format' => 'email',
               'name' => 'email',
               'req' => true,
               'type' => '`$STRING`',
@@ -898,15 +1104,26 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/app-users/login',
-                  'parts' => [
-                    'api',
-                    'app-users',
-                    'login',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'app-users',
+                    ],
+                    [
+                      'lit' => 'login',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'app-users',
+                    'login',
                   ],
                 ],
               ],
@@ -929,15 +1146,26 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/app-users/me',
-                  'parts' => [
-                    'api',
-                    'app-users',
-                    'me',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'app-users',
+                    ],
+                    [
+                      'lit' => 'me',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'app-users',
+                    'me',
                   ],
                 ],
                 [
@@ -945,14 +1173,22 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/app/me',
-                  'parts' => [
-                    'app',
-                    'me',
+                  'segments' => [
+                    [
+                      'lit' => 'app',
+                    ],
+                    [
+                      'lit' => 'me',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'app',
+                    'me',
                   ],
                 ],
               ],
@@ -999,16 +1235,26 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/projects/{projectId}/app-users/total',
-                  'parts' => [
-                    'api',
-                    'projects',
-                    '{project_id}',
-                    'app-users',
-                    'total',
-                  ],
                   'rename' => [
                     'param' => [
                       'projectId' => 'project_id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'projects',
+                    ],
+                    [
+                      'var' => 'project_id',
+                    ],
+                    [
+                      'lit' => 'app-users',
+                    ],
+                    [
+                      'lit' => 'total',
                     ],
                   ],
                   'select' => [
@@ -1020,6 +1266,13 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'projects',
+                    '{project_id}',
+                    'app-users',
+                    'total',
                   ],
                 ],
               ],
@@ -1052,15 +1305,26 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/app-users/verify',
-                  'parts' => [
-                    'api',
-                    'app-users',
-                    'verify',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'app-users',
+                    ],
+                    [
+                      'lit' => 'verify',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'app-users',
+                    'verify',
                   ],
                 ],
               ],
@@ -1083,14 +1347,22 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/logout',
-                  'parts' => [
-                    'api',
-                    'logout',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'logout',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'logout',
                   ],
                 ],
               ],
@@ -1103,6 +1375,7 @@ class HostedRestConfig
         'collection' => [
           'fields' => [
             [
+              'format' => 'date-time',
               'name' => 'created_at',
               'type' => '`$STRING`',
             ],
@@ -1143,6 +1416,7 @@ class HostedRestConfig
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'date-time',
               'name' => 'updated_at',
               'type' => '`$STRING`',
             ],
@@ -1154,6 +1428,10 @@ class HostedRestConfig
               'name' => 'visibility',
               'type' => '`$STRING`',
             ],
+          ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
           ],
           'name' => 'collection',
           'op' => [
@@ -1175,9 +1453,13 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/collections',
-                  'parts' => [
-                    'api',
-                    'collections',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'collections',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1187,6 +1469,10 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'collections',
                   ],
                 ],
               ],
@@ -1209,9 +1495,13 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/collections',
-                  'parts' => [
-                    'api',
-                    'collections',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'collections',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1222,20 +1512,32 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
                   ],
+                  'parts' => [
+                    'api',
+                    'collections',
+                  ],
                 ],
                 [
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/app/collections',
-                  'parts' => [
-                    'app',
-                    'collections',
+                  'segments' => [
+                    [
+                      'lit' => 'app',
+                    ],
+                    [
+                      'lit' => 'collections',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'app',
+                    'collections',
                   ],
                 ],
               ],
@@ -1267,14 +1569,20 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/collections/{slug}',
-                  'parts' => [
-                    'api',
-                    'collections',
-                    '{id}',
-                  ],
                   'rename' => [
                     'param' => [
                       'slug' => 'id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'collections',
+                    ],
+                    [
+                      'var' => 'id',
                     ],
                   ],
                   'select' => [
@@ -1286,6 +1594,11 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'collections',
+                    '{id}',
                   ],
                 ],
                 [
@@ -1303,14 +1616,20 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/app/collections/{slug}',
-                  'parts' => [
-                    'app',
-                    'collections',
-                    '{id}',
-                  ],
                   'rename' => [
                     'param' => [
                       'slug' => 'id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'app',
+                    ],
+                    [
+                      'lit' => 'collections',
+                    ],
+                    [
+                      'var' => 'id',
                     ],
                   ],
                   'select' => [
@@ -1321,6 +1640,11 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'app',
+                    'collections',
+                    '{id}',
                   ],
                 ],
               ],
@@ -1359,17 +1683,27 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/api/collections/{slug}/records/{recordId}',
-                  'parts' => [
-                    'api',
-                    'collections',
-                    '{collection_id}',
-                    'records',
-                    '{record_id}',
-                  ],
                   'rename' => [
                     'param' => [
                       'recordId' => 'record_id',
                       'slug' => 'collection_id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'collections',
+                    ],
+                    [
+                      'var' => 'collection_id',
+                    ],
+                    [
+                      'lit' => 'records',
+                    ],
+                    [
+                      'var' => 'record_id',
                     ],
                   ],
                   'select' => [
@@ -1382,6 +1716,13 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'collections',
+                    '{collection_id}',
+                    'records',
+                    '{record_id}',
                   ],
                 ],
                 [
@@ -1407,14 +1748,20 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/api/collections/{slug}',
-                  'parts' => [
-                    'api',
-                    'collections',
-                    '{id}',
-                  ],
                   'rename' => [
                     'param' => [
                       'slug' => 'id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'collections',
+                    ],
+                    [
+                      'var' => 'id',
                     ],
                   ],
                   'select' => [
@@ -1426,6 +1773,11 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'collections',
+                    '{id}',
                   ],
                 ],
               ],
@@ -1457,14 +1809,20 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'PUT',
                   'orig' => '/api/collections/{slug}',
-                  'parts' => [
-                    'api',
-                    'collections',
-                    '{id}',
-                  ],
                   'rename' => [
                     'param' => [
                       'slug' => 'id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'collections',
+                    ],
+                    [
+                      'var' => 'id',
                     ],
                   ],
                   'select' => [
@@ -1476,6 +1834,11 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'collections',
+                    '{id}',
                   ],
                 ],
               ],
@@ -1501,6 +1864,7 @@ class HostedRestConfig
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'date-time',
               'name' => 'created_at',
               'type' => '`$STRING`',
             ],
@@ -1514,6 +1878,7 @@ class HostedRestConfig
               'type' => '`$OBJECT`',
             ],
             [
+              'format' => 'date-time',
               'name' => 'deleted_at',
               'type' => '`$STRING`',
             ],
@@ -1527,9 +1892,14 @@ class HostedRestConfig
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'date-time',
               'name' => 'updated_at',
               'type' => '`$STRING`',
             ],
+          ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
           ],
           'name' => 'collection_record',
           'op' => [
@@ -1560,11 +1930,19 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/collections/{slug}/records',
-                  'parts' => [
-                    'api',
-                    'collections',
-                    '{slug}',
-                    'records',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'collections',
+                    ],
+                    [
+                      'var' => 'slug',
+                    ],
+                    [
+                      'lit' => 'records',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1575,6 +1953,12 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'collections',
+                    '{slug}',
+                    'records',
                   ],
                 ],
                 [
@@ -1592,11 +1976,19 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/app/collections/{slug}/records',
-                  'parts' => [
-                    'app',
-                    'collections',
-                    '{slug}',
-                    'records',
+                  'segments' => [
+                    [
+                      'lit' => 'app',
+                    ],
+                    [
+                      'lit' => 'collections',
+                    ],
+                    [
+                      'var' => 'slug',
+                    ],
+                    [
+                      'lit' => 'records',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1606,6 +1998,12 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'app',
+                    'collections',
+                    '{slug}',
+                    'records',
                   ],
                 ],
               ],
@@ -1644,17 +2042,27 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/collections/{slug}/records/{recordId}',
-                  'parts' => [
-                    'api',
-                    'collections',
-                    '{collection_id}',
-                    'records',
-                    '{id}',
-                  ],
                   'rename' => [
                     'param' => [
                       'recordId' => 'id',
                       'slug' => 'collection_id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'collections',
+                    ],
+                    [
+                      'var' => 'collection_id',
+                    ],
+                    [
+                      'lit' => 'records',
+                    ],
+                    [
+                      'var' => 'id',
                     ],
                   ],
                   'select' => [
@@ -1667,6 +2075,13 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'collections',
+                    '{collection_id}',
+                    'records',
+                    '{id}',
                   ],
                 ],
                 [
@@ -1691,17 +2106,27 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/app/collections/{slug}/records/{recordId}',
-                  'parts' => [
-                    'app',
-                    'collections',
-                    '{collection_id}',
-                    'records',
-                    '{id}',
-                  ],
                   'rename' => [
                     'param' => [
                       'recordId' => 'id',
                       'slug' => 'collection_id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'app',
+                    ],
+                    [
+                      'lit' => 'collections',
+                    ],
+                    [
+                      'var' => 'collection_id',
+                    ],
+                    [
+                      'lit' => 'records',
+                    ],
+                    [
+                      'var' => 'id',
                     ],
                   ],
                   'select' => [
@@ -1713,6 +2138,13 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'app',
+                    'collections',
+                    '{collection_id}',
+                    'records',
+                    '{id}',
                   ],
                 ],
               ],
@@ -1751,17 +2183,27 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'PUT',
                   'orig' => '/api/collections/{slug}/records/{recordId}',
-                  'parts' => [
-                    'api',
-                    'collections',
-                    '{collection_id}',
-                    'records',
-                    '{id}',
-                  ],
                   'rename' => [
                     'param' => [
                       'recordId' => 'id',
                       'slug' => 'collection_id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'collections',
+                    ],
+                    [
+                      'var' => 'collection_id',
+                    ],
+                    [
+                      'lit' => 'records',
+                    ],
+                    [
+                      'var' => 'id',
                     ],
                   ],
                   'select' => [
@@ -1774,6 +2216,13 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'collections',
+                    '{collection_id}',
+                    'records',
+                    '{id}',
                   ],
                 ],
                 [
@@ -1798,17 +2247,27 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'PUT',
                   'orig' => '/app/collections/{slug}/records/{recordId}',
-                  'parts' => [
-                    'app',
-                    'collections',
-                    '{collection_id}',
-                    'records',
-                    '{id}',
-                  ],
                   'rename' => [
                     'param' => [
                       'recordId' => 'id',
                       'slug' => 'collection_id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'app',
+                    ],
+                    [
+                      'lit' => 'collections',
+                    ],
+                    [
+                      'var' => 'collection_id',
+                    ],
+                    [
+                      'lit' => 'records',
+                    ],
+                    [
+                      'var' => 'id',
                     ],
                   ],
                   'select' => [
@@ -1820,6 +2279,13 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'app',
+                    'collections',
+                    '{collection_id}',
+                    'records',
+                    '{id}',
                   ],
                 ],
               ],
@@ -1844,6 +2310,7 @@ class HostedRestConfig
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'date-time',
               'name' => 'created_at',
               'type' => '`$STRING`',
             ],
@@ -1857,6 +2324,7 @@ class HostedRestConfig
               'type' => '`$OBJECT`',
             ],
             [
+              'format' => 'date-time',
               'name' => 'deleted_at',
               'type' => '`$STRING`',
             ],
@@ -1870,9 +2338,14 @@ class HostedRestConfig
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'date-time',
               'name' => 'updated_at',
               'type' => '`$STRING`',
             ],
+          ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
           ],
           'name' => 'collection_record_list',
           'op' => [
@@ -1953,11 +2426,19 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/collections/{slug}/records',
-                  'parts' => [
-                    'api',
-                    'collections',
-                    '{slug}',
-                    'records',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'collections',
+                    ],
+                    [
+                      'var' => 'slug',
+                    ],
+                    [
+                      'lit' => 'records',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1977,6 +2458,12 @@ class HostedRestConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
+                  'parts' => [
+                    'api',
+                    'collections',
+                    '{slug}',
+                    'records',
+                  ],
                 ],
                 [
                   'args' => [
@@ -1993,11 +2480,19 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/app/collections/{slug}/records',
-                  'parts' => [
-                    'app',
-                    'collections',
-                    '{slug}',
-                    'records',
+                  'segments' => [
+                    [
+                      'lit' => 'app',
+                    ],
+                    [
+                      'lit' => 'collections',
+                    ],
+                    [
+                      'var' => 'slug',
+                    ],
+                    [
+                      'lit' => 'records',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -2007,6 +2502,12 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'app',
+                    'collections',
+                    '{slug}',
+                    'records',
                   ],
                 ],
               ],
@@ -2026,6 +2527,10 @@ class HostedRestConfig
               'name' => 'id',
               'type' => '`$STRING`',
             ],
+          ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
           ],
           'name' => 'custom',
           'op' => [
@@ -2048,14 +2553,20 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/custom/{path}',
-                  'parts' => [
-                    'api',
-                    'custom',
-                    '{id}',
-                  ],
                   'rename' => [
                     'param' => [
                       'path' => 'id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'custom',
+                    ],
+                    [
+                      'var' => 'id',
                     ],
                   ],
                   'select' => [
@@ -2066,6 +2577,11 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'custom',
+                    '{id}',
                   ],
                 ],
               ],
@@ -2089,14 +2605,20 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/custom/{path}',
-                  'parts' => [
-                    'api',
-                    'custom',
-                    '{id}',
-                  ],
                   'rename' => [
                     'param' => [
                       'path' => 'id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'custom',
+                    ],
+                    [
+                      'var' => 'id',
                     ],
                   ],
                   'select' => [
@@ -2107,6 +2629,11 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'custom',
+                    '{id}',
                   ],
                 ],
               ],
@@ -2130,14 +2657,20 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/api/custom/{path}',
-                  'parts' => [
-                    'api',
-                    'custom',
-                    '{id}',
-                  ],
                   'rename' => [
                     'param' => [
                       'path' => 'id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'custom',
+                    ],
+                    [
+                      'var' => 'id',
                     ],
                   ],
                   'select' => [
@@ -2148,6 +2681,11 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'custom',
+                    '{id}',
                   ],
                 ],
               ],
@@ -2171,14 +2709,20 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/api/custom/{path}',
-                  'parts' => [
-                    'api',
-                    'custom',
-                    '{id}',
-                  ],
                   'rename' => [
                     'param' => [
                       'path' => 'id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'custom',
+                    ],
+                    [
+                      'var' => 'id',
                     ],
                   ],
                   'select' => [
@@ -2189,6 +2733,11 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'custom',
+                    '{id}',
                   ],
                 ],
               ],
@@ -2212,14 +2761,20 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'PUT',
                   'orig' => '/api/custom/{path}',
-                  'parts' => [
-                    'api',
-                    'custom',
-                    '{id}',
-                  ],
                   'rename' => [
                     'param' => [
                       'path' => 'id',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'custom',
+                    ],
+                    [
+                      'var' => 'id',
                     ],
                   ],
                   'select' => [
@@ -2230,6 +2785,11 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'custom',
+                    '{id}',
                   ],
                 ],
               ],
@@ -2245,6 +2805,10 @@ class HostedRestConfig
               'name' => 'id',
               'type' => '`$STRING`',
             ],
+          ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
           ],
           'name' => 'legacy',
           'op' => [
@@ -2267,10 +2831,16 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/api/users/{id}',
-                  'parts' => [
-                    'api',
-                    'users',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'users',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -2280,6 +2850,11 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'users',
+                    '{id}',
                   ],
                 ],
               ],
@@ -2292,6 +2867,7 @@ class HostedRestConfig
         'legacy_mutation' => [
           'fields' => [
             [
+              'format' => 'date-time',
               'name' => 'createdAt',
               'type' => '`$STRING`',
             ],
@@ -2300,9 +2876,14 @@ class HostedRestConfig
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'date-time',
               'name' => 'updatedAt',
               'type' => '`$STRING`',
             ],
+          ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
           ],
           'name' => 'legacy_mutation',
           'op' => [
@@ -2315,14 +2896,22 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/users',
-                  'parts' => [
-                    'api',
-                    'users',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'users',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'users',
                   ],
                 ],
               ],
@@ -2346,10 +2935,16 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/api/users/{id}',
-                  'parts' => [
-                    'api',
-                    'users',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'users',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -2359,6 +2954,11 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'users',
+                    '{id}',
                   ],
                 ],
               ],
@@ -2382,10 +2982,16 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'PUT',
                   'orig' => '/api/users/{id}',
-                  'parts' => [
-                    'api',
-                    'users',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'users',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -2395,6 +3001,11 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'users',
+                    '{id}',
                   ],
                 ],
               ],
@@ -2420,6 +3031,10 @@ class HostedRestConfig
               'type' => '`$OBJECT`',
             ],
           ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
+          ],
           'name' => 'legacy_unknown',
           'op' => [
             'load' => [
@@ -2441,10 +3056,16 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/unknown/{id}',
-                  'parts' => [
-                    'api',
-                    'unknown',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'unknown',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -2454,6 +3075,11 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'unknown',
+                    '{id}',
                   ],
                 ],
               ],
@@ -2491,6 +3117,10 @@ class HostedRestConfig
               'type' => '`$INTEGER`',
             ],
           ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
+          ],
           'name' => 'legacy_unknown_list',
           'op' => [
             'list' => [
@@ -2518,9 +3148,13 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/unknown',
-                  'parts' => [
-                    'api',
-                    'unknown',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'unknown',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -2531,6 +3165,10 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'unknown',
                   ],
                 ],
               ],
@@ -2556,6 +3194,10 @@ class HostedRestConfig
               'type' => '`$OBJECT`',
             ],
           ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
+          ],
           'name' => 'legacy_user',
           'op' => [
             'load' => [
@@ -2577,10 +3219,16 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/users/{id}',
-                  'parts' => [
-                    'api',
-                    'users',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'users',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -2590,6 +3238,11 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'users',
+                    '{id}',
                   ],
                 ],
               ],
@@ -2607,6 +3260,7 @@ class HostedRestConfig
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'email',
               'name' => 'email',
               'req' => true,
               'type' => '`$STRING`',
@@ -2626,6 +3280,10 @@ class HostedRestConfig
               'req' => true,
               'type' => '`$STRING`',
             ],
+          ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
           ],
           'name' => 'legacy_user_list',
           'op' => [
@@ -2654,9 +3312,13 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/users',
-                  'parts' => [
-                    'api',
-                    'users',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'users',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -2667,6 +3329,10 @@ class HostedRestConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'users',
                   ],
                 ],
               ],
@@ -2679,6 +3345,7 @@ class HostedRestConfig
         'login' => [
           'fields' => [
             [
+              'format' => 'email',
               'name' => 'email',
               'req' => true,
               'type' => '`$STRING`',
@@ -2705,14 +3372,22 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/login',
-                  'parts' => [
-                    'api',
-                    'login',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'login',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'login',
                   ],
                 ],
               ],
@@ -2725,6 +3400,7 @@ class HostedRestConfig
         'register' => [
           'fields' => [
             [
+              'format' => 'email',
               'name' => 'email',
               'req' => true,
               'type' => '`$STRING`',
@@ -2744,6 +3420,10 @@ class HostedRestConfig
               'type' => '`$STRING`',
             ],
           ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
+          ],
           'name' => 'register',
           'op' => [
             'create' => [
@@ -2755,14 +3435,22 @@ class HostedRestConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/register',
-                  'parts' => [
-                    'api',
-                    'register',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'register',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'api',
+                    'register',
                   ],
                 ],
               ],

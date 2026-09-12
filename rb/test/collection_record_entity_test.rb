@@ -104,7 +104,7 @@ def collection_record_basic_setup(extra)
     "HOSTED_REST_TEST_COLLECTION_RECORD_ENTID" => idmap,
     "HOSTED_REST_TEST_LIVE" => "FALSE",
     "HOSTED_REST_TEST_EXPLAIN" => "FALSE",
-    "HOSTED_REST_APIKEY" => "NONE",
+    "HOSTED_REST_APIKEY" => "",
   })
 
   idmap_resolved = Helpers.to_map(
@@ -118,6 +118,9 @@ def collection_record_basic_setup(extra)
 
   if env["HOSTED_REST_TEST_LIVE"] == "TRUE"
     merged_opts = Vs.merge([
+      # FIRST, so the generated fields below win: sdk-test-control.json's
+      # test.client.options adds to the live client, it does not redirect it.
+      Runner.live_client_options,
       {
         "apikey" => env["HOSTED_REST_APIKEY"],
       },

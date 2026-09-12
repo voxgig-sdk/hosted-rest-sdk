@@ -40,18 +40,28 @@ main: kit: entity: app_user_total: {
           }
           method: "GET"
           orig: "/api/projects/{projectId}/app-users/total"
-          parts: [
-            "api"
-            "projects"
-            "{project_id}"
-            "app-users"
-            "total"
-          ]
           rename: {
             param: {
               projectId: "project_id"
             }
           }
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "projects"
+            }
+            {
+              var: "project_id"
+            }
+            {
+              lit: "app-users"
+            }
+            {
+              lit: "total"
+            }
+          ]
           select: {
             exist: [
               "project_id"
