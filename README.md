@@ -105,7 +105,7 @@ local result, err = client:AgentHealth():load()
 
 | Language | Package | Install |
 | --- | --- | --- |
-| TypeScript | `@voxgig-sdk/hosted-rest` | publish pending — [install from git tag](https://github.com/voxgig-sdk/hosted-rest-sdk/releases) |
+| TypeScript | `@voxgig-sdk/hosted-rest-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/hosted-rest-sdk/releases) |
 | Python | `voxgig-sdk-hosted-rest` | publish pending — [install from git tag](https://github.com/voxgig-sdk/hosted-rest-sdk/releases) |
 | PHP | `voxgig-sdk/hosted-rest` | publish pending — [install from git tag](https://github.com/voxgig-sdk/hosted-rest-sdk/releases) |
 | Golang | `github.com/voxgig-sdk/hosted-rest-sdk/go` | `go get github.com/voxgig-sdk/hosted-rest-sdk/go@latest` |
@@ -119,7 +119,7 @@ local result, err = client:AgentHealth():load()
 ### TypeScript
 
 ```ts
-import { HostedRestSDK } from '@voxgig-sdk/hosted-rest'
+import { HostedRestSDK } from '@voxgig-sdk/hosted-rest-sdk'
 
 const client = new HostedRestSDK({
   apikey: process.env.HOSTED_REST_APIKEY,

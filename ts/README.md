@@ -28,7 +28,7 @@ loading a specific record.
 ### 1. Create a client
 
 ```ts
-import { HostedRestSDK } from '@voxgig-sdk/hosted-rest'
+import { HostedRestSDK } from '@voxgig-sdk/hosted-rest-sdk'
 
 const client = new HostedRestSDK({
   apikey: process.env.HOSTED_REST_APIKEY,
@@ -1344,7 +1344,7 @@ hosted-rest/
 Import the SDK from the package root:
 
 ```ts
-import { HostedRestSDK } from '@voxgig-sdk/hosted-rest'
+import { HostedRestSDK } from '@voxgig-sdk/hosted-rest-sdk'
 ```
 
 ### Entity state
