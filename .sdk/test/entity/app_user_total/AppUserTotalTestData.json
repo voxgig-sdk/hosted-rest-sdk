@@ -2,17 +2,17 @@
   "existing": {
     "app_user_total": {
       "APP_USER_TOTAL00": {
-        "total": "sa",
+        "total": 10,
         "project_id": "PROJECT01",
         "id": "APP_USER_TOTAL00"
       },
       "APP_USER_TOTAL01": {
-        "total": "s14",
+        "total": 20,
         "project_id": "PROJECT01",
         "id": "APP_USER_TOTAL01"
       },
       "APP_USER_TOTAL02": {
-        "total": "s1e",
+        "total": 30,
         "project_id": "PROJECT01",
         "id": "APP_USER_TOTAL02"
       }
@@ -21,7 +21,118 @@
   "new": {
     "app_user_total": {
       "app_user_total_ref01": {
-        "total": "s28"
+        "total": 40
+      }
+    }
+  },
+  "requests": {
+    "GET /api/projects/{projectId}/app-users/total": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "getProjectAppUserTotal",
+        "parameters": [
+          {
+            "description": "Environment key (for example: prod or dev).",
+            "in": "header",
+            "name": "X-Reqres-Env",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Project id.",
+            "in": "path",
+            "name": "projectId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "total": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "total"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Total count"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Error response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Error response"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "BearerAuth": {
+            "bearerFormat": "session_token",
+            "scheme": "bearer",
+            "type": "http"
+          }
+        },
+        "securitySource": "operation"
       }
     }
   }

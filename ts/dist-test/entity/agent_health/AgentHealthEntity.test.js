@@ -40,6 +40,8 @@ const node_path_1 = __importDefault(require("node:path"));
 const Fs = __importStar(require("node:fs"));
 const node_test_1 = require("node:test");
 const node_assert_1 = __importDefault(require("node:assert"));
+const live_runner_1 = require("../../live-runner");
+const live_entity_1 = require("../../live-entity");
 const __1 = require("../../..");
 const utility_1 = require("../../utility");
 // AFTER the imports on purpose: TypeScript hoists `import` above any
@@ -59,16 +61,12 @@ const utility_1 = require("../../utility");
     (0, node_test_1.test)('basic', async (t) => {
         const live = 'TRUE' === process.env.HOSTED_REST_TEST_LIVE;
         for (const op of ['load']) {
-            if ((0, utility_1.maybeSkipControl)(t, 'entityOp', 'agent_health.' + op, live))
+            if (!live && (0, utility_1.maybeSkipControl)(t, 'entityOp', 'agent_health.' + op, live))
                 return;
         }
         const setup = basicSetup();
-        // The basic flow consumes synthetic IDs and field values from the
-        // fixture (entity TestData.json). Those don't exist on the live API.
-        // Skip live runs unless the user provided a real ENTID env override.
-        if (setup.syntheticOnly) {
-            t.skip('live entity test uses synthetic IDs from fixture — set HOSTED_REST_TEST_AGENT_HEALTH_ENTID JSON to run live');
-            return;
+        if (setup.live) {
+            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": [{ "active": true, "name": "deprecations", "req": true, "type": "`$ARRAY`", "index$": 0 }, { "active": true, "name": "rate_limit_status", "req": true, "type": "`$OBJECT`", "index$": 1 }, { "active": true, "name": "status", "req": true, "type": "`$STRING`", "index$": 2 }, { "active": true, "name": "uptime_seconds", "req": true, "type": "`$INTEGER`", "index$": 3 }, { "active": true, "name": "version", "req": true, "type": "`$STRING`", "index$": 4 }], "name": "agent_health", "op": { "load": { "input": "data", "name": "load", "points": [{ "active": true, "args": {}, "contract": { "id": "GET /agent/v1/health", "json": "{\"operationId\":\"agentHealth\",\"parameters\":[],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"data\":{\"properties\":{\"deprecations\":{\"items\":{\"type\":\"object\"},\"type\":\"array\"},\"rate_limit_status\":{\"properties\":{\"limit_today\":{\"type\":[\"integer\",\"null\"]},\"remaining_today\":{\"type\":[\"integer\",\"null\"]},\"reset_at\":{\"format\":\"date-time\",\"type\":[\"string\",\"null\"]},\"tier\":{\"type\":\"string\"}},\"type\":\"object\"},\"status\":{\"enum\":[\"healthy\",\"degraded\",\"maintenance\"],\"type\":\"string\"},\"uptime_seconds\":{\"type\":\"integer\"},\"version\":{\"type\":\"string\"}},\"required\":[\"status\",\"version\",\"uptime_seconds\",\"rate_limit_status\",\"deprecations\"],\"type\":\"object\"}},\"required\":[\"data\"],\"type\":\"object\"}}},\"description\":\"Healthy\"}},\"securitySchemes\":{\"ApiKeyAuth\":{\"in\":\"header\",\"name\":\"x-api-key\",\"type\":\"apiKey\"},\"BearerAuth\":{\"bearerFormat\":\"session_token\",\"scheme\":\"bearer\",\"type\":\"http\"}},\"securitySource\":\"unspecified\"}", "source": "openapi3", "version": 1 }, "kind": "http", "method": "GET", "orig": "/agent/v1/health", "segments": [{ "lit": "agent" }, { "lit": "v1" }, { "lit": "health" }], "select": {}, "transform": { "req": "`reqdata`", "res": "`body.data`" }, "index$": 0 }], "key$": "load" } }, "relations": { "ancestors": [] }, "key$": "agent_health", "name__orig": "agent_health", "Name": "AgentHealth", "name_": "agent_health", "name-": "agent-health", "NAME": "AGENT_HEALTH", "index$": 0 }, { "active": true, "entity": "agent_health", "key$": "BasicAgentHealthFlow", "kind": "basic", "name": "BasicAgentHealthFlow", "param": {}, "step": [{ "active": true, "data": {}, "input": { "ref": "agent_health_ref01", "srcdatavar": "agent_health_ref01_data", "suffix": "_dt0" }, "match": {}, "op": "load", "spec": [], "valid": [{ "apply": "TextFieldMark", "def": { "mark": "Mark01-agent_health_ref01" } }], "index$": 0 }] }, 'AgentHealth');
         }
         const client = setup.client;
         const struct = setup.struct;
@@ -102,12 +100,6 @@ function basicSetup(extra) {
                 '`$VAL`': ['`$FORMAT`', 'upper', '`$COPY`']
             }]
     });
-    // Detect whether the user provided a real ENTID JSON via env var. The
-    // basic flow consumes synthetic IDs from the fixture file; without an
-    // override those synthetic IDs reach the live API and 4xx. Surface this
-    // to the test so it can skip rather than fail.
-    const idmapEnvVal = process.env['HOSTED_REST_TEST_AGENT_HEALTH_ENTID'];
-    const idmapOverridden = null != idmapEnvVal && idmapEnvVal.trim().startsWith('{');
     const env = (0, utility_1.envOverride)({
         'HOSTED_REST_TEST_AGENT_HEALTH_ENTID': idmap,
         'HOSTED_REST_TEST_LIVE': 'FALSE',
@@ -116,7 +108,13 @@ function basicSetup(extra) {
     });
     idmap = env['HOSTED_REST_TEST_AGENT_HEALTH_ENTID'];
     const live = 'TRUE' === env.HOSTED_REST_TEST_LIVE;
+    const transport = (0, live_runner_1.createLiveTransport)();
     if (live) {
+        const rawIds = process.env['HOSTED_REST_TEST_AGENT_HEALTH_ENTID'];
+        idmap = rawIds && rawIds.trim() ? JSON.parse(rawIds) : {};
+        if (!idmap || Array.isArray(idmap) || typeof idmap !== 'object') {
+            throw new Error('Live ENTID must be a JSON object');
+        }
         client = new __1.HostedRestSDK(merge([
             // FIRST, so the generated fields below win: sdk-test-control.json's
             // test.client.options adds to the live client, it does not redirect it.
@@ -129,7 +127,8 @@ function basicSetup(extra) {
             // argument at all - so a bare 'extra' silently discarded the apikey
             // and server values above and handed the SDK undefined. Harmless
             // while there was nothing in that object; not harmless now.
-            extra || {}
+            extra || {},
+            { system: { fetch: transport.fetch } }
         ]));
     }
     const setup = {
@@ -141,7 +140,7 @@ function basicSetup(extra) {
         data: entityData,
         explain: 'TRUE' === env.HOSTED_REST_TEST_EXPLAIN,
         live,
-        syntheticOnly: live && !idmapOverridden,
+        transport,
         now: Date.now(),
     };
     return setup;

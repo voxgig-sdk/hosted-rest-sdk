@@ -40,6 +40,8 @@ const node_path_1 = __importDefault(require("node:path"));
 const Fs = __importStar(require("node:fs"));
 const node_test_1 = require("node:test");
 const node_assert_1 = __importDefault(require("node:assert"));
+const live_runner_1 = require("../../live-runner");
+const live_entity_1 = require("../../live-entity");
 const __1 = require("../../..");
 const utility_1 = require("../../utility");
 // AFTER the imports on purpose: TypeScript hoists `import` above any
@@ -59,16 +61,12 @@ const utility_1 = require("../../utility");
     (0, node_test_1.test)('basic', async (t) => {
         const live = 'TRUE' === process.env.HOSTED_REST_TEST_LIVE;
         for (const op of ['create', 'load']) {
-            if ((0, utility_1.maybeSkipControl)(t, 'entityOp', 'agent_sandbox.' + op, live))
+            if (!live && (0, utility_1.maybeSkipControl)(t, 'entityOp', 'agent_sandbox.' + op, live))
                 return;
         }
         const setup = basicSetup();
-        // The basic flow consumes synthetic IDs and field values from the
-        // fixture (entity TestData.json). Those don't exist on the live API.
-        // Skip live runs unless the user provided a real ENTID env override.
-        if (setup.syntheticOnly) {
-            t.skip('live entity test uses synthetic IDs from fixture — set HOSTED_REST_TEST_AGENT_SANDBOX_ENTID JSON to run live');
-            return;
+        if (setup.live) {
+            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": [{ "active": true, "format": "email", "name": "email", "req": true, "type": "`$STRING`", "index$": 0 }, { "active": true, "name": "password", "req": true, "type": "`$STRING`", "index$": 1 }], "name": "agent_sandbox", "op": { "create": { "input": "data", "name": "create", "points": [{ "active": true, "args": {}, "contract": { "id": "POST /agent/v1/auth/login", "json": "{\"operationId\":\"agentLogin\",\"parameters\":[],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"email\":{\"format\":\"email\",\"type\":\"string\"},\"password\":{\"minLength\":8,\"type\":\"string\"}},\"required\":[\"email\",\"password\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{}},\"description\":\"Session created or MFA challenge\"},\"400\":{\"description\":\"Missing fields\"},\"401\":{\"description\":\"Invalid credentials or account locked\"},\"422\":{\"description\":\"Validation error\"},\"429\":{\"description\":\"Rate limited\"}},\"securitySchemes\":{\"ApiKeyAuth\":{\"in\":\"header\",\"name\":\"x-api-key\",\"type\":\"apiKey\"},\"BearerAuth\":{\"bearerFormat\":\"session_token\",\"scheme\":\"bearer\",\"type\":\"http\"}},\"securitySource\":\"unspecified\"}", "source": "openapi3", "version": 1 }, "kind": "http", "method": "POST", "orig": "/agent/v1/auth/login", "segments": [{ "lit": "agent" }, { "lit": "v1" }, { "lit": "auth" }, { "lit": "login" }], "select": {}, "transform": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }], "key$": "create" }, "load": { "input": "data", "name": "load", "points": [{ "active": true, "args": { "query": [{ "active": true, "kind": "query", "name": "cursor", "orig": "cursor", "reqd": false, "type": "`$STRING`", "index$": 0 }, { "active": true, "example": 20, "kind": "query", "name": "limit", "orig": "limit", "reqd": false, "type": "`$INTEGER`", "index$": 1 }, { "active": true, "example": 42, "kind": "query", "name": "seed", "orig": "seed", "reqd": false, "type": "`$INTEGER`", "index$": 2 }, { "active": true, "kind": "query", "name": "status", "orig": "status", "reqd": false, "type": "`$STRING`", "index$": 3 }] }, "contract": { "id": "GET /agent/v1/orders", "json": "{\"operationId\":\"agentListOrders\",\"parameters\":[{\"in\":\"query\",\"name\":\"cursor\",\"schema\":{\"type\":\"string\"}},{\"in\":\"query\",\"name\":\"limit\",\"schema\":{\"default\":20,\"maximum\":100,\"type\":\"integer\"}},{\"in\":\"query\",\"name\":\"status\",\"schema\":{\"enum\":[\"pending\",\"paid\",\"shipped\",\"delivered\",\"refunded\",\"cancelled\"],\"type\":\"string\"}},{\"in\":\"query\",\"name\":\"seed\",\"schema\":{\"default\":42,\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{}},\"description\":\"Paginated order list\"},\"400\":{\"description\":\"Invalid status filter\"}},\"securitySchemes\":{\"ApiKeyAuth\":{\"in\":\"header\",\"name\":\"x-api-key\",\"type\":\"apiKey\"},\"BearerAuth\":{\"bearerFormat\":\"session_token\",\"scheme\":\"bearer\",\"type\":\"http\"}},\"securitySource\":\"unspecified\"}", "source": "openapi3", "version": 1 }, "kind": "http", "method": "GET", "orig": "/agent/v1/orders", "segments": [{ "lit": "agent" }, { "lit": "v1" }, { "lit": "orders" }], "select": { "exist": ["cursor", "limit", "seed", "status"] }, "transform": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }, { "active": true, "args": { "params": [{ "active": true, "kind": "param", "name": "scenario", "orig": "scenario", "reqd": true, "type": "`$STRING`", "index$": 0 }] }, "contract": { "id": "GET /agent/v1/scenarios/{scenario}", "json": "{\"operationId\":\"agentScenario\",\"parameters\":[{\"in\":\"path\",\"name\":\"scenario\",\"required\":true,\"schema\":{\"type\":\"string\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"description\":\"Slow / partial-content / empty-response / malformed-json scenarios\"},\"206\":{\"description\":\"Partial content\"},\"302\":{\"description\":\"Redirect loop hop\"},\"401\":{\"description\":\"Unauthorized scenario\"},\"403\":{\"description\":\"Forbidden scenario\"},\"404\":{\"description\":\"Not-found scenario or unknown scenario name\"},\"409\":{\"description\":\"Conflict scenario\"},\"413\":{\"description\":\"Too-large scenario\"},\"422\":{\"description\":\"Validation-error scenario\"},\"429\":{\"description\":\"Rate-limited scenario\"},\"500\":{\"description\":\"Server-error scenario\"},\"502\":{\"description\":\"Bad-gateway scenario\"},\"504\":{\"description\":\"Timeout scenario (returns immediately, see X-Agent-Sandbox-Simulated-Delay header)\"}},\"securitySchemes\":{\"ApiKeyAuth\":{\"in\":\"header\",\"name\":\"x-api-key\",\"type\":\"apiKey\"},\"BearerAuth\":{\"bearerFormat\":\"session_token\",\"scheme\":\"bearer\",\"type\":\"http\"}},\"securitySource\":\"unspecified\"}", "source": "openapi3", "version": 1 }, "kind": "http", "method": "GET", "orig": "/agent/v1/scenarios/{scenario}", "segments": [{ "lit": "agent" }, { "lit": "v1" }, { "lit": "scenarios" }, { "var": "scenario" }], "select": { "exist": ["scenario"] }, "transform": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }, { "active": true, "args": {}, "contract": { "id": "GET /agent/v1/scenarios", "json": "{\"operationId\":\"agentListScenarios\",\"parameters\":[],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{}},\"description\":\"Scenario list\"}},\"securitySchemes\":{\"ApiKeyAuth\":{\"in\":\"header\",\"name\":\"x-api-key\",\"type\":\"apiKey\"},\"BearerAuth\":{\"bearerFormat\":\"session_token\",\"scheme\":\"bearer\",\"type\":\"http\"}},\"securitySource\":\"unspecified\"}", "source": "openapi3", "version": 1 }, "kind": "http", "method": "GET", "orig": "/agent/v1/scenarios", "segments": [{ "lit": "agent" }, { "lit": "v1" }, { "lit": "scenarios" }], "select": {}, "transform": { "req": "`reqdata`", "res": "`body`" }, "index$": 2 }], "key$": "load" } }, "relations": { "ancestors": [["scenario"]] }, "key$": "agent_sandbox", "name__orig": "agent_sandbox", "Name": "AgentSandbox", "name_": "agent_sandbox", "name-": "agent-sandbox", "NAME": "AGENT_SANDBOX", "index$": 1 }, { "active": true, "entity": "agent_sandbox", "key$": "BasicAgentSandboxFlow", "kind": "basic", "name": "BasicAgentSandboxFlow", "param": {}, "step": [{ "active": true, "data": {}, "input": { "ref": "agent_sandbox_ref01" }, "match": {}, "op": "create", "spec": [], "valid": [], "index$": 0 }, { "active": true, "data": {}, "input": { "ref": "agent_sandbox_ref01", "srcdatavar": "agent_sandbox_ref01_data", "suffix": "_dt0" }, "match": {}, "op": "load", "spec": [], "valid": [{ "apply": "TextFieldMark", "def": { "mark": "Mark01-agent_sandbox_ref01" } }], "index$": 1 }] }, 'AgentSandbox');
         }
         const client = setup.client;
         const struct = setup.struct;
@@ -105,12 +103,6 @@ function basicSetup(extra) {
                 '`$VAL`': ['`$FORMAT`', 'upper', '`$COPY`']
             }]
     });
-    // Detect whether the user provided a real ENTID JSON via env var. The
-    // basic flow consumes synthetic IDs from the fixture file; without an
-    // override those synthetic IDs reach the live API and 4xx. Surface this
-    // to the test so it can skip rather than fail.
-    const idmapEnvVal = process.env['HOSTED_REST_TEST_AGENT_SANDBOX_ENTID'];
-    const idmapOverridden = null != idmapEnvVal && idmapEnvVal.trim().startsWith('{');
     const env = (0, utility_1.envOverride)({
         'HOSTED_REST_TEST_AGENT_SANDBOX_ENTID': idmap,
         'HOSTED_REST_TEST_LIVE': 'FALSE',
@@ -119,7 +111,13 @@ function basicSetup(extra) {
     });
     idmap = env['HOSTED_REST_TEST_AGENT_SANDBOX_ENTID'];
     const live = 'TRUE' === env.HOSTED_REST_TEST_LIVE;
+    const transport = (0, live_runner_1.createLiveTransport)();
     if (live) {
+        const rawIds = process.env['HOSTED_REST_TEST_AGENT_SANDBOX_ENTID'];
+        idmap = rawIds && rawIds.trim() ? JSON.parse(rawIds) : {};
+        if (!idmap || Array.isArray(idmap) || typeof idmap !== 'object') {
+            throw new Error('Live ENTID must be a JSON object');
+        }
         client = new __1.HostedRestSDK(merge([
             // FIRST, so the generated fields below win: sdk-test-control.json's
             // test.client.options adds to the live client, it does not redirect it.
@@ -132,7 +130,8 @@ function basicSetup(extra) {
             // argument at all - so a bare 'extra' silently discarded the apikey
             // and server values above and handed the SDK undefined. Harmless
             // while there was nothing in that object; not harmless now.
-            extra || {}
+            extra || {},
+            { system: { fetch: transport.fetch } }
         ]));
     }
     const setup = {
@@ -144,7 +143,7 @@ function basicSetup(extra) {
         data: entityData,
         explain: 'TRUE' === env.HOSTED_REST_TEST_EXPLAIN,
         live,
-        syntheticOnly: live && !idmapOverridden,
+        transport,
         now: Date.now(),
     };
     return setup;

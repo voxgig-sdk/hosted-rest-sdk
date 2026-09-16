@@ -38,6 +38,12 @@ main: kit: entity: agent_health: {
       name: "load"
       points: [
         {
+          contract: {
+            id: "GET /agent/v1/health"
+            json: "{\"operationId\":\"agentHealth\",\"parameters\":[],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"data\":{\"properties\":{\"deprecations\":{\"items\":{\"type\":\"object\"},\"type\":\"array\"},\"rate_limit_status\":{\"properties\":{\"limit_today\":{\"type\":[\"integer\",\"null\"]},\"remaining_today\":{\"type\":[\"integer\",\"null\"]},\"reset_at\":{\"format\":\"date-time\",\"type\":[\"string\",\"null\"]},\"tier\":{\"type\":\"string\"}},\"type\":\"object\"},\"status\":{\"enum\":[\"healthy\",\"degraded\",\"maintenance\"],\"type\":\"string\"},\"uptime_seconds\":{\"type\":\"integer\"},\"version\":{\"type\":\"string\"}},\"required\":[\"status\",\"version\",\"uptime_seconds\",\"rate_limit_status\",\"deprecations\"],\"type\":\"object\"}},\"required\":[\"data\"],\"type\":\"object\"}}},\"description\":\"Healthy\"}},\"securitySchemes\":{\"ApiKeyAuth\":{\"in\":\"header\",\"name\":\"x-api-key\",\"type\":\"apiKey\"},\"BearerAuth\":{\"bearerFormat\":\"session_token\",\"scheme\":\"bearer\",\"type\":\"http\"}},\"securitySource\":\"unspecified\"}"
+            source: "openapi3"
+            version: 1
+          }
           method: "GET"
           orig: "/agent/v1/health"
           segments: [

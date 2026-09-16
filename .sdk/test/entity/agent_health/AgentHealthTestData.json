@@ -5,7 +5,7 @@
         "deprecations": [],
         "rate_limit_status": {},
         "status": "s34",
-        "uptime_seconds": "s35",
+        "uptime_seconds": 53,
         "version": "s36",
         "id": "AGENT_HEALTH00"
       },
@@ -13,7 +13,7 @@
         "deprecations": [],
         "rate_limit_status": {},
         "status": "s66",
-        "uptime_seconds": "s67",
+        "uptime_seconds": 103,
         "version": "s68",
         "id": "AGENT_HEALTH01"
       },
@@ -21,7 +21,7 @@
         "deprecations": [],
         "rate_limit_status": {},
         "status": "s98",
-        "uptime_seconds": "s99",
+        "uptime_seconds": 153,
         "version": "s9a",
         "id": "AGENT_HEALTH02"
       }
@@ -33,8 +33,107 @@
         "deprecations": [],
         "rate_limit_status": {},
         "status": "sca",
-        "uptime_seconds": "scb",
+        "uptime_seconds": 203,
         "version": "scc"
+      }
+    }
+  },
+  "requests": {
+    "GET /agent/v1/health": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "agentHealth",
+        "parameters": [],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "properties": {
+                        "deprecations": {
+                          "items": {
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "rate_limit_status": {
+                          "properties": {
+                            "limit_today": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
+                            },
+                            "remaining_today": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
+                            },
+                            "reset_at": {
+                              "format": "date-time",
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "tier": {
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "status": {
+                          "enum": [
+                            "healthy",
+                            "degraded",
+                            "maintenance"
+                          ],
+                          "type": "string"
+                        },
+                        "uptime_seconds": {
+                          "type": "integer"
+                        },
+                        "version": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "status",
+                        "version",
+                        "uptime_seconds",
+                        "rate_limit_status",
+                        "deprecations"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Healthy"
+          }
+        },
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "BearerAuth": {
+            "bearerFormat": "session_token",
+            "scheme": "bearer",
+            "type": "http"
+          }
+        },
+        "securitySource": "unspecified"
       }
     }
   }

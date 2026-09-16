@@ -16,5 +16,46 @@
     "authentication": {
       "authentication_ref01": {}
     }
+  },
+  "requests": {
+    "POST /api/logout": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "logoutUser",
+        "parameters": [],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Logged out"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "BearerAuth": {
+            "bearerFormat": "session_token",
+            "scheme": "bearer",
+            "type": "http"
+          }
+        },
+        "securitySource": "operation"
+      }
+    }
   }
 }

@@ -5,6 +5,8 @@ import * as Fs from 'node:fs'
 
 import { test, describe, afterEach } from 'node:test'
 import assert from 'node:assert'
+import { createLiveTransport } from '../../live-runner'
+import { runLiveEntity } from '../../live-entity'
 
 
 import { HostedRestSDK, BaseFeature, stdutil } from '../../..'
@@ -47,16 +49,13 @@ describe('LegacyUserListEntity', async () => {
 
     const live = 'TRUE' === process.env.HOSTED_REST_TEST_LIVE
     for (const op of ['list']) {
-      if (maybeSkipControl(t, 'entityOp', 'legacy_user_list.' + op, live)) return
+      if (!live && maybeSkipControl(t, 'entityOp', 'legacy_user_list.' + op, live)) return
     }
 
+    
     const setup = basicSetup()
-    // The basic flow consumes synthetic IDs and field values from the
-    // fixture (entity TestData.json). Those don't exist on the live API.
-    // Skip live runs unless the user provided a real ENTID env override.
-    if (setup.syntheticOnly) {
-      t.skip('live entity test uses synthetic IDs from fixture — set HOSTED_REST_TEST_LEGACY_USER_LIST_ENTID JSON to run live')
-      return
+    if (setup.live) {
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":[{"active":true,"name":"avatar","req":true,"type":"`$STRING`","index$":0},{"active":true,"format":"email","name":"email","req":true,"type":"`$STRING`","index$":1},{"active":true,"name":"first_name","req":true,"type":"`$STRING`","index$":2},{"active":true,"name":"id","req":true,"type":"`$INTEGER`","index$":3},{"active":true,"name":"last_name","req":true,"type":"`$STRING`","index$":4}],"id":{"field":"id","name":"id"},"name":"legacy_user_list","op":{"list":{"input":"data","name":"list","points":[{"active":true,"args":{"query":[{"active":true,"example":1,"kind":"query","name":"page","orig":"page","reqd":false,"type":"`$INTEGER`","index$":0},{"active":true,"kind":"query","name":"per_page","orig":"per_page","reqd":false,"type":"`$INTEGER`","index$":1}]},"contract":{"id":"GET /api/users","json":"{\"operationId\":\"getLegacyUsers\",\"parameters\":[{\"description\":\"Page number for pagination.\",\"in\":\"query\",\"name\":\"page\",\"required\":false,\"schema\":{\"default\":1,\"minimum\":1,\"type\":\"integer\"}},{\"description\":\"Number of users per page.\",\"in\":\"query\",\"name\":\"per_page\",\"required\":false,\"schema\":{\"maximum\":100,\"minimum\":1,\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"additionalProperties\":true,\"properties\":{\"data\":{\"items\":{\"properties\":{\"avatar\":{\"type\":\"string\"},\"email\":{\"format\":\"email\",\"type\":\"string\"},\"first_name\":{\"type\":\"string\"},\"id\":{\"type\":\"integer\"},\"last_name\":{\"type\":\"string\"}},\"required\":[\"id\",\"email\",\"first_name\",\"last_name\",\"avatar\"],\"type\":\"object\"},\"type\":\"array\"},\"page\":{\"type\":\"integer\"},\"per_page\":{\"type\":\"integer\"},\"support\":{\"additionalProperties\":true,\"type\":\"object\"},\"total\":{\"type\":\"integer\"},\"total_pages\":{\"type\":\"integer\"}},\"required\":[\"page\",\"per_page\",\"total\",\"total_pages\",\"data\"],\"type\":\"object\"}}},\"description\":\"Successful response\"},\"400\":{\"content\":{\"application/json\":{\"schema\":{\"additionalProperties\":true,\"properties\":{\"error\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"}},\"required\":[\"error\"],\"type\":\"object\"}}},\"description\":\"Error response\"}},\"security\":[{\"ApiKeyAuth\":[]}],\"securitySchemes\":{\"ApiKeyAuth\":{\"in\":\"header\",\"name\":\"x-api-key\",\"type\":\"apiKey\"},\"BearerAuth\":{\"bearerFormat\":\"session_token\",\"scheme\":\"bearer\",\"type\":\"http\"}},\"securitySource\":\"operation\"}","source":"openapi3","version":1},"kind":"http","method":"GET","orig":"/api/users","segments":[{"lit":"api"},{"lit":"users"}],"select":{"exist":["page","per_page"]},"transform":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"list"}},"relations":{"ancestors":[]},"key$":"legacy_user_list","name__orig":"legacy_user_list","Name":"LegacyUserList","name_":"legacy_user_list","name-":"legacy-user-list","NAME":"LEGACY_USER_LIST","index$":19}, {"active":true,"entity":"legacy_user_list","key$":"BasicLegacyUserListFlow","kind":"basic","name":"BasicLegacyUserListFlow","param":{},"step":[{"active":true,"data":{},"input":{},"match":{},"op":"list","spec":[],"valid":[{"apply":"ItemExists","def":{"ref":"legacy_user_list_ref01"}}],"index$":0}]}, 'LegacyUserList')
     }
     const client = setup.client
     const struct = setup.struct
@@ -109,13 +108,6 @@ function basicSetup(extra?: any) {
       }]
     })
 
-  // Detect whether the user provided a real ENTID JSON via env var. The
-  // basic flow consumes synthetic IDs from the fixture file; without an
-  // override those synthetic IDs reach the live API and 4xx. Surface this
-  // to the test so it can skip rather than fail.
-  const idmapEnvVal = process.env['HOSTED_REST_TEST_LEGACY_USER_LIST_ENTID']
-  const idmapOverridden = null != idmapEnvVal && idmapEnvVal.trim().startsWith('{')
-
   const env = envOverride({
     'HOSTED_REST_TEST_LEGACY_USER_LIST_ENTID': idmap,
     'HOSTED_REST_TEST_LIVE': 'FALSE',
@@ -127,7 +119,13 @@ function basicSetup(extra?: any) {
 
   const live = 'TRUE' === env.HOSTED_REST_TEST_LIVE
 
+  const transport = createLiveTransport()
   if (live) {
+    const rawIds = process.env['HOSTED_REST_TEST_LEGACY_USER_LIST_ENTID']
+    idmap = rawIds && rawIds.trim() ? JSON.parse(rawIds) : {}
+    if (!idmap || Array.isArray(idmap) || typeof idmap !== 'object') {
+      throw new Error('Live ENTID must be a JSON object')
+    }
     client = new HostedRestSDK(merge([
       // FIRST, so the generated fields below win: sdk-test-control.json's
       // test.client.options adds to the live client, it does not redirect it.
@@ -140,7 +138,8 @@ function basicSetup(extra?: any) {
       // argument at all - so a bare 'extra' silently discarded the apikey
       // and server values above and handed the SDK undefined. Harmless
       // while there was nothing in that object; not harmless now.
-      extra || {}
+      extra || {},
+      { system: { fetch: transport.fetch } }
     ]))
   }
 
@@ -153,7 +152,7 @@ function basicSetup(extra?: any) {
     data: entityData,
     explain: 'TRUE' === env.HOSTED_REST_TEST_EXPLAIN,
     live,
-    syntheticOnly: live && !idmapOverridden,
+    transport,
     now: Date.now(),
   }
 

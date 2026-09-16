@@ -4,7 +4,10 @@ declare(strict_types=1);
 // HostedRest SDK feature factory
 
 require_once __DIR__ . '/feature/BaseFeature.php';
+require_once __DIR__ . '/feature/RatelimitFeature.php';
+require_once __DIR__ . '/feature/RetryFeature.php';
 require_once __DIR__ . '/feature/TestFeature.php';
+require_once __DIR__ . '/feature/TimeoutFeature.php';
 
 
 class HostedRestFeatures
@@ -14,8 +17,14 @@ class HostedRestFeatures
         switch ($name) {
             case "base":
                 return new HostedRestBaseFeature();
+            case "ratelimit":
+                return new HostedRestRatelimitFeature();
+            case "retry":
+                return new HostedRestRetryFeature();
             case "test":
                 return new HostedRestTestFeature();
+            case "timeout":
+                return new HostedRestTimeoutFeature();
             default:
                 return new HostedRestBaseFeature();
         }
@@ -31,7 +40,10 @@ class HostedRestFeatures
     {
         switch ($name) {
             case "base":
+            case "ratelimit":
+            case "retry":
             case "test":
+            case "timeout":
                 return true;
             default:
                 return false;
