@@ -103,6 +103,7 @@ class HostedRestConfig
                 "base" => "https://reqres.in",
                 "auth" => [
                     "prefix" => "",
+                    "name" => "x-api-key",
                 ],
                 "headers" => [
           'content-type' => 'application/json',

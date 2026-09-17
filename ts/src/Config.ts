@@ -123,6 +123,7 @@ class Config {
 
     auth: {
       prefix: '',
+      name: 'x-api-key',
     },
 
     headers: {
@@ -131,72 +132,72 @@ class Config {
 
     entity: {
       
-      agent_health: {
-      },
-
-      agent_sandbox: {
-      },
-
-      agent_user_detail: {
-      },
-
-      agent_user_list: {
-      },
-
-      app_user: {
-      },
-
-      app_user_login: {
-      },
-
-      app_user_session: {
-      },
-
-      app_user_total: {
-      },
-
-      app_user_verify: {
-      },
-
-      authentication: {
-      },
-
-      collection: {
-      },
-
-      collection_record: {
-      },
-
-      collection_record_list: {
-      },
-
-      custom: {
-      },
-
-      legacy: {
-      },
-
-      legacy_mutation: {
-      },
-
-      legacy_unknown: {
-      },
-
-      legacy_unknown_list: {
-      },
-
-      legacy_user: {
-      },
-
-      legacy_user_list: {
-      },
-
-      login: {
-      },
-
-      register: {
-      },
-
+        agent_health: {
+        },
+  
+        agent_sandbox: {
+        },
+  
+        agent_user_detail: {
+        },
+  
+        agent_user_list: {
+        },
+  
+        app_user: {
+        },
+  
+        app_user_login: {
+        },
+  
+        app_user_session: {
+        },
+  
+        app_user_total: {
+        },
+  
+        app_user_verify: {
+        },
+  
+        authentication: {
+        },
+  
+        collection: {
+        },
+  
+        collection_record: {
+        },
+  
+        collection_record_list: {
+        },
+  
+        custom: {
+        },
+  
+        legacy: {
+        },
+  
+        legacy_mutation: {
+        },
+  
+        legacy_unknown: {
+        },
+  
+        legacy_unknown_list: {
+        },
+  
+        legacy_user: {
+        },
+  
+        legacy_user_list: {
+        },
+  
+        login: {
+        },
+  
+        register: {
+        },
+  
     }
   }
 
