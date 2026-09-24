@@ -319,10 +319,10 @@ class HostedRestSDK:
         return AgentSandboxEntity(self, data)
 
 
-    def AgentUserDetail(self, data=None) -> "AgentUserDetailEntity":
-        """Entity factory: client.AgentUserDetail().list() / client.AgentUserDetail().load({"id": ...})."""
-        from hostedrest_sdk.entity.agent_user_detail_entity import AgentUserDetailEntity
-        return AgentUserDetailEntity(self, data)
+    def AgentUser(self, data=None) -> "AgentUserEntity":
+        """Entity factory: client.AgentUser().list() / client.AgentUser().load({"id": ...})."""
+        from hostedrest_sdk.entity.agent_user_entity import AgentUserEntity
+        return AgentUserEntity(self, data)
 
 
     def AgentUserList(self, data=None) -> "AgentUserListEntity":
@@ -468,7 +468,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from hostedrest_sdk.entity.agent_health_entity import AgentHealthEntity
     from hostedrest_sdk.entity.agent_sandbox_entity import AgentSandboxEntity
-    from hostedrest_sdk.entity.agent_user_detail_entity import AgentUserDetailEntity
+    from hostedrest_sdk.entity.agent_user_entity import AgentUserEntity
     from hostedrest_sdk.entity.agent_user_list_entity import AgentUserListEntity
     from hostedrest_sdk.entity.app_user_entity import AppUserEntity
     from hostedrest_sdk.entity.app_user_login_entity import AppUserLoginEntity

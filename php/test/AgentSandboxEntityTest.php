@@ -70,7 +70,7 @@ function agent_sandbox_basic_setup($extra)
 
     // Generate idmap.
     $idmap = [];
-    foreach (["agent_sandbox01", "agent_sandbox02", "agent_sandbox03", "scenario01", "scenario02", "scenario03"] as $k) {
+    foreach (["agent_sandbox01", "agent_sandbox02", "agent_sandbox03"] as $k) {
         $idmap[$k] = strtoupper($k);
     }
 

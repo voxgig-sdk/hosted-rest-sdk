@@ -148,7 +148,7 @@ def app_user_basic_setup(extra)
 
   # Generate idmap via transform.
   idmap = Vs.transform(
-    ["app_user01", "app_user02", "app_user03", "project01", "project02", "project03", "collection01", "collection02", "collection03", "record01", "record02", "record03"],
+    ["app_user01", "app_user02", "app_user03", "collection01", "collection02", "collection03", "project01"],
     {
       "`$PACK`" => ["", {
         "`$KEY`" => "`$COPY`",

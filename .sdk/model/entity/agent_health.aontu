@@ -1,0 +1,75 @@
+# Entity: agent_health
+
+main: kit: entity: agent_health: {
+
+  alias: field: {}
+
+  fields: {
+    deprecations: {
+      h: "Deprecations"
+      n: "deprecations"
+      r: true
+      t: "`$ARRAY`"
+    }
+    rate_limit_status: {
+      h: "Rate Limit Status"
+      n: "rate_limit_status"
+      r: true
+      t: "`$OBJECT`"
+    }
+    status: {
+      h: "Status"
+      n: "status"
+      r: true
+      t: "`$STRING`"
+    }
+    uptime_seconds: {
+      h: "Uptime Seconds"
+      n: "uptime_seconds"
+      r: true
+      t: "`$INTEGER`"
+    }
+    version: {
+      h: "Version"
+      n: "version"
+      r: true
+      t: "`$STRING`"
+    }
+  }
+
+  name: "agent_health"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /agent/v1/health"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/agent/v1/health"
+          s: [
+            {
+              lit: "agent"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "health"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

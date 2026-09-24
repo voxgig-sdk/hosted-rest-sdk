@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AgentUserListEntity = void 0;
 const HostedRestEntityBase_1 = require("../HostedRestEntityBase");
-// TODO: needs Entity superclass
 class AgentUserListEntity extends HostedRestEntityBase_1.HostedRestEntityBase {
     constructor(client, entopts) {
         super(client, entopts);

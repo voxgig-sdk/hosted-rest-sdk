@@ -1,7 +1,7 @@
 # Typed models for the HostedRest SDK.
 #
-# GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-# params (op.<name>.points[].args.params[]). Field/param types come from the
+# GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+# params (op.<name>.points[].g.params[]). Field/param types come from the
 # canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 # @voxgig/apidef VALID_CANON). Do not edit by hand.
 #
@@ -46,7 +46,7 @@ class AgentSandboxCreateData(TypedDict):
     password: str
 
 
-class AgentUserDetail(TypedDict):
+class AgentUser(TypedDict):
     created_at: str
     email: str
     full_name: str
@@ -59,11 +59,11 @@ class AgentUserDetail(TypedDict):
     updated_at: str
 
 
-class AgentUserDetailLoadMatchRequired(TypedDict):
+class AgentUserLoadMatchRequired(TypedDict):
     id: str
 
 
-class AgentUserDetailLoadMatch(AgentUserDetailLoadMatchRequired, total=False):
+class AgentUserLoadMatch(AgentUserLoadMatchRequired, total=False):
     expand: str
 
 

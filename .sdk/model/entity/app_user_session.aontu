@@ -1,0 +1,66 @@
+# Entity: app_user_session
+
+main: kit: entity: app_user_session: {
+
+  alias: field: {}
+
+  name: "app_user_session"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/app-users/me"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/api/app-users/me"
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "app-users"
+            }
+            {
+              lit: "me"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+        {
+          co: {
+            id: "GET /app/me"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/app/me"
+          s: [
+            {
+              lit: "app"
+            }
+            {
+              lit: "me"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
+  }
+
+  fields: {
+  }
+
+
+
+}

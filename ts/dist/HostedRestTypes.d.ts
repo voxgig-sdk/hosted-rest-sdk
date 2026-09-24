@@ -23,7 +23,7 @@ export interface AgentSandboxCreateData {
     email: string;
     password: string;
 }
-export interface AgentUserDetail {
+export interface AgentUser {
     created_at: string;
     email: string;
     full_name: string;
@@ -35,7 +35,7 @@ export interface AgentUserDetail {
     timezone: string;
     updated_at: string;
 }
-export interface AgentUserDetailLoadMatch {
+export interface AgentUserLoadMatch {
     id: string;
     expand?: string;
 }

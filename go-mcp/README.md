@@ -153,7 +153,7 @@ JSON schemas are emitted by the SDK from the `Args` struct's `json` /
 
 The 22 entities valid as the `entity` argument:
 
-agent_health | agent_sandbox | agent_user_detail | agent_user_list | app_user | app_user_login | app_user_session | app_user_total | app_user_verify | authentication | collection | collection_record | collection_record_list | custom | legacy | legacy_mutation | legacy_unknown | legacy_unknown_list | legacy_user | legacy_user_list | login | register
+agent_health | agent_sandbox | agent_user | agent_user_list | app_user | app_user_login | app_user_session | app_user_total | app_user_verify | authentication | collection | collection_record | collection_record_list | custom | legacy | legacy_mutation | legacy_unknown | legacy_unknown_list | legacy_user | legacy_user_list | login | register
 
 ### Smoke test via HTTP (raw JSON-RPC)
 

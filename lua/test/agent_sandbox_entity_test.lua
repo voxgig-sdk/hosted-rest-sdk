@@ -73,7 +73,7 @@ function agent_sandbox_basic_setup(extra)
 
   -- Generate idmap via transform.
   local idmap = vs.transform(
-    { "agent_sandbox01", "agent_sandbox02", "agent_sandbox03", "scenario01", "scenario02", "scenario03" },
+    { "agent_sandbox01", "agent_sandbox02", "agent_sandbox03" },
     {
       ["`$PACK`"] = { "", {
         ["`$KEY`"] = "`$COPY`",

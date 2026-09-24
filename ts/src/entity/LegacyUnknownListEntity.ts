@@ -19,7 +19,6 @@ import type {
   LegacyUnknownListListMatch,
 } from '../HostedRestTypes'
 
-// TODO: needs Entity superclass
 class LegacyUnknownListEntity extends HostedRestEntityBase<LegacyUnknownList> {
 
   constructor(client: HostedRestSDK, entopts: any) {

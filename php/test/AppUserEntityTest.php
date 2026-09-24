@@ -159,7 +159,7 @@ function app_user_basic_setup($extra)
 
     // Generate idmap.
     $idmap = [];
-    foreach (["app_user01", "app_user02", "app_user03", "project01", "project02", "project03", "collection01", "collection02", "collection03", "record01", "record02", "record03"] as $k) {
+    foreach (["app_user01", "app_user02", "app_user03", "collection01", "collection02", "collection03", "project01"] as $k) {
         $idmap[$k] = strtoupper($k);
     }
 

@@ -377,15 +377,15 @@ function HostedRestSDK:AgentSandbox(data)
 end
 
 
--- Idiomatic facade: client:AgentUserDetail():list() / client:AgentUserDetail():load({ id = ... })
+-- Idiomatic facade: client:AgentUser():list() / client:AgentUser():load({ id = ... })
 -- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function HostedRestSDK:AgentUserDetail(data)
-  local EntityMod = require("entity.agent_user_detail_entity")
+function HostedRestSDK:AgentUser(data)
+  local EntityMod = require("entity.agent_user_entity")
   if data == nil then
-    if self._agent_user_detail == nil then
-      self._agent_user_detail = EntityMod.new(self, nil)
+    if self._agent_user == nil then
+      self._agent_user = EntityMod.new(self, nil)
     end
-    return self._agent_user_detail
+    return self._agent_user
   end
   return EntityMod.new(self, data)
 end

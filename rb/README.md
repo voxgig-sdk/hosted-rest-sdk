@@ -32,15 +32,15 @@ client = HostedRestSDK.new({
 })
 ```
 
-### 3. Load an agentsandbox
+### 3. Load a collectionrecord
 
-AgentSandbox is nested under scenario, so provide the `scenario`.
+CollectionRecord is nested under collection, so provide the `collection_id`.
 
 ```ruby
 begin
-  # load returns the ENTITY — call data_get for the AgentSandbox record (raises on error).
-  agentsandbox = client.AgentSandbox.load({ "scenario" => "example_scenario" })
-  puts agentsandbox
+  # load returns the ENTITY — call data_get for the CollectionRecord record (raises on error).
+  collectionrecord = client.CollectionRecord.load({ "collection_id" => "example_collection_id", "id" => "example_id" })
+  puts collectionrecord
 rescue => err
   warn "load failed: #{err}"
 end
@@ -204,7 +204,7 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `direct` | `(fetchargs) -> Hash` | Build and send an HTTP request. Returns a result hash (`result["ok"]`); does not raise. |
 | `AgentHealth` | `(data) -> AgentHealthEntity` | Create an AgentHealth entity instance. |
 | `AgentSandbox` | `(data) -> AgentSandboxEntity` | Create an AgentSandbox entity instance. |
-| `AgentUserDetail` | `(data) -> AgentUserDetailEntity` | Create an AgentUserDetail entity instance. |
+| `AgentUser` | `(data) -> AgentUserEntity` | Create an AgentUser entity instance. |
 | `AgentUserList` | `(data) -> AgentUserListEntity` | Create an AgentUserList entity instance. |
 | `AppUser` | `(data) -> AppUserEntity` | Create an AppUser entity instance. |
 | `AppUserLogin` | `(data) -> AppUserLoginEntity` | Create an AppUserLogin entity instance. |
@@ -287,7 +287,7 @@ Operations: Create, Load.
 
 API path: `/agent/v1/auth/login`
 
-#### AgentUserDetail
+#### AgentUser
 
 | Field | Description |
 | --- | --- |
@@ -621,9 +621,9 @@ agent_sandbox = client.AgentSandbox.create({
 ```
 
 
-### AgentUserDetail
+### AgentUser
 
-Create an instance: `agent_user_detail = client.AgentUserDetail`
+Create an instance: `agent_user = client.AgentUser`
 
 #### Operations
 
@@ -649,8 +649,8 @@ Create an instance: `agent_user_detail = client.AgentUserDetail`
 #### Example: Load
 
 ```ruby
-# load returns the ENTITY — call data_get for the AgentUserDetail record (raises on error).
-agent_user_detail = client.AgentUserDetail.load({ "id" => "agent_user_detail_id" })
+# load returns the ENTITY — call data_get for the AgentUser record (raises on error).
+agent_user = client.AgentUser.load({ "id" => "agent_user_id" })
 ```
 
 

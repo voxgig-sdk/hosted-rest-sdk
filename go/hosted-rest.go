@@ -47,8 +47,8 @@ func init() {
 	core.NewAgentSandboxEntityFunc = func(client *core.HostedRestSDK, entopts map[string]any) core.HostedRestEntity {
 		return entity.NewAgentSandboxEntity(client, entopts)
 	}
-	core.NewAgentUserDetailEntityFunc = func(client *core.HostedRestSDK, entopts map[string]any) core.HostedRestEntity {
-		return entity.NewAgentUserDetailEntity(client, entopts)
+	core.NewAgentUserEntityFunc = func(client *core.HostedRestSDK, entopts map[string]any) core.HostedRestEntity {
+		return entity.NewAgentUserEntity(client, entopts)
 	}
 	core.NewAgentUserListEntityFunc = func(client *core.HostedRestSDK, entopts map[string]any) core.HostedRestEntity {
 		return entity.NewAgentUserListEntity(client, entopts)

@@ -78,7 +78,7 @@ _CLIENT_VARS = ("client", "sdk")
 _ENTITIES = {
     "AgentHealth": "agent_health",
     "AgentSandbox": "agent_sandbox",
-    "AgentUserDetail": "agent_user_detail",
+    "AgentUser": "agent_user",
     "AgentUserList": "agent_user_list",
     "AppUser": "app_user",
     "AppUserLogin": "app_user_login",

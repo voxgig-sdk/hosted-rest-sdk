@@ -16,7 +16,7 @@ var NewAgentHealthEntityFunc func(client *HostedRestSDK, entopts map[string]any)
 
 var NewAgentSandboxEntityFunc func(client *HostedRestSDK, entopts map[string]any) HostedRestEntity
 
-var NewAgentUserDetailEntityFunc func(client *HostedRestSDK, entopts map[string]any) HostedRestEntity
+var NewAgentUserEntityFunc func(client *HostedRestSDK, entopts map[string]any) HostedRestEntity
 
 var NewAgentUserListEntityFunc func(client *HostedRestSDK, entopts map[string]any) HostedRestEntity
 

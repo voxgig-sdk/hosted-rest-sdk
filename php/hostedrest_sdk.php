@@ -377,21 +377,21 @@ class HostedRestSDK
     }
 
 
-    private $_agent_user_detail = null;
+    private $_agent_user = null;
 
-    // Canonical facade: $client->AgentUserDetail()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->agent_user_detail()
+    // Canonical facade: $client->AgentUser()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->agent_user()
     // resolves here too.
-    public function AgentUserDetail($data = null)
+    public function AgentUser($data = null)
     {
-        require_once __DIR__ . '/entity/agent_user_detail_entity.php';
+        require_once __DIR__ . '/entity/agent_user_entity.php';
         if ($data === null) {
-            if ($this->_agent_user_detail === null) {
-                $this->_agent_user_detail = new AgentUserDetailEntity($this, null);
+            if ($this->_agent_user === null) {
+                $this->_agent_user = new AgentUserEntity($this, null);
             }
-            return $this->_agent_user_detail;
+            return $this->_agent_user;
         }
-        return new AgentUserDetailEntity($this, $data);
+        return new AgentUserEntity($this, $data);
     }
 
 

@@ -1,0 +1,199 @@
+# Entity: agent_sandbox
+
+main: kit: entity: agent_sandbox: {
+
+  alias: field: {}
+
+  fields: {
+    email: {
+      fo: "email"
+      h: "Email"
+      n: "email"
+      r: true
+      t: "`$STRING`"
+    }
+    password: {
+      h: "Password"
+      n: "password"
+      r: true
+      t: "`$STRING`"
+    }
+  }
+
+  name: "agent_sandbox"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /agent/v1/auth/login"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/agent/v1/auth/login"
+          s: [
+            {
+              lit: "agent"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "auth"
+            }
+            {
+              lit: "login"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /agent/v1/orders"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "cursor"
+                or: "cursor"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                ex: 20
+                k: "query"
+                n: "limit"
+                or: "limit"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 42
+                k: "query"
+                n: "seed"
+                or: "seed"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                k: "query"
+                n: "status"
+                or: "status"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/agent/v1/orders"
+          q: {
+            exist: [
+              "cursor"
+              "limit"
+              "seed"
+              "status"
+            ]
+          }
+          s: [
+            {
+              lit: "agent"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "orders"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "GET /agent/v1/scenarios/{scenario}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "scenario"
+                or: "scenario"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/agent/v1/scenarios/{scenario}"
+          q: {
+            exist: [
+              "scenario"
+            ]
+          }
+          s: [
+            {
+              lit: "agent"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "scenarios"
+            }
+            {
+              var: "scenario"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "GET /agent/v1/scenarios"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/agent/v1/scenarios"
+          s: [
+            {
+              lit: "agent"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "scenarios"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

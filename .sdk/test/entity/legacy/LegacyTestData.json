@@ -20,45 +20,8 @@
   "requests": {
     "DELETE /api/users/{id}": {
       "provenance": "operation-contract",
-      "contract": {
-        "operationId": "deleteLegacyUser",
-        "parameters": [
-          {
-            "description": "User id.",
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "minimum": 1,
-              "type": "integer"
-            }
-          }
-        ],
-        "protocol": "http",
-        "responses": {
-          "204": {
-            "description": "No content"
-          }
-        },
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ],
-        "securitySchemes": {
-          "ApiKeyAuth": {
-            "in": "header",
-            "name": "x-api-key",
-            "type": "apiKey"
-          },
-          "BearerAuth": {
-            "bearerFormat": "session_token",
-            "scheme": "bearer",
-            "type": "http"
-          }
-        },
-        "securitySource": "operation"
-      }
+      "version": 2,
+      "source": "openapi3"
     }
   }
 }

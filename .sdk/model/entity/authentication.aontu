@@ -1,0 +1,42 @@
+# Entity: authentication
+
+main: kit: entity: authentication: {
+
+  alias: field: {}
+
+  name: "authentication"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /api/logout"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/api/logout"
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "logout"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  fields: {
+  }
+
+
+
+}

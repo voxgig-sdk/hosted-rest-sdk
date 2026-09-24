@@ -72,7 +72,7 @@ function app_user_total_basic_setup(extra)
 
   -- Generate idmap via transform.
   local idmap = vs.transform(
-    { "app_user_total01", "app_user_total02", "app_user_total03", "project01", "project02", "project03" },
+    { "app_user_total01", "app_user_total02", "app_user_total03" },
     {
       ["`$PACK`"] = { "", {
         ["`$KEY`"] = "`$COPY`",

@@ -14,7 +14,7 @@ Metadata kindly supplied by [www.freepublicapis.com](https://www.freepublicapis.
 
 > TypeScript, Python, PHP, Golang, Ruby, Lua SDKs, a CLI with an interactive REPL, and an MCP server for AI agents — all generated from one OpenAPI spec by [@voxgig/sdkgen](https://github.com/voxgig/sdkgen).
 
-> **Features:** `ratelimit`, `retry`, `test`, `timeout` — opt-in,
+> **Features:** `undefined`, `undefined`, `undefined`, `undefined` — opt-in,
 > inactive until switched on, and configured per client. See the Features
 > section of any SDK README below for what each one does.
 
@@ -126,11 +126,12 @@ const client = new HostedRestSDK({
 })
 
 
-// Load a specific agentsandbox (returns a AgentSandbox)
-const agentsandbox = await client.AgentSandbox().load({
-  scenario: 'example_scenario',
+// Load a specific collectionrecord (returns a CollectionRecord)
+const collectionrecord = await client.CollectionRecord().load({
+  collection_id: 'example_collection_id',
+  id: 'example_id',
 })
-console.log(agentsandbox)
+console.log(collectionrecord)
 ```
 
 See the [TypeScript README](ts/README.md) for the full guide.
@@ -173,7 +174,7 @@ The API exposes 22 entities:
 | --- | --- | --- |
 | **AgentHealth** | The AgentHealth entity (load). | `/agent/v1/health` |
 | **AgentSandbox** | The AgentSandbox entity (create, load). | `/agent/v1/orders` |
-| **AgentUserDetail** | The AgentUserDetail entity (load). | `/agent/v1/users/{id}` |
+| **AgentUser** | The AgentUser entity (load). | `/agent/v1/users/{id}` |
 | **AgentUserList** | The AgentUserList entity (list). | `/agent/v1/users` |
 | **AppUser** | The AppUser entity (create, list, load, remove, update). | `/api/projects/{projectId}/app-users` |
 | **AppUserLogin** | The AppUserLogin entity (create). | `/api/app-users/login` |
@@ -241,14 +242,14 @@ client := sdk.NewHostedRestSDK(map[string]any{
 })
 
 
-// Load a specific agentsandbox
-agentSandbox, err := client.AgentSandbox(nil).Load(
-    map[string]any{"scenario": "example_scenario"}, nil,
+// Load a specific collectionrecord
+collectionRecord, err := client.CollectionRecord(nil).Load(
+    map[string]any{"collection_id": "example_collection_id", "id": "example_id"}, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(agentSandbox)
+fmt.Println(collectionRecord)
 ```
 
 ### Ruby

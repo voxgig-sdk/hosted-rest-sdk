@@ -50,9 +50,9 @@ Create a new `AgentHealthEntity` instance. Pass `null` for no initial data.
 
 Create a new `AgentSandboxEntity` instance. Pass `null` for no initial data.
 
-#### `AgentUserDetail($data = null)`
+#### `AgentUser($data = null)`
 
-Create a new `AgentUserDetailEntity` instance. Pass `null` for no initial data.
+Create a new `AgentUserEntity` instance. Pass `null` for no initial data.
 
 #### `AgentUserList($data = null)`
 
@@ -287,10 +287,10 @@ Return the entity name.
 
 ---
 
-## AgentUserDetailEntity
+## AgentUserEntity
 
 ```php
-$agent_user_detail = $client->AgentUserDetail();
+$agent_user = $client->AgentUser();
 ```
 
 ### Fields
@@ -315,7 +315,7 @@ $agent_user_detail = $client->AgentUserDetail();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->AgentUserDetail()->load(["id" => "agent_user_detail_id"]);
+$result = $client->AgentUser()->load(["id" => "agent_user_id"]);
 ```
 
 ### Common Methods
@@ -336,9 +336,9 @@ Get the entity match criteria.
 
 Set the entity match criteria.
 
-#### `make(): AgentUserDetailEntity`
+#### `make(): AgentUserEntity`
 
-Create a new `AgentUserDetailEntity` instance with the same client and
+Create a new `AgentUserEntity` instance with the same client and
 options.
 
 #### `get_name(): string`

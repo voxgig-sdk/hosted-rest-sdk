@@ -264,7 +264,6 @@ func (sdk *HostedRestSDK) rawRequest(fetchargs map[string]any) (map[string]any, 
 		if !noBody {
 			if jf := vs.GetProp(fm, "json"); jf != nil {
 				if f, ok := jf.(func() any); ok {
-					// f() returns nil on parse error in our fetcher.
 					jsonData = f()
 				}
 			}
@@ -281,17 +280,6 @@ func (sdk *HostedRestSDK) rawRequest(fetchargs map[string]any) (map[string]any, 
 	return map[string]any{"ok": false, "err": ctx.MakeError("direct_invalid", "invalid response type")}, nil
 }
 
-// Raw GraphQL access: the pressure valve that makes the generated surface's
-// deliberate omissions (per-call selection sets, typed filter builders,
-// batching, subscriptions) livable — the whole schema stays reachable.
-//
-// Thin wrapper over the same prepare/fetch path Direct uses, with the one
-// thing raw Direct cannot do for GraphQL: a GraphQL failure rides HTTP 200
-// as a top-level `errors` array, so status alone would report a failed query
-// as ok.
-//
-// NOTE: like Direct, this bypasses the feature pipeline — no retry,
-// ratelimit or paging features apply.
 func (sdk *HostedRestSDK) Graphql(
 	query string, variables map[string]any, ctrl map[string]any,
 ) (map[string]any, error) {
@@ -354,11 +342,11 @@ func (sdk *HostedRestSDK) AgentSandbox(data map[string]any) HostedRestEntity {
 }
 
 
-// AgentUserDetail returns a AgentUserDetail entity bound to this client.
-// Idiomatic usage: client.AgentUserDetail(nil).List(nil, nil) or
-// client.AgentUserDetail(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *HostedRestSDK) AgentUserDetail(data map[string]any) HostedRestEntity {
-	return NewAgentUserDetailEntityFunc(sdk, data)
+// AgentUser returns a AgentUser entity bound to this client.
+// Idiomatic usage: client.AgentUser(nil).List(nil, nil) or
+// client.AgentUser(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *HostedRestSDK) AgentUser(data map[string]any) HostedRestEntity {
+	return NewAgentUserEntityFunc(sdk, data)
 }
 
 

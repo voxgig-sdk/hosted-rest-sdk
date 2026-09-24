@@ -2,8 +2,8 @@
 
 # Typed models for the HostedRest SDK.
 #
-# GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-# params (op.<name>.points[].args.params[]). Member types come from the
+# GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+# params (op.<name>.points[].g.params[]). Member types come from the
 # canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 # @voxgig/apidef VALID_CANON). Ruby types are unenforced; these YARD
 # annotations document the shapes. Do not edit by hand.
@@ -93,7 +93,7 @@ AgentSandboxCreateData = Struct.new(
   keyword_init: true
 )
 
-# AgentUserDetail entity data model.
+# AgentUser entity data model.
 #
 # @!attribute [rw] created_at
 #   @return [String]
@@ -124,7 +124,7 @@ AgentSandboxCreateData = Struct.new(
 #
 # @!attribute [rw] updated_at
 #   @return [String]
-AgentUserDetail = Struct.new(
+AgentUser = Struct.new(
   :created_at,
   :email,
   :full_name,
@@ -138,14 +138,14 @@ AgentUserDetail = Struct.new(
   keyword_init: true
 )
 
-# Request payload for AgentUserDetail#load.
+# Request payload for AgentUser#load.
 #
 # @!attribute [rw] id
 #   @return [String]
 #
 # @!attribute [rw] expand
 #   @return [String, nil]
-AgentUserDetailLoadMatch = Struct.new(
+AgentUserLoadMatch = Struct.new(
   :id,
   :expand,
   keyword_init: true

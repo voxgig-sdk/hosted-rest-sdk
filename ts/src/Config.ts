@@ -16,12 +16,6 @@ const FEATURE_CLASS: Record<string, typeof BaseFeature> = {
 }
 
 
-// Per-feature plugin DEFINITIONS (voxgig/plugin `Definition` values), from
-// the model's active plugin groups. A feature that takes a `plugins` option
-// (secrets over sekreto) reads its own entry; a feature with no plugins has
-// none. Named imports above make each definition statically reachable, so
-// an SDK carries exactly the plugin modules its model selects — the same
-// leanness the old side-effect registry imports bought, without a registry.
 const FEATURE_PLUGINS: Record<string, any[]> = {
   
 }
@@ -32,7 +26,6 @@ class Config {
   makeFeature(this: any, fn: string) {
     const fc = FEATURE_CLASS[fn]
     const fi = new fc()
-    // TODO: errors etc
     return fi
   }
 
@@ -138,7 +131,7 @@ class Config {
         agent_sandbox: {
         },
   
-        agent_user_detail: {
+        agent_user: {
         },
   
         agent_user_list: {
@@ -207,28 +200,33 @@ class Config {
       "fields": [
         {
           "name": "deprecations",
-          "req": true,
-          "type": "`$ARRAY`"
+          "title": "Deprecations",
+          "type": "`$ARRAY`",
+          "req": true
         },
         {
           "name": "rate_limit_status",
-          "req": true,
-          "type": "`$OBJECT`"
+          "title": "Rate Limit Status",
+          "type": "`$OBJECT`",
+          "req": true
         },
         {
           "name": "status",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Status",
+          "type": "`$STRING`",
+          "req": true
         },
         {
           "name": "uptime_seconds",
-          "req": true,
-          "type": "`$INTEGER`"
+          "title": "Uptime Seconds",
+          "type": "`$INTEGER`",
+          "req": true
         },
         {
           "name": "version",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Version",
+          "type": "`$STRING`",
+          "req": true
         }
       ],
       "name": "agent_health",
@@ -238,7 +236,6 @@ class Config {
           "name": "load",
           "points": [
             {
-              "args": {},
               "kind": "http",
               "method": "GET",
               "orig": "/agent/v1/health",
@@ -253,16 +250,18 @@ class Config {
                   "lit": "health"
                 }
               ],
-              "select": {},
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
               "parts": [
                 "agent",
                 "v1",
                 "health"
-              ]
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              },
+              "args": {},
+              "select": {}
             }
           ]
         }
@@ -274,15 +273,17 @@ class Config {
     "agent_sandbox": {
       "fields": [
         {
-          "format": "email",
           "name": "email",
+          "title": "Email",
+          "type": "`$STRING`",
           "req": true,
-          "type": "`$STRING`"
+          "format": "email"
         },
         {
           "name": "password",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Password",
+          "type": "`$STRING`",
+          "req": true
         }
       ],
       "name": "agent_sandbox",
@@ -292,7 +293,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/agent/v1/auth/login",
@@ -310,17 +310,19 @@ class Config {
                   "lit": "login"
                 }
               ],
-              "select": {},
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
               "parts": [
                 "agent",
                 "v1",
                 "auth",
                 "login"
-              ]
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {},
+              "select": {}
             }
           ]
         },
@@ -329,36 +331,6 @@ class Config {
           "name": "load",
           "points": [
             {
-              "args": {
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "cursor",
-                    "orig": "cursor",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "example": 20,
-                    "kind": "query",
-                    "name": "limit",
-                    "orig": "limit",
-                    "type": "`$INTEGER`"
-                  },
-                  {
-                    "example": 42,
-                    "kind": "query",
-                    "name": "seed",
-                    "orig": "seed",
-                    "type": "`$INTEGER`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "status",
-                    "orig": "status",
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/agent/v1/orders",
@@ -373,6 +345,46 @@ class Config {
                   "lit": "orders"
                 }
               ],
+              "parts": [
+                "agent",
+                "v1",
+                "orders"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "query": [
+                  {
+                    "name": "cursor",
+                    "orig": "cursor",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "limit",
+                    "orig": "limit",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 20
+                  },
+                  {
+                    "name": "seed",
+                    "orig": "seed",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 42
+                  },
+                  {
+                    "name": "status",
+                    "orig": "status",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "cursor",
@@ -380,29 +392,9 @@ class Config {
                   "seed",
                   "status"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "parts": [
-                "agent",
-                "v1",
-                "orders"
-              ]
+              }
             },
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "scenario",
-                    "orig": "scenario",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/agent/v1/scenarios/{scenario}",
@@ -420,24 +412,35 @@ class Config {
                   "var": "scenario"
                 }
               ],
-              "select": {
-                "exist": [
-                  "scenario"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
               "parts": [
                 "agent",
                 "v1",
                 "scenarios",
                 "{scenario}"
-              ]
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "scenario",
+                    "orig": "scenario",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "scenario"
+                ]
+              }
             },
             {
-              "args": {},
               "kind": "http",
               "method": "GET",
               "orig": "/agent/v1/scenarios",
@@ -452,114 +455,103 @@ class Config {
                   "lit": "scenarios"
                 }
               ],
-              "select": {},
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
               "parts": [
                 "agent",
                 "v1",
                 "scenarios"
-              ]
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {},
+              "select": {}
             }
           ]
         }
       },
       "relations": {
-        "ancestors": [
-          [
-            "scenario"
-          ]
-        ]
+        "ancestors": []
       }
     },
-    "agent_user_detail": {
+    "agent_user": {
       "fields": [
         {
-          "format": "date-time",
           "name": "created_at",
+          "title": "Created At",
+          "type": "`$STRING`",
           "req": true,
-          "type": "`$STRING`"
+          "format": "date-time"
         },
         {
-          "format": "email",
           "name": "email",
+          "title": "Email",
+          "type": "`$STRING`",
           "req": true,
-          "type": "`$STRING`"
+          "format": "email"
         },
         {
           "name": "full_name",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Full Name",
+          "type": "`$STRING`",
+          "req": true
         },
         {
           "name": "id",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Id",
+          "type": "`$STRING`",
+          "req": true
         },
         {
           "name": "locale",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Locale",
+          "type": "`$STRING`",
+          "req": true
         },
         {
           "name": "preferences",
-          "req": true,
-          "type": "`$OBJECT`"
+          "title": "Preferences",
+          "type": "`$OBJECT`",
+          "req": true
         },
         {
           "name": "profile",
-          "req": true,
-          "type": "`$OBJECT`"
+          "title": "Profile",
+          "type": "`$OBJECT`",
+          "req": true
         },
         {
           "name": "status",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Status",
+          "type": "`$STRING`",
+          "req": true
         },
         {
           "name": "timezone",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Timezone",
+          "type": "`$STRING`",
+          "req": true
         },
         {
-          "format": "date-time",
           "name": "updated_at",
+          "title": "Updated At",
+          "type": "`$STRING`",
           "req": true,
-          "type": "`$STRING`"
+          "format": "date-time"
         }
       ],
       "id": {
         "field": "id",
         "name": "id"
       },
-      "name": "agent_user_detail",
+      "name": "agent_user",
       "op": {
         "load": {
           "input": "data",
           "name": "load",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ],
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "expand",
-                    "orig": "expand",
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/agent/v1/users/{id}",
@@ -577,22 +569,42 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "expand",
-                  "id"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
               "parts": [
                 "agent",
                 "v1",
                 "users",
                 "{id}"
-              ]
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ],
+                "query": [
+                  {
+                    "name": "expand",
+                    "orig": "expand",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "expand",
+                  "id"
+                ]
+              }
             }
           ]
         }
@@ -604,57 +616,67 @@ class Config {
     "agent_user_list": {
       "fields": [
         {
-          "format": "date-time",
           "name": "created_at",
+          "title": "Created At",
+          "type": "`$STRING`",
           "req": true,
-          "type": "`$STRING`"
+          "format": "date-time"
         },
         {
-          "format": "email",
           "name": "email",
+          "title": "Email",
+          "type": "`$STRING`",
           "req": true,
-          "type": "`$STRING`"
+          "format": "email"
         },
         {
           "name": "full_name",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Full Name",
+          "type": "`$STRING`",
+          "req": true
         },
         {
           "name": "id",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Id",
+          "type": "`$STRING`",
+          "req": true
         },
         {
           "name": "locale",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Locale",
+          "type": "`$STRING`",
+          "req": true
         },
         {
           "name": "preferences",
-          "req": true,
-          "type": "`$OBJECT`"
+          "title": "Preferences",
+          "type": "`$OBJECT`",
+          "req": true
         },
         {
           "name": "profile",
-          "req": true,
-          "type": "`$OBJECT`"
+          "title": "Profile",
+          "type": "`$OBJECT`",
+          "req": true
         },
         {
           "name": "status",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Status",
+          "type": "`$STRING`",
+          "req": true
         },
         {
           "name": "timezone",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Timezone",
+          "type": "`$STRING`",
+          "req": true
         },
         {
-          "format": "date-time",
           "name": "updated_at",
+          "title": "Updated At",
+          "type": "`$STRING`",
           "req": true,
-          "type": "`$STRING`"
+          "format": "date-time"
         }
       ],
       "id": {
@@ -668,36 +690,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "cursor",
-                    "orig": "cursor",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "field",
-                    "orig": "field",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "example": 20,
-                    "kind": "query",
-                    "name": "limit",
-                    "orig": "limit",
-                    "type": "`$INTEGER`"
-                  },
-                  {
-                    "example": 42,
-                    "kind": "query",
-                    "name": "seed",
-                    "orig": "seed",
-                    "type": "`$INTEGER`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/agent/v1/users",
@@ -712,6 +704,46 @@ class Config {
                   "lit": "users"
                 }
               ],
+              "parts": [
+                "agent",
+                "v1",
+                "users"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "query": [
+                  {
+                    "name": "cursor",
+                    "orig": "cursor",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "field",
+                    "orig": "field",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "limit",
+                    "orig": "limit",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 20
+                  },
+                  {
+                    "name": "seed",
+                    "orig": "seed",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 42
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "cursor",
@@ -719,16 +751,7 @@ class Config {
                   "limit",
                   "seed"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "parts": [
-                "agent",
-                "v1",
-                "users"
-              ]
+              }
             }
           ]
         }
@@ -740,37 +763,43 @@ class Config {
     "app_user": {
       "fields": [
         {
-          "format": "date-time",
           "name": "created_at",
-          "type": "`$STRING`"
+          "title": "Created At",
+          "type": "`$STRING`",
+          "format": "date-time"
         },
         {
-          "format": "email",
           "name": "email",
+          "title": "Email",
+          "type": "`$STRING`",
+          "req": true,
           "op": {
             "update": {
               "type": "`$STRING`"
             }
           },
-          "req": true,
-          "type": "`$STRING`"
+          "format": "email"
         },
         {
           "name": "id",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Id",
+          "type": "`$STRING`",
+          "req": true
         },
         {
-          "format": "date-time",
           "name": "last_login_at",
-          "type": "`$STRING`"
+          "title": "Last Login At",
+          "type": "`$STRING`",
+          "format": "date-time"
         },
         {
           "name": "metadata",
+          "title": "Metadata",
           "type": "`$OBJECT`"
         },
         {
           "name": "status",
+          "title": "Status",
           "type": "`$STRING`"
         }
       ],
@@ -785,17 +814,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "POST",
               "orig": "/api/app-users/{id}/sessions/simulate",
@@ -816,26 +834,37 @@ class Config {
                   "lit": "simulate"
                 }
               ],
-              "select": {
-                "$action": "session_simulate",
-                "exist": [
-                  "id"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
               "parts": [
                 "api",
                 "app-users",
                 "{id}",
                 "sessions",
                 "simulate"
-              ]
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "$action": "session_simulate",
+                "exist": [
+                  "id"
+                ]
+              }
             },
             {
-              "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/api/app-users",
@@ -847,15 +876,17 @@ class Config {
                   "lit": "app-users"
                 }
               ],
-              "select": {},
+              "parts": [
+                "api",
+                "app-users"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
               },
-              "parts": [
-                "api",
-                "app-users"
-              ]
+              "args": {},
+              "select": {}
             }
           ]
         },
@@ -864,41 +895,9 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_reqres_env",
-                    "orig": "x_reqres_env",
-                    "type": "`$STRING`"
-                  }
-                ],
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "project_id",
-                    "orig": "project_id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ],
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "status",
-                    "orig": "status",
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/api/projects/{projectId}/app-users",
-              "rename": {
-                "param": {
-                  "projectId": "project_id"
-                }
-              },
               "segments": [
                 {
                   "lit": "api"
@@ -913,43 +912,57 @@ class Config {
                   "lit": "app-users"
                 }
               ],
+              "parts": [
+                "api",
+                "projects",
+                "{project_id}",
+                "app-users"
+              ],
+              "rename": {
+                "param": {
+                  "projectId": "project_id"
+                }
+              },
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              },
+              "args": {
+                "header": [
+                  {
+                    "name": "x_reqres_env",
+                    "orig": "x_reqres_env",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ],
+                "params": [
+                  {
+                    "name": "project_id",
+                    "orig": "project_id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ],
+                "query": [
+                  {
+                    "name": "status",
+                    "orig": "status",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "project_id",
                   "status",
                   "x_reqres_env"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
-              "parts": [
-                "api",
-                "projects",
-                "{project_id}",
-                "app-users"
-              ]
+              }
             },
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_reqres_env",
-                    "orig": "x_reqres_env",
-                    "type": "`$STRING`"
-                  }
-                ],
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "limit",
-                    "orig": "limit",
-                    "type": "`$INTEGER`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/api/app-users",
@@ -961,20 +974,39 @@ class Config {
                   "lit": "app-users"
                 }
               ],
+              "parts": [
+                "api",
+                "app-users"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              },
+              "args": {
+                "header": [
+                  {
+                    "name": "x_reqres_env",
+                    "orig": "x_reqres_env",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ],
+                "query": [
+                  {
+                    "name": "limit",
+                    "orig": "limit",
+                    "type": "`$INTEGER`",
+                    "kind": "query"
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "limit",
                   "x_reqres_env"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
-              "parts": [
-                "api",
-                "app-users"
-              ]
+              }
             }
           ]
         },
@@ -983,17 +1015,6 @@ class Config {
           "name": "load",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/api/app-users/{id}",
@@ -1008,20 +1029,32 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
               "parts": [
                 "api",
                 "app-users",
                 "{id}"
-              ]
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         },
@@ -1030,33 +1063,9 @@ class Config {
           "name": "remove",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "collection_id",
-                    "orig": "slug",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "param",
-                    "name": "record_id",
-                    "orig": "record_id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "DELETE",
               "orig": "/app/collections/{slug}/records/{recordId}",
-              "rename": {
-                "param": {
-                  "recordId": "record_id",
-                  "slug": "collection_id"
-                }
-              },
               "segments": [
                 {
                   "lit": "app"
@@ -1074,36 +1083,49 @@ class Config {
                   "var": "record_id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "collection_id",
-                  "record_id"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
               "parts": [
                 "app",
                 "collections",
                 "{collection_id}",
                 "records",
                 "{record_id}"
-              ]
-            },
-            {
+              ],
+              "rename": {
+                "param": {
+                  "recordId": "record_id",
+                  "slug": "collection_id"
+                }
+              },
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
               "args": {
                 "params": [
                   {
+                    "name": "collection_id",
+                    "orig": "slug",
+                    "type": "`$STRING`",
                     "kind": "param",
-                    "name": "id",
-                    "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
+                    "reqd": true
+                  },
+                  {
+                    "name": "record_id",
+                    "orig": "record_id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
                   }
                 ]
               },
+              "select": {
+                "exist": [
+                  "collection_id",
+                  "record_id"
+                ]
+              }
+            },
+            {
               "kind": "http",
               "method": "DELETE",
               "orig": "/api/app-users/{id}",
@@ -1118,20 +1140,32 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
               "parts": [
                 "api",
                 "app-users",
                 "{id}"
-              ]
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         },
@@ -1140,17 +1174,6 @@ class Config {
           "name": "update",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "PUT",
               "orig": "/api/app-users/{id}",
@@ -1165,20 +1188,32 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
               "parts": [
                 "api",
                 "app-users",
                 "{id}"
-              ]
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         }
@@ -1186,11 +1221,7 @@ class Config {
       "relations": {
         "ancestors": [
           [
-            "project"
-          ],
-          [
-            "collection",
-            "record"
+            "$.main.kit.entity.collection"
           ]
         ]
       }
@@ -1198,23 +1229,21 @@ class Config {
     "app_user_login": {
       "fields": [
         {
-          "format": "email",
           "name": "email",
+          "title": "Email",
+          "type": "`$STRING`",
           "req": true,
-          "type": "`$STRING`"
+          "format": "email"
         },
         {
           "name": "metadata",
+          "title": "Metadata",
           "type": "`$OBJECT`"
         },
         {
           "name": "project_id",
-          "type": "`$STRING`",
-          "union": {
-            "branches": 2,
-            "count": 1,
-            "depth": 0
-          }
+          "title": "Project Id",
+          "type": "`$STRING`"
         }
       ],
       "name": "app_user_login",
@@ -1224,7 +1253,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/api/app-users/login",
@@ -1239,16 +1267,18 @@ class Config {
                   "lit": "login"
                 }
               ],
-              "select": {},
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
               "parts": [
                 "api",
                 "app-users",
                 "login"
-              ]
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              },
+              "args": {},
+              "select": {}
             }
           ]
         }
@@ -1266,7 +1296,6 @@ class Config {
           "name": "load",
           "points": [
             {
-              "args": {},
               "kind": "http",
               "method": "GET",
               "orig": "/api/app-users/me",
@@ -1281,19 +1310,20 @@ class Config {
                   "lit": "me"
                 }
               ],
-              "select": {},
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
               "parts": [
                 "api",
                 "app-users",
                 "me"
-              ]
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              },
+              "args": {},
+              "select": {}
             },
             {
-              "args": {},
               "kind": "http",
               "method": "GET",
               "orig": "/app/me",
@@ -1305,15 +1335,17 @@ class Config {
                   "lit": "me"
                 }
               ],
-              "select": {},
+              "parts": [
+                "app",
+                "me"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
               },
-              "parts": [
-                "app",
-                "me"
-              ]
+              "args": {},
+              "select": {}
             }
           ]
         }
@@ -1326,8 +1358,9 @@ class Config {
       "fields": [
         {
           "name": "total",
-          "req": true,
-          "type": "`$INTEGER`"
+          "title": "Total",
+          "type": "`$INTEGER`",
+          "req": true
         }
       ],
       "name": "app_user_total",
@@ -1337,33 +1370,9 @@ class Config {
           "name": "load",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_reqres_env",
-                    "orig": "x_reqres_env",
-                    "type": "`$STRING`"
-                  }
-                ],
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "project_id",
-                    "orig": "project_id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/api/projects/{projectId}/app-users/total",
-              "rename": {
-                "param": {
-                  "projectId": "project_id"
-                }
-              },
               "segments": [
                 {
                   "lit": "api"
@@ -1381,41 +1390,62 @@ class Config {
                   "lit": "total"
                 }
               ],
-              "select": {
-                "exist": [
-                  "project_id",
-                  "x_reqres_env"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
               "parts": [
                 "api",
                 "projects",
                 "{project_id}",
                 "app-users",
                 "total"
-              ]
+              ],
+              "rename": {
+                "param": {
+                  "projectId": "project_id"
+                }
+              },
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "header": [
+                  {
+                    "name": "x_reqres_env",
+                    "orig": "x_reqres_env",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ],
+                "params": [
+                  {
+                    "name": "project_id",
+                    "orig": "project_id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "project_id",
+                  "x_reqres_env"
+                ]
+              }
             }
           ]
         }
       },
       "relations": {
-        "ancestors": [
-          [
-            "project"
-          ]
-        ]
+        "ancestors": []
       }
     },
     "app_user_verify": {
       "fields": [
         {
           "name": "token",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Token",
+          "type": "`$STRING`",
+          "req": true
         }
       ],
       "name": "app_user_verify",
@@ -1425,7 +1455,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/api/app-users/verify",
@@ -1440,16 +1469,18 @@ class Config {
                   "lit": "verify"
                 }
               ],
-              "select": {},
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
               "parts": [
                 "api",
                 "app-users",
                 "verify"
-              ]
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              },
+              "args": {},
+              "select": {}
             }
           ]
         }
@@ -1467,7 +1498,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/api/logout",
@@ -1479,15 +1509,17 @@ class Config {
                   "lit": "logout"
                 }
               ],
-              "select": {},
+              "parts": [
+                "api",
+                "logout"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "api",
-                "logout"
-              ]
+              "args": {},
+              "select": {}
             }
           ]
         }
@@ -1499,35 +1531,43 @@ class Config {
     "collection": {
       "fields": [
         {
-          "format": "date-time",
           "name": "created_at",
-          "type": "`$STRING`"
+          "title": "Created At",
+          "type": "`$STRING`",
+          "format": "date-time"
         },
         {
           "name": "id",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Id",
+          "type": "`$STRING`",
+          "req": true
         },
         {
           "name": "name",
+          "title": "Name",
+          "type": "`$STRING`",
+          "req": true,
           "op": {
             "update": {
               "type": "`$STRING`"
             }
-          },
-          "req": true,
-          "type": "`$STRING`"
+          }
         },
         {
           "name": "project_id",
+          "title": "Project Id",
           "type": "`$STRING`"
         },
         {
           "name": "schema",
+          "title": "Schema",
           "type": "`$OBJECT`"
         },
         {
           "name": "slug",
+          "title": "Slug",
+          "type": "`$STRING`",
+          "req": true,
           "op": {
             "create": {
               "type": "`$STRING`"
@@ -1535,21 +1575,22 @@ class Config {
             "update": {
               "type": "`$STRING`"
             }
-          },
-          "req": true,
-          "type": "`$STRING`"
+          }
         },
         {
-          "format": "date-time",
           "name": "updated_at",
-          "type": "`$STRING`"
+          "title": "Updated At",
+          "type": "`$STRING`",
+          "format": "date-time"
         },
         {
           "name": "user_id",
+          "title": "User Id",
           "type": "`$STRING`"
         },
         {
           "name": "visibility",
+          "title": "Visibility",
           "type": "`$STRING`"
         }
       ],
@@ -1564,16 +1605,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_reqres_env",
-                    "orig": "x_reqres_env",
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "POST",
               "orig": "/api/collections",
@@ -1585,19 +1616,30 @@ class Config {
                   "lit": "collections"
                 }
               ],
-              "select": {
-                "exist": [
-                  "x_reqres_env"
-                ]
-              },
+              "parts": [
+                "api",
+                "collections"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
               },
-              "parts": [
-                "api",
-                "collections"
-              ]
+              "args": {
+                "header": [
+                  {
+                    "name": "x_reqres_env",
+                    "orig": "x_reqres_env",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "x_reqres_env"
+                ]
+              }
             }
           ]
         },
@@ -1606,16 +1648,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_reqres_env",
-                    "orig": "x_reqres_env",
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/api/collections",
@@ -1627,22 +1659,32 @@ class Config {
                   "lit": "collections"
                 }
               ],
-              "select": {
-                "exist": [
-                  "x_reqres_env"
-                ]
-              },
+              "parts": [
+                "api",
+                "collections"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
               },
-              "parts": [
-                "api",
-                "collections"
-              ]
+              "args": {
+                "header": [
+                  {
+                    "name": "x_reqres_env",
+                    "orig": "x_reqres_env",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "x_reqres_env"
+                ]
+              }
             },
             {
-              "args": {},
               "kind": "http",
               "method": "GET",
               "orig": "/app/collections",
@@ -1654,15 +1696,17 @@ class Config {
                   "lit": "collections"
                 }
               ],
-              "select": {},
+              "parts": [
+                "app",
+                "collections"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
               },
-              "parts": [
-                "app",
-                "collections"
-              ]
+              "args": {},
+              "select": {}
             }
           ]
         },
@@ -1671,33 +1715,9 @@ class Config {
           "name": "load",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_reqres_env",
-                    "orig": "x_reqres_env",
-                    "type": "`$STRING`"
-                  }
-                ],
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "slug",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/api/collections/{slug}",
-              "rename": {
-                "param": {
-                  "slug": "id"
-                }
-              },
               "segments": [
                 {
                   "lit": "api"
@@ -1709,42 +1729,50 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id",
-                  "x_reqres_env"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
               "parts": [
                 "api",
                 "collections",
                 "{id}"
-              ]
-            },
-            {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "slug",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
-              "kind": "http",
-              "method": "GET",
-              "orig": "/app/collections/{slug}",
+              ],
               "rename": {
                 "param": {
                   "slug": "id"
                 }
               },
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              },
+              "args": {
+                "header": [
+                  {
+                    "name": "x_reqres_env",
+                    "orig": "x_reqres_env",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ],
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "slug",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id",
+                  "x_reqres_env"
+                ]
+              }
+            },
+            {
+              "kind": "http",
+              "method": "GET",
+              "orig": "/app/collections/{slug}",
               "segments": [
                 {
                   "lit": "app"
@@ -1756,20 +1784,36 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
+              "parts": [
+                "app",
+                "collections",
+                "{id}"
+              ],
+              "rename": {
+                "param": {
+                  "slug": "id"
+                }
               },
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
               },
-              "parts": [
-                "app",
-                "collections",
-                "{id}"
-              ]
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "slug",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         },
@@ -1778,41 +1822,9 @@ class Config {
           "name": "remove",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_reqres_env",
-                    "orig": "x_reqres_env",
-                    "type": "`$STRING`"
-                  }
-                ],
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "collection_id",
-                    "orig": "slug",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "param",
-                    "name": "record_id",
-                    "orig": "record_id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "DELETE",
               "orig": "/api/collections/{slug}/records/{recordId}",
-              "rename": {
-                "param": {
-                  "recordId": "record_id",
-                  "slug": "collection_id"
-                }
-              },
               "segments": [
                 {
                   "lit": "api"
@@ -1830,53 +1842,61 @@ class Config {
                   "var": "record_id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "collection_id",
-                  "record_id",
-                  "x_reqres_env"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
               "parts": [
                 "api",
                 "collections",
                 "{collection_id}",
                 "records",
                 "{record_id}"
-              ]
-            },
-            {
+              ],
+              "rename": {
+                "param": {
+                  "recordId": "record_id",
+                  "slug": "collection_id"
+                }
+              },
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
               "args": {
                 "header": [
                   {
-                    "kind": "header",
                     "name": "x_reqres_env",
                     "orig": "x_reqres_env",
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "kind": "header"
                   }
                 ],
                 "params": [
                   {
-                    "kind": "param",
-                    "name": "id",
+                    "name": "collection_id",
                     "orig": "slug",
-                    "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  },
+                  {
+                    "name": "record_id",
+                    "orig": "record_id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
                   }
                 ]
               },
+              "select": {
+                "exist": [
+                  "collection_id",
+                  "record_id",
+                  "x_reqres_env"
+                ]
+              }
+            },
+            {
               "kind": "http",
               "method": "DELETE",
               "orig": "/api/collections/{slug}",
-              "rename": {
-                "param": {
-                  "slug": "id"
-                }
-              },
               "segments": [
                 {
                   "lit": "api"
@@ -1888,21 +1908,45 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id",
-                  "x_reqres_env"
-                ]
+              "parts": [
+                "api",
+                "collections",
+                "{id}"
+              ],
+              "rename": {
+                "param": {
+                  "slug": "id"
+                }
               },
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "api",
-                "collections",
-                "{id}"
-              ]
+              "args": {
+                "header": [
+                  {
+                    "name": "x_reqres_env",
+                    "orig": "x_reqres_env",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ],
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "slug",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id",
+                  "x_reqres_env"
+                ]
+              }
             }
           ]
         },
@@ -1911,33 +1955,9 @@ class Config {
           "name": "update",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_reqres_env",
-                    "orig": "x_reqres_env",
-                    "type": "`$STRING`"
-                  }
-                ],
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "slug",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "PUT",
               "orig": "/api/collections/{slug}",
-              "rename": {
-                "param": {
-                  "slug": "id"
-                }
-              },
               "segments": [
                 {
                   "lit": "api"
@@ -1949,76 +1969,104 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id",
-                  "x_reqres_env"
-                ]
+              "parts": [
+                "api",
+                "collections",
+                "{id}"
+              ],
+              "rename": {
+                "param": {
+                  "slug": "id"
+                }
               },
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
               },
-              "parts": [
-                "api",
-                "collections",
-                "{id}"
-              ]
+              "args": {
+                "header": [
+                  {
+                    "name": "x_reqres_env",
+                    "orig": "x_reqres_env",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ],
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "slug",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id",
+                  "x_reqres_env"
+                ]
+              }
             }
           ]
         }
       },
       "relations": {
-        "ancestors": [
-          [
-            "collection",
-            "record"
-          ]
-        ]
+        "ancestors": []
       }
     },
     "collection_record": {
       "fields": [
         {
           "name": "app_user_id",
+          "title": "App User Id",
           "type": "`$STRING`"
         },
         {
           "name": "collection_id",
+          "title": "Collection Id",
           "type": "`$STRING`"
         },
         {
-          "format": "date-time",
           "name": "created_at",
-          "type": "`$STRING`"
+          "title": "Created At",
+          "type": "`$STRING`",
+          "format": "date-time"
         },
         {
           "name": "created_by",
+          "title": "Created By",
           "type": "`$STRING`"
         },
         {
           "name": "data",
-          "req": true,
-          "type": "`$OBJECT`"
+          "title": "Data",
+          "type": "`$OBJECT`",
+          "req": true
         },
         {
-          "format": "date-time",
           "name": "deleted_at",
-          "type": "`$STRING`"
+          "title": "Deleted At",
+          "type": "`$STRING`",
+          "format": "date-time"
         },
         {
           "name": "id",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Id",
+          "type": "`$STRING`",
+          "req": true
         },
         {
           "name": "project_id",
+          "title": "Project Id",
           "type": "`$STRING`"
         },
         {
-          "format": "date-time",
           "name": "updated_at",
-          "type": "`$STRING`"
+          "title": "Updated At",
+          "type": "`$STRING`",
+          "format": "date-time"
         }
       ],
       "id": {
@@ -2032,25 +2080,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_reqres_env",
-                    "orig": "x_reqres_env",
-                    "type": "`$STRING`"
-                  }
-                ],
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "slug",
-                    "orig": "slug",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "POST",
               "orig": "/api/collections/{slug}/records",
@@ -2068,35 +2097,44 @@ class Config {
                   "lit": "records"
                 }
               ],
-              "select": {
-                "exist": [
-                  "slug",
-                  "x_reqres_env"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
               "parts": [
                 "api",
                 "collections",
                 "{slug}",
                 "records"
-              ]
-            },
-            {
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              },
               "args": {
+                "header": [
+                  {
+                    "name": "x_reqres_env",
+                    "orig": "x_reqres_env",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ],
                 "params": [
                   {
-                    "kind": "param",
                     "name": "slug",
                     "orig": "slug",
-                    "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
                   }
                 ]
               },
+              "select": {
+                "exist": [
+                  "slug",
+                  "x_reqres_env"
+                ]
+              }
+            },
+            {
               "kind": "http",
               "method": "POST",
               "orig": "/app/collections/{slug}/records",
@@ -2114,21 +2152,33 @@ class Config {
                   "lit": "records"
                 }
               ],
-              "select": {
-                "exist": [
-                  "slug"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
               "parts": [
                 "app",
                 "collections",
                 "{slug}",
                 "records"
-              ]
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "slug",
+                    "orig": "slug",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "slug"
+                ]
+              }
             }
           ]
         },
@@ -2137,41 +2187,9 @@ class Config {
           "name": "load",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_reqres_env",
-                    "orig": "x_reqres_env",
-                    "type": "`$STRING`"
-                  }
-                ],
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "collection_id",
-                    "orig": "slug",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "record_id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/api/collections/{slug}/records/{recordId}",
-              "rename": {
-                "param": {
-                  "recordId": "id",
-                  "slug": "collection_id"
-                }
-              },
               "segments": [
                 {
                   "lit": "api"
@@ -2189,53 +2207,61 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "collection_id",
-                  "id",
-                  "x_reqres_env"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
               "parts": [
                 "api",
                 "collections",
                 "{collection_id}",
                 "records",
                 "{id}"
-              ]
-            },
-            {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "collection_id",
-                    "orig": "slug",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "record_id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
-              "kind": "http",
-              "method": "GET",
-              "orig": "/app/collections/{slug}/records/{recordId}",
+              ],
               "rename": {
                 "param": {
                   "recordId": "id",
                   "slug": "collection_id"
                 }
               },
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              },
+              "args": {
+                "header": [
+                  {
+                    "name": "x_reqres_env",
+                    "orig": "x_reqres_env",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ],
+                "params": [
+                  {
+                    "name": "collection_id",
+                    "orig": "slug",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  },
+                  {
+                    "name": "id",
+                    "orig": "record_id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "collection_id",
+                  "id",
+                  "x_reqres_env"
+                ]
+              }
+            },
+            {
+              "kind": "http",
+              "method": "GET",
+              "orig": "/app/collections/{slug}/records/{recordId}",
               "segments": [
                 {
                   "lit": "app"
@@ -2253,23 +2279,47 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "collection_id",
-                  "id"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
               "parts": [
                 "app",
                 "collections",
                 "{collection_id}",
                 "records",
                 "{id}"
-              ]
+              ],
+              "rename": {
+                "param": {
+                  "recordId": "id",
+                  "slug": "collection_id"
+                }
+              },
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "collection_id",
+                    "orig": "slug",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  },
+                  {
+                    "name": "id",
+                    "orig": "record_id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "collection_id",
+                  "id"
+                ]
+              }
             }
           ]
         },
@@ -2278,41 +2328,9 @@ class Config {
           "name": "update",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_reqres_env",
-                    "orig": "x_reqres_env",
-                    "type": "`$STRING`"
-                  }
-                ],
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "collection_id",
-                    "orig": "slug",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "record_id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "PUT",
               "orig": "/api/collections/{slug}/records/{recordId}",
-              "rename": {
-                "param": {
-                  "recordId": "id",
-                  "slug": "collection_id"
-                }
-              },
               "segments": [
                 {
                   "lit": "api"
@@ -2330,53 +2348,61 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "collection_id",
-                  "id",
-                  "x_reqres_env"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
               "parts": [
                 "api",
                 "collections",
                 "{collection_id}",
                 "records",
                 "{id}"
-              ]
-            },
-            {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "collection_id",
-                    "orig": "slug",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "record_id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
-              "kind": "http",
-              "method": "PUT",
-              "orig": "/app/collections/{slug}/records/{recordId}",
+              ],
               "rename": {
                 "param": {
                   "recordId": "id",
                   "slug": "collection_id"
                 }
               },
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              },
+              "args": {
+                "header": [
+                  {
+                    "name": "x_reqres_env",
+                    "orig": "x_reqres_env",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ],
+                "params": [
+                  {
+                    "name": "collection_id",
+                    "orig": "slug",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  },
+                  {
+                    "name": "id",
+                    "orig": "record_id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "collection_id",
+                  "id",
+                  "x_reqres_env"
+                ]
+              }
+            },
+            {
+              "kind": "http",
+              "method": "PUT",
+              "orig": "/app/collections/{slug}/records/{recordId}",
               "segments": [
                 {
                   "lit": "app"
@@ -2394,23 +2420,47 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "collection_id",
-                  "id"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
               "parts": [
                 "app",
                 "collections",
                 "{collection_id}",
                 "records",
                 "{id}"
-              ]
+              ],
+              "rename": {
+                "param": {
+                  "recordId": "id",
+                  "slug": "collection_id"
+                }
+              },
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "collection_id",
+                    "orig": "slug",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  },
+                  {
+                    "name": "id",
+                    "orig": "record_id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "collection_id",
+                  "id"
+                ]
+              }
             }
           ]
         }
@@ -2418,7 +2468,7 @@ class Config {
       "relations": {
         "ancestors": [
           [
-            "collection"
+            "$.main.kit.entity.collection"
           ]
         ]
       }
@@ -2427,44 +2477,53 @@ class Config {
       "fields": [
         {
           "name": "app_user_id",
+          "title": "App User Id",
           "type": "`$STRING`"
         },
         {
           "name": "collection_id",
+          "title": "Collection Id",
           "type": "`$STRING`"
         },
         {
-          "format": "date-time",
           "name": "created_at",
-          "type": "`$STRING`"
+          "title": "Created At",
+          "type": "`$STRING`",
+          "format": "date-time"
         },
         {
           "name": "created_by",
+          "title": "Created By",
           "type": "`$STRING`"
         },
         {
           "name": "data",
-          "req": true,
-          "type": "`$OBJECT`"
+          "title": "Data",
+          "type": "`$OBJECT`",
+          "req": true
         },
         {
-          "format": "date-time",
           "name": "deleted_at",
-          "type": "`$STRING`"
+          "title": "Deleted At",
+          "type": "`$STRING`",
+          "format": "date-time"
         },
         {
           "name": "id",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Id",
+          "type": "`$STRING`",
+          "req": true
         },
         {
           "name": "project_id",
+          "title": "Project Id",
           "type": "`$STRING`"
         },
         {
-          "format": "date-time",
           "name": "updated_at",
-          "type": "`$STRING`"
+          "title": "Updated At",
+          "type": "`$STRING`",
+          "format": "date-time"
         }
       ],
       "id": {
@@ -2478,75 +2537,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "header": [
-                  {
-                    "kind": "header",
-                    "name": "x_reqres_env",
-                    "orig": "x_reqres_env",
-                    "type": "`$STRING`"
-                  }
-                ],
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "slug",
-                    "orig": "slug",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ],
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "created_after",
-                    "orig": "created_after",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "created_before",
-                    "orig": "created_before",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "data_contain",
-                    "orig": "data_contain",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "include_deleted",
-                    "orig": "include_deleted",
-                    "type": "`$BOOLEAN`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "limit",
-                    "orig": "limit",
-                    "type": "`$INTEGER`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "order",
-                    "orig": "order",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "page",
-                    "orig": "page",
-                    "type": "`$INTEGER`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "search",
-                    "orig": "search",
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/api/collections/{slug}/records",
@@ -2564,6 +2554,86 @@ class Config {
                   "lit": "records"
                 }
               ],
+              "parts": [
+                "api",
+                "collections",
+                "{slug}",
+                "records"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "header": [
+                  {
+                    "name": "x_reqres_env",
+                    "orig": "x_reqres_env",
+                    "type": "`$STRING`",
+                    "kind": "header"
+                  }
+                ],
+                "params": [
+                  {
+                    "name": "slug",
+                    "orig": "slug",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ],
+                "query": [
+                  {
+                    "name": "created_after",
+                    "orig": "created_after",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "created_before",
+                    "orig": "created_before",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "data_contain",
+                    "orig": "data_contain",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "include_deleted",
+                    "orig": "include_deleted",
+                    "type": "`$BOOLEAN`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "limit",
+                    "orig": "limit",
+                    "type": "`$INTEGER`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "order",
+                    "orig": "order",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "page",
+                    "orig": "page",
+                    "type": "`$INTEGER`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "search",
+                    "orig": "search",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "created_after",
@@ -2577,30 +2647,9 @@ class Config {
                   "slug",
                   "x_reqres_env"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "parts": [
-                "api",
-                "collections",
-                "{slug}",
-                "records"
-              ]
+              }
             },
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "slug",
-                    "orig": "slug",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/app/collections/{slug}/records",
@@ -2618,21 +2667,33 @@ class Config {
                   "lit": "records"
                 }
               ],
-              "select": {
-                "exist": [
-                  "slug"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
               "parts": [
                 "app",
                 "collections",
                 "{slug}",
                 "records"
-              ]
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "slug",
+                    "orig": "slug",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "slug"
+                ]
+              }
             }
           ]
         }
@@ -2640,7 +2701,7 @@ class Config {
       "relations": {
         "ancestors": [
           [
-            "collection"
+            "$.main.kit.entity.collection"
           ]
         ]
       }
@@ -2649,6 +2710,7 @@ class Config {
       "fields": [
         {
           "name": "id",
+          "title": "Id",
           "type": "`$STRING`"
         }
       ],
@@ -2663,25 +2725,9 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "path",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "POST",
               "orig": "/api/custom/{path}",
-              "rename": {
-                "param": {
-                  "path": "id"
-                }
-              },
               "segments": [
                 {
                   "lit": "api"
@@ -2693,20 +2739,36 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
+              "parts": [
+                "api",
+                "custom",
+                "{id}"
+              ],
+              "rename": {
+                "param": {
+                  "path": "id"
+                }
               },
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "api",
-                "custom",
-                "{id}"
-              ]
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "path",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         },
@@ -2715,25 +2777,9 @@ class Config {
           "name": "load",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "path",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/api/custom/{path}",
-              "rename": {
-                "param": {
-                  "path": "id"
-                }
-              },
               "segments": [
                 {
                   "lit": "api"
@@ -2745,20 +2791,36 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
+              "parts": [
+                "api",
+                "custom",
+                "{id}"
+              ],
+              "rename": {
+                "param": {
+                  "path": "id"
+                }
               },
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "api",
-                "custom",
-                "{id}"
-              ]
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "path",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         },
@@ -2767,25 +2829,9 @@ class Config {
           "name": "patch",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "path",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "PATCH",
               "orig": "/api/custom/{path}",
-              "rename": {
-                "param": {
-                  "path": "id"
-                }
-              },
               "segments": [
                 {
                   "lit": "api"
@@ -2797,20 +2843,36 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
+              "parts": [
+                "api",
+                "custom",
+                "{id}"
+              ],
+              "rename": {
+                "param": {
+                  "path": "id"
+                }
               },
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "api",
-                "custom",
-                "{id}"
-              ]
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "path",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         },
@@ -2819,25 +2881,9 @@ class Config {
           "name": "remove",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "path",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "DELETE",
               "orig": "/api/custom/{path}",
-              "rename": {
-                "param": {
-                  "path": "id"
-                }
-              },
               "segments": [
                 {
                   "lit": "api"
@@ -2849,20 +2895,36 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
+              "parts": [
+                "api",
+                "custom",
+                "{id}"
+              ],
+              "rename": {
+                "param": {
+                  "path": "id"
+                }
               },
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "api",
-                "custom",
-                "{id}"
-              ]
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "path",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         },
@@ -2871,25 +2933,9 @@ class Config {
           "name": "update",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "path",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "PUT",
               "orig": "/api/custom/{path}",
-              "rename": {
-                "param": {
-                  "path": "id"
-                }
-              },
               "segments": [
                 {
                   "lit": "api"
@@ -2901,20 +2947,36 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
+              "parts": [
+                "api",
+                "custom",
+                "{id}"
+              ],
+              "rename": {
+                "param": {
+                  "path": "id"
+                }
               },
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "api",
-                "custom",
-                "{id}"
-              ]
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "path",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         }
@@ -2927,6 +2989,7 @@ class Config {
       "fields": [
         {
           "name": "id",
+          "title": "Id",
           "type": "`$STRING`"
         }
       ],
@@ -2941,17 +3004,6 @@ class Config {
           "name": "remove",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "id",
-                    "reqd": true,
-                    "type": "`$INTEGER`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "DELETE",
               "orig": "/api/users/{id}",
@@ -2966,20 +3018,32 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
               "parts": [
                 "api",
                 "users",
                 "{id}"
-              ]
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "id",
+                    "type": "`$INTEGER`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         }
@@ -2991,18 +3055,21 @@ class Config {
     "legacy_mutation": {
       "fields": [
         {
-          "format": "date-time",
           "name": "createdAt",
-          "type": "`$STRING`"
+          "title": "Created At",
+          "type": "`$STRING`",
+          "format": "date-time"
         },
         {
           "name": "id",
+          "title": "Id",
           "type": "`$STRING`"
         },
         {
-          "format": "date-time",
           "name": "updatedAt",
-          "type": "`$STRING`"
+          "title": "Updated At",
+          "type": "`$STRING`",
+          "format": "date-time"
         }
       ],
       "id": {
@@ -3016,7 +3083,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/api/users",
@@ -3028,15 +3094,17 @@ class Config {
                   "lit": "users"
                 }
               ],
-              "select": {},
+              "parts": [
+                "api",
+                "users"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "api",
-                "users"
-              ]
+              "args": {},
+              "select": {}
             }
           ]
         },
@@ -3045,17 +3113,6 @@ class Config {
           "name": "patch",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "id",
-                    "reqd": true,
-                    "type": "`$INTEGER`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "PATCH",
               "orig": "/api/users/{id}",
@@ -3070,20 +3127,32 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
               "parts": [
                 "api",
                 "users",
                 "{id}"
-              ]
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "id",
+                    "type": "`$INTEGER`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         },
@@ -3092,17 +3161,6 @@ class Config {
           "name": "update",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "id",
-                    "reqd": true,
-                    "type": "`$INTEGER`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "PUT",
               "orig": "/api/users/{id}",
@@ -3117,20 +3175,32 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
               "parts": [
                 "api",
                 "users",
                 "{id}"
-              ]
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "id",
+                    "type": "`$INTEGER`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         }
@@ -3143,15 +3213,18 @@ class Config {
       "fields": [
         {
           "name": "data",
-          "req": true,
-          "type": "`$OBJECT`"
+          "title": "Data",
+          "type": "`$OBJECT`",
+          "req": true
         },
         {
           "name": "id",
+          "title": "Id",
           "type": "`$STRING`"
         },
         {
           "name": "support",
+          "title": "Support",
           "type": "`$OBJECT`"
         }
       ],
@@ -3166,17 +3239,6 @@ class Config {
           "name": "load",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "id",
-                    "reqd": true,
-                    "type": "`$INTEGER`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/api/unknown/{id}",
@@ -3191,20 +3253,32 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
               "parts": [
                 "api",
                 "unknown",
                 "{id}"
-              ]
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "id",
+                    "type": "`$INTEGER`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         }
@@ -3217,28 +3291,33 @@ class Config {
       "fields": [
         {
           "name": "color",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Color",
+          "type": "`$STRING`",
+          "req": true
         },
         {
           "name": "id",
-          "req": true,
-          "type": "`$INTEGER`"
+          "title": "Id",
+          "type": "`$INTEGER`",
+          "req": true
         },
         {
           "name": "name",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Name",
+          "type": "`$STRING`",
+          "req": true
         },
         {
           "name": "pantone_value",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Pantone Value",
+          "type": "`$STRING`",
+          "req": true
         },
         {
           "name": "year",
-          "req": true,
-          "type": "`$INTEGER`"
+          "title": "Year",
+          "type": "`$INTEGER`",
+          "req": true
         }
       ],
       "id": {
@@ -3252,23 +3331,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "query": [
-                  {
-                    "example": 1,
-                    "kind": "query",
-                    "name": "page",
-                    "orig": "page",
-                    "type": "`$INTEGER`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "per_page",
-                    "orig": "per_page",
-                    "type": "`$INTEGER`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/api/unknown",
@@ -3280,20 +3342,38 @@ class Config {
                   "lit": "unknown"
                 }
               ],
+              "parts": [
+                "api",
+                "unknown"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "query": [
+                  {
+                    "name": "page",
+                    "orig": "page",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 1
+                  },
+                  {
+                    "name": "per_page",
+                    "orig": "per_page",
+                    "type": "`$INTEGER`",
+                    "kind": "query"
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "page",
                   "per_page"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "parts": [
-                "api",
-                "unknown"
-              ]
+              }
             }
           ]
         }
@@ -3306,15 +3386,18 @@ class Config {
       "fields": [
         {
           "name": "data",
-          "req": true,
-          "type": "`$OBJECT`"
+          "title": "Data",
+          "type": "`$OBJECT`",
+          "req": true
         },
         {
           "name": "id",
+          "title": "Id",
           "type": "`$STRING`"
         },
         {
           "name": "support",
+          "title": "Support",
           "type": "`$OBJECT`"
         }
       ],
@@ -3329,17 +3412,6 @@ class Config {
           "name": "load",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "id",
-                    "reqd": true,
-                    "type": "`$INTEGER`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/api/users/{id}",
@@ -3354,20 +3426,32 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
               "parts": [
                 "api",
                 "users",
                 "{id}"
-              ]
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "id",
+                    "type": "`$INTEGER`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         }
@@ -3380,29 +3464,34 @@ class Config {
       "fields": [
         {
           "name": "avatar",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Avatar",
+          "type": "`$STRING`",
+          "req": true
         },
         {
-          "format": "email",
           "name": "email",
+          "title": "Email",
+          "type": "`$STRING`",
           "req": true,
-          "type": "`$STRING`"
+          "format": "email"
         },
         {
           "name": "first_name",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "First Name",
+          "type": "`$STRING`",
+          "req": true
         },
         {
           "name": "id",
-          "req": true,
-          "type": "`$INTEGER`"
+          "title": "Id",
+          "type": "`$INTEGER`",
+          "req": true
         },
         {
           "name": "last_name",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Last Name",
+          "type": "`$STRING`",
+          "req": true
         }
       ],
       "id": {
@@ -3416,23 +3505,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "query": [
-                  {
-                    "example": 1,
-                    "kind": "query",
-                    "name": "page",
-                    "orig": "page",
-                    "type": "`$INTEGER`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "per_page",
-                    "orig": "per_page",
-                    "type": "`$INTEGER`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/api/users",
@@ -3444,20 +3516,38 @@ class Config {
                   "lit": "users"
                 }
               ],
+              "parts": [
+                "api",
+                "users"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "query": [
+                  {
+                    "name": "page",
+                    "orig": "page",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 1
+                  },
+                  {
+                    "name": "per_page",
+                    "orig": "per_page",
+                    "type": "`$INTEGER`",
+                    "kind": "query"
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "page",
                   "per_page"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "parts": [
-                "api",
-                "users"
-              ]
+              }
             }
           ]
         }
@@ -3469,20 +3559,23 @@ class Config {
     "login": {
       "fields": [
         {
-          "format": "email",
           "name": "email",
+          "title": "Email",
+          "type": "`$STRING`",
           "req": true,
-          "type": "`$STRING`"
+          "format": "email"
         },
         {
           "name": "password",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Password",
+          "type": "`$STRING`",
+          "req": true
         },
         {
           "name": "token",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Token",
+          "type": "`$STRING`",
+          "req": true
         }
       ],
       "name": "login",
@@ -3492,7 +3585,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/api/login",
@@ -3504,15 +3596,17 @@ class Config {
                   "lit": "login"
                 }
               ],
-              "select": {},
+              "parts": [
+                "api",
+                "login"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "api",
-                "login"
-              ]
+              "args": {},
+              "select": {}
             }
           ]
         }
@@ -3524,24 +3618,28 @@ class Config {
     "register": {
       "fields": [
         {
-          "format": "email",
           "name": "email",
+          "title": "Email",
+          "type": "`$STRING`",
           "req": true,
-          "type": "`$STRING`"
+          "format": "email"
         },
         {
           "name": "id",
+          "title": "Id",
           "type": "`$INTEGER`"
         },
         {
           "name": "password",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Password",
+          "type": "`$STRING`",
+          "req": true
         },
         {
           "name": "token",
-          "req": true,
-          "type": "`$STRING`"
+          "title": "Token",
+          "type": "`$STRING`",
+          "req": true
         }
       ],
       "id": {
@@ -3555,7 +3653,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/api/register",
@@ -3567,15 +3664,17 @@ class Config {
                   "lit": "register"
                 }
               ],
-              "select": {},
+              "parts": [
+                "api",
+                "register"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "api",
-                "register"
-              ]
+              "args": {},
+              "select": {}
             }
           ]
         }

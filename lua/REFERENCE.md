@@ -49,9 +49,9 @@ Create a new `AgentHealth` entity instance. Pass `nil` for no initial data.
 
 Create a new `AgentSandbox` entity instance. Pass `nil` for no initial data.
 
-#### `AgentUserDetail(data)`
+#### `AgentUser(data)`
 
-Create a new `AgentUserDetail` entity instance. Pass `nil` for no initial data.
+Create a new `AgentUser` entity instance. Pass `nil` for no initial data.
 
 #### `AgentUserList(data)`
 
@@ -285,10 +285,10 @@ Return the entity name.
 
 ---
 
-## AgentUserDetailEntity
+## AgentUserEntity
 
 ```lua
-local agent_user_detail = client:AgentUserDetail(nil)
+local agent_user = client:AgentUser(nil)
 ```
 
 ### Fields
@@ -313,7 +313,7 @@ local agent_user_detail = client:AgentUserDetail(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:AgentUserDetail():load({ id = "agent_user_detail_id" })
+local result, err = client:AgentUser():load({ id = "agent_user_id" })
 ```
 
 ### Common Methods
@@ -336,7 +336,7 @@ Set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `AgentUserDetailEntity` instance with the same client and
+Create a new `AgentUserEntity` instance with the same client and
 options.
 
 #### `get_name() -> string`

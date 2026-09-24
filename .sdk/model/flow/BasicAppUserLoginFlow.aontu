@@ -1,0 +1,18 @@
+# BasicAppUserLoginFlow
+
+main: kit: flow: BasicAppUserLoginFlow:
+{
+  entity: "app_user_login",
+  kind: "basic",
+  name: "BasicAppUserLoginFlow",
+  step: [
+    {
+      i: {
+        ref: "app_user_login_ref01"
+      }
+
+      o: "create"
+    }
+  ],
+  "key$": "BasicAppUserLoginFlow"
+}

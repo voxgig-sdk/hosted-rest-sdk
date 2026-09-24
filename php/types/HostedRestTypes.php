@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 // Typed models for the HostedRest SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 //
@@ -52,8 +52,8 @@ class AgentSandboxCreateData
     public string $password;
 }
 
-/** AgentUserDetail entity data model. */
-class AgentUserDetail
+/** AgentUser entity data model. */
+class AgentUser
 {
     public string $created_at;
     public string $email;
@@ -67,8 +67,8 @@ class AgentUserDetail
     public string $updated_at;
 }
 
-/** Request payload for AgentUserDetail#load. */
-class AgentUserDetailLoadMatch
+/** Request payload for AgentUser#load. */
+class AgentUserLoadMatch
 {
     public string $id;
     public ?string $expand = null;

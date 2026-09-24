@@ -50,9 +50,9 @@ Create a new `AgentHealth` entity instance. Pass `nil` for no initial data.
 
 Create a new `AgentSandbox` entity instance. Pass `nil` for no initial data.
 
-#### `AgentUserDetail(data = nil)`
+#### `AgentUser(data = nil)`
 
-Create a new `AgentUserDetail` entity instance. Pass `nil` for no initial data.
+Create a new `AgentUser` entity instance. Pass `nil` for no initial data.
 
 #### `AgentUserList(data = nil)`
 
@@ -288,10 +288,10 @@ Return the entity name.
 
 ---
 
-## AgentUserDetailEntity
+## AgentUserEntity
 
 ```ruby
-agent_user_detail = client.AgentUserDetail
+agent_user = client.AgentUser
 ```
 
 ### Fields
@@ -316,7 +316,7 @@ agent_user_detail = client.AgentUserDetail
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.AgentUserDetail.load({ "id" => "agent_user_detail_id" })
+result = client.AgentUser.load({ "id" => "agent_user_id" })
 ```
 
 ### Common Methods
@@ -339,7 +339,7 @@ Set the entity match criteria.
 
 #### `make -> Entity`
 
-Create a new `AgentUserDetailEntity` instance with the same client and
+Create a new `AgentUserEntity` instance with the same client and
 options.
 
 #### `get_name -> String`

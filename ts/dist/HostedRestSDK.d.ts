@@ -1,6 +1,6 @@
 import { AgentHealthEntity } from './entity/AgentHealthEntity';
 import { AgentSandboxEntity } from './entity/AgentSandboxEntity';
-import { AgentUserDetailEntity } from './entity/AgentUserDetailEntity';
+import { AgentUserEntity } from './entity/AgentUserEntity';
 import { AgentUserListEntity } from './entity/AgentUserListEntity';
 import { AppUserEntity } from './entity/AppUserEntity';
 import { AppUserLoginEntity } from './entity/AppUserLoginEntity';
@@ -67,7 +67,7 @@ declare class HostedRestSDK {
     graphql(query: string, variables?: any, ctrl?: any): Promise<any>;
     AgentHealth(entopts?: Record<string, any>): AgentHealthEntity;
     AgentSandbox(entopts?: Record<string, any>): AgentSandboxEntity;
-    AgentUserDetail(entopts?: Record<string, any>): AgentUserDetailEntity;
+    AgentUser(entopts?: Record<string, any>): AgentUserEntity;
     AgentUserList(entopts?: Record<string, any>): AgentUserListEntity;
     AppUser(entopts?: Record<string, any>): AppUserEntity;
     AppUserLogin(entopts?: Record<string, any>): AppUserLoginEntity;

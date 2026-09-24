@@ -19,7 +19,6 @@ import type {
   CollectionRecordListListMatch,
 } from '../HostedRestTypes'
 
-// TODO: needs Entity superclass
 class CollectionRecordListEntity extends HostedRestEntityBase<CollectionRecordList> {
 
   constructor(client: HostedRestSDK, entopts: any) {

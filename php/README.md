@@ -33,15 +33,15 @@ $client = new HostedRestSDK([
 ]);
 ```
 
-### 3. Load an agentsandbox
+### 3. Load a collectionrecord
 
-AgentSandbox is nested under scenario, so provide the `scenario`.
+CollectionRecord is nested under collection, so provide the `collection_id`.
 
 ```php
 try {
-    // load() returns the ENTITY — call data_get() for the AgentSandbox record (throws on error).
-    $agentsandbox = $client->AgentSandbox()->load(["scenario" => "example_scenario"]);
-    print_r($agentsandbox->data_get());
+    // load() returns the ENTITY — call data_get() for the CollectionRecord record (throws on error).
+    $collectionrecord = $client->CollectionRecord()->load(["collection_id" => "example_collection_id", "id" => "example_id"]);
+    print_r($collectionrecord->data_get());
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -216,7 +216,7 @@ Creates a test-mode client with mock transport. Both arguments may be `null`.
 | `direct` | `(array $fetchargs): array` | Build and send an HTTP request. |
 | `AgentHealth` | `($data): AgentHealthEntity` | Create an AgentHealth entity instance. |
 | `AgentSandbox` | `($data): AgentSandboxEntity` | Create an AgentSandbox entity instance. |
-| `AgentUserDetail` | `($data): AgentUserDetailEntity` | Create an AgentUserDetail entity instance. |
+| `AgentUser` | `($data): AgentUserEntity` | Create an AgentUser entity instance. |
 | `AgentUserList` | `($data): AgentUserListEntity` | Create an AgentUserList entity instance. |
 | `AppUser` | `($data): AppUserEntity` | Create an AppUser entity instance. |
 | `AppUserLogin` | `($data): AppUserLoginEntity` | Create an AppUserLogin entity instance. |
@@ -300,7 +300,7 @@ Operations: Create, Load.
 
 API path: `/agent/v1/auth/login`
 
-#### AgentUserDetail
+#### AgentUser
 
 | Field | Description |
 | --- | --- |
@@ -634,9 +634,9 @@ $agent_sandbox = $client->AgentSandbox()->create([
 ```
 
 
-### AgentUserDetail
+### AgentUser
 
-Create an instance: `$agent_user_detail = $client->AgentUserDetail();`
+Create an instance: `$agent_user = $client->AgentUser();`
 
 #### Operations
 
@@ -662,8 +662,8 @@ Create an instance: `$agent_user_detail = $client->AgentUserDetail();`
 #### Example: Load
 
 ```php
-// load() returns the ENTITY — call data_get() for the AgentUserDetail record (throws on error).
-$agent_user_detail = $client->AgentUserDetail()->load(["id" => "agent_user_detail_id"]);
+// load() returns the ENTITY — call data_get() for the AgentUser record (throws on error).
+$agent_user = $client->AgentUser()->load(["id" => "agent_user_id"]);
 ```
 
 

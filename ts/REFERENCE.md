@@ -73,9 +73,9 @@ Create a new `AgentSandbox` entity instance.
 
 **Returns:** `AgentSandboxEntity` instance.
 
-#### `AgentUserDetail(data?: object)`
+#### `AgentUser(data?: object)`
 
-Create a new `AgentUserDetail` entity instance.
+Create a new `AgentUser` entity instance.
 
 **Parameters:**
 
@@ -83,7 +83,7 @@ Create a new `AgentUserDetail` entity instance.
 | --- | --- | --- |
 | `data` | `object` | Initial entity data. |
 
-**Returns:** `AgentUserDetailEntity` instance.
+**Returns:** `AgentUserEntity` instance.
 
 #### `AgentUserList(data?: object)`
 
@@ -475,10 +475,10 @@ Return a copy of the entity options.
 
 ---
 
-## AgentUserDetailEntity
+## AgentUserEntity
 
 ```ts
-const agent_user_detail = client.AgentUserDetail()
+const agent_user = client.AgentUser()
 ```
 
 ### Fields
@@ -503,7 +503,7 @@ const agent_user_detail = client.AgentUserDetail()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.AgentUserDetail().load({ id: 'agent_user_detail_id' })
+const result = await client.AgentUser().load({ id: 'agent_user_id' })
 ```
 
 ### Common Methods
@@ -520,7 +520,7 @@ Get or set the entity match criteria. Works the same as `data()`.
 
 #### `make()`
 
-Create a new `AgentUserDetailEntity` instance with the same client and
+Create a new `AgentUserEntity` instance with the same client and
 options.
 
 #### `client()`

@@ -19,7 +19,6 @@ import type {
   AgentUserListListMatch,
 } from '../HostedRestTypes'
 
-// TODO: needs Entity superclass
 class AgentUserListEntity extends HostedRestEntityBase<AgentUserList> {
 
   constructor(client: HostedRestSDK, entopts: any) {

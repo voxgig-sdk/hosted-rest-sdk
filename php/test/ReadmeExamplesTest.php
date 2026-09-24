@@ -42,7 +42,7 @@ class ReadmeExamplesTest extends TestCase
     private const ENTITIES = [
         "AgentHealth" => "agent_health",
         "AgentSandbox" => "agent_sandbox",
-        "AgentUserDetail" => "agent_user_detail",
+        "AgentUser" => "agent_user",
         "AgentUserList" => "agent_user_list",
         "AppUser" => "app_user",
         "AppUserLogin" => "app_user_login",

@@ -2,7 +2,7 @@
 
 import { AgentHealthEntity } from './entity/AgentHealthEntity'
 import { AgentSandboxEntity } from './entity/AgentSandboxEntity'
-import { AgentUserDetailEntity } from './entity/AgentUserDetailEntity'
+import { AgentUserEntity } from './entity/AgentUserEntity'
 import { AgentUserListEntity } from './entity/AgentUserListEntity'
 import { AppUserEntity } from './entity/AppUserEntity'
 import { AppUserLoginEntity } from './entity/AppUserLoginEntity'
@@ -145,7 +145,6 @@ class HostedRestSDK {
 
     const options = this._options
 
-    // Build spec directly from SDK options + user-provided fetch args.
     const spec: any = {
       base: options.base,
       prefix: options.prefix,
@@ -161,7 +160,6 @@ class HostedRestSDK {
 
     ctx.spec = spec
 
-    // Merge user-provided headers over SDK defaults.
     if (fetchargs.headers) {
       const uheaders = fetchargs.headers
       for (let key in uheaders) {
@@ -171,7 +169,6 @@ class HostedRestSDK {
 
     
 
-    // Apply SDK auth (apikey, auth prefix, etc.)
     const authResult = prepareAuth(ctx)
     if (authResult instanceof Error) {
       return authResult
@@ -264,18 +261,6 @@ class HostedRestSDK {
 
 
 
-  // Raw GraphQL access: the pressure valve that makes the generated
-  // surface's deliberate omissions (per-call selection sets, typed filter
-  // builders, batching, subscriptions) livable — the whole schema stays
-  // reachable.
-  //
-  // Thin wrapper over the same prepare/fetch path `direct` uses, with the
-  // one thing raw `direct` cannot do for GraphQL: a GraphQL failure rides
-  // HTTP 200 as a top-level `errors` array, so status alone would report a
-  // failed query as ok.
-  //
-  // NOTE: like `direct`, this bypasses the feature pipeline — no retry,
-  // ratelimit or paging features apply.
   async graphql(query: string, variables?: any, ctrl?: any) {
     const options = this._options
 
@@ -336,12 +321,12 @@ class HostedRestSDK {
   }
 
 
-  // Entity access: `client.AgentUserDetail().list()` / `client.AgentUserDetail().load({ id })`.
+  // Entity access: `client.AgentUser().list()` / `client.AgentUser().load({ id })`.
   // The argument is the entity OPTIONS object (passed to the entity
   // constructor as entopts), not initial entity data.
-  AgentUserDetail(entopts?: Record<string, any>) {
+  AgentUser(entopts?: Record<string, any>) {
     const self = this
-    return new AgentUserDetailEntity(self, entopts)
+    return new AgentUserEntity(self, entopts)
   }
 
 

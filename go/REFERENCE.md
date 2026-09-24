@@ -56,9 +56,9 @@ Create a new `AgentHealth` entity instance. Pass `nil` for no initial data.
 
 Create a new `AgentSandbox` entity instance. Pass `nil` for no initial data.
 
-#### `AgentUserDetail(data map[string]any) HostedRestEntity`
+#### `AgentUser(data map[string]any) HostedRestEntity`
 
-Create a new `AgentUserDetail` entity instance. Pass `nil` for no initial data.
+Create a new `AgentUser` entity instance. Pass `nil` for no initial data.
 
 #### `AgentUserList(data map[string]any) HostedRestEntity`
 
@@ -294,11 +294,11 @@ Return the entity name.
 
 ---
 
-## AgentUserDetailEntity
+## AgentUserEntity
 
 ```go
-agentUserDetail := client.AgentUserDetail(nil)
-fmt.Println(agentUserDetail.GetName()) // "agent_user_detail"
+agentUser := client.AgentUser(nil)
+fmt.Println(agentUser.GetName()) // "agent_user"
 ```
 
 ### Fields
@@ -323,7 +323,7 @@ fmt.Println(agentUserDetail.GetName()) // "agent_user_detail"
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.AgentUserDetail(nil).Load(map[string]any{"id": "agent_user_detail_id"}, nil)
+result, err := client.AgentUser(nil).Load(map[string]any{"id": "agent_user_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -344,7 +344,7 @@ Get or set the entity match criteria. Works the same as `Data()`.
 
 #### `Make() Entity`
 
-Create a new `AgentUserDetailEntity` instance with the same client and
+Create a new `AgentUserEntity` instance with the same client and
 options.
 
 #### `GetName() string`

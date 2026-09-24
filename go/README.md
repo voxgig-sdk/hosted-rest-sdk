@@ -225,7 +225,7 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `Direct` | `(fetchargs map[string]any) (map[string]any, error)` | Build and send an HTTP request. |
 | `AgentHealth` | `(data map[string]any) HostedRestEntity` | Create an AgentHealth entity instance. |
 | `AgentSandbox` | `(data map[string]any) HostedRestEntity` | Create an AgentSandbox entity instance. |
-| `AgentUserDetail` | `(data map[string]any) HostedRestEntity` | Create an AgentUserDetail entity instance. |
+| `AgentUser` | `(data map[string]any) HostedRestEntity` | Create an AgentUser entity instance. |
 | `AgentUserList` | `(data map[string]any) HostedRestEntity` | Create an AgentUserList entity instance. |
 | `AppUser` | `(data map[string]any) HostedRestEntity` | Create an AppUser entity instance. |
 | `AppUserLogin` | `(data map[string]any) HostedRestEntity` | Create an AppUserLogin entity instance. |
@@ -310,7 +310,7 @@ Operations: Create, Load.
 
 API path: `/agent/v1/auth/login`
 
-#### AgentUserDetail
+#### AgentUser
 
 | Field | Description |
 | --- | --- |
@@ -654,9 +654,9 @@ fmt.Println(result)
 ```
 
 
-### AgentUserDetail
+### AgentUser
 
-Create an instance: `agentUserDetail := client.AgentUserDetail(nil)`
+Create an instance: `agentUser := client.AgentUser(nil)`
 
 #### Operations
 
@@ -682,11 +682,11 @@ Create an instance: `agentUserDetail := client.AgentUserDetail(nil)`
 #### Example: Load
 
 ```go
-agentUserDetail, err := client.AgentUserDetail(nil).Load(map[string]any{"id": "agent_user_detail_id"}, nil)
+agentUser, err := client.AgentUser(nil).Load(map[string]any{"id": "agent_user_id"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(agentUserDetail) // the loaded record
+fmt.Println(agentUser) // the loaded record
 ```
 
 

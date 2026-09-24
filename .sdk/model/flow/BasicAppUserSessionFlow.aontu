@@ -1,0 +1,28 @@
+# BasicAppUserSessionFlow
+
+main: kit: flow: BasicAppUserSessionFlow:
+{
+  entity: "app_user_session",
+  kind: "basic",
+  name: "BasicAppUserSessionFlow",
+  step: [
+    {
+      i: {
+        ref: "app_user_session_ref01",
+        srcdatavar: "app_user_session_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-app_user_session_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicAppUserSessionFlow"
+}

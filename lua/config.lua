@@ -85,7 +85,7 @@ local function make_config()
       entity = {
         ["agent_health"] = {},
         ["agent_sandbox"] = {},
-        ["agent_user_detail"] = {},
+        ["agent_user"] = {},
         ["agent_user_list"] = {},
         ["app_user"] = {},
         ["app_user_login"] = {},
@@ -112,28 +112,33 @@ local function make_config()
         ["fields"] = {
           {
             ["name"] = "deprecations",
-            ["req"] = true,
+            ["title"] = "Deprecations",
             ["type"] = "`$ARRAY`",
+            ["req"] = true,
           },
           {
             ["name"] = "rate_limit_status",
-            ["req"] = true,
+            ["title"] = "Rate Limit Status",
             ["type"] = "`$OBJECT`",
+            ["req"] = true,
           },
           {
             ["name"] = "status",
-            ["req"] = true,
+            ["title"] = "Status",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
           {
             ["name"] = "uptime_seconds",
-            ["req"] = true,
+            ["title"] = "Uptime Seconds",
             ["type"] = "`$INTEGER`",
+            ["req"] = true,
           },
           {
             ["name"] = "version",
-            ["req"] = true,
+            ["title"] = "Version",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
         },
         ["name"] = "agent_health",
@@ -143,7 +148,6 @@ local function make_config()
             ["name"] = "load",
             ["points"] = {
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/agent/v1/health",
@@ -158,16 +162,18 @@ local function make_config()
                     ["lit"] = "health",
                   },
                 },
-                ["select"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.data`",
-                },
                 ["parts"] = {
                   "agent",
                   "v1",
                   "health",
                 },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {},
+                ["select"] = {},
               },
             },
           },
@@ -179,15 +185,17 @@ local function make_config()
       ["agent_sandbox"] = {
         ["fields"] = {
           {
-            ["format"] = "email",
             ["name"] = "email",
-            ["req"] = true,
+            ["title"] = "Email",
             ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["format"] = "email",
           },
           {
             ["name"] = "password",
-            ["req"] = true,
+            ["title"] = "Password",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
         },
         ["name"] = "agent_sandbox",
@@ -197,7 +205,6 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/agent/v1/auth/login",
@@ -215,17 +222,19 @@ local function make_config()
                     ["lit"] = "login",
                   },
                 },
-                ["select"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "agent",
                   "v1",
                   "auth",
                   "login",
                 },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {},
+                ["select"] = {},
               },
             },
           },
@@ -234,36 +243,6 @@ local function make_config()
             ["name"] = "load",
             ["points"] = {
               {
-                ["args"] = {
-                  ["query"] = {
-                    {
-                      ["kind"] = "query",
-                      ["name"] = "cursor",
-                      ["orig"] = "cursor",
-                      ["type"] = "`$STRING`",
-                    },
-                    {
-                      ["example"] = 20,
-                      ["kind"] = "query",
-                      ["name"] = "limit",
-                      ["orig"] = "limit",
-                      ["type"] = "`$INTEGER`",
-                    },
-                    {
-                      ["example"] = 42,
-                      ["kind"] = "query",
-                      ["name"] = "seed",
-                      ["orig"] = "seed",
-                      ["type"] = "`$INTEGER`",
-                    },
-                    {
-                      ["kind"] = "query",
-                      ["name"] = "status",
-                      ["orig"] = "status",
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/agent/v1/orders",
@@ -278,6 +257,46 @@ local function make_config()
                     ["lit"] = "orders",
                   },
                 },
+                ["parts"] = {
+                  "agent",
+                  "v1",
+                  "orders",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["query"] = {
+                    {
+                      ["name"] = "cursor",
+                      ["orig"] = "cursor",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "limit",
+                      ["orig"] = "limit",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "query",
+                      ["example"] = 20,
+                    },
+                    {
+                      ["name"] = "seed",
+                      ["orig"] = "seed",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "query",
+                      ["example"] = 42,
+                    },
+                    {
+                      ["name"] = "status",
+                      ["orig"] = "status",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                  },
+                },
                 ["select"] = {
                   ["exist"] = {
                     "cursor",
@@ -286,28 +305,8 @@ local function make_config()
                     "status",
                   },
                 },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["parts"] = {
-                  "agent",
-                  "v1",
-                  "orders",
-                },
               },
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "scenario",
-                      ["orig"] = "scenario",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/agent/v1/scenarios/{scenario}",
@@ -325,24 +324,35 @@ local function make_config()
                     ["var"] = "scenario",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "scenario",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "agent",
                   "v1",
                   "scenarios",
                   "{scenario}",
                 },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "scenario",
+                      ["orig"] = "scenario",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "scenario",
+                  },
+                },
               },
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/agent/v1/scenarios",
@@ -357,114 +367,103 @@ local function make_config()
                     ["lit"] = "scenarios",
                   },
                 },
-                ["select"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "agent",
                   "v1",
                   "scenarios",
                 },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {},
+                ["select"] = {},
               },
             },
           },
         },
         ["relations"] = {
-          ["ancestors"] = {
-            {
-              "scenario",
-            },
-          },
+          ["ancestors"] = {},
         },
       },
-      ["agent_user_detail"] = {
+      ["agent_user"] = {
         ["fields"] = {
           {
-            ["format"] = "date-time",
             ["name"] = "created_at",
-            ["req"] = true,
+            ["title"] = "Created At",
             ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["format"] = "date-time",
           },
           {
-            ["format"] = "email",
             ["name"] = "email",
-            ["req"] = true,
+            ["title"] = "Email",
             ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["format"] = "email",
           },
           {
             ["name"] = "full_name",
-            ["req"] = true,
+            ["title"] = "Full Name",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
           {
             ["name"] = "id",
-            ["req"] = true,
+            ["title"] = "Id",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
           {
             ["name"] = "locale",
-            ["req"] = true,
+            ["title"] = "Locale",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
           {
             ["name"] = "preferences",
-            ["req"] = true,
+            ["title"] = "Preferences",
             ["type"] = "`$OBJECT`",
+            ["req"] = true,
           },
           {
             ["name"] = "profile",
-            ["req"] = true,
+            ["title"] = "Profile",
             ["type"] = "`$OBJECT`",
+            ["req"] = true,
           },
           {
             ["name"] = "status",
-            ["req"] = true,
+            ["title"] = "Status",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
           {
             ["name"] = "timezone",
-            ["req"] = true,
+            ["title"] = "Timezone",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
           {
-            ["format"] = "date-time",
             ["name"] = "updated_at",
-            ["req"] = true,
+            ["title"] = "Updated At",
             ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["format"] = "date-time",
           },
         },
         ["id"] = {
           ["field"] = "id",
           ["name"] = "id",
         },
-        ["name"] = "agent_user_detail",
+        ["name"] = "agent_user",
         ["op"] = {
           ["load"] = {
             ["input"] = "data",
             ["name"] = "load",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                  ["query"] = {
-                    {
-                      ["kind"] = "query",
-                      ["name"] = "expand",
-                      ["orig"] = "expand",
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/agent/v1/users/{id}",
@@ -482,21 +481,41 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "expand",
-                    "id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.data`",
-                },
                 ["parts"] = {
                   "agent",
                   "v1",
                   "users",
                   "{id}",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                  ["query"] = {
+                    {
+                      ["name"] = "expand",
+                      ["orig"] = "expand",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "expand",
+                    "id",
+                  },
                 },
               },
             },
@@ -509,57 +528,67 @@ local function make_config()
       ["agent_user_list"] = {
         ["fields"] = {
           {
-            ["format"] = "date-time",
             ["name"] = "created_at",
-            ["req"] = true,
+            ["title"] = "Created At",
             ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["format"] = "date-time",
           },
           {
-            ["format"] = "email",
             ["name"] = "email",
-            ["req"] = true,
+            ["title"] = "Email",
             ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["format"] = "email",
           },
           {
             ["name"] = "full_name",
-            ["req"] = true,
+            ["title"] = "Full Name",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
           {
             ["name"] = "id",
-            ["req"] = true,
+            ["title"] = "Id",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
           {
             ["name"] = "locale",
-            ["req"] = true,
+            ["title"] = "Locale",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
           {
             ["name"] = "preferences",
-            ["req"] = true,
+            ["title"] = "Preferences",
             ["type"] = "`$OBJECT`",
+            ["req"] = true,
           },
           {
             ["name"] = "profile",
-            ["req"] = true,
+            ["title"] = "Profile",
             ["type"] = "`$OBJECT`",
+            ["req"] = true,
           },
           {
             ["name"] = "status",
-            ["req"] = true,
+            ["title"] = "Status",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
           {
             ["name"] = "timezone",
-            ["req"] = true,
+            ["title"] = "Timezone",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
           {
-            ["format"] = "date-time",
             ["name"] = "updated_at",
-            ["req"] = true,
+            ["title"] = "Updated At",
             ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["format"] = "date-time",
           },
         },
         ["id"] = {
@@ -573,36 +602,6 @@ local function make_config()
             ["name"] = "list",
             ["points"] = {
               {
-                ["args"] = {
-                  ["query"] = {
-                    {
-                      ["kind"] = "query",
-                      ["name"] = "cursor",
-                      ["orig"] = "cursor",
-                      ["type"] = "`$STRING`",
-                    },
-                    {
-                      ["kind"] = "query",
-                      ["name"] = "field",
-                      ["orig"] = "field",
-                      ["type"] = "`$STRING`",
-                    },
-                    {
-                      ["example"] = 20,
-                      ["kind"] = "query",
-                      ["name"] = "limit",
-                      ["orig"] = "limit",
-                      ["type"] = "`$INTEGER`",
-                    },
-                    {
-                      ["example"] = 42,
-                      ["kind"] = "query",
-                      ["name"] = "seed",
-                      ["orig"] = "seed",
-                      ["type"] = "`$INTEGER`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/agent/v1/users",
@@ -617,6 +616,46 @@ local function make_config()
                     ["lit"] = "users",
                   },
                 },
+                ["parts"] = {
+                  "agent",
+                  "v1",
+                  "users",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["query"] = {
+                    {
+                      ["name"] = "cursor",
+                      ["orig"] = "cursor",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "field",
+                      ["orig"] = "field",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "limit",
+                      ["orig"] = "limit",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "query",
+                      ["example"] = 20,
+                    },
+                    {
+                      ["name"] = "seed",
+                      ["orig"] = "seed",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "query",
+                      ["example"] = 42,
+                    },
+                  },
+                },
                 ["select"] = {
                   ["exist"] = {
                     "cursor",
@@ -624,15 +663,6 @@ local function make_config()
                     "limit",
                     "seed",
                   },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["parts"] = {
-                  "agent",
-                  "v1",
-                  "users",
                 },
               },
             },
@@ -645,37 +675,43 @@ local function make_config()
       ["app_user"] = {
         ["fields"] = {
           {
-            ["format"] = "date-time",
             ["name"] = "created_at",
+            ["title"] = "Created At",
             ["type"] = "`$STRING`",
+            ["format"] = "date-time",
           },
           {
-            ["format"] = "email",
             ["name"] = "email",
+            ["title"] = "Email",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
             ["op"] = {
               ["update"] = {
                 ["type"] = "`$STRING`",
               },
             },
-            ["req"] = true,
-            ["type"] = "`$STRING`",
+            ["format"] = "email",
           },
           {
             ["name"] = "id",
-            ["req"] = true,
+            ["title"] = "Id",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
           {
-            ["format"] = "date-time",
             ["name"] = "last_login_at",
+            ["title"] = "Last Login At",
             ["type"] = "`$STRING`",
+            ["format"] = "date-time",
           },
           {
             ["name"] = "metadata",
+            ["title"] = "Metadata",
             ["type"] = "`$OBJECT`",
           },
           {
             ["name"] = "status",
+            ["title"] = "Status",
             ["type"] = "`$STRING`",
           },
         },
@@ -690,17 +726,6 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/app-users/{id}/sessions/simulate",
@@ -721,16 +746,6 @@ local function make_config()
                     ["lit"] = "simulate",
                   },
                 },
-                ["select"] = {
-                  ["$action"] = "session_simulate",
-                  ["exist"] = {
-                    "id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "api",
                   "app-users",
@@ -738,9 +753,30 @@ local function make_config()
                   "sessions",
                   "simulate",
                 },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["$action"] = "session_simulate",
+                  ["exist"] = {
+                    "id",
+                  },
+                },
               },
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/app-users",
@@ -752,15 +788,17 @@ local function make_config()
                     ["lit"] = "app-users",
                   },
                 },
-                ["select"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.data`",
-                },
                 ["parts"] = {
                   "api",
                   "app-users",
                 },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {},
+                ["select"] = {},
               },
             },
           },
@@ -769,41 +807,9 @@ local function make_config()
             ["name"] = "list",
             ["points"] = {
               {
-                ["args"] = {
-                  ["header"] = {
-                    {
-                      ["kind"] = "header",
-                      ["name"] = "x_reqres_env",
-                      ["orig"] = "x_reqres_env",
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "project_id",
-                      ["orig"] = "project_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                  ["query"] = {
-                    {
-                      ["kind"] = "query",
-                      ["name"] = "status",
-                      ["orig"] = "status",
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/projects/{projectId}/app-users",
-                ["rename"] = {
-                  ["param"] = {
-                    ["projectId"] = "project_id",
-                  },
-                },
                 ["segments"] = {
                   {
                     ["lit"] = "api",
@@ -818,6 +824,48 @@ local function make_config()
                     ["lit"] = "app-users",
                   },
                 },
+                ["parts"] = {
+                  "api",
+                  "projects",
+                  "{project_id}",
+                  "app-users",
+                },
+                ["rename"] = {
+                  ["param"] = {
+                    ["projectId"] = "project_id",
+                  },
+                },
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_reqres_env",
+                      ["orig"] = "x_reqres_env",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
+                  ["params"] = {
+                    {
+                      ["name"] = "project_id",
+                      ["orig"] = "project_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                  ["query"] = {
+                    {
+                      ["name"] = "status",
+                      ["orig"] = "status",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                  },
+                },
                 ["select"] = {
                   ["exist"] = {
                     "project_id",
@@ -825,36 +873,8 @@ local function make_config()
                     "x_reqres_env",
                   },
                 },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.data`",
-                },
-                ["parts"] = {
-                  "api",
-                  "projects",
-                  "{project_id}",
-                  "app-users",
-                },
               },
               {
-                ["args"] = {
-                  ["header"] = {
-                    {
-                      ["kind"] = "header",
-                      ["name"] = "x_reqres_env",
-                      ["orig"] = "x_reqres_env",
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                  ["query"] = {
-                    {
-                      ["kind"] = "query",
-                      ["name"] = "limit",
-                      ["orig"] = "limit",
-                      ["type"] = "`$INTEGER`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/app-users",
@@ -866,19 +886,38 @@ local function make_config()
                     ["lit"] = "app-users",
                   },
                 },
+                ["parts"] = {
+                  "api",
+                  "app-users",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_reqres_env",
+                      ["orig"] = "x_reqres_env",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
+                  ["query"] = {
+                    {
+                      ["name"] = "limit",
+                      ["orig"] = "limit",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "query",
+                    },
+                  },
+                },
                 ["select"] = {
                   ["exist"] = {
                     "limit",
                     "x_reqres_env",
                   },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.data`",
-                },
-                ["parts"] = {
-                  "api",
-                  "app-users",
                 },
               },
             },
@@ -888,17 +927,6 @@ local function make_config()
             ["name"] = "load",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/app-users/{id}",
@@ -913,19 +941,31 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.data`",
-                },
                 ["parts"] = {
                   "api",
                   "app-users",
                   "{id}",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                  },
                 },
               },
             },
@@ -935,33 +975,9 @@ local function make_config()
             ["name"] = "remove",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "collection_id",
-                      ["orig"] = "slug",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "record_id",
-                      ["orig"] = "record_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/app/collections/{slug}/records/{recordId}",
-                ["rename"] = {
-                  ["param"] = {
-                    ["recordId"] = "record_id",
-                    ["slug"] = "collection_id",
-                  },
-                },
                 ["segments"] = {
                   {
                     ["lit"] = "app",
@@ -979,16 +995,6 @@ local function make_config()
                     ["var"] = "record_id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "collection_id",
-                    "record_id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "app",
                   "collections",
@@ -996,19 +1002,42 @@ local function make_config()
                   "records",
                   "{record_id}",
                 },
-              },
-              {
+                ["rename"] = {
+                  ["param"] = {
+                    ["recordId"] = "record_id",
+                    ["slug"] = "collection_id",
+                  },
+                },
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
                 ["args"] = {
                   ["params"] = {
                     {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "id",
-                      ["reqd"] = true,
+                      ["name"] = "collection_id",
+                      ["orig"] = "slug",
                       ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                    {
+                      ["name"] = "record_id",
+                      ["orig"] = "record_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
                     },
                   },
                 },
+                ["select"] = {
+                  ["exist"] = {
+                    "collection_id",
+                    "record_id",
+                  },
+                },
+              },
+              {
                 ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/api/app-users/{id}",
@@ -1023,19 +1052,31 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "api",
                   "app-users",
                   "{id}",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                  },
                 },
               },
             },
@@ -1045,17 +1086,6 @@ local function make_config()
             ["name"] = "update",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "PUT",
                 ["orig"] = "/api/app-users/{id}",
@@ -1070,19 +1100,31 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.data`",
-                },
                 ["parts"] = {
                   "api",
                   "app-users",
                   "{id}",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                  },
                 },
               },
             },
@@ -1091,11 +1133,7 @@ local function make_config()
         ["relations"] = {
           ["ancestors"] = {
             {
-              "project",
-            },
-            {
-              "collection",
-              "record",
+              "$.main.kit.entity.collection",
             },
           },
         },
@@ -1103,23 +1141,21 @@ local function make_config()
       ["app_user_login"] = {
         ["fields"] = {
           {
-            ["format"] = "email",
             ["name"] = "email",
-            ["req"] = true,
+            ["title"] = "Email",
             ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["format"] = "email",
           },
           {
             ["name"] = "metadata",
+            ["title"] = "Metadata",
             ["type"] = "`$OBJECT`",
           },
           {
             ["name"] = "project_id",
+            ["title"] = "Project Id",
             ["type"] = "`$STRING`",
-            ["union"] = {
-              ["branches"] = 2,
-              ["count"] = 1,
-              ["depth"] = 0,
-            },
           },
         },
         ["name"] = "app_user_login",
@@ -1129,7 +1165,6 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/app-users/login",
@@ -1144,16 +1179,18 @@ local function make_config()
                     ["lit"] = "login",
                   },
                 },
-                ["select"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.data`",
-                },
                 ["parts"] = {
                   "api",
                   "app-users",
                   "login",
                 },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {},
+                ["select"] = {},
               },
             },
           },
@@ -1171,7 +1208,6 @@ local function make_config()
             ["name"] = "load",
             ["points"] = {
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/app-users/me",
@@ -1186,19 +1222,20 @@ local function make_config()
                     ["lit"] = "me",
                   },
                 },
-                ["select"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.data`",
-                },
                 ["parts"] = {
                   "api",
                   "app-users",
                   "me",
                 },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {},
+                ["select"] = {},
               },
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/app/me",
@@ -1210,15 +1247,17 @@ local function make_config()
                     ["lit"] = "me",
                   },
                 },
-                ["select"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.data`",
-                },
                 ["parts"] = {
                   "app",
                   "me",
                 },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {},
+                ["select"] = {},
               },
             },
           },
@@ -1231,8 +1270,9 @@ local function make_config()
         ["fields"] = {
           {
             ["name"] = "total",
-            ["req"] = true,
+            ["title"] = "Total",
             ["type"] = "`$INTEGER`",
+            ["req"] = true,
           },
         },
         ["name"] = "app_user_total",
@@ -1242,33 +1282,9 @@ local function make_config()
             ["name"] = "load",
             ["points"] = {
               {
-                ["args"] = {
-                  ["header"] = {
-                    {
-                      ["kind"] = "header",
-                      ["name"] = "x_reqres_env",
-                      ["orig"] = "x_reqres_env",
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "project_id",
-                      ["orig"] = "project_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/projects/{projectId}/app-users/total",
-                ["rename"] = {
-                  ["param"] = {
-                    ["projectId"] = "project_id",
-                  },
-                },
                 ["segments"] = {
                   {
                     ["lit"] = "api",
@@ -1286,16 +1302,6 @@ local function make_config()
                     ["lit"] = "total",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "project_id",
-                    "x_reqres_env",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "api",
                   "projects",
@@ -1303,24 +1309,55 @@ local function make_config()
                   "app-users",
                   "total",
                 },
+                ["rename"] = {
+                  ["param"] = {
+                    ["projectId"] = "project_id",
+                  },
+                },
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_reqres_env",
+                      ["orig"] = "x_reqres_env",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
+                  ["params"] = {
+                    {
+                      ["name"] = "project_id",
+                      ["orig"] = "project_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "project_id",
+                    "x_reqres_env",
+                  },
+                },
               },
             },
           },
         },
         ["relations"] = {
-          ["ancestors"] = {
-            {
-              "project",
-            },
-          },
+          ["ancestors"] = {},
         },
       },
       ["app_user_verify"] = {
         ["fields"] = {
           {
             ["name"] = "token",
-            ["req"] = true,
+            ["title"] = "Token",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
         },
         ["name"] = "app_user_verify",
@@ -1330,7 +1367,6 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/app-users/verify",
@@ -1345,16 +1381,18 @@ local function make_config()
                     ["lit"] = "verify",
                   },
                 },
-                ["select"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.data`",
-                },
                 ["parts"] = {
                   "api",
                   "app-users",
                   "verify",
                 },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {},
+                ["select"] = {},
               },
             },
           },
@@ -1372,7 +1410,6 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/logout",
@@ -1384,15 +1421,17 @@ local function make_config()
                     ["lit"] = "logout",
                   },
                 },
-                ["select"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "api",
                   "logout",
                 },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {},
+                ["select"] = {},
               },
             },
           },
@@ -1404,35 +1443,43 @@ local function make_config()
       ["collection"] = {
         ["fields"] = {
           {
-            ["format"] = "date-time",
             ["name"] = "created_at",
+            ["title"] = "Created At",
             ["type"] = "`$STRING`",
+            ["format"] = "date-time",
           },
           {
             ["name"] = "id",
-            ["req"] = true,
+            ["title"] = "Id",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
           {
             ["name"] = "name",
+            ["title"] = "Name",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
             ["op"] = {
               ["update"] = {
                 ["type"] = "`$STRING`",
               },
             },
-            ["req"] = true,
-            ["type"] = "`$STRING`",
           },
           {
             ["name"] = "project_id",
+            ["title"] = "Project Id",
             ["type"] = "`$STRING`",
           },
           {
             ["name"] = "schema",
+            ["title"] = "Schema",
             ["type"] = "`$OBJECT`",
           },
           {
             ["name"] = "slug",
+            ["title"] = "Slug",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
             ["op"] = {
               ["create"] = {
                 ["type"] = "`$STRING`",
@@ -1441,20 +1488,21 @@ local function make_config()
                 ["type"] = "`$STRING`",
               },
             },
-            ["req"] = true,
-            ["type"] = "`$STRING`",
           },
           {
-            ["format"] = "date-time",
             ["name"] = "updated_at",
+            ["title"] = "Updated At",
             ["type"] = "`$STRING`",
+            ["format"] = "date-time",
           },
           {
             ["name"] = "user_id",
+            ["title"] = "User Id",
             ["type"] = "`$STRING`",
           },
           {
             ["name"] = "visibility",
+            ["title"] = "Visibility",
             ["type"] = "`$STRING`",
           },
         },
@@ -1469,16 +1517,6 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["args"] = {
-                  ["header"] = {
-                    {
-                      ["kind"] = "header",
-                      ["name"] = "x_reqres_env",
-                      ["orig"] = "x_reqres_env",
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/collections",
@@ -1490,18 +1528,29 @@ local function make_config()
                     ["lit"] = "collections",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "x_reqres_env",
-                  },
+                ["parts"] = {
+                  "api",
+                  "collections",
                 },
+                ["rename"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body.data`",
                 },
-                ["parts"] = {
-                  "api",
-                  "collections",
+                ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_reqres_env",
+                      ["orig"] = "x_reqres_env",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "x_reqres_env",
+                  },
                 },
               },
             },
@@ -1511,16 +1560,6 @@ local function make_config()
             ["name"] = "list",
             ["points"] = {
               {
-                ["args"] = {
-                  ["header"] = {
-                    {
-                      ["kind"] = "header",
-                      ["name"] = "x_reqres_env",
-                      ["orig"] = "x_reqres_env",
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/collections",
@@ -1532,22 +1571,32 @@ local function make_config()
                     ["lit"] = "collections",
                   },
                 },
+                ["parts"] = {
+                  "api",
+                  "collections",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_reqres_env",
+                      ["orig"] = "x_reqres_env",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
+                },
                 ["select"] = {
                   ["exist"] = {
                     "x_reqres_env",
                   },
                 },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.data`",
-                },
-                ["parts"] = {
-                  "api",
-                  "collections",
-                },
               },
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/app/collections",
@@ -1559,15 +1608,17 @@ local function make_config()
                     ["lit"] = "collections",
                   },
                 },
-                ["select"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.data`",
-                },
                 ["parts"] = {
                   "app",
                   "collections",
                 },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {},
+                ["select"] = {},
               },
             },
           },
@@ -1576,33 +1627,9 @@ local function make_config()
             ["name"] = "load",
             ["points"] = {
               {
-                ["args"] = {
-                  ["header"] = {
-                    {
-                      ["kind"] = "header",
-                      ["name"] = "x_reqres_env",
-                      ["orig"] = "x_reqres_env",
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "slug",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/collections/{slug}",
-                ["rename"] = {
-                  ["param"] = {
-                    ["slug"] = "id",
-                  },
-                },
                 ["segments"] = {
                   {
                     ["lit"] = "api",
@@ -1614,42 +1641,50 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
-                    "x_reqres_env",
+                ["parts"] = {
+                  "api",
+                  "collections",
+                  "{id}",
+                },
+                ["rename"] = {
+                  ["param"] = {
+                    ["slug"] = "id",
                   },
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body.data`",
                 },
-                ["parts"] = {
-                  "api",
-                  "collections",
-                  "{id}",
-                },
-              },
-              {
                 ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_reqres_env",
+                      ["orig"] = "x_reqres_env",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
                   ["params"] = {
                     {
-                      ["kind"] = "param",
                       ["name"] = "id",
                       ["orig"] = "slug",
-                      ["reqd"] = true,
                       ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
                     },
                   },
                 },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                    "x_reqres_env",
+                  },
+                },
+              },
+              {
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/app/collections/{slug}",
-                ["rename"] = {
-                  ["param"] = {
-                    ["slug"] = "id",
-                  },
-                },
                 ["segments"] = {
                   {
                     ["lit"] = "app",
@@ -1661,19 +1696,35 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
+                ["parts"] = {
+                  "app",
+                  "collections",
+                  "{id}",
+                },
+                ["rename"] = {
+                  ["param"] = {
+                    ["slug"] = "id",
                   },
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body.data`",
                 },
-                ["parts"] = {
-                  "app",
-                  "collections",
-                  "{id}",
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "slug",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                  },
                 },
               },
             },
@@ -1683,41 +1734,9 @@ local function make_config()
             ["name"] = "remove",
             ["points"] = {
               {
-                ["args"] = {
-                  ["header"] = {
-                    {
-                      ["kind"] = "header",
-                      ["name"] = "x_reqres_env",
-                      ["orig"] = "x_reqres_env",
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "collection_id",
-                      ["orig"] = "slug",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "record_id",
-                      ["orig"] = "record_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/api/collections/{slug}/records/{recordId}",
-                ["rename"] = {
-                  ["param"] = {
-                    ["recordId"] = "record_id",
-                    ["slug"] = "collection_id",
-                  },
-                },
                 ["segments"] = {
                   {
                     ["lit"] = "api",
@@ -1735,17 +1754,6 @@ local function make_config()
                     ["var"] = "record_id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "collection_id",
-                    "record_id",
-                    "x_reqres_env",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "api",
                   "collections",
@@ -1753,35 +1761,54 @@ local function make_config()
                   "records",
                   "{record_id}",
                 },
-              },
-              {
+                ["rename"] = {
+                  ["param"] = {
+                    ["recordId"] = "record_id",
+                    ["slug"] = "collection_id",
+                  },
+                },
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
                 ["args"] = {
                   ["header"] = {
                     {
-                      ["kind"] = "header",
                       ["name"] = "x_reqres_env",
                       ["orig"] = "x_reqres_env",
                       ["type"] = "`$STRING`",
+                      ["kind"] = "header",
                     },
                   },
                   ["params"] = {
                     {
-                      ["kind"] = "param",
-                      ["name"] = "id",
+                      ["name"] = "collection_id",
                       ["orig"] = "slug",
-                      ["reqd"] = true,
                       ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                    {
+                      ["name"] = "record_id",
+                      ["orig"] = "record_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
                     },
                   },
                 },
+                ["select"] = {
+                  ["exist"] = {
+                    "collection_id",
+                    "record_id",
+                    "x_reqres_env",
+                  },
+                },
+              },
+              {
                 ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/api/collections/{slug}",
-                ["rename"] = {
-                  ["param"] = {
-                    ["slug"] = "id",
-                  },
-                },
                 ["segments"] = {
                   {
                     ["lit"] = "api",
@@ -1793,20 +1820,44 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
-                    "x_reqres_env",
+                ["parts"] = {
+                  "api",
+                  "collections",
+                  "{id}",
+                },
+                ["rename"] = {
+                  ["param"] = {
+                    ["slug"] = "id",
                   },
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "api",
-                  "collections",
-                  "{id}",
+                ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_reqres_env",
+                      ["orig"] = "x_reqres_env",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "slug",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                    "x_reqres_env",
+                  },
                 },
               },
             },
@@ -1816,33 +1867,9 @@ local function make_config()
             ["name"] = "update",
             ["points"] = {
               {
-                ["args"] = {
-                  ["header"] = {
-                    {
-                      ["kind"] = "header",
-                      ["name"] = "x_reqres_env",
-                      ["orig"] = "x_reqres_env",
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "slug",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "PUT",
                 ["orig"] = "/api/collections/{slug}",
-                ["rename"] = {
-                  ["param"] = {
-                    ["slug"] = "id",
-                  },
-                },
                 ["segments"] = {
                   {
                     ["lit"] = "api",
@@ -1854,76 +1881,104 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
-                    "x_reqres_env",
+                ["parts"] = {
+                  "api",
+                  "collections",
+                  "{id}",
+                },
+                ["rename"] = {
+                  ["param"] = {
+                    ["slug"] = "id",
                   },
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body.data`",
                 },
-                ["parts"] = {
-                  "api",
-                  "collections",
-                  "{id}",
+                ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_reqres_env",
+                      ["orig"] = "x_reqres_env",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "slug",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                    "x_reqres_env",
+                  },
                 },
               },
             },
           },
         },
         ["relations"] = {
-          ["ancestors"] = {
-            {
-              "collection",
-              "record",
-            },
-          },
+          ["ancestors"] = {},
         },
       },
       ["collection_record"] = {
         ["fields"] = {
           {
             ["name"] = "app_user_id",
+            ["title"] = "App User Id",
             ["type"] = "`$STRING`",
           },
           {
             ["name"] = "collection_id",
+            ["title"] = "Collection Id",
             ["type"] = "`$STRING`",
           },
           {
-            ["format"] = "date-time",
             ["name"] = "created_at",
+            ["title"] = "Created At",
             ["type"] = "`$STRING`",
+            ["format"] = "date-time",
           },
           {
             ["name"] = "created_by",
+            ["title"] = "Created By",
             ["type"] = "`$STRING`",
           },
           {
             ["name"] = "data",
-            ["req"] = true,
+            ["title"] = "Data",
             ["type"] = "`$OBJECT`",
+            ["req"] = true,
           },
           {
-            ["format"] = "date-time",
             ["name"] = "deleted_at",
+            ["title"] = "Deleted At",
             ["type"] = "`$STRING`",
+            ["format"] = "date-time",
           },
           {
             ["name"] = "id",
-            ["req"] = true,
+            ["title"] = "Id",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
           {
             ["name"] = "project_id",
+            ["title"] = "Project Id",
             ["type"] = "`$STRING`",
           },
           {
-            ["format"] = "date-time",
             ["name"] = "updated_at",
+            ["title"] = "Updated At",
             ["type"] = "`$STRING`",
+            ["format"] = "date-time",
           },
         },
         ["id"] = {
@@ -1937,25 +1992,6 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["args"] = {
-                  ["header"] = {
-                    {
-                      ["kind"] = "header",
-                      ["name"] = "x_reqres_env",
-                      ["orig"] = "x_reqres_env",
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "slug",
-                      ["orig"] = "slug",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/collections/{slug}/records",
@@ -1973,35 +2009,44 @@ local function make_config()
                     ["lit"] = "records",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "slug",
-                    "x_reqres_env",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.data`",
-                },
                 ["parts"] = {
                   "api",
                   "collections",
                   "{slug}",
                   "records",
                 },
-              },
-              {
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
                 ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_reqres_env",
+                      ["orig"] = "x_reqres_env",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
                   ["params"] = {
                     {
-                      ["kind"] = "param",
                       ["name"] = "slug",
                       ["orig"] = "slug",
-                      ["reqd"] = true,
                       ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
                     },
                   },
                 },
+                ["select"] = {
+                  ["exist"] = {
+                    "slug",
+                    "x_reqres_env",
+                  },
+                },
+              },
+              {
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/app/collections/{slug}/records",
@@ -2019,20 +2064,32 @@ local function make_config()
                     ["lit"] = "records",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "slug",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.data`",
-                },
                 ["parts"] = {
                   "app",
                   "collections",
                   "{slug}",
                   "records",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "slug",
+                      ["orig"] = "slug",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "slug",
+                  },
                 },
               },
             },
@@ -2042,41 +2099,9 @@ local function make_config()
             ["name"] = "load",
             ["points"] = {
               {
-                ["args"] = {
-                  ["header"] = {
-                    {
-                      ["kind"] = "header",
-                      ["name"] = "x_reqres_env",
-                      ["orig"] = "x_reqres_env",
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "collection_id",
-                      ["orig"] = "slug",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "record_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/collections/{slug}/records/{recordId}",
-                ["rename"] = {
-                  ["param"] = {
-                    ["recordId"] = "id",
-                    ["slug"] = "collection_id",
-                  },
-                },
                 ["segments"] = {
                   {
                     ["lit"] = "api",
@@ -2094,17 +2119,6 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "collection_id",
-                    "id",
-                    "x_reqres_env",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.data`",
-                },
                 ["parts"] = {
                   "api",
                   "collections",
@@ -2112,35 +2126,54 @@ local function make_config()
                   "records",
                   "{id}",
                 },
-              },
-              {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "collection_id",
-                      ["orig"] = "slug",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "record_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
-                ["kind"] = "http",
-                ["method"] = "GET",
-                ["orig"] = "/app/collections/{slug}/records/{recordId}",
                 ["rename"] = {
                   ["param"] = {
                     ["recordId"] = "id",
                     ["slug"] = "collection_id",
                   },
                 },
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_reqres_env",
+                      ["orig"] = "x_reqres_env",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
+                  ["params"] = {
+                    {
+                      ["name"] = "collection_id",
+                      ["orig"] = "slug",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "record_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "collection_id",
+                    "id",
+                    "x_reqres_env",
+                  },
+                },
+              },
+              {
+                ["kind"] = "http",
+                ["method"] = "GET",
+                ["orig"] = "/app/collections/{slug}/records/{recordId}",
                 ["segments"] = {
                   {
                     ["lit"] = "app",
@@ -2158,22 +2191,46 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "collection_id",
-                    "id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.data`",
-                },
                 ["parts"] = {
                   "app",
                   "collections",
                   "{collection_id}",
                   "records",
                   "{id}",
+                },
+                ["rename"] = {
+                  ["param"] = {
+                    ["recordId"] = "id",
+                    ["slug"] = "collection_id",
+                  },
+                },
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "collection_id",
+                      ["orig"] = "slug",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "record_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "collection_id",
+                    "id",
+                  },
                 },
               },
             },
@@ -2183,41 +2240,9 @@ local function make_config()
             ["name"] = "update",
             ["points"] = {
               {
-                ["args"] = {
-                  ["header"] = {
-                    {
-                      ["kind"] = "header",
-                      ["name"] = "x_reqres_env",
-                      ["orig"] = "x_reqres_env",
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "collection_id",
-                      ["orig"] = "slug",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "record_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "PUT",
                 ["orig"] = "/api/collections/{slug}/records/{recordId}",
-                ["rename"] = {
-                  ["param"] = {
-                    ["recordId"] = "id",
-                    ["slug"] = "collection_id",
-                  },
-                },
                 ["segments"] = {
                   {
                     ["lit"] = "api",
@@ -2235,17 +2260,6 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "collection_id",
-                    "id",
-                    "x_reqres_env",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.data`",
-                },
                 ["parts"] = {
                   "api",
                   "collections",
@@ -2253,35 +2267,54 @@ local function make_config()
                   "records",
                   "{id}",
                 },
-              },
-              {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "collection_id",
-                      ["orig"] = "slug",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "record_id",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
-                ["kind"] = "http",
-                ["method"] = "PUT",
-                ["orig"] = "/app/collections/{slug}/records/{recordId}",
                 ["rename"] = {
                   ["param"] = {
                     ["recordId"] = "id",
                     ["slug"] = "collection_id",
                   },
                 },
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_reqres_env",
+                      ["orig"] = "x_reqres_env",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
+                  ["params"] = {
+                    {
+                      ["name"] = "collection_id",
+                      ["orig"] = "slug",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "record_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "collection_id",
+                    "id",
+                    "x_reqres_env",
+                  },
+                },
+              },
+              {
+                ["kind"] = "http",
+                ["method"] = "PUT",
+                ["orig"] = "/app/collections/{slug}/records/{recordId}",
                 ["segments"] = {
                   {
                     ["lit"] = "app",
@@ -2299,22 +2332,46 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "collection_id",
-                    "id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.data`",
-                },
                 ["parts"] = {
                   "app",
                   "collections",
                   "{collection_id}",
                   "records",
                   "{id}",
+                },
+                ["rename"] = {
+                  ["param"] = {
+                    ["recordId"] = "id",
+                    ["slug"] = "collection_id",
+                  },
+                },
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "collection_id",
+                      ["orig"] = "slug",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "record_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "collection_id",
+                    "id",
+                  },
                 },
               },
             },
@@ -2323,7 +2380,7 @@ local function make_config()
         ["relations"] = {
           ["ancestors"] = {
             {
-              "collection",
+              "$.main.kit.entity.collection",
             },
           },
         },
@@ -2332,44 +2389,53 @@ local function make_config()
         ["fields"] = {
           {
             ["name"] = "app_user_id",
+            ["title"] = "App User Id",
             ["type"] = "`$STRING`",
           },
           {
             ["name"] = "collection_id",
+            ["title"] = "Collection Id",
             ["type"] = "`$STRING`",
           },
           {
-            ["format"] = "date-time",
             ["name"] = "created_at",
+            ["title"] = "Created At",
             ["type"] = "`$STRING`",
+            ["format"] = "date-time",
           },
           {
             ["name"] = "created_by",
+            ["title"] = "Created By",
             ["type"] = "`$STRING`",
           },
           {
             ["name"] = "data",
-            ["req"] = true,
+            ["title"] = "Data",
             ["type"] = "`$OBJECT`",
+            ["req"] = true,
           },
           {
-            ["format"] = "date-time",
             ["name"] = "deleted_at",
+            ["title"] = "Deleted At",
             ["type"] = "`$STRING`",
+            ["format"] = "date-time",
           },
           {
             ["name"] = "id",
-            ["req"] = true,
+            ["title"] = "Id",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
           {
             ["name"] = "project_id",
+            ["title"] = "Project Id",
             ["type"] = "`$STRING`",
           },
           {
-            ["format"] = "date-time",
             ["name"] = "updated_at",
+            ["title"] = "Updated At",
             ["type"] = "`$STRING`",
+            ["format"] = "date-time",
           },
         },
         ["id"] = {
@@ -2383,75 +2449,6 @@ local function make_config()
             ["name"] = "list",
             ["points"] = {
               {
-                ["args"] = {
-                  ["header"] = {
-                    {
-                      ["kind"] = "header",
-                      ["name"] = "x_reqres_env",
-                      ["orig"] = "x_reqres_env",
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "slug",
-                      ["orig"] = "slug",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                  ["query"] = {
-                    {
-                      ["kind"] = "query",
-                      ["name"] = "created_after",
-                      ["orig"] = "created_after",
-                      ["type"] = "`$STRING`",
-                    },
-                    {
-                      ["kind"] = "query",
-                      ["name"] = "created_before",
-                      ["orig"] = "created_before",
-                      ["type"] = "`$STRING`",
-                    },
-                    {
-                      ["kind"] = "query",
-                      ["name"] = "data_contain",
-                      ["orig"] = "data_contain",
-                      ["type"] = "`$STRING`",
-                    },
-                    {
-                      ["kind"] = "query",
-                      ["name"] = "include_deleted",
-                      ["orig"] = "include_deleted",
-                      ["type"] = "`$BOOLEAN`",
-                    },
-                    {
-                      ["kind"] = "query",
-                      ["name"] = "limit",
-                      ["orig"] = "limit",
-                      ["type"] = "`$INTEGER`",
-                    },
-                    {
-                      ["kind"] = "query",
-                      ["name"] = "order",
-                      ["orig"] = "order",
-                      ["type"] = "`$STRING`",
-                    },
-                    {
-                      ["kind"] = "query",
-                      ["name"] = "page",
-                      ["orig"] = "page",
-                      ["type"] = "`$INTEGER`",
-                    },
-                    {
-                      ["kind"] = "query",
-                      ["name"] = "search",
-                      ["orig"] = "search",
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/collections/{slug}/records",
@@ -2467,6 +2464,86 @@ local function make_config()
                   },
                   {
                     ["lit"] = "records",
+                  },
+                },
+                ["parts"] = {
+                  "api",
+                  "collections",
+                  "{slug}",
+                  "records",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_reqres_env",
+                      ["orig"] = "x_reqres_env",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
+                  ["params"] = {
+                    {
+                      ["name"] = "slug",
+                      ["orig"] = "slug",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                  ["query"] = {
+                    {
+                      ["name"] = "created_after",
+                      ["orig"] = "created_after",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "created_before",
+                      ["orig"] = "created_before",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "data_contain",
+                      ["orig"] = "data_contain",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "include_deleted",
+                      ["orig"] = "include_deleted",
+                      ["type"] = "`$BOOLEAN`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "limit",
+                      ["orig"] = "limit",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "order",
+                      ["orig"] = "order",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "page",
+                      ["orig"] = "page",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "search",
+                      ["orig"] = "search",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
                   },
                 },
                 ["select"] = {
@@ -2483,29 +2560,8 @@ local function make_config()
                     "x_reqres_env",
                   },
                 },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["parts"] = {
-                  "api",
-                  "collections",
-                  "{slug}",
-                  "records",
-                },
               },
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "slug",
-                      ["orig"] = "slug",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/app/collections/{slug}/records",
@@ -2523,20 +2579,32 @@ local function make_config()
                     ["lit"] = "records",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "slug",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "app",
                   "collections",
                   "{slug}",
                   "records",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "slug",
+                      ["orig"] = "slug",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "slug",
+                  },
                 },
               },
             },
@@ -2545,7 +2613,7 @@ local function make_config()
         ["relations"] = {
           ["ancestors"] = {
             {
-              "collection",
+              "$.main.kit.entity.collection",
             },
           },
         },
@@ -2554,6 +2622,7 @@ local function make_config()
         ["fields"] = {
           {
             ["name"] = "id",
+            ["title"] = "Id",
             ["type"] = "`$STRING`",
           },
         },
@@ -2568,25 +2637,9 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "path",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/custom/{path}",
-                ["rename"] = {
-                  ["param"] = {
-                    ["path"] = "id",
-                  },
-                },
                 ["segments"] = {
                   {
                     ["lit"] = "api",
@@ -2598,19 +2651,35 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
+                ["parts"] = {
+                  "api",
+                  "custom",
+                  "{id}",
+                },
+                ["rename"] = {
+                  ["param"] = {
+                    ["path"] = "id",
                   },
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "api",
-                  "custom",
-                  "{id}",
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "path",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                  },
                 },
               },
             },
@@ -2620,25 +2689,9 @@ local function make_config()
             ["name"] = "load",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "path",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/custom/{path}",
-                ["rename"] = {
-                  ["param"] = {
-                    ["path"] = "id",
-                  },
-                },
                 ["segments"] = {
                   {
                     ["lit"] = "api",
@@ -2650,19 +2703,35 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
+                ["parts"] = {
+                  "api",
+                  "custom",
+                  "{id}",
+                },
+                ["rename"] = {
+                  ["param"] = {
+                    ["path"] = "id",
                   },
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "api",
-                  "custom",
-                  "{id}",
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "path",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                  },
                 },
               },
             },
@@ -2672,25 +2741,9 @@ local function make_config()
             ["name"] = "patch",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "path",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "PATCH",
                 ["orig"] = "/api/custom/{path}",
-                ["rename"] = {
-                  ["param"] = {
-                    ["path"] = "id",
-                  },
-                },
                 ["segments"] = {
                   {
                     ["lit"] = "api",
@@ -2702,19 +2755,35 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
+                ["parts"] = {
+                  "api",
+                  "custom",
+                  "{id}",
+                },
+                ["rename"] = {
+                  ["param"] = {
+                    ["path"] = "id",
                   },
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "api",
-                  "custom",
-                  "{id}",
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "path",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                  },
                 },
               },
             },
@@ -2724,25 +2793,9 @@ local function make_config()
             ["name"] = "remove",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "path",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/api/custom/{path}",
-                ["rename"] = {
-                  ["param"] = {
-                    ["path"] = "id",
-                  },
-                },
                 ["segments"] = {
                   {
                     ["lit"] = "api",
@@ -2754,19 +2807,35 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
+                ["parts"] = {
+                  "api",
+                  "custom",
+                  "{id}",
+                },
+                ["rename"] = {
+                  ["param"] = {
+                    ["path"] = "id",
                   },
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "api",
-                  "custom",
-                  "{id}",
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "path",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                  },
                 },
               },
             },
@@ -2776,25 +2845,9 @@ local function make_config()
             ["name"] = "update",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "path",
-                      ["reqd"] = true,
-                      ["type"] = "`$STRING`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "PUT",
                 ["orig"] = "/api/custom/{path}",
-                ["rename"] = {
-                  ["param"] = {
-                    ["path"] = "id",
-                  },
-                },
                 ["segments"] = {
                   {
                     ["lit"] = "api",
@@ -2806,19 +2859,35 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
+                ["parts"] = {
+                  "api",
+                  "custom",
+                  "{id}",
+                },
+                ["rename"] = {
+                  ["param"] = {
+                    ["path"] = "id",
                   },
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["parts"] = {
-                  "api",
-                  "custom",
-                  "{id}",
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "path",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                  },
                 },
               },
             },
@@ -2832,6 +2901,7 @@ local function make_config()
         ["fields"] = {
           {
             ["name"] = "id",
+            ["title"] = "Id",
             ["type"] = "`$STRING`",
           },
         },
@@ -2846,17 +2916,6 @@ local function make_config()
             ["name"] = "remove",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "id",
-                      ["reqd"] = true,
-                      ["type"] = "`$INTEGER`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/api/users/{id}",
@@ -2871,19 +2930,31 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "api",
                   "users",
                   "{id}",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "id",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                  },
                 },
               },
             },
@@ -2896,18 +2967,21 @@ local function make_config()
       ["legacy_mutation"] = {
         ["fields"] = {
           {
-            ["format"] = "date-time",
             ["name"] = "createdAt",
+            ["title"] = "Created At",
             ["type"] = "`$STRING`",
+            ["format"] = "date-time",
           },
           {
             ["name"] = "id",
+            ["title"] = "Id",
             ["type"] = "`$STRING`",
           },
           {
-            ["format"] = "date-time",
             ["name"] = "updatedAt",
+            ["title"] = "Updated At",
             ["type"] = "`$STRING`",
+            ["format"] = "date-time",
           },
         },
         ["id"] = {
@@ -2921,7 +2995,6 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/users",
@@ -2933,15 +3006,17 @@ local function make_config()
                     ["lit"] = "users",
                   },
                 },
-                ["select"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "api",
                   "users",
                 },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {},
+                ["select"] = {},
               },
             },
           },
@@ -2950,17 +3025,6 @@ local function make_config()
             ["name"] = "patch",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "id",
-                      ["reqd"] = true,
-                      ["type"] = "`$INTEGER`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "PATCH",
                 ["orig"] = "/api/users/{id}",
@@ -2975,19 +3039,31 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "api",
                   "users",
                   "{id}",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "id",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                  },
                 },
               },
             },
@@ -2997,17 +3073,6 @@ local function make_config()
             ["name"] = "update",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "id",
-                      ["reqd"] = true,
-                      ["type"] = "`$INTEGER`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "PUT",
                 ["orig"] = "/api/users/{id}",
@@ -3022,19 +3087,31 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "api",
                   "users",
                   "{id}",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "id",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                  },
                 },
               },
             },
@@ -3048,15 +3125,18 @@ local function make_config()
         ["fields"] = {
           {
             ["name"] = "data",
-            ["req"] = true,
+            ["title"] = "Data",
             ["type"] = "`$OBJECT`",
+            ["req"] = true,
           },
           {
             ["name"] = "id",
+            ["title"] = "Id",
             ["type"] = "`$STRING`",
           },
           {
             ["name"] = "support",
+            ["title"] = "Support",
             ["type"] = "`$OBJECT`",
           },
         },
@@ -3071,17 +3151,6 @@ local function make_config()
             ["name"] = "load",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "id",
-                      ["reqd"] = true,
-                      ["type"] = "`$INTEGER`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/unknown/{id}",
@@ -3096,19 +3165,31 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "api",
                   "unknown",
                   "{id}",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "id",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                  },
                 },
               },
             },
@@ -3122,28 +3203,33 @@ local function make_config()
         ["fields"] = {
           {
             ["name"] = "color",
-            ["req"] = true,
+            ["title"] = "Color",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
           {
             ["name"] = "id",
-            ["req"] = true,
+            ["title"] = "Id",
             ["type"] = "`$INTEGER`",
+            ["req"] = true,
           },
           {
             ["name"] = "name",
-            ["req"] = true,
+            ["title"] = "Name",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
           {
             ["name"] = "pantone_value",
-            ["req"] = true,
+            ["title"] = "Pantone Value",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
           {
             ["name"] = "year",
-            ["req"] = true,
+            ["title"] = "Year",
             ["type"] = "`$INTEGER`",
+            ["req"] = true,
           },
         },
         ["id"] = {
@@ -3157,23 +3243,6 @@ local function make_config()
             ["name"] = "list",
             ["points"] = {
               {
-                ["args"] = {
-                  ["query"] = {
-                    {
-                      ["example"] = 1,
-                      ["kind"] = "query",
-                      ["name"] = "page",
-                      ["orig"] = "page",
-                      ["type"] = "`$INTEGER`",
-                    },
-                    {
-                      ["kind"] = "query",
-                      ["name"] = "per_page",
-                      ["orig"] = "per_page",
-                      ["type"] = "`$INTEGER`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/unknown",
@@ -3185,19 +3254,37 @@ local function make_config()
                     ["lit"] = "unknown",
                   },
                 },
+                ["parts"] = {
+                  "api",
+                  "unknown",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["query"] = {
+                    {
+                      ["name"] = "page",
+                      ["orig"] = "page",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "query",
+                      ["example"] = 1,
+                    },
+                    {
+                      ["name"] = "per_page",
+                      ["orig"] = "per_page",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "query",
+                    },
+                  },
+                },
                 ["select"] = {
                   ["exist"] = {
                     "page",
                     "per_page",
                   },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["parts"] = {
-                  "api",
-                  "unknown",
                 },
               },
             },
@@ -3211,15 +3298,18 @@ local function make_config()
         ["fields"] = {
           {
             ["name"] = "data",
-            ["req"] = true,
+            ["title"] = "Data",
             ["type"] = "`$OBJECT`",
+            ["req"] = true,
           },
           {
             ["name"] = "id",
+            ["title"] = "Id",
             ["type"] = "`$STRING`",
           },
           {
             ["name"] = "support",
+            ["title"] = "Support",
             ["type"] = "`$OBJECT`",
           },
         },
@@ -3234,17 +3324,6 @@ local function make_config()
             ["name"] = "load",
             ["points"] = {
               {
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["kind"] = "param",
-                      ["name"] = "id",
-                      ["orig"] = "id",
-                      ["reqd"] = true,
-                      ["type"] = "`$INTEGER`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/users/{id}",
@@ -3259,19 +3338,31 @@ local function make_config()
                     ["var"] = "id",
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "api",
                   "users",
                   "{id}",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "id",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "id",
+                  },
                 },
               },
             },
@@ -3285,29 +3376,34 @@ local function make_config()
         ["fields"] = {
           {
             ["name"] = "avatar",
-            ["req"] = true,
+            ["title"] = "Avatar",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
           {
-            ["format"] = "email",
             ["name"] = "email",
-            ["req"] = true,
+            ["title"] = "Email",
             ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["format"] = "email",
           },
           {
             ["name"] = "first_name",
-            ["req"] = true,
+            ["title"] = "First Name",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
           {
             ["name"] = "id",
-            ["req"] = true,
+            ["title"] = "Id",
             ["type"] = "`$INTEGER`",
+            ["req"] = true,
           },
           {
             ["name"] = "last_name",
-            ["req"] = true,
+            ["title"] = "Last Name",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
         },
         ["id"] = {
@@ -3321,23 +3417,6 @@ local function make_config()
             ["name"] = "list",
             ["points"] = {
               {
-                ["args"] = {
-                  ["query"] = {
-                    {
-                      ["example"] = 1,
-                      ["kind"] = "query",
-                      ["name"] = "page",
-                      ["orig"] = "page",
-                      ["type"] = "`$INTEGER`",
-                    },
-                    {
-                      ["kind"] = "query",
-                      ["name"] = "per_page",
-                      ["orig"] = "per_page",
-                      ["type"] = "`$INTEGER`",
-                    },
-                  },
-                },
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/users",
@@ -3349,19 +3428,37 @@ local function make_config()
                     ["lit"] = "users",
                   },
                 },
+                ["parts"] = {
+                  "api",
+                  "users",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["query"] = {
+                    {
+                      ["name"] = "page",
+                      ["orig"] = "page",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "query",
+                      ["example"] = 1,
+                    },
+                    {
+                      ["name"] = "per_page",
+                      ["orig"] = "per_page",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "query",
+                    },
+                  },
+                },
                 ["select"] = {
                   ["exist"] = {
                     "page",
                     "per_page",
                   },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["parts"] = {
-                  "api",
-                  "users",
                 },
               },
             },
@@ -3374,20 +3471,23 @@ local function make_config()
       ["login"] = {
         ["fields"] = {
           {
-            ["format"] = "email",
             ["name"] = "email",
-            ["req"] = true,
+            ["title"] = "Email",
             ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["format"] = "email",
           },
           {
             ["name"] = "password",
-            ["req"] = true,
+            ["title"] = "Password",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
           {
             ["name"] = "token",
-            ["req"] = true,
+            ["title"] = "Token",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
         },
         ["name"] = "login",
@@ -3397,7 +3497,6 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/login",
@@ -3409,15 +3508,17 @@ local function make_config()
                     ["lit"] = "login",
                   },
                 },
-                ["select"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "api",
                   "login",
                 },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {},
+                ["select"] = {},
               },
             },
           },
@@ -3429,24 +3530,28 @@ local function make_config()
       ["register"] = {
         ["fields"] = {
           {
-            ["format"] = "email",
             ["name"] = "email",
-            ["req"] = true,
+            ["title"] = "Email",
             ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["format"] = "email",
           },
           {
             ["name"] = "id",
+            ["title"] = "Id",
             ["type"] = "`$INTEGER`",
           },
           {
             ["name"] = "password",
-            ["req"] = true,
+            ["title"] = "Password",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
           {
             ["name"] = "token",
-            ["req"] = true,
+            ["title"] = "Token",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
         },
         ["id"] = {
@@ -3460,7 +3565,6 @@ local function make_config()
             ["name"] = "create",
             ["points"] = {
               {
-                ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/register",
@@ -3472,15 +3576,17 @@ local function make_config()
                     ["lit"] = "register",
                   },
                 },
-                ["select"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
                 ["parts"] = {
                   "api",
                   "register",
                 },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {},
+                ["select"] = {},
               },
             },
           },

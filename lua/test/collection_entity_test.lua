@@ -167,7 +167,7 @@ function collection_basic_setup(extra)
 
   -- Generate idmap via transform.
   local idmap = vs.transform(
-    { "collection01", "collection02", "collection03", "record01", "record02", "record03" },
+    { "collection01", "collection02", "collection03" },
     {
       ["`$PACK`"] = { "", {
         ["`$KEY`"] = "`$COPY`",

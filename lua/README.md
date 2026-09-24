@@ -35,14 +35,14 @@ local client = sdk.new({
 })
 ```
 
-### 3. Load an agentsandbox
+### 3. Load a collectionrecord
 
-AgentSandbox is nested under scenario, so provide the `scenario`.
+CollectionRecord is nested under collection, so provide the `collection_id`.
 
 ```lua
-local agentsandbox, err = client:AgentSandbox():load({ scenario = "example_scenario" })
+local collectionrecord, err = client:CollectionRecord():load({ collection_id = "example_collection_id", id = "example_id" })
 if err then error(err) end
-print(agentsandbox)
+print(collectionrecord)
 ```
 
 
@@ -193,7 +193,7 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `direct` | `(fetchargs) -> table, err` | Build and send an HTTP request. |
 | `AgentHealth` | `(data) -> AgentHealthEntity` | Create an AgentHealth entity instance. |
 | `AgentSandbox` | `(data) -> AgentSandboxEntity` | Create an AgentSandbox entity instance. |
-| `AgentUserDetail` | `(data) -> AgentUserDetailEntity` | Create an AgentUserDetail entity instance. |
+| `AgentUser` | `(data) -> AgentUserEntity` | Create an AgentUser entity instance. |
 | `AgentUserList` | `(data) -> AgentUserListEntity` | Create an AgentUserList entity instance. |
 | `AppUser` | `(data) -> AppUserEntity` | Create an AppUser entity instance. |
 | `AppUserLogin` | `(data) -> AppUserLoginEntity` | Create an AppUserLogin entity instance. |
@@ -278,7 +278,7 @@ Operations: Create, Load.
 
 API path: `/agent/v1/auth/login`
 
-#### AgentUserDetail
+#### AgentUser
 
 | Field | Description |
 | --- | --- |
@@ -610,9 +610,9 @@ local agent_sandbox, err = client:AgentSandbox():create({
 ```
 
 
-### AgentUserDetail
+### AgentUser
 
-Create an instance: `local agent_user_detail = client:AgentUserDetail(nil)`
+Create an instance: `local agent_user = client:AgentUser(nil)`
 
 #### Operations
 
@@ -638,7 +638,7 @@ Create an instance: `local agent_user_detail = client:AgentUserDetail(nil)`
 #### Example: Load
 
 ```lua
-local agent_user_detail, err = client:AgentUserDetail():load({ id = "agent_user_detail_id" })
+local agent_user, err = client:AgentUser():load({ id = "agent_user_id" })
 ```
 
 

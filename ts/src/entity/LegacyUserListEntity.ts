@@ -19,7 +19,6 @@ import type {
   LegacyUserListListMatch,
 } from '../HostedRestTypes'
 
-// TODO: needs Entity superclass
 class LegacyUserListEntity extends HostedRestEntityBase<LegacyUserList> {
 
   constructor(client: HostedRestSDK, entopts: any) {

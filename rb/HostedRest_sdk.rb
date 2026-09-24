@@ -303,10 +303,10 @@ class HostedRestSDK
   end
 
 
-  # Canonical facade: client.AgentUserDetail.list / client.AgentUserDetail.load({ "id" => ... })
-  def AgentUserDetail(data = nil)
-    require_relative 'entity/agent_user_detail_entity'
-    AgentUserDetailEntity.new(self, data)
+  # Canonical facade: client.AgentUser.list / client.AgentUser.load({ "id" => ... })
+  def AgentUser(data = nil)
+    require_relative 'entity/agent_user_entity'
+    AgentUserEntity.new(self, data)
   end
 
 

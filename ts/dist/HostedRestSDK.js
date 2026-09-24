@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SDK = exports.HostedRestSDK = exports.HostedRestEntityBase = exports.BaseFeature = exports.config = exports.stdutil = void 0;
 const AgentHealthEntity_1 = require("./entity/AgentHealthEntity");
 const AgentSandboxEntity_1 = require("./entity/AgentSandboxEntity");
-const AgentUserDetailEntity_1 = require("./entity/AgentUserDetailEntity");
+const AgentUserEntity_1 = require("./entity/AgentUserEntity");
 const AgentUserListEntity_1 = require("./entity/AgentUserListEntity");
 const AppUserEntity_1 = require("./entity/AppUserEntity");
 const AppUserLoginEntity_1 = require("./entity/AppUserLoginEntity");
@@ -105,7 +105,6 @@ class HostedRestSDK {
             ctrl: fetchargs.ctrl || {},
         }, this._rootctx);
         const options = this._options;
-        // Build spec directly from SDK options + user-provided fetch args.
         const spec = {
             base: options.base,
             prefix: options.prefix,
@@ -119,14 +118,12 @@ class HostedRestSDK {
             step: 'start',
         };
         ctx.spec = spec;
-        // Merge user-provided headers over SDK defaults.
         if (fetchargs.headers) {
             const uheaders = fetchargs.headers;
             for (let key in uheaders) {
                 spec.headers[key] = uheaders[key];
             }
         }
-        // Apply SDK auth (apikey, auth prefix, etc.)
         const authResult = prepareAuth(ctx);
         if (authResult instanceof Error) {
             return authResult;
@@ -201,18 +198,6 @@ class HostedRestSDK {
             return { ok: false, err };
         }
     }
-    // Raw GraphQL access: the pressure valve that makes the generated
-    // surface's deliberate omissions (per-call selection sets, typed filter
-    // builders, batching, subscriptions) livable — the whole schema stays
-    // reachable.
-    //
-    // Thin wrapper over the same prepare/fetch path `direct` uses, with the
-    // one thing raw `direct` cannot do for GraphQL: a GraphQL failure rides
-    // HTTP 200 as a top-level `errors` array, so status alone would report a
-    // failed query as ok.
-    //
-    // NOTE: like `direct`, this bypasses the feature pipeline — no retry,
-    // ratelimit or paging features apply.
     async graphql(query, variables, ctrl) {
         const options = this._options;
         if (!options.allow.op.includes('graphql')) {
@@ -260,12 +245,12 @@ class HostedRestSDK {
         const self = this;
         return new AgentSandboxEntity_1.AgentSandboxEntity(self, entopts);
     }
-    // Entity access: `client.AgentUserDetail().list()` / `client.AgentUserDetail().load({ id })`.
+    // Entity access: `client.AgentUser().list()` / `client.AgentUser().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity
     // constructor as entopts), not initial entity data.
-    AgentUserDetail(entopts) {
+    AgentUser(entopts) {
         const self = this;
-        return new AgentUserDetailEntity_1.AgentUserDetailEntity(self, entopts);
+        return new AgentUserEntity_1.AgentUserEntity(self, entopts);
     }
     // Entity access: `client.AgentUserList().list()` / `client.AgentUserList().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity

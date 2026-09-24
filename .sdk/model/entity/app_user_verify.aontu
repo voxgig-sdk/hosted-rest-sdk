@@ -1,0 +1,51 @@
+# Entity: app_user_verify
+
+main: kit: entity: app_user_verify: {
+
+  alias: field: {}
+
+  fields: {
+    token: {
+      h: "Token"
+      n: "token"
+      r: true
+      t: "`$STRING`"
+    }
+  }
+
+  name: "app_user_verify"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /api/app-users/verify"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/api/app-users/verify"
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "app-users"
+            }
+            {
+              lit: "verify"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

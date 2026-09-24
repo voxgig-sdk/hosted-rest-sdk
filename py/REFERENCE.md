@@ -50,9 +50,9 @@ Create a new `AgentHealthEntity` instance. Pass `None` for no initial data.
 
 Create a new `AgentSandboxEntity` instance. Pass `None` for no initial data.
 
-#### `AgentUserDetail(data=None)`
+#### `AgentUser(data=None)`
 
-Create a new `AgentUserDetailEntity` instance. Pass `None` for no initial data.
+Create a new `AgentUserEntity` instance. Pass `None` for no initial data.
 
 #### `AgentUserList(data=None)`
 
@@ -280,10 +280,10 @@ Return the entity name.
 
 ---
 
-## AgentUserDetailEntity
+## AgentUserEntity
 
 ```python
-agent_user_detail = client.AgentUserDetail()
+agent_user = client.AgentUser()
 ```
 
 ### Fields
@@ -308,7 +308,7 @@ agent_user_detail = client.AgentUserDetail()
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.AgentUserDetail().load({"id": "agent_user_detail_id"})
+result = client.AgentUser().load({"id": "agent_user_id"})
 ```
 
 ### Common Methods
@@ -331,7 +331,7 @@ Set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `AgentUserDetailEntity` instance with the same options.
+Create a new `AgentUserEntity` instance with the same options.
 
 #### `get_name() -> str`
 

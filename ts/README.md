@@ -35,17 +35,18 @@ const client = new HostedRestSDK({
 })
 ```
 
-### 3. Load an agentsandbox
+### 3. Load a collectionrecord
 
-AgentSandbox is nested under scenario, so provide the `scenario`.
+CollectionRecord is nested under collection, so provide the `collection_id`.
 `load()` returns the entity directly and throws on failure:
 
 ```ts
 try {
-  const agentsandbox = await client.AgentSandbox().load({
-    scenario: 'example_scenario',
+  const collectionrecord = await client.CollectionRecord().load({
+    collection_id: 'example_collection_id',
+    id: 'example_id',
   })
-  console.log(agentsandbox)
+  console.log(collectionrecord)
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -232,7 +233,7 @@ new HostedRestSDK(options?: {
 | `direct(fetchargs?)` | `Promise<DirectResult>` | Build and send an HTTP request. |
 | `AgentHealth(data?)` | `AgentHealthEntity` | Create an AgentHealth entity instance. |
 | `AgentSandbox(data?)` | `AgentSandboxEntity` | Create an AgentSandbox entity instance. |
-| `AgentUserDetail(data?)` | `AgentUserDetailEntity` | Create an AgentUserDetail entity instance. |
+| `AgentUser(data?)` | `AgentUserEntity` | Create an AgentUser entity instance. |
 | `AgentUserList(data?)` | `AgentUserListEntity` | Create an AgentUserList entity instance. |
 | `AppUser(data?)` | `AppUserEntity` | Create an AppUser entity instance. |
 | `AppUserLogin(data?)` | `AppUserLoginEntity` | Create an AppUserLogin entity instance. |
@@ -348,7 +349,7 @@ Operations: create, load.
 
 API path: `/agent/v1/auth/login`
 
-#### AgentUserDetail
+#### AgentUser
 
 | Field | Description |
 | --- | --- |
@@ -680,9 +681,9 @@ const agent_sandbox = await client.AgentSandbox().create({
 ```
 
 
-### AgentUserDetail
+### AgentUser
 
-Create an instance: `const agent_user_detail = client.AgentUserDetail()`
+Create an instance: `const agent_user = client.AgentUser()`
 
 #### Operations
 
@@ -708,7 +709,7 @@ Create an instance: `const agent_user_detail = client.AgentUserDetail()`
 #### Example: Load
 
 ```ts
-const agent_user_detail = await client.AgentUserDetail().load({ id: 'agent_user_detail_id' })
+const agent_user = await client.AgentUser().load({ id: 'agent_user_id' })
 ```
 
 

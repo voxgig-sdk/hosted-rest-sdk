@@ -1,0 +1,26 @@
+# BasicCollectionRecordListFlow
+
+main: kit: flow: BasicCollectionRecordListFlow:
+{
+  entity: "collection_record_list",
+  kind: "basic",
+  name: "BasicCollectionRecordListFlow",
+  step: [
+    {
+      m: {
+        slug: "slug01"
+      }
+
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "collection_record_list_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicCollectionRecordListFlow"
+}
