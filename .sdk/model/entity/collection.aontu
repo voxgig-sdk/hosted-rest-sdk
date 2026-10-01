@@ -100,7 +100,7 @@ main: kit: entity: collection: {
               {
                 k: "header"
                 n: "x_reqres_env"
-                or: "x_reqres_env"
+                or: "X-Reqres-Env"
                 r: false
                 t: "`$STRING`"
               }
@@ -142,7 +142,7 @@ main: kit: entity: collection: {
               {
                 k: "header"
                 n: "x_reqres_env"
-                or: "x_reqres_env"
+                or: "X-Reqres-Env"
                 r: false
                 t: "`$STRING`"
               }
@@ -205,7 +205,7 @@ main: kit: entity: collection: {
               {
                 k: "header"
                 n: "x_reqres_env"
-                or: "x_reqres_env"
+                or: "X-Reqres-Env"
                 r: false
                 t: "`$STRING`"
               }
@@ -310,7 +310,7 @@ main: kit: entity: collection: {
               {
                 k: "header"
                 n: "x_reqres_env"
-                or: "x_reqres_env"
+                or: "X-Reqres-Env"
                 r: false
                 t: "`$STRING`"
               }
@@ -326,7 +326,7 @@ main: kit: entity: collection: {
               {
                 k: "param"
                 n: "record_id"
-                or: "record_id"
+                or: "recordId"
                 r: true
                 t: "`$STRING`"
               }
@@ -380,7 +380,7 @@ main: kit: entity: collection: {
               {
                 k: "header"
                 n: "x_reqres_env"
-                or: "x_reqres_env"
+                or: "X-Reqres-Env"
                 r: false
                 t: "`$STRING`"
               }
@@ -440,7 +440,7 @@ main: kit: entity: collection: {
               {
                 k: "header"
                 n: "x_reqres_env"
-                or: "x_reqres_env"
+                or: "X-Reqres-Env"
                 r: false
                 t: "`$STRING`"
               }

@@ -54,10 +54,6 @@ Create a new `AgentSandboxEntity` instance. Pass `None` for no initial data.
 
 Create a new `AgentUserEntity` instance. Pass `None` for no initial data.
 
-#### `AgentUserList(data=None)`
-
-Create a new `AgentUserListEntity` instance. Pass `None` for no initial data.
-
 #### `AppUser(data=None)`
 
 Create a new `AppUserEntity` instance. Pass `None` for no initial data.
@@ -90,10 +86,6 @@ Create a new `CollectionEntity` instance. Pass `None` for no initial data.
 
 Create a new `CollectionRecordEntity` instance. Pass `None` for no initial data.
 
-#### `CollectionRecordList(data=None)`
-
-Create a new `CollectionRecordListEntity` instance. Pass `None` for no initial data.
-
 #### `Custom(data=None)`
 
 Create a new `CustomEntity` instance. Pass `None` for no initial data.
@@ -110,17 +102,9 @@ Create a new `LegacyMutationEntity` instance. Pass `None` for no initial data.
 
 Create a new `LegacyUnknownEntity` instance. Pass `None` for no initial data.
 
-#### `LegacyUnknownList(data=None)`
-
-Create a new `LegacyUnknownListEntity` instance. Pass `None` for no initial data.
-
 #### `LegacyUser(data=None)`
 
 Create a new `LegacyUserEntity` instance. Pass `None` for no initial data.
-
-#### `LegacyUserList(data=None)`
-
-Create a new `LegacyUserListEntity` instance. Pass `None` for no initial data.
 
 #### `Login(data=None)`
 
@@ -303,6 +287,16 @@ agent_user = client.AgentUser()
 
 ### Operations
 
+#### `list(reqmatch=None, ctrl=None) -> list`
+
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+
+```python
+results = client.AgentUser().list()
+for agent_user in results:
+    print(agent_user)
+```
+
 #### `load(reqmatch, ctrl=None) -> dict`
 
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
@@ -332,68 +326,6 @@ Set the entity match criteria.
 #### `make() -> Entity`
 
 Create a new `AgentUserEntity` instance with the same options.
-
-#### `get_name() -> str`
-
-Return the entity name.
-
-
----
-
-## AgentUserListEntity
-
-```python
-agent_user_list = client.AgentUserList()
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `created_at` | `str` | Yes |  |
-| `email` | `str` | Yes |  |
-| `full_name` | `str` | Yes |  |
-| `id` | `str` | Yes |  |
-| `locale` | `str` | Yes |  |
-| `preferences` | `dict` | Yes |  |
-| `profile` | `dict` | Yes |  |
-| `status` | `str` | Yes |  |
-| `timezone` | `str` | Yes |  |
-| `updated_at` | `str` | Yes |  |
-
-### Operations
-
-#### `list(reqmatch=None, ctrl=None) -> list`
-
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
-
-```python
-results = client.AgentUserList().list()
-for agent_user_list in results:
-    print(agent_user_list)
-```
-
-### Common Methods
-
-#### `data_get() -> dict`
-
-Get the entity data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get() -> dict`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `AgentUserListEntity` instance with the same options.
 
 #### `get_name() -> str`
 
@@ -907,6 +839,16 @@ result = client.CollectionRecord().create({
 })
 ```
 
+#### `list(reqmatch=None, ctrl=None) -> list`
+
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+
+```python
+results = client.CollectionRecord().list({"slug": "example"})
+for collection_record in results:
+    print(collection_record)
+```
+
 #### `load(reqmatch, ctrl=None) -> dict`
 
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
@@ -948,67 +890,6 @@ Set the entity match criteria.
 #### `make() -> Entity`
 
 Create a new `CollectionRecordEntity` instance with the same options.
-
-#### `get_name() -> str`
-
-Return the entity name.
-
-
----
-
-## CollectionRecordListEntity
-
-```python
-collection_record_list = client.CollectionRecordList()
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `app_user_id` | `str` | No |  |
-| `collection_id` | `str` | No |  |
-| `created_at` | `str` | No |  |
-| `created_by` | `str` | No |  |
-| `data` | `dict` | Yes |  |
-| `deleted_at` | `str` | No |  |
-| `id` | `str` | Yes |  |
-| `project_id` | `str` | No |  |
-| `updated_at` | `str` | No |  |
-
-### Operations
-
-#### `list(reqmatch=None, ctrl=None) -> list`
-
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
-
-```python
-results = client.CollectionRecordList().list({"slug": "example"})
-for collection_record_list in results:
-    print(collection_record_list)
-```
-
-### Common Methods
-
-#### `data_get() -> dict`
-
-Get the entity data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get() -> dict`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `CollectionRecordListEntity` instance with the same options.
 
 #### `get_name() -> str`
 
@@ -1107,9 +988,37 @@ legacy = client.Legacy()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `str` | No |  |
+| `avatar` | `str` | Yes |  |
+| `email` | `str` | Yes |  |
+| `first_name` | `str` | Yes |  |
+| `id` | `int` | Yes |  |
+| `last_name` | `str` | Yes |  |
 
 ### Operations
+
+#### `create(reqdata, ctrl=None) -> dict`
+
+Create a new entity with the given data. Returns the created entity data and raises on error.
+
+```python
+result = client.Legacy().create({
+    "avatar": "example_avatar",  # str
+    "email": "example_email",  # str
+    "first_name": "example_first_name",  # str
+    "id": 1,  # int
+    "last_name": "example_last_name",  # str
+})
+```
+
+#### `list(reqmatch=None, ctrl=None) -> list`
+
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+
+```python
+results = client.Legacy().list()
+for legacy in results:
+    print(legacy)
+```
 
 #### `remove(reqmatch, ctrl=None) -> dict`
 
@@ -1164,15 +1073,6 @@ legacy_mutation = client.LegacyMutation()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
-
-Create a new entity with the given data. Returns the created entity data and raises on error.
-
-```python
-result = client.LegacyMutation().create({
-})
-```
-
 #### `update(reqdata, ctrl=None) -> dict`
 
 Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
@@ -1223,11 +1123,25 @@ legacy_unknown = client.LegacyUnknown()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `color` | `str` | Yes |  |
 | `data` | `dict` | Yes |  |
-| `id` | `str` | No |  |
+| `id` | `int` | Yes |  |
+| `name` | `str` | Yes |  |
+| `pantone_value` | `str` | Yes |  |
 | `support` | `dict` | No |  |
+| `year` | `int` | Yes |  |
 
 ### Operations
+
+#### `list(reqmatch=None, ctrl=None) -> list`
+
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+
+```python
+results = client.LegacyUnknown().list()
+for legacy_unknown in results:
+    print(legacy_unknown)
+```
 
 #### `load(reqmatch, ctrl=None) -> dict`
 
@@ -1258,63 +1172,6 @@ Set the entity match criteria.
 #### `make() -> Entity`
 
 Create a new `LegacyUnknownEntity` instance with the same options.
-
-#### `get_name() -> str`
-
-Return the entity name.
-
-
----
-
-## LegacyUnknownListEntity
-
-```python
-legacy_unknown_list = client.LegacyUnknownList()
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `color` | `str` | Yes |  |
-| `id` | `int` | Yes |  |
-| `name` | `str` | Yes |  |
-| `pantone_value` | `str` | Yes |  |
-| `year` | `int` | Yes |  |
-
-### Operations
-
-#### `list(reqmatch=None, ctrl=None) -> list`
-
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
-
-```python
-results = client.LegacyUnknownList().list()
-for legacy_unknown_list in results:
-    print(legacy_unknown_list)
-```
-
-### Common Methods
-
-#### `data_get() -> dict`
-
-Get the entity data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get() -> dict`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `LegacyUnknownListEntity` instance with the same options.
 
 #### `get_name() -> str`
 
@@ -1368,63 +1225,6 @@ Set the entity match criteria.
 #### `make() -> Entity`
 
 Create a new `LegacyUserEntity` instance with the same options.
-
-#### `get_name() -> str`
-
-Return the entity name.
-
-
----
-
-## LegacyUserListEntity
-
-```python
-legacy_user_list = client.LegacyUserList()
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `avatar` | `str` | Yes |  |
-| `email` | `str` | Yes |  |
-| `first_name` | `str` | Yes |  |
-| `id` | `int` | Yes |  |
-| `last_name` | `str` | Yes |  |
-
-### Operations
-
-#### `list(reqmatch=None, ctrl=None) -> list`
-
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
-
-```python
-results = client.LegacyUserList().list()
-for legacy_user_list in results:
-    print(legacy_user_list)
-```
-
-### Common Methods
-
-#### `data_get() -> dict`
-
-Get the entity data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get() -> dict`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `LegacyUserListEntity` instance with the same options.
 
 #### `get_name() -> str`
 

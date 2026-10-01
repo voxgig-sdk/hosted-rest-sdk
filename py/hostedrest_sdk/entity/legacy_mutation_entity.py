@@ -6,7 +6,6 @@ from hostedrest_sdk.utility.voxgig_struct import voxgig_struct as vs
 from hostedrest_sdk.core import helpers
 from hostedrest_sdk.hostedrest_types import (
     LegacyMutation,
-    LegacyMutationCreateData,
     LegacyMutationUpdateData,
 )
 
@@ -121,84 +120,74 @@ class LegacyMutationEntity:
                 return bool(signal())
             return bool(getattr(signal, "aborted", False))
 
-        utility.feature_hook(ctx, "PrePoint")
-        point, err = utility.make_point(ctx)
-        ctx.out["point"] = point
-        if err is not None:
-            return
+        # The pipeline runs as the caller iterates, so its errors leave
+        # through the same catch path as an operation's.
+        try:
+            utility.feature_hook(ctx, "PrePoint")
+            point, err = utility.make_point(ctx)
+            ctx.out["point"] = point
+            if err is not None:
+                return
 
-        utility.feature_hook(ctx, "PreSpec")
-        spec, err = utility.make_spec(ctx)
-        ctx.out["spec"] = spec
-        if err is not None:
-            return
+            utility.feature_hook(ctx, "PreSpec")
+            spec, err = utility.make_spec(ctx)
+            ctx.out["spec"] = spec
+            if err is not None:
+                return
 
-        utility.feature_hook(ctx, "PreRequest")
-        resp, err = utility.make_request(ctx)
-        ctx.out["request"] = resp
-        if err is not None:
-            return
+            utility.feature_hook(ctx, "PreRequest")
+            resp, err = utility.make_request(ctx)
+            ctx.out["request"] = resp
+            if err is not None:
+                return
 
-        utility.feature_hook(ctx, "PreResponse")
-        resp2, err = utility.make_response(ctx)
-        ctx.out["response"] = resp2
-        if err is not None:
-            return
+            utility.feature_hook(ctx, "PreResponse")
+            resp2, err = utility.make_response(ctx)
+            ctx.out["response"] = resp2
+            if err is not None:
+                return
 
-        utility.feature_hook(ctx, "PreResult")
-        result, err = utility.make_result(ctx)
-        ctx.out["result"] = result
-        if err is not None:
-            return
+            utility.feature_hook(ctx, "PreResult")
+            result, err = utility.make_result(ctx)
+            ctx.out["result"] = result
+            if err is not None:
+                return
 
-        utility.feature_hook(ctx, "PreDone")
+            utility.feature_hook(ctx, "PreDone")
 
-        result = ctx.result
+            result = ctx.result
 
-        # Inbound: prefer the streaming feature's incremental generator; else
-        # fall back to the materialised items so stream always yields.
-        stream_fn = getattr(result, "stream", None) if result is not None else None
-        if callable(stream_fn):
-            for item in stream_fn():
-                if aborted():
-                    return
-                yield item
-        else:
-            data = utility.done(ctx)
-            if isinstance(data, list):
-                items = data
-            elif data is None:
-                items = []
+            # Inbound: prefer the streaming feature's incremental generator;
+            # else fall back to the materialised items so stream always yields.
+            stream_fn = getattr(result, "stream", None) if result is not None else None
+            if callable(stream_fn):
+                # done() does not run on this path, so its record is cleaned here.
+                utility.clean_explain(ctx)
+                for item in stream_fn():
+                    if aborted():
+                        return
+                    yield item
             else:
-                items = [data]
-            for item in items:
-                if aborted():
-                    return
-                yield item
+                data = utility.done(ctx)
+                if isinstance(data, list):
+                    items = data
+                elif data is None:
+                    items = []
+                else:
+                    items = [data]
+                for item in items:
+                    if aborted():
+                        return
+                    yield item
+        except Exception as err:
+            self._unexpected(ctx, err)
+            raise
 
     
 
     
 
     
-    def create(self, reqdata: LegacyMutationCreateData, ctrl=None) -> LegacyMutation:
-        utility = self._utility
-        ctx = utility.make_context({
-            "opname": "create",
-            "ctrl": ctrl,
-            "match": self._match,
-            "data": self._data,
-            "reqdata": reqdata,
-        }, self._entctx)
-
-        def post_done():
-            if ctx.result is not None:
-                if ctx.result.resdata is not None:
-                    self._data = helpers.to_map(vs.clone(ctx.result.resdata)) or {}
-
-        return self._run_op(ctx, post_done)
-
-
 
     
     def update(self, reqdata: LegacyMutationUpdateData, ctrl=None) -> LegacyMutation:
@@ -286,7 +275,27 @@ class LegacyMutationEntity:
 
             return out
 
-        except Exception:
-            utility.feature_hook(ctx, "PreUnexpected")
+        except Exception as err:
+            # What a hook raises here must not escape the cleaning below.
+            try:
+                utility.feature_hook(ctx, "PreUnexpected")
+            except Exception as hookerr:
+                self._unexpected(ctx, hookerr)
+                raise hookerr from None
 
+            self._unexpected(ctx, err)
             raise
+
+    # An error a hook raised never passed through make_error: it is cleaned,
+    # and so is the explain record it interrupted.
+    def _unexpected(self, ctx, err):
+        clean = self._utility.clean
+        explain = ctx.ctrl.explain
+        if isinstance(explain, dict):
+            self._utility.clean_explain(ctx)
+            cleanerr = clean(ctx, {"message": str(err), "class": type(err).__name__})
+            if not isinstance(explain.get("err"), dict):
+                explain["err"] = cleanerr
+            elif explain["err"].get("message") != cleanerr.get("message"):
+                explain["unexpected"] = cleanerr
+        clean(ctx, err)

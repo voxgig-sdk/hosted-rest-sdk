@@ -37,6 +37,8 @@ require_once __DIR__ . '/TransformResponse.php';
 
 HostedRestUtility::setRegistrar(function (HostedRestUtility $u): void {
     $u->clean = [HostedRestClean::class, 'call'];
+    $u->clean_add = [HostedRestClean::class, 'add'];
+    $u->clean_explain = [HostedRestDone::class, 'clean_explain'];
     $u->done = [HostedRestDone::class, 'call'];
     $u->make_error = [HostedRestMakeError::class, 'call'];
     $u->feature_add = [HostedRestFeatureAdd::class, 'call'];

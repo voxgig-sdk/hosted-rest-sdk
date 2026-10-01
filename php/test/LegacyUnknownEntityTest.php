@@ -18,12 +18,51 @@ class LegacyUnknownEntityTest extends TestCase
         $this->assertNotNull($ent);
     }
 
+    // Feature #4: the entity stream(action, ...) method runs the op pipeline
+    // and yields result items. With the streaming feature active it yields the
+    // feature's incremental output; otherwise it falls back to the materialised
+    // list so stream always yields.
+    public function test_stream(): void
+    {
+        $seed = [
+            "entity" => [
+                "legacy_unknown" => [
+                    "s1" => ["id" => "s1"],
+                    "s2" => ["id" => "s2"],
+                    "s3" => ["id" => "s3"],
+                ],
+            ],
+        ];
+
+        // Fallback: streaming inactive -> yields the materialised list items.
+        $base = HostedRestSDK::test($seed, null);
+        $seen = iterator_to_array($base->LegacyUnknown(null)->stream("list", null, null), false);
+        $this->assertCount(3, $seen);
+
+        // Inbound: streaming active -> yields each item from the feature.
+        $cfg = HostedRestConfig::shared_config();
+        if (isset($cfg["feature"]) && is_array($cfg["feature"]) && isset($cfg["feature"]["streaming"])) {
+            $sdk = HostedRestSDK::test($seed, ["feature" => ["streaming" => ["active" => true]]]);
+            $got = [];
+            foreach ($sdk->LegacyUnknown(null)->stream("list", null, null) as $item) {
+                if (is_array($item) && array_is_list($item)) {
+                    foreach ($item as $sub) {
+                        $got[] = $sub;
+                    }
+                } else {
+                    $got[] = $item;
+                }
+            }
+            $this->assertCount(3, $got);
+        }
+    }
+
     public function test_basic_flow(): void
     {
         $setup = legacy_unknown_basic_setup(null);
         // Per-op sdk-test-control.json skip.
         $_live = !empty($setup["live"]);
-        foreach (["load"] as $_op) {
+        foreach (["list", "load"] as $_op) {
             [$_shouldSkip, $_reason] = Runner::is_control_skipped("entityOp", "legacy_unknown." . $_op, $_live ? "live" : "unit");
             if ($_shouldSkip) {
                 $this->markTestSkipped($_reason ?? "skipped via sdk-test-control.json");
@@ -46,8 +85,14 @@ class LegacyUnknownEntityTest extends TestCase
             $legacy_unknown_ref01_data = Helpers::to_map($legacy_unknown_ref01_data_raw[0][1]);
         }
 
-        // LOAD
+        // LIST
         $legacy_unknown_ref01_ent = $client->LegacyUnknown(null);
+        $legacy_unknown_ref01_match = [];
+
+        $legacy_unknown_ref01_list_result = $legacy_unknown_ref01_ent->list($legacy_unknown_ref01_match, null);
+        $this->assertIsArray($legacy_unknown_ref01_list_result);
+
+        // LOAD
         $legacy_unknown_ref01_match_dt0 = [
             "id" => $legacy_unknown_ref01_data["id"],
         ];

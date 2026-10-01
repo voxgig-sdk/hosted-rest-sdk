@@ -2,31 +2,52 @@
   "existing": {
     "legacy_unknown": {
       "LEGACY_UNKNOWN00": {
+        "color": "s46",
         "data": {},
         "id": "LEGACY_UNKNOWN00",
-        "support": {}
+        "name": "s49",
+        "pantone_value": "s4a",
+        "support": {},
+        "year": 76
       },
       "LEGACY_UNKNOWN01": {
+        "color": "s8c",
         "data": {},
         "id": "LEGACY_UNKNOWN01",
-        "support": {}
+        "name": "s8f",
+        "pantone_value": "s90",
+        "support": {},
+        "year": 146
       },
       "LEGACY_UNKNOWN02": {
+        "color": "sd2",
         "data": {},
         "id": "LEGACY_UNKNOWN02",
-        "support": {}
+        "name": "sd5",
+        "pantone_value": "sd6",
+        "support": {},
+        "year": 216
       }
     }
   },
   "new": {
     "legacy_unknown": {
       "legacy_unknown_ref01": {
+        "color": "s118",
         "data": {},
-        "support": {}
+        "name": "s11b",
+        "pantone_value": "s11c",
+        "support": {},
+        "year": 286
       }
     }
   },
   "requests": {
+    "GET /api/unknown": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
     "GET /api/unknown/{id}": {
       "provenance": "operation-contract",
       "version": 2,

@@ -6,7 +6,7 @@ OpenAPI specification for the ReqRes API. Covers legacy demo endpoints, collecti
 
 This guide introduces the API, the client libraries, and the companion tools in this repository. Start with the API capabilities, choose a client for your application, and use the linked reference when you need exact request and response details.
 
-The selected API surface contains 22 entities and 52 HTTP routes. There are 6 SDK targets and 2 companion tools.
+The selected API surface contains 18 entities and 52 HTTP routes. There are 6 SDK targets and 2 companion tools.
 
 An entity groups related API operations. An operation can have several routes with different inputs or authentication requirements. The SDK exposes the entity and its operations using the conventions of the selected language.
 
@@ -26,15 +26,9 @@ SDK operations: `create`, `load`.
 
 ### AgentUser
 
-Results: User found.
+Results: Paginated user list; User found.
 
-SDK operations: `load`.
-
-### AgentUserList
-
-Results: Paginated user list.
-
-SDK operations: `list`.
+SDK operations: `list`, `load`.
 
 ### AppUser
 
@@ -80,15 +74,9 @@ SDK operations: `create`, `list`, `load`, `remove`, `update`.
 
 ### CollectionRecord
 
-Results: Record created; Record; Record updated.
+Results: Record created; Record list; Records; Record; Record updated.
 
-SDK operations: `create`, `load`, `update`.
-
-### CollectionRecordList
-
-Results: Record list; Records.
-
-SDK operations: `list`.
+SDK operations: `create`, `list`, `load`, `update`.
 
 ### Custom
 
@@ -98,39 +86,27 @@ SDK operations: `create`, `load`, `patch`, `remove`, `update`.
 
 ### Legacy
 
-Results: No content.
+Results: User created; Successful response; No content.
 
-SDK operations: `remove`.
+SDK operations: `create`, `list`, `remove`.
 
 ### LegacyMutation
 
-Results: User created; User updated.
+Results: User updated.
 
-SDK operations: `create`, `patch`, `update`.
+SDK operations: `patch`, `update`.
 
 ### LegacyUnknown
 
 Results: Successful response.
 
-SDK operations: `load`.
-
-### LegacyUnknownList
-
-Results: Successful response.
-
-SDK operations: `list`.
+SDK operations: `list`, `load`.
 
 ### LegacyUser
 
 Results: Successful response.
 
 SDK operations: `load`.
-
-### LegacyUserList
-
-Results: Successful response.
-
-SDK operations: `list`.
 
 ### Login
 
@@ -155,8 +131,8 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 | AgentSandbox | `load` | `GET /agent/v1/orders` | See reference |
 | AgentSandbox | `load` | `GET /agent/v1/scenarios/{scenario}` | See reference |
 | AgentSandbox | `load` | `GET /agent/v1/scenarios` | See reference |
+| AgentUser | `list` | `GET /agent/v1/users` | See reference |
 | AgentUser | `load` | `GET /agent/v1/users/{id}` | See reference |
-| AgentUserList | `list` | `GET /agent/v1/users` | See reference |
 | AppUser | `create` | `POST /api/app-users/{id}/sessions/simulate` | Required |
 | AppUser | `create` | `POST /api/app-users` | Required |
 | AppUser | `list` | `GET /api/projects/{projectId}/app-users` | Required |
@@ -181,25 +157,25 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 | Collection | `update` | `PUT /api/collections/{slug}` | Required |
 | CollectionRecord | `create` | `POST /api/collections/{slug}/records` | Required |
 | CollectionRecord | `create` | `POST /app/collections/{slug}/records` | Required |
+| CollectionRecord | `list` | `GET /api/collections/{slug}/records` | Required |
+| CollectionRecord | `list` | `GET /app/collections/{slug}/records` | Required |
 | CollectionRecord | `load` | `GET /api/collections/{slug}/records/{recordId}` | Required |
 | CollectionRecord | `load` | `GET /app/collections/{slug}/records/{recordId}` | Required |
 | CollectionRecord | `update` | `PUT /api/collections/{slug}/records/{recordId}` | Required |
 | CollectionRecord | `update` | `PUT /app/collections/{slug}/records/{recordId}` | Required |
-| CollectionRecordList | `list` | `GET /api/collections/{slug}/records` | Required |
-| CollectionRecordList | `list` | `GET /app/collections/{slug}/records` | Required |
 | Custom | `create` | `POST /api/custom/{path}` | Required |
 | Custom | `load` | `GET /api/custom/{path}` | Required |
 | Custom | `patch` | `PATCH /api/custom/{path}` | Required |
 | Custom | `remove` | `DELETE /api/custom/{path}` | Required |
 | Custom | `update` | `PUT /api/custom/{path}` | Required |
+| Legacy | `create` | `POST /api/users` | Required |
+| Legacy | `list` | `GET /api/users` | Required |
 | Legacy | `remove` | `DELETE /api/users/{id}` | Required |
-| LegacyMutation | `create` | `POST /api/users` | Required |
 | LegacyMutation | `patch` | `PATCH /api/users/{id}` | Required |
 | LegacyMutation | `update` | `PUT /api/users/{id}` | Required |
+| LegacyUnknown | `list` | `GET /api/unknown` | Required |
 | LegacyUnknown | `load` | `GET /api/unknown/{id}` | Required |
-| LegacyUnknownList | `list` | `GET /api/unknown` | Required |
 | LegacyUser | `load` | `GET /api/users/{id}` | Required |
-| LegacyUserList | `list` | `GET /api/users` | Required |
 | Login | `create` | `POST /api/login` | Required |
 | Register | `create` | `POST /api/register` | Required |
 
@@ -252,7 +228,7 @@ Use the MCP server to expose supported API operations to an MCP client.
 
 Repository directory: `go-mcp/`. Not published. Build from the go-mcp directory.
 
-- `hosted-rest_list`: List records for an entity. Supported entities: `agent_user_list`, `app_user`, `collection`, `collection_record_list`, `legacy_unknown_list`, `legacy_user_list`.
+- `hosted-rest_list`: List records for an entity. Supported entities: `agent_user`, `app_user`, `collection`, `collection_record`, `legacy`, `legacy_unknown`.
 - `hosted-rest_load`: Load one record for an entity. Supported entities: `agent_health`, `agent_sandbox`, `agent_user`, `app_user`, `app_user_session`, `app_user_total`, `collection`, `collection_record`, `custom`, `legacy_unknown`, `legacy_user`.
 
 ## Operational features

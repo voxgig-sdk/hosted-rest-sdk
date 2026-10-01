@@ -50,12 +50,8 @@ type AgentUserLoadMatch struct {
 	Expand *string `json:"expand,omitempty"`
 }
 
-// AgentUserList is the typed data model for the agent_user_list entity.
-type AgentUserList struct {
-}
-
-// AgentUserListListMatch is the typed request payload for AgentUserList.ListTyped.
-type AgentUserListListMatch struct {
+// AgentUserListMatch is the typed request payload for AgentUser.ListTyped.
+type AgentUserListMatch struct {
 	Cursor *string `json:"cursor,omitempty"`
 	Field *string `json:"field,omitempty"`
 	Limit *int `json:"limit,omitempty"`
@@ -209,6 +205,19 @@ type CollectionRecordLoadMatch struct {
 	Id string `json:"id"`
 }
 
+// CollectionRecordListMatch is the typed request payload for CollectionRecord.ListTyped.
+type CollectionRecordListMatch struct {
+	Slug string `json:"slug"`
+	CreatedAfter *string `json:"created_after,omitempty"`
+	CreatedBefore *string `json:"created_before,omitempty"`
+	DataContain *string `json:"data_contain,omitempty"`
+	IncludeDeleted *bool `json:"include_deleted,omitempty"`
+	Limit *int `json:"limit,omitempty"`
+	Order *string `json:"order,omitempty"`
+	Page *int `json:"page,omitempty"`
+	Search *string `json:"search,omitempty"`
+}
+
 // CollectionRecordCreateData is the typed request payload for CollectionRecord.CreateTyped.
 type CollectionRecordCreateData struct {
 	Slug string `json:"slug"`
@@ -234,23 +243,6 @@ type CollectionRecordUpdateData struct {
 	DeletedAt *string `json:"deleted_at,omitempty"`
 	ProjectId *string `json:"project_id,omitempty"`
 	UpdatedAt *string `json:"updated_at,omitempty"`
-}
-
-// CollectionRecordList is the typed data model for the collection_record_list entity.
-type CollectionRecordList struct {
-}
-
-// CollectionRecordListListMatch is the typed request payload for CollectionRecordList.ListTyped.
-type CollectionRecordListListMatch struct {
-	Slug string `json:"slug"`
-	CreatedAfter *string `json:"created_after,omitempty"`
-	CreatedBefore *string `json:"created_before,omitempty"`
-	DataContain *string `json:"data_contain,omitempty"`
-	IncludeDeleted *bool `json:"include_deleted,omitempty"`
-	Limit *int `json:"limit,omitempty"`
-	Order *string `json:"order,omitempty"`
-	Page *int `json:"page,omitempty"`
-	Search *string `json:"search,omitempty"`
 }
 
 // Custom is the typed data model for the custom entity.
@@ -281,6 +273,21 @@ type CustomRemoveMatch struct {
 type Legacy struct {
 }
 
+// LegacyListMatch is the typed request payload for Legacy.ListTyped.
+type LegacyListMatch struct {
+	Page *int `json:"page,omitempty"`
+	PerPage *int `json:"per_page,omitempty"`
+}
+
+// LegacyCreateData is the typed request payload for Legacy.CreateTyped.
+type LegacyCreateData struct {
+	Avatar string `json:"avatar"`
+	Email string `json:"email"`
+	FirstName string `json:"first_name"`
+	Id int `json:"id"`
+	LastName string `json:"last_name"`
+}
+
 // LegacyRemoveMatch is the typed request payload for Legacy.RemoveTyped.
 type LegacyRemoveMatch struct {
 	Id int `json:"id"`
@@ -288,13 +295,6 @@ type LegacyRemoveMatch struct {
 
 // LegacyMutation is the typed data model for the legacy_mutation entity.
 type LegacyMutation struct {
-}
-
-// LegacyMutationCreateData is the typed request payload for LegacyMutation.CreateTyped.
-type LegacyMutationCreateData struct {
-	CreatedAt *string `json:"createdAt,omitempty"`
-	Id *string `json:"id,omitempty"`
-	UpdatedAt *string `json:"updatedAt,omitempty"`
 }
 
 // LegacyMutationUpdateData is the typed request payload for LegacyMutation.UpdateTyped.
@@ -313,12 +313,8 @@ type LegacyUnknownLoadMatch struct {
 	Id int `json:"id"`
 }
 
-// LegacyUnknownList is the typed data model for the legacy_unknown_list entity.
-type LegacyUnknownList struct {
-}
-
-// LegacyUnknownListListMatch is the typed request payload for LegacyUnknownList.ListTyped.
-type LegacyUnknownListListMatch struct {
+// LegacyUnknownListMatch is the typed request payload for LegacyUnknown.ListTyped.
+type LegacyUnknownListMatch struct {
 	Page *int `json:"page,omitempty"`
 	PerPage *int `json:"per_page,omitempty"`
 }
@@ -330,16 +326,6 @@ type LegacyUser struct {
 // LegacyUserLoadMatch is the typed request payload for LegacyUser.LoadTyped.
 type LegacyUserLoadMatch struct {
 	Id int `json:"id"`
-}
-
-// LegacyUserList is the typed data model for the legacy_user_list entity.
-type LegacyUserList struct {
-}
-
-// LegacyUserListListMatch is the typed request payload for LegacyUserList.ListTyped.
-type LegacyUserListListMatch struct {
-	Page *int `json:"page,omitempty"`
-	PerPage *int `json:"per_page,omitempty"`
 }
 
 // Login is the typed data model for the login entity.

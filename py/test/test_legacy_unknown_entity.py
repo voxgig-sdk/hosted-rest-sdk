@@ -21,13 +21,47 @@ class TestLegacyUnknownEntity:
         ent = testsdk.LegacyUnknown(None)
         assert ent is not None
 
+    def test_should_stream(self):
+        # Feature #4: the entity stream(action, ...) method runs the op
+        # pipeline and yields result items. With the streaming feature active
+        # it yields the feature's incremental output; otherwise it falls back
+        # to the materialised list so stream always yields.
+        seed = {
+            "entity": {
+                "legacy_unknown": {
+                    "s1": {"id": "s1"},
+                    "s2": {"id": "s2"},
+                    "s3": {"id": "s3"},
+                }
+            }
+        }
+
+        # Fallback: streaming inactive -> yields the materialised list items.
+        base = HostedRestSDK.test(seed, None)
+        seen = list(base.LegacyUnknown(None).stream("list", None, None))
+        assert len(seen) == 3
+
+        # Inbound: streaming active -> yields each item from the feature.
+        from hostedrest_sdk.config import shared_config
+        cfg = shared_config()
+        if isinstance(cfg.get("feature"), dict) and "streaming" in cfg["feature"]:
+            sdk = HostedRestSDK.test(
+                seed, {"feature": {"streaming": {"active": True}}})
+            got = []
+            for item in sdk.LegacyUnknown(None).stream("list", None, None):
+                if isinstance(item, list):
+                    got.extend(item)
+                else:
+                    got.append(item)
+            assert len(got) == 3
+
     def test_should_run_basic_flow(self):
         setup = _legacy_unknown_basic_setup(None)
         # Per-op sdk-test-control.json skip — basic test exercises a flow with
         # multiple ops; skipping any one skips the whole flow (steps depend
         # on each other).
         _live = setup.get("live", False)
-        for _op in ["load"]:
+        for _op in ["list", "load"]:
             _skip, _reason = runner.is_control_skipped("entityOp", "legacy_unknown." + _op, "live" if _live else "unit")
             if _skip:
                 pytest.skip(_reason or "skipped via sdk-test-control.json")
@@ -46,8 +80,14 @@ class TestLegacyUnknownEntity:
         if len(legacy_unknown_ref01_data_raw) > 0:
             legacy_unknown_ref01_data = helpers.to_map(legacy_unknown_ref01_data_raw[0][1])
 
-        # LOAD
+        # LIST
         legacy_unknown_ref01_ent = client.LegacyUnknown(None)
+        legacy_unknown_ref01_match = {}
+
+        legacy_unknown_ref01_list_result = legacy_unknown_ref01_ent.list(legacy_unknown_ref01_match, None)
+        assert isinstance(legacy_unknown_ref01_list_result, list)
+
+        # LOAD
         legacy_unknown_ref01_match_dt0 = {
             "id": legacy_unknown_ref01_data["id"],
         }

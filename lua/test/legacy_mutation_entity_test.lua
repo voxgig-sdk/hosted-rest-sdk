@@ -19,7 +19,7 @@ describe("LegacyMutationEntity", function()
     local setup = legacy_mutation_basic_setup(nil)
     -- Per-op sdk-test-control.json skip.
     local _live = setup.live or false
-    for _, _op in ipairs({"create", "update"}) do
+    for _, _op in ipairs({"update"}) do
       local _should_skip, _reason = runner.is_control_skipped("entityOp", "legacy_mutation." .. _op, _live and "live" or "unit")
       if _should_skip then
         pending(_reason or "skipped via sdk-test-control.json")
@@ -34,18 +34,16 @@ describe("LegacyMutationEntity", function()
     end
     local client = setup.client
 
-    -- CREATE
-    local legacy_mutation_ref01_ent = client:LegacyMutation(nil)
-    local legacy_mutation_ref01_data = helpers.to_map(vs.getprop(
-      vs.getpath(setup.data, "new.legacy_mutation"), "legacy_mutation_ref01"))
-
-    local legacy_mutation_ref01_data_result, err = legacy_mutation_ref01_ent:create(legacy_mutation_ref01_data, nil)
-    assert.is_nil(err)
-    legacy_mutation_ref01_data = helpers.to_map(type(legacy_mutation_ref01_data_result) == 'table' and legacy_mutation_ref01_data_result.data_get and legacy_mutation_ref01_data_result:data_get() or legacy_mutation_ref01_data_result)
-    assert.is_not_nil(legacy_mutation_ref01_data)
-    assert.is_not_nil(legacy_mutation_ref01_data["id"])
+    -- Bootstrap entity data from existing test data.
+    local legacy_mutation_ref01_data_raw = vs.items(helpers.to_map(
+      vs.getpath(setup.data, "existing.legacy_mutation")))
+    local legacy_mutation_ref01_data = nil
+    if #legacy_mutation_ref01_data_raw > 0 then
+      legacy_mutation_ref01_data = helpers.to_map(legacy_mutation_ref01_data_raw[1][2])
+    end
 
     -- UPDATE
+    local legacy_mutation_ref01_ent = client:LegacyMutation(nil)
     local legacy_mutation_ref01_data_up0_up = {
       id = legacy_mutation_ref01_data["id"],
     }

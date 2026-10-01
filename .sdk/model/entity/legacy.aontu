@@ -5,10 +5,35 @@ main: kit: entity: legacy: {
   alias: field: {}
 
   fields: {
+    avatar: {
+      h: "Avatar"
+      n: "avatar"
+      r: true
+      t: "`$STRING`"
+    }
+    email: {
+      fo: "email"
+      h: "Email"
+      n: "email"
+      r: true
+      t: "`$STRING`"
+    }
+    first_name: {
+      h: "First Name"
+      n: "first_name"
+      r: true
+      t: "`$STRING`"
+    }
     id: {
       h: "Id"
       n: "id"
-      r: false
+      r: true
+      t: "`$INTEGER`"
+    }
+    last_name: {
+      h: "Last Name"
+      n: "last_name"
+      r: true
       t: "`$STRING`"
     }
   }
@@ -20,6 +45,83 @@ main: kit: entity: legacy: {
 
   name: "legacy"
   op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /api/users"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/api/users"
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "users"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /api/users"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                ex: 1
+                k: "query"
+                n: "page"
+                or: "page"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                k: "query"
+                n: "per_page"
+                or: "per_page"
+                r: false
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/users"
+          q: {
+            exist: [
+              "page"
+              "per_page"
+            ]
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "users"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
     remove: {
       name: "remove"
       points: [

@@ -83,8 +83,6 @@ func entityFor(client *sdk.HostedRestSDK, name string) (sdk.HostedRestEntity, er
 		return client.AgentSandbox(nil), nil
 	case "agent_user":
 		return client.AgentUser(nil), nil
-	case "agent_user_list":
-		return client.AgentUserList(nil), nil
 	case "app_user":
 		return client.AppUser(nil), nil
 	case "app_user_login":
@@ -101,8 +99,6 @@ func entityFor(client *sdk.HostedRestSDK, name string) (sdk.HostedRestEntity, er
 		return client.Collection(nil), nil
 	case "collection_record":
 		return client.CollectionRecord(nil), nil
-	case "collection_record_list":
-		return client.CollectionRecordList(nil), nil
 	case "custom":
 		return client.Custom(nil), nil
 	case "legacy":
@@ -111,12 +107,8 @@ func entityFor(client *sdk.HostedRestSDK, name string) (sdk.HostedRestEntity, er
 		return client.LegacyMutation(nil), nil
 	case "legacy_unknown":
 		return client.LegacyUnknown(nil), nil
-	case "legacy_unknown_list":
-		return client.LegacyUnknownList(nil), nil
 	case "legacy_user":
 		return client.LegacyUser(nil), nil
-	case "legacy_user_list":
-		return client.LegacyUserList(nil), nil
 	case "login":
 		return client.Login(nil), nil
 	case "register":

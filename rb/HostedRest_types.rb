@@ -151,52 +151,7 @@ AgentUserLoadMatch = Struct.new(
   keyword_init: true
 )
 
-# AgentUserList entity data model.
-#
-# @!attribute [rw] created_at
-#   @return [String]
-#
-# @!attribute [rw] email
-#   @return [String]
-#
-# @!attribute [rw] full_name
-#   @return [String]
-#
-# @!attribute [rw] id
-#   @return [String]
-#
-# @!attribute [rw] locale
-#   @return [String]
-#
-# @!attribute [rw] preferences
-#   @return [Hash]
-#
-# @!attribute [rw] profile
-#   @return [Hash]
-#
-# @!attribute [rw] status
-#   @return [String]
-#
-# @!attribute [rw] timezone
-#   @return [String]
-#
-# @!attribute [rw] updated_at
-#   @return [String]
-AgentUserList = Struct.new(
-  :created_at,
-  :email,
-  :full_name,
-  :id,
-  :locale,
-  :preferences,
-  :profile,
-  :status,
-  :timezone,
-  :updated_at,
-  keyword_init: true
-)
-
-# Request payload for AgentUserList#list.
+# Request payload for AgentUser#list.
 #
 # @!attribute [rw] cursor
 #   @return [String, nil]
@@ -209,7 +164,7 @@ AgentUserList = Struct.new(
 #
 # @!attribute [rw] seed
 #   @return [Integer, nil]
-AgentUserListListMatch = Struct.new(
+AgentUserListMatch = Struct.new(
   :cursor,
   :field,
   :limit,
@@ -653,6 +608,47 @@ CollectionRecordLoadMatch = Struct.new(
   keyword_init: true
 )
 
+# Request payload for CollectionRecord#list.
+#
+# @!attribute [rw] slug
+#   @return [String]
+#
+# @!attribute [rw] created_after
+#   @return [String, nil]
+#
+# @!attribute [rw] created_before
+#   @return [String, nil]
+#
+# @!attribute [rw] data_contain
+#   @return [String, nil]
+#
+# @!attribute [rw] include_deleted
+#   @return [Boolean, nil]
+#
+# @!attribute [rw] limit
+#   @return [Integer, nil]
+#
+# @!attribute [rw] order
+#   @return [String, nil]
+#
+# @!attribute [rw] page
+#   @return [Integer, nil]
+#
+# @!attribute [rw] search
+#   @return [String, nil]
+CollectionRecordListMatch = Struct.new(
+  :slug,
+  :created_after,
+  :created_before,
+  :data_contain,
+  :include_deleted,
+  :limit,
+  :order,
+  :page,
+  :search,
+  keyword_init: true
+)
+
 # Request payload for CollectionRecord#create.
 #
 # @!attribute [rw] slug
@@ -739,88 +735,6 @@ CollectionRecordUpdateData = Struct.new(
   keyword_init: true
 )
 
-# CollectionRecordList entity data model.
-#
-# @!attribute [rw] app_user_id
-#   @return [String, nil]
-#
-# @!attribute [rw] collection_id
-#   @return [String, nil]
-#
-# @!attribute [rw] created_at
-#   @return [String, nil]
-#
-# @!attribute [rw] created_by
-#   @return [String, nil]
-#
-# @!attribute [rw] data
-#   @return [Hash]
-#
-# @!attribute [rw] deleted_at
-#   @return [String, nil]
-#
-# @!attribute [rw] id
-#   @return [String]
-#
-# @!attribute [rw] project_id
-#   @return [String, nil]
-#
-# @!attribute [rw] updated_at
-#   @return [String, nil]
-CollectionRecordList = Struct.new(
-  :app_user_id,
-  :collection_id,
-  :created_at,
-  :created_by,
-  :data,
-  :deleted_at,
-  :id,
-  :project_id,
-  :updated_at,
-  keyword_init: true
-)
-
-# Request payload for CollectionRecordList#list.
-#
-# @!attribute [rw] slug
-#   @return [String]
-#
-# @!attribute [rw] created_after
-#   @return [String, nil]
-#
-# @!attribute [rw] created_before
-#   @return [String, nil]
-#
-# @!attribute [rw] data_contain
-#   @return [String, nil]
-#
-# @!attribute [rw] include_deleted
-#   @return [Boolean, nil]
-#
-# @!attribute [rw] limit
-#   @return [Integer, nil]
-#
-# @!attribute [rw] order
-#   @return [String, nil]
-#
-# @!attribute [rw] page
-#   @return [Integer, nil]
-#
-# @!attribute [rw] search
-#   @return [String, nil]
-CollectionRecordListListMatch = Struct.new(
-  :slug,
-  :created_after,
-  :created_before,
-  :data_contain,
-  :include_deleted,
-  :limit,
-  :order,
-  :page,
-  :search,
-  keyword_init: true
-)
-
 # Custom entity data model.
 #
 # @!attribute [rw] id
@@ -868,10 +782,64 @@ CustomRemoveMatch = Struct.new(
 
 # Legacy entity data model.
 #
+# @!attribute [rw] avatar
+#   @return [String]
+#
+# @!attribute [rw] email
+#   @return [String]
+#
+# @!attribute [rw] first_name
+#   @return [String]
+#
 # @!attribute [rw] id
-#   @return [String, nil]
+#   @return [Integer]
+#
+# @!attribute [rw] last_name
+#   @return [String]
 Legacy = Struct.new(
+  :avatar,
+  :email,
+  :first_name,
   :id,
+  :last_name,
+  keyword_init: true
+)
+
+# Request payload for Legacy#list.
+#
+# @!attribute [rw] page
+#   @return [Integer, nil]
+#
+# @!attribute [rw] per_page
+#   @return [Integer, nil]
+LegacyListMatch = Struct.new(
+  :page,
+  :per_page,
+  keyword_init: true
+)
+
+# Request payload for Legacy#create.
+#
+# @!attribute [rw] avatar
+#   @return [String]
+#
+# @!attribute [rw] email
+#   @return [String]
+#
+# @!attribute [rw] first_name
+#   @return [String]
+#
+# @!attribute [rw] id
+#   @return [Integer]
+#
+# @!attribute [rw] last_name
+#   @return [String]
+LegacyCreateData = Struct.new(
+  :avatar,
+  :email,
+  :first_name,
+  :id,
+  :last_name,
   keyword_init: true
 )
 
@@ -901,23 +869,6 @@ LegacyMutation = Struct.new(
   keyword_init: true
 )
 
-# Request payload for LegacyMutation#create.
-#
-# @!attribute [rw] createdAt
-#   @return [String, nil]
-#
-# @!attribute [rw] id
-#   @return [String, nil]
-#
-# @!attribute [rw] updatedAt
-#   @return [String, nil]
-LegacyMutationCreateData = Struct.new(
-  :createdAt,
-  :id,
-  :updatedAt,
-  keyword_init: true
-)
-
 # Request payload for LegacyMutation#update.
 #
 # @!attribute [rw] id
@@ -937,18 +888,34 @@ LegacyMutationUpdateData = Struct.new(
 
 # LegacyUnknown entity data model.
 #
+# @!attribute [rw] color
+#   @return [String]
+#
 # @!attribute [rw] data
 #   @return [Hash]
 #
 # @!attribute [rw] id
-#   @return [String, nil]
+#   @return [Integer]
+#
+# @!attribute [rw] name
+#   @return [String]
+#
+# @!attribute [rw] pantone_value
+#   @return [String]
 #
 # @!attribute [rw] support
 #   @return [Hash, nil]
+#
+# @!attribute [rw] year
+#   @return [Integer]
 LegacyUnknown = Struct.new(
+  :color,
   :data,
   :id,
+  :name,
+  :pantone_value,
   :support,
+  :year,
   keyword_init: true
 )
 
@@ -961,39 +928,14 @@ LegacyUnknownLoadMatch = Struct.new(
   keyword_init: true
 )
 
-# LegacyUnknownList entity data model.
-#
-# @!attribute [rw] color
-#   @return [String]
-#
-# @!attribute [rw] id
-#   @return [Integer]
-#
-# @!attribute [rw] name
-#   @return [String]
-#
-# @!attribute [rw] pantone_value
-#   @return [String]
-#
-# @!attribute [rw] year
-#   @return [Integer]
-LegacyUnknownList = Struct.new(
-  :color,
-  :id,
-  :name,
-  :pantone_value,
-  :year,
-  keyword_init: true
-)
-
-# Request payload for LegacyUnknownList#list.
+# Request payload for LegacyUnknown#list.
 #
 # @!attribute [rw] page
 #   @return [Integer, nil]
 #
 # @!attribute [rw] per_page
 #   @return [Integer, nil]
-LegacyUnknownListListMatch = Struct.new(
+LegacyUnknownListMatch = Struct.new(
   :page,
   :per_page,
   keyword_init: true
@@ -1022,44 +964,6 @@ LegacyUser = Struct.new(
 #   @return [Integer]
 LegacyUserLoadMatch = Struct.new(
   :id,
-  keyword_init: true
-)
-
-# LegacyUserList entity data model.
-#
-# @!attribute [rw] avatar
-#   @return [String]
-#
-# @!attribute [rw] email
-#   @return [String]
-#
-# @!attribute [rw] first_name
-#   @return [String]
-#
-# @!attribute [rw] id
-#   @return [Integer]
-#
-# @!attribute [rw] last_name
-#   @return [String]
-LegacyUserList = Struct.new(
-  :avatar,
-  :email,
-  :first_name,
-  :id,
-  :last_name,
-  keyword_init: true
-)
-
-# Request payload for LegacyUserList#list.
-#
-# @!attribute [rw] page
-#   @return [Integer, nil]
-#
-# @!attribute [rw] per_page
-#   @return [Integer, nil]
-LegacyUserListListMatch = Struct.new(
-  :page,
-  :per_page,
   keyword_init: true
 )
 

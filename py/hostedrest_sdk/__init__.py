@@ -14,11 +14,15 @@ from hostedrest_sdk.features import _has_feature, _make_feature
 
 
 class HostedRestSDK:
+    # The options hold the credential. A slot keeps them reachable as
+    # `client.options` and out of `vars(client)` and every attribute dump;
+    # the dict entry keeps the instance open for everything else.
+    __slots__ = ("_options", "__dict__")
 
     def __init__(self, options=None):
         self.mode = "live"
         self.features = []
-        self.options = None
+        self._options = None
 
         utility = HostedRestUtility()
         self._utility = utility
@@ -86,6 +90,17 @@ class HostedRestSDK:
         utility.feature_hook(self._rootctx, "PostConstruct")
 
         # #BuildFeatures
+
+    @property
+    def options(self):
+        return self._options
+
+    @options.setter
+    def options(self, value):
+        self._options = value
+
+    def __repr__(self):
+        return "HostedRestSDK(mode=" + repr(self.mode) + ")"
 
     def options_map(self):
         out = vs.clone(self.options)
@@ -207,7 +222,8 @@ class HostedRestSDK:
         except Exception as err:
             # direct() is the raw-HTTP escape hatch: it never raises, it
             # returns a result object callers branch on via result["ok"].
-            return {"ok": False, "err": err}
+            # That error never passes through make_error, so it is cleaned.
+            return {"ok": False, "err": utility.clean(self._rootctx, err)}
 
         if fetchargs is None:
             fetchargs = {}
@@ -224,7 +240,7 @@ class HostedRestSDK:
         fetched, fetch_err = utility.fetcher(ctx, url, fetchdef)
 
         if fetch_err is not None:
-            return {"ok": False, "err": fetch_err}
+            return {"ok": False, "err": utility.clean(ctx, fetch_err)}
 
         if fetched is None:
             return {
@@ -325,12 +341,6 @@ class HostedRestSDK:
         return AgentUserEntity(self, data)
 
 
-    def AgentUserList(self, data=None) -> "AgentUserListEntity":
-        """Entity factory: client.AgentUserList().list() / client.AgentUserList().load({"id": ...})."""
-        from hostedrest_sdk.entity.agent_user_list_entity import AgentUserListEntity
-        return AgentUserListEntity(self, data)
-
-
     def AppUser(self, data=None) -> "AppUserEntity":
         """Entity factory: client.AppUser().list() / client.AppUser().load({"id": ...})."""
         from hostedrest_sdk.entity.app_user_entity import AppUserEntity
@@ -379,12 +389,6 @@ class HostedRestSDK:
         return CollectionRecordEntity(self, data)
 
 
-    def CollectionRecordList(self, data=None) -> "CollectionRecordListEntity":
-        """Entity factory: client.CollectionRecordList().list() / client.CollectionRecordList().load({"id": ...})."""
-        from hostedrest_sdk.entity.collection_record_list_entity import CollectionRecordListEntity
-        return CollectionRecordListEntity(self, data)
-
-
     def Custom(self, data=None) -> "CustomEntity":
         """Entity factory: client.Custom().list() / client.Custom().load({"id": ...})."""
         from hostedrest_sdk.entity.custom_entity import CustomEntity
@@ -409,22 +413,10 @@ class HostedRestSDK:
         return LegacyUnknownEntity(self, data)
 
 
-    def LegacyUnknownList(self, data=None) -> "LegacyUnknownListEntity":
-        """Entity factory: client.LegacyUnknownList().list() / client.LegacyUnknownList().load({"id": ...})."""
-        from hostedrest_sdk.entity.legacy_unknown_list_entity import LegacyUnknownListEntity
-        return LegacyUnknownListEntity(self, data)
-
-
     def LegacyUser(self, data=None) -> "LegacyUserEntity":
         """Entity factory: client.LegacyUser().list() / client.LegacyUser().load({"id": ...})."""
         from hostedrest_sdk.entity.legacy_user_entity import LegacyUserEntity
         return LegacyUserEntity(self, data)
-
-
-    def LegacyUserList(self, data=None) -> "LegacyUserListEntity":
-        """Entity factory: client.LegacyUserList().list() / client.LegacyUserList().load({"id": ...})."""
-        from hostedrest_sdk.entity.legacy_user_list_entity import LegacyUserListEntity
-        return LegacyUserListEntity(self, data)
 
 
     def Login(self, data=None) -> "LoginEntity":
@@ -469,7 +461,6 @@ if TYPE_CHECKING:
     from hostedrest_sdk.entity.agent_health_entity import AgentHealthEntity
     from hostedrest_sdk.entity.agent_sandbox_entity import AgentSandboxEntity
     from hostedrest_sdk.entity.agent_user_entity import AgentUserEntity
-    from hostedrest_sdk.entity.agent_user_list_entity import AgentUserListEntity
     from hostedrest_sdk.entity.app_user_entity import AppUserEntity
     from hostedrest_sdk.entity.app_user_login_entity import AppUserLoginEntity
     from hostedrest_sdk.entity.app_user_session_entity import AppUserSessionEntity
@@ -478,13 +469,10 @@ if TYPE_CHECKING:
     from hostedrest_sdk.entity.authentication_entity import AuthenticationEntity
     from hostedrest_sdk.entity.collection_entity import CollectionEntity
     from hostedrest_sdk.entity.collection_record_entity import CollectionRecordEntity
-    from hostedrest_sdk.entity.collection_record_list_entity import CollectionRecordListEntity
     from hostedrest_sdk.entity.custom_entity import CustomEntity
     from hostedrest_sdk.entity.legacy_entity import LegacyEntity
     from hostedrest_sdk.entity.legacy_mutation_entity import LegacyMutationEntity
     from hostedrest_sdk.entity.legacy_unknown_entity import LegacyUnknownEntity
-    from hostedrest_sdk.entity.legacy_unknown_list_entity import LegacyUnknownListEntity
     from hostedrest_sdk.entity.legacy_user_entity import LegacyUserEntity
-    from hostedrest_sdk.entity.legacy_user_list_entity import LegacyUserListEntity
     from hostedrest_sdk.entity.login_entity import LoginEntity
     from hostedrest_sdk.entity.register_entity import RegisterEntity

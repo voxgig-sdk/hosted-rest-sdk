@@ -15,11 +15,52 @@ describe("LegacyEntity", function()
     assert.is_not_nil(ent)
   end)
 
+  -- Feature #4: the entity stream(action, ...) method runs the op pipeline and
+  -- returns an iterator over result items. With the streaming feature active it
+  -- yields the feature's incremental output; otherwise it falls back to the
+  -- materialised list so stream always yields.
+  it("should stream", function()
+    local seed = {
+      entity = {
+        ["legacy"] = {
+          s1 = { id = "s1" },
+          s2 = { id = "s2" },
+          s3 = { id = "s3" },
+        },
+      },
+    }
+
+    -- Fallback: streaming inactive -> yields the materialised list items.
+    local base = sdk.test(seed, nil)
+    local seen = {}
+    for item in base:Legacy(nil):stream("list", nil, nil) do
+      table.insert(seen, item)
+    end
+    assert.are.equal(3, #seen)
+
+    -- Inbound: streaming active -> yields each item from the feature.
+    local config = require("config_shared")()
+    if type(config.feature) == "table" and config.feature.streaming ~= nil then
+      local streamsdk = sdk.test(seed, { feature = { streaming = { active = true } } })
+      local got = {}
+      for item in streamsdk:Legacy(nil):stream("list", nil, nil) do
+        if vs.islist(item) then
+          for _, sub in ipairs(item) do
+            table.insert(got, sub)
+          end
+        else
+          table.insert(got, item)
+        end
+      end
+      assert.are.equal(3, #got)
+    end
+  end)
+
   it("should run basic flow", function()
     local setup = legacy_basic_setup(nil)
     -- Per-op sdk-test-control.json skip.
     local _live = setup.live or false
-    for _, _op in ipairs({}) do
+    for _, _op in ipairs({"create", "list", "remove"}) do
       local _should_skip, _reason = runner.is_control_skipped("entityOp", "legacy." .. _op, _live and "live" or "unit")
       if _should_skip then
         pending(_reason or "skipped via sdk-test-control.json")
@@ -34,13 +75,47 @@ describe("LegacyEntity", function()
     end
     local client = setup.client
 
-    -- Bootstrap entity data from existing test data.
-    local legacy_ref01_data_raw = vs.items(helpers.to_map(
-      vs.getpath(setup.data, "existing.legacy")))
-    local legacy_ref01_data = nil
-    if #legacy_ref01_data_raw > 0 then
-      legacy_ref01_data = helpers.to_map(legacy_ref01_data_raw[1][2])
-    end
+    -- CREATE
+    local legacy_ref01_ent = client:Legacy(nil)
+    local legacy_ref01_data = helpers.to_map(vs.getprop(
+      vs.getpath(setup.data, "new.legacy"), "legacy_ref01"))
+
+    local legacy_ref01_data_result, err = legacy_ref01_ent:create(legacy_ref01_data, nil)
+    assert.is_nil(err)
+    legacy_ref01_data = helpers.to_map(type(legacy_ref01_data_result) == 'table' and legacy_ref01_data_result.data_get and legacy_ref01_data_result:data_get() or legacy_ref01_data_result)
+    assert.is_not_nil(legacy_ref01_data)
+    assert.is_not_nil(legacy_ref01_data["id"])
+
+    -- LIST
+    local legacy_ref01_match = {}
+
+    local legacy_ref01_list_result, err = legacy_ref01_ent:list(legacy_ref01_match, nil)
+    assert.is_nil(err)
+    assert.is_table(legacy_ref01_list_result)
+
+    local found_item = vs.select(
+      runner.entity_list_to_data(legacy_ref01_list_result),
+      { id = legacy_ref01_data["id"] })
+    assert.is_false(vs.isempty(found_item))
+
+    -- REMOVE
+    local legacy_ref01_match_rm0 = {
+      id = legacy_ref01_data["id"],
+    }
+    local _, err = legacy_ref01_ent:remove(legacy_ref01_match_rm0, nil)
+    assert.is_nil(err)
+
+    -- LIST
+    local legacy_ref01_match_rt0 = {}
+
+    local legacy_ref01_list_rt0_result, err = legacy_ref01_ent:list(legacy_ref01_match_rt0, nil)
+    assert.is_nil(err)
+    assert.is_table(legacy_ref01_list_rt0_result)
+
+    local not_found_item = vs.select(
+      runner.entity_list_to_data(legacy_ref01_list_rt0_result),
+      { id = legacy_ref01_data["id"] })
+    assert.is_true(vs.isempty(not_found_item))
 
   end)
 end)

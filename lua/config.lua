@@ -86,7 +86,6 @@ local function make_config()
         ["agent_health"] = {},
         ["agent_sandbox"] = {},
         ["agent_user"] = {},
-        ["agent_user_list"] = {},
         ["app_user"] = {},
         ["app_user_login"] = {},
         ["app_user_session"] = {},
@@ -95,14 +94,11 @@ local function make_config()
         ["authentication"] = {},
         ["collection"] = {},
         ["collection_record"] = {},
-        ["collection_record_list"] = {},
         ["custom"] = {},
         ["legacy"] = {},
         ["legacy_mutation"] = {},
         ["legacy_unknown"] = {},
-        ["legacy_unknown_list"] = {},
         ["legacy_user"] = {},
-        ["legacy_user_list"] = {},
         ["login"] = {},
         ["register"] = {},
       },
@@ -459,6 +455,76 @@ local function make_config()
         },
         ["name"] = "agent_user",
         ["op"] = {
+          ["list"] = {
+            ["input"] = "data",
+            ["name"] = "list",
+            ["points"] = {
+              {
+                ["kind"] = "http",
+                ["method"] = "GET",
+                ["orig"] = "/agent/v1/users",
+                ["segments"] = {
+                  {
+                    ["lit"] = "agent",
+                  },
+                  {
+                    ["lit"] = "v1",
+                  },
+                  {
+                    ["lit"] = "users",
+                  },
+                },
+                ["parts"] = {
+                  "agent",
+                  "v1",
+                  "users",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {
+                  ["query"] = {
+                    {
+                      ["name"] = "cursor",
+                      ["orig"] = "cursor",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "field",
+                      ["orig"] = "fields",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "limit",
+                      ["orig"] = "limit",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "query",
+                      ["example"] = 20,
+                    },
+                    {
+                      ["name"] = "seed",
+                      ["orig"] = "seed",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "query",
+                      ["example"] = 42,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "cursor",
+                    "field",
+                    "limit",
+                    "seed",
+                  },
+                },
+              },
+            },
+          },
           ["load"] = {
             ["input"] = "data",
             ["name"] = "load",
@@ -515,153 +581,6 @@ local function make_config()
                   ["exist"] = {
                     "expand",
                     "id",
-                  },
-                },
-              },
-            },
-          },
-        },
-        ["relations"] = {
-          ["ancestors"] = {},
-        },
-      },
-      ["agent_user_list"] = {
-        ["fields"] = {
-          {
-            ["name"] = "created_at",
-            ["title"] = "Created At",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-            ["format"] = "date-time",
-          },
-          {
-            ["name"] = "email",
-            ["title"] = "Email",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-            ["format"] = "email",
-          },
-          {
-            ["name"] = "full_name",
-            ["title"] = "Full Name",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-          },
-          {
-            ["name"] = "id",
-            ["title"] = "Id",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-          },
-          {
-            ["name"] = "locale",
-            ["title"] = "Locale",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-          },
-          {
-            ["name"] = "preferences",
-            ["title"] = "Preferences",
-            ["type"] = "`$OBJECT`",
-            ["req"] = true,
-          },
-          {
-            ["name"] = "profile",
-            ["title"] = "Profile",
-            ["type"] = "`$OBJECT`",
-            ["req"] = true,
-          },
-          {
-            ["name"] = "status",
-            ["title"] = "Status",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-          },
-          {
-            ["name"] = "timezone",
-            ["title"] = "Timezone",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-          },
-          {
-            ["name"] = "updated_at",
-            ["title"] = "Updated At",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-            ["format"] = "date-time",
-          },
-        },
-        ["id"] = {
-          ["field"] = "id",
-          ["name"] = "id",
-        },
-        ["name"] = "agent_user_list",
-        ["op"] = {
-          ["list"] = {
-            ["input"] = "data",
-            ["name"] = "list",
-            ["points"] = {
-              {
-                ["kind"] = "http",
-                ["method"] = "GET",
-                ["orig"] = "/agent/v1/users",
-                ["segments"] = {
-                  {
-                    ["lit"] = "agent",
-                  },
-                  {
-                    ["lit"] = "v1",
-                  },
-                  {
-                    ["lit"] = "users",
-                  },
-                },
-                ["parts"] = {
-                  "agent",
-                  "v1",
-                  "users",
-                },
-                ["rename"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["args"] = {
-                  ["query"] = {
-                    {
-                      ["name"] = "cursor",
-                      ["orig"] = "cursor",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "query",
-                    },
-                    {
-                      ["name"] = "field",
-                      ["orig"] = "field",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "query",
-                    },
-                    {
-                      ["name"] = "limit",
-                      ["orig"] = "limit",
-                      ["type"] = "`$INTEGER`",
-                      ["kind"] = "query",
-                      ["example"] = 20,
-                    },
-                    {
-                      ["name"] = "seed",
-                      ["orig"] = "seed",
-                      ["type"] = "`$INTEGER`",
-                      ["kind"] = "query",
-                      ["example"] = 42,
-                    },
-                  },
-                },
-                ["select"] = {
-                  ["exist"] = {
-                    "cursor",
-                    "field",
-                    "limit",
-                    "seed",
                   },
                 },
               },
@@ -843,7 +762,7 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_reqres_env",
-                      ["orig"] = "x_reqres_env",
+                      ["orig"] = "X-Reqres-Env",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
@@ -851,7 +770,7 @@ local function make_config()
                   ["params"] = {
                     {
                       ["name"] = "project_id",
-                      ["orig"] = "project_id",
+                      ["orig"] = "projectId",
                       ["type"] = "`$STRING`",
                       ["kind"] = "param",
                       ["reqd"] = true,
@@ -860,7 +779,7 @@ local function make_config()
                   ["query"] = {
                     {
                       ["name"] = "status",
-                      ["orig"] = "status",
+                      ["orig"] = "statuses",
                       ["type"] = "`$STRING`",
                       ["kind"] = "query",
                     },
@@ -899,7 +818,7 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_reqres_env",
-                      ["orig"] = "x_reqres_env",
+                      ["orig"] = "X-Reqres-Env",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
@@ -1023,7 +942,7 @@ local function make_config()
                     },
                     {
                       ["name"] = "record_id",
-                      ["orig"] = "record_id",
+                      ["orig"] = "recordId",
                       ["type"] = "`$STRING`",
                       ["kind"] = "param",
                       ["reqd"] = true,
@@ -1322,7 +1241,7 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_reqres_env",
-                      ["orig"] = "x_reqres_env",
+                      ["orig"] = "X-Reqres-Env",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
@@ -1330,7 +1249,7 @@ local function make_config()
                   ["params"] = {
                     {
                       ["name"] = "project_id",
-                      ["orig"] = "project_id",
+                      ["orig"] = "projectId",
                       ["type"] = "`$STRING`",
                       ["kind"] = "param",
                       ["reqd"] = true,
@@ -1541,7 +1460,7 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_reqres_env",
-                      ["orig"] = "x_reqres_env",
+                      ["orig"] = "X-Reqres-Env",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
@@ -1584,7 +1503,7 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_reqres_env",
-                      ["orig"] = "x_reqres_env",
+                      ["orig"] = "X-Reqres-Env",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
@@ -1659,7 +1578,7 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_reqres_env",
-                      ["orig"] = "x_reqres_env",
+                      ["orig"] = "X-Reqres-Env",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
@@ -1775,7 +1694,7 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_reqres_env",
-                      ["orig"] = "x_reqres_env",
+                      ["orig"] = "X-Reqres-Env",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
@@ -1790,7 +1709,7 @@ local function make_config()
                     },
                     {
                       ["name"] = "record_id",
-                      ["orig"] = "record_id",
+                      ["orig"] = "recordId",
                       ["type"] = "`$STRING`",
                       ["kind"] = "param",
                       ["reqd"] = true,
@@ -1838,7 +1757,7 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_reqres_env",
-                      ["orig"] = "x_reqres_env",
+                      ["orig"] = "X-Reqres-Env",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
@@ -1899,7 +1818,7 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_reqres_env",
-                      ["orig"] = "x_reqres_env",
+                      ["orig"] = "X-Reqres-Env",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
@@ -2024,7 +1943,7 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_reqres_env",
-                      ["orig"] = "x_reqres_env",
+                      ["orig"] = "X-Reqres-Env",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
@@ -2049,6 +1968,171 @@ local function make_config()
               {
                 ["kind"] = "http",
                 ["method"] = "POST",
+                ["orig"] = "/app/collections/{slug}/records",
+                ["segments"] = {
+                  {
+                    ["lit"] = "app",
+                  },
+                  {
+                    ["lit"] = "collections",
+                  },
+                  {
+                    ["var"] = "slug",
+                  },
+                  {
+                    ["lit"] = "records",
+                  },
+                },
+                ["parts"] = {
+                  "app",
+                  "collections",
+                  "{slug}",
+                  "records",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {
+                  ["params"] = {
+                    {
+                      ["name"] = "slug",
+                      ["orig"] = "slug",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "slug",
+                  },
+                },
+              },
+            },
+          },
+          ["list"] = {
+            ["input"] = "data",
+            ["name"] = "list",
+            ["points"] = {
+              {
+                ["kind"] = "http",
+                ["method"] = "GET",
+                ["orig"] = "/api/collections/{slug}/records",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "collections",
+                  },
+                  {
+                    ["var"] = "slug",
+                  },
+                  {
+                    ["lit"] = "records",
+                  },
+                },
+                ["parts"] = {
+                  "api",
+                  "collections",
+                  "{slug}",
+                  "records",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_reqres_env",
+                      ["orig"] = "X-Reqres-Env",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
+                  ["params"] = {
+                    {
+                      ["name"] = "slug",
+                      ["orig"] = "slug",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                  ["query"] = {
+                    {
+                      ["name"] = "created_after",
+                      ["orig"] = "created_after",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "created_before",
+                      ["orig"] = "created_before",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "data_contain",
+                      ["orig"] = "data_contains",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "include_deleted",
+                      ["orig"] = "include_deleted",
+                      ["type"] = "`$BOOLEAN`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "limit",
+                      ["orig"] = "limit",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "order",
+                      ["orig"] = "order",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "page",
+                      ["orig"] = "page",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "search",
+                      ["orig"] = "search",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "created_after",
+                    "created_before",
+                    "data_contain",
+                    "include_deleted",
+                    "limit",
+                    "order",
+                    "page",
+                    "search",
+                    "slug",
+                    "x_reqres_env",
+                  },
+                },
+              },
+              {
+                ["kind"] = "http",
+                ["method"] = "GET",
                 ["orig"] = "/app/collections/{slug}/records",
                 ["segments"] = {
                   {
@@ -2140,7 +2224,7 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_reqres_env",
-                      ["orig"] = "x_reqres_env",
+                      ["orig"] = "X-Reqres-Env",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
@@ -2155,7 +2239,7 @@ local function make_config()
                     },
                     {
                       ["name"] = "id",
-                      ["orig"] = "record_id",
+                      ["orig"] = "recordId",
                       ["type"] = "`$STRING`",
                       ["kind"] = "param",
                       ["reqd"] = true,
@@ -2219,7 +2303,7 @@ local function make_config()
                     },
                     {
                       ["name"] = "id",
-                      ["orig"] = "record_id",
+                      ["orig"] = "recordId",
                       ["type"] = "`$STRING`",
                       ["kind"] = "param",
                       ["reqd"] = true,
@@ -2281,7 +2365,7 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "x_reqres_env",
-                      ["orig"] = "x_reqres_env",
+                      ["orig"] = "X-Reqres-Env",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                     },
@@ -2296,7 +2380,7 @@ local function make_config()
                     },
                     {
                       ["name"] = "id",
-                      ["orig"] = "record_id",
+                      ["orig"] = "recordId",
                       ["type"] = "`$STRING`",
                       ["kind"] = "param",
                       ["reqd"] = true,
@@ -2360,7 +2444,7 @@ local function make_config()
                     },
                     {
                       ["name"] = "id",
-                      ["orig"] = "record_id",
+                      ["orig"] = "recordId",
                       ["type"] = "`$STRING`",
                       ["kind"] = "param",
                       ["reqd"] = true,
@@ -2371,239 +2455,6 @@ local function make_config()
                   ["exist"] = {
                     "collection_id",
                     "id",
-                  },
-                },
-              },
-            },
-          },
-        },
-        ["relations"] = {
-          ["ancestors"] = {
-            {
-              "$.main.kit.entity.collection",
-            },
-          },
-        },
-      },
-      ["collection_record_list"] = {
-        ["fields"] = {
-          {
-            ["name"] = "app_user_id",
-            ["title"] = "App User Id",
-            ["type"] = "`$STRING`",
-          },
-          {
-            ["name"] = "collection_id",
-            ["title"] = "Collection Id",
-            ["type"] = "`$STRING`",
-          },
-          {
-            ["name"] = "created_at",
-            ["title"] = "Created At",
-            ["type"] = "`$STRING`",
-            ["format"] = "date-time",
-          },
-          {
-            ["name"] = "created_by",
-            ["title"] = "Created By",
-            ["type"] = "`$STRING`",
-          },
-          {
-            ["name"] = "data",
-            ["title"] = "Data",
-            ["type"] = "`$OBJECT`",
-            ["req"] = true,
-          },
-          {
-            ["name"] = "deleted_at",
-            ["title"] = "Deleted At",
-            ["type"] = "`$STRING`",
-            ["format"] = "date-time",
-          },
-          {
-            ["name"] = "id",
-            ["title"] = "Id",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-          },
-          {
-            ["name"] = "project_id",
-            ["title"] = "Project Id",
-            ["type"] = "`$STRING`",
-          },
-          {
-            ["name"] = "updated_at",
-            ["title"] = "Updated At",
-            ["type"] = "`$STRING`",
-            ["format"] = "date-time",
-          },
-        },
-        ["id"] = {
-          ["field"] = "id",
-          ["name"] = "id",
-        },
-        ["name"] = "collection_record_list",
-        ["op"] = {
-          ["list"] = {
-            ["input"] = "data",
-            ["name"] = "list",
-            ["points"] = {
-              {
-                ["kind"] = "http",
-                ["method"] = "GET",
-                ["orig"] = "/api/collections/{slug}/records",
-                ["segments"] = {
-                  {
-                    ["lit"] = "api",
-                  },
-                  {
-                    ["lit"] = "collections",
-                  },
-                  {
-                    ["var"] = "slug",
-                  },
-                  {
-                    ["lit"] = "records",
-                  },
-                },
-                ["parts"] = {
-                  "api",
-                  "collections",
-                  "{slug}",
-                  "records",
-                },
-                ["rename"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["args"] = {
-                  ["header"] = {
-                    {
-                      ["name"] = "x_reqres_env",
-                      ["orig"] = "x_reqres_env",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "header",
-                    },
-                  },
-                  ["params"] = {
-                    {
-                      ["name"] = "slug",
-                      ["orig"] = "slug",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "param",
-                      ["reqd"] = true,
-                    },
-                  },
-                  ["query"] = {
-                    {
-                      ["name"] = "created_after",
-                      ["orig"] = "created_after",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "query",
-                    },
-                    {
-                      ["name"] = "created_before",
-                      ["orig"] = "created_before",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "query",
-                    },
-                    {
-                      ["name"] = "data_contain",
-                      ["orig"] = "data_contain",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "query",
-                    },
-                    {
-                      ["name"] = "include_deleted",
-                      ["orig"] = "include_deleted",
-                      ["type"] = "`$BOOLEAN`",
-                      ["kind"] = "query",
-                    },
-                    {
-                      ["name"] = "limit",
-                      ["orig"] = "limit",
-                      ["type"] = "`$INTEGER`",
-                      ["kind"] = "query",
-                    },
-                    {
-                      ["name"] = "order",
-                      ["orig"] = "order",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "query",
-                    },
-                    {
-                      ["name"] = "page",
-                      ["orig"] = "page",
-                      ["type"] = "`$INTEGER`",
-                      ["kind"] = "query",
-                    },
-                    {
-                      ["name"] = "search",
-                      ["orig"] = "search",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "query",
-                    },
-                  },
-                },
-                ["select"] = {
-                  ["exist"] = {
-                    "created_after",
-                    "created_before",
-                    "data_contain",
-                    "include_deleted",
-                    "limit",
-                    "order",
-                    "page",
-                    "search",
-                    "slug",
-                    "x_reqres_env",
-                  },
-                },
-              },
-              {
-                ["kind"] = "http",
-                ["method"] = "GET",
-                ["orig"] = "/app/collections/{slug}/records",
-                ["segments"] = {
-                  {
-                    ["lit"] = "app",
-                  },
-                  {
-                    ["lit"] = "collections",
-                  },
-                  {
-                    ["var"] = "slug",
-                  },
-                  {
-                    ["lit"] = "records",
-                  },
-                },
-                ["parts"] = {
-                  "app",
-                  "collections",
-                  "{slug}",
-                  "records",
-                },
-                ["rename"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["args"] = {
-                  ["params"] = {
-                    {
-                      ["name"] = "slug",
-                      ["orig"] = "slug",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "param",
-                      ["reqd"] = true,
-                    },
-                  },
-                },
-                ["select"] = {
-                  ["exist"] = {
-                    "slug",
                   },
                 },
               },
@@ -2900,9 +2751,35 @@ local function make_config()
       ["legacy"] = {
         ["fields"] = {
           {
+            ["name"] = "avatar",
+            ["title"] = "Avatar",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
+          },
+          {
+            ["name"] = "email",
+            ["title"] = "Email",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["format"] = "email",
+          },
+          {
+            ["name"] = "first_name",
+            ["title"] = "First Name",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
+          },
+          {
             ["name"] = "id",
             ["title"] = "Id",
+            ["type"] = "`$INTEGER`",
+            ["req"] = true,
+          },
+          {
+            ["name"] = "last_name",
+            ["title"] = "Last Name",
             ["type"] = "`$STRING`",
+            ["req"] = true,
           },
         },
         ["id"] = {
@@ -2911,6 +2788,87 @@ local function make_config()
         },
         ["name"] = "legacy",
         ["op"] = {
+          ["create"] = {
+            ["input"] = "data",
+            ["name"] = "create",
+            ["points"] = {
+              {
+                ["kind"] = "http",
+                ["method"] = "POST",
+                ["orig"] = "/api/users",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "users",
+                  },
+                },
+                ["parts"] = {
+                  "api",
+                  "users",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {},
+                ["select"] = {},
+              },
+            },
+          },
+          ["list"] = {
+            ["input"] = "data",
+            ["name"] = "list",
+            ["points"] = {
+              {
+                ["kind"] = "http",
+                ["method"] = "GET",
+                ["orig"] = "/api/users",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "users",
+                  },
+                },
+                ["parts"] = {
+                  "api",
+                  "users",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {
+                  ["query"] = {
+                    {
+                      ["name"] = "page",
+                      ["orig"] = "page",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "query",
+                      ["example"] = 1,
+                    },
+                    {
+                      ["name"] = "per_page",
+                      ["orig"] = "per_page",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "query",
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "page",
+                    "per_page",
+                  },
+                },
+              },
+            },
+          },
           ["remove"] = {
             ["input"] = "data",
             ["name"] = "remove",
@@ -2990,36 +2948,6 @@ local function make_config()
         },
         ["name"] = "legacy_mutation",
         ["op"] = {
-          ["create"] = {
-            ["input"] = "data",
-            ["name"] = "create",
-            ["points"] = {
-              {
-                ["kind"] = "http",
-                ["method"] = "POST",
-                ["orig"] = "/api/users",
-                ["segments"] = {
-                  {
-                    ["lit"] = "api",
-                  },
-                  {
-                    ["lit"] = "users",
-                  },
-                },
-                ["parts"] = {
-                  "api",
-                  "users",
-                },
-                ["rename"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["args"] = {},
-                ["select"] = {},
-              },
-            },
-          },
           ["patch"] = {
             ["input"] = "data",
             ["name"] = "patch",
@@ -3124,6 +3052,12 @@ local function make_config()
       ["legacy_unknown"] = {
         ["fields"] = {
           {
+            ["name"] = "color",
+            ["title"] = "Color",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
+          },
+          {
             ["name"] = "data",
             ["title"] = "Data",
             ["type"] = "`$OBJECT`",
@@ -3132,12 +3066,31 @@ local function make_config()
           {
             ["name"] = "id",
             ["title"] = "Id",
+            ["type"] = "`$INTEGER`",
+            ["req"] = true,
+          },
+          {
+            ["name"] = "name",
+            ["title"] = "Name",
             ["type"] = "`$STRING`",
+            ["req"] = true,
+          },
+          {
+            ["name"] = "pantone_value",
+            ["title"] = "Pantone Value",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
           },
           {
             ["name"] = "support",
             ["title"] = "Support",
             ["type"] = "`$OBJECT`",
+          },
+          {
+            ["name"] = "year",
+            ["title"] = "Year",
+            ["type"] = "`$INTEGER`",
+            ["req"] = true,
           },
         },
         ["id"] = {
@@ -3146,6 +3099,57 @@ local function make_config()
         },
         ["name"] = "legacy_unknown",
         ["op"] = {
+          ["list"] = {
+            ["input"] = "data",
+            ["name"] = "list",
+            ["points"] = {
+              {
+                ["kind"] = "http",
+                ["method"] = "GET",
+                ["orig"] = "/api/unknown",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "unknown",
+                  },
+                },
+                ["parts"] = {
+                  "api",
+                  "unknown",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body.data`",
+                },
+                ["args"] = {
+                  ["query"] = {
+                    {
+                      ["name"] = "page",
+                      ["orig"] = "page",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "query",
+                      ["example"] = 1,
+                    },
+                    {
+                      ["name"] = "per_page",
+                      ["orig"] = "per_page",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "query",
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "page",
+                    "per_page",
+                  },
+                },
+              },
+            },
+          },
           ["load"] = {
             ["input"] = "data",
             ["name"] = "load",
@@ -3189,101 +3193,6 @@ local function make_config()
                 ["select"] = {
                   ["exist"] = {
                     "id",
-                  },
-                },
-              },
-            },
-          },
-        },
-        ["relations"] = {
-          ["ancestors"] = {},
-        },
-      },
-      ["legacy_unknown_list"] = {
-        ["fields"] = {
-          {
-            ["name"] = "color",
-            ["title"] = "Color",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-          },
-          {
-            ["name"] = "id",
-            ["title"] = "Id",
-            ["type"] = "`$INTEGER`",
-            ["req"] = true,
-          },
-          {
-            ["name"] = "name",
-            ["title"] = "Name",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-          },
-          {
-            ["name"] = "pantone_value",
-            ["title"] = "Pantone Value",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-          },
-          {
-            ["name"] = "year",
-            ["title"] = "Year",
-            ["type"] = "`$INTEGER`",
-            ["req"] = true,
-          },
-        },
-        ["id"] = {
-          ["field"] = "id",
-          ["name"] = "id",
-        },
-        ["name"] = "legacy_unknown_list",
-        ["op"] = {
-          ["list"] = {
-            ["input"] = "data",
-            ["name"] = "list",
-            ["points"] = {
-              {
-                ["kind"] = "http",
-                ["method"] = "GET",
-                ["orig"] = "/api/unknown",
-                ["segments"] = {
-                  {
-                    ["lit"] = "api",
-                  },
-                  {
-                    ["lit"] = "unknown",
-                  },
-                },
-                ["parts"] = {
-                  "api",
-                  "unknown",
-                },
-                ["rename"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["args"] = {
-                  ["query"] = {
-                    {
-                      ["name"] = "page",
-                      ["orig"] = "page",
-                      ["type"] = "`$INTEGER`",
-                      ["kind"] = "query",
-                      ["example"] = 1,
-                    },
-                    {
-                      ["name"] = "per_page",
-                      ["orig"] = "per_page",
-                      ["type"] = "`$INTEGER`",
-                      ["kind"] = "query",
-                    },
-                  },
-                },
-                ["select"] = {
-                  ["exist"] = {
-                    "page",
-                    "per_page",
                   },
                 },
               },
@@ -3362,102 +3271,6 @@ local function make_config()
                 ["select"] = {
                   ["exist"] = {
                     "id",
-                  },
-                },
-              },
-            },
-          },
-        },
-        ["relations"] = {
-          ["ancestors"] = {},
-        },
-      },
-      ["legacy_user_list"] = {
-        ["fields"] = {
-          {
-            ["name"] = "avatar",
-            ["title"] = "Avatar",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-          },
-          {
-            ["name"] = "email",
-            ["title"] = "Email",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-            ["format"] = "email",
-          },
-          {
-            ["name"] = "first_name",
-            ["title"] = "First Name",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-          },
-          {
-            ["name"] = "id",
-            ["title"] = "Id",
-            ["type"] = "`$INTEGER`",
-            ["req"] = true,
-          },
-          {
-            ["name"] = "last_name",
-            ["title"] = "Last Name",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-          },
-        },
-        ["id"] = {
-          ["field"] = "id",
-          ["name"] = "id",
-        },
-        ["name"] = "legacy_user_list",
-        ["op"] = {
-          ["list"] = {
-            ["input"] = "data",
-            ["name"] = "list",
-            ["points"] = {
-              {
-                ["kind"] = "http",
-                ["method"] = "GET",
-                ["orig"] = "/api/users",
-                ["segments"] = {
-                  {
-                    ["lit"] = "api",
-                  },
-                  {
-                    ["lit"] = "users",
-                  },
-                },
-                ["parts"] = {
-                  "api",
-                  "users",
-                },
-                ["rename"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["args"] = {
-                  ["query"] = {
-                    {
-                      ["name"] = "page",
-                      ["orig"] = "page",
-                      ["type"] = "`$INTEGER`",
-                      ["kind"] = "query",
-                      ["example"] = 1,
-                    },
-                    {
-                      ["name"] = "per_page",
-                      ["orig"] = "per_page",
-                      ["type"] = "`$INTEGER`",
-                      ["kind"] = "query",
-                    },
-                  },
-                },
-                ["select"] = {
-                  ["exist"] = {
-                    "page",
-                    "per_page",
                   },
                 },
               },

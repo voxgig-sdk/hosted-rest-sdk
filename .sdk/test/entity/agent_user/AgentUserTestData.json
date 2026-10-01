@@ -55,6 +55,11 @@
     }
   },
   "requests": {
+    "GET /agent/v1/users": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
     "GET /agent/v1/users/{id}": {
       "provenance": "operation-contract",
       "version": 2,

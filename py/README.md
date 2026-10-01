@@ -210,7 +210,6 @@ Creates a test-mode client with mock transport. Both arguments may be `None`.
 | `AgentHealth` | `(data) -> AgentHealthEntity` | Create an AgentHealth entity instance. |
 | `AgentSandbox` | `(data) -> AgentSandboxEntity` | Create an AgentSandbox entity instance. |
 | `AgentUser` | `(data) -> AgentUserEntity` | Create an AgentUser entity instance. |
-| `AgentUserList` | `(data) -> AgentUserListEntity` | Create an AgentUserList entity instance. |
 | `AppUser` | `(data) -> AppUserEntity` | Create an AppUser entity instance. |
 | `AppUserLogin` | `(data) -> AppUserLoginEntity` | Create an AppUserLogin entity instance. |
 | `AppUserSession` | `(data) -> AppUserSessionEntity` | Create an AppUserSession entity instance. |
@@ -219,14 +218,11 @@ Creates a test-mode client with mock transport. Both arguments may be `None`.
 | `Authentication` | `(data) -> AuthenticationEntity` | Create an Authentication entity instance. |
 | `Collection` | `(data) -> CollectionEntity` | Create a Collection entity instance. |
 | `CollectionRecord` | `(data) -> CollectionRecordEntity` | Create a CollectionRecord entity instance. |
-| `CollectionRecordList` | `(data) -> CollectionRecordListEntity` | Create a CollectionRecordList entity instance. |
 | `Custom` | `(data) -> CustomEntity` | Create a Custom entity instance. |
 | `Legacy` | `(data) -> LegacyEntity` | Create a Legacy entity instance. |
 | `LegacyMutation` | `(data) -> LegacyMutationEntity` | Create a LegacyMutation entity instance. |
 | `LegacyUnknown` | `(data) -> LegacyUnknownEntity` | Create a LegacyUnknown entity instance. |
-| `LegacyUnknownList` | `(data) -> LegacyUnknownListEntity` | Create a LegacyUnknownList entity instance. |
 | `LegacyUser` | `(data) -> LegacyUserEntity` | Create a LegacyUser entity instance. |
-| `LegacyUserList` | `(data) -> LegacyUserListEntity` | Create a LegacyUserList entity instance. |
 | `Login` | `(data) -> LoginEntity` | Create a Login entity instance. |
 | `Register` | `(data) -> RegisterEntity` | Create a Register entity instance. |
 
@@ -308,26 +304,7 @@ API path: `/agent/v1/auth/login`
 | `timezone` |  |
 | `updated_at` |  |
 
-Operations: Load.
-
-API path: `/agent/v1/users/{id}`
-
-#### AgentUserList
-
-| Field | Description |
-| --- | --- |
-| `created_at` |  |
-| `email` |  |
-| `full_name` |  |
-| `id` |  |
-| `locale` |  |
-| `preferences` |  |
-| `profile` |  |
-| `status` |  |
-| `timezone` |  |
-| `updated_at` |  |
-
-Operations: List.
+Operations: List, Load.
 
 API path: `/agent/v1/users`
 
@@ -428,25 +405,7 @@ API path: `/api/collections`
 | `project_id` |  |
 | `updated_at` |  |
 
-Operations: Create, Load, Update.
-
-API path: `/api/collections/{slug}/records`
-
-#### CollectionRecordList
-
-| Field | Description |
-| --- | --- |
-| `app_user_id` |  |
-| `collection_id` |  |
-| `created_at` |  |
-| `created_by` |  |
-| `data` |  |
-| `deleted_at` |  |
-| `id` |  |
-| `project_id` |  |
-| `updated_at` |  |
-
-Operations: List.
+Operations: Create, List, Load, Update.
 
 API path: `/api/collections/{slug}/records`
 
@@ -464,11 +423,15 @@ API path: `/api/custom/{path}`
 
 | Field | Description |
 | --- | --- |
+| `avatar` |  |
+| `email` |  |
+| `first_name` |  |
 | `id` |  |
+| `last_name` |  |
 
-Operations: Remove.
+Operations: Create, List, Remove.
 
-API path: `/api/users/{id}`
+API path: `/api/users`
 
 #### LegacyMutation
 
@@ -478,33 +441,23 @@ API path: `/api/users/{id}`
 | `id` |  |
 | `updatedAt` |  |
 
-Operations: Create, Patch, Update.
+Operations: Patch, Update.
 
-API path: `/api/users`
+API path: `/api/users/{id}`
 
 #### LegacyUnknown
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
-| `id` |  |
-| `support` |  |
-
-Operations: Load.
-
-API path: `/api/unknown/{id}`
-
-#### LegacyUnknownList
-
-| Field | Description |
-| --- | --- |
 | `color` |  |
+| `data` |  |
 | `id` |  |
 | `name` |  |
 | `pantone_value` |  |
+| `support` |  |
 | `year` |  |
 
-Operations: List.
+Operations: List, Load.
 
 API path: `/api/unknown`
 
@@ -519,20 +472,6 @@ API path: `/api/unknown`
 Operations: Load.
 
 API path: `/api/users/{id}`
-
-#### LegacyUserList
-
-| Field | Description |
-| --- | --- |
-| `avatar` |  |
-| `email` |  |
-| `first_name` |  |
-| `id` |  |
-| `last_name` |  |
-
-Operations: List.
-
-API path: `/api/users`
 
 #### Login
 
@@ -633,6 +572,7 @@ Create an instance: `agent_user = client.AgentUser()`
 
 | Method | Description |
 | --- | --- |
+| `list()` | List entities, optionally matching the given criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
@@ -656,36 +596,10 @@ Create an instance: `agent_user = client.AgentUser()`
 agent_user = client.AgentUser().load({"id": "agent_user_id"})
 ```
 
-
-### AgentUserList
-
-Create an instance: `agent_user_list = client.AgentUserList()`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list()` | List entities, optionally matching the given criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `created_at` | `str` |  |
-| `email` | `str` |  |
-| `full_name` | `str` |  |
-| `id` | `str` |  |
-| `locale` | `str` |  |
-| `preferences` | `dict` |  |
-| `profile` | `dict` |  |
-| `status` | `str` |  |
-| `timezone` | `str` |  |
-| `updated_at` | `str` |  |
-
 #### Example: List
 
 ```python
-agent_user_lists = client.AgentUserList().list()
+agent_users = client.AgentUser().list()
 ```
 
 
@@ -906,6 +820,7 @@ Create an instance: `collection_record = client.CollectionRecord()`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
+| `list()` | List entities, optionally matching the given criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `update(data)` | Update an existing entity. |
 
@@ -929,6 +844,12 @@ Create an instance: `collection_record = client.CollectionRecord()`
 collection_record = client.CollectionRecord().load({"id": "collection_record_id", "collection_id": "collection_id"})
 ```
 
+#### Example: List
+
+```python
+collection_records = client.CollectionRecord().list({"slug": "example"})
+```
+
 #### Example: Create
 
 ```python
@@ -937,37 +858,6 @@ collection_record = client.CollectionRecord().create({
     "data": {},  # dict
     "id": "example_id",  # str
 })
-```
-
-
-### CollectionRecordList
-
-Create an instance: `collection_record_list = client.CollectionRecordList()`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list()` | List entities, optionally matching the given criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `app_user_id` | `str` |  |
-| `collection_id` | `str` |  |
-| `created_at` | `str` |  |
-| `created_by` | `str` |  |
-| `data` | `dict` |  |
-| `deleted_at` | `str` |  |
-| `id` | `str` |  |
-| `project_id` | `str` |  |
-| `updated_at` | `str` |  |
-
-#### Example: List
-
-```python
-collection_record_lists = client.CollectionRecordList().list({"slug": "example"})
 ```
 
 
@@ -1013,13 +903,37 @@ Create an instance: `legacy = client.Legacy()`
 
 | Method | Description |
 | --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `list()` | List entities, optionally matching the given criteria. |
 | `remove(match)` | Remove the matching entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` | `str` |  |
+| `avatar` | `str` |  |
+| `email` | `str` |  |
+| `first_name` | `str` |  |
+| `id` | `int` |  |
+| `last_name` | `str` |  |
+
+#### Example: List
+
+```python
+legacys = client.Legacy().list()
+```
+
+#### Example: Create
+
+```python
+legacy = client.Legacy().create({
+    "avatar": "example_avatar",  # str
+    "email": "example_email",  # str
+    "first_name": "example_first_name",  # str
+    "id": 1,  # int
+    "last_name": "example_last_name",  # str
+})
+```
 
 
 ### LegacyMutation
@@ -1030,7 +944,6 @@ Create an instance: `legacy_mutation = client.LegacyMutation()`
 
 | Method | Description |
 | --- | --- |
-| `create(data)` | Create a new entity with the given data. |
 | `update(data)` | Update an existing entity. |
 
 #### Fields
@@ -1041,13 +954,6 @@ Create an instance: `legacy_mutation = client.LegacyMutation()`
 | `id` | `str` |  |
 | `updatedAt` | `str` |  |
 
-#### Example: Create
-
-```python
-legacy_mutation = client.LegacyMutation().create({
-})
-```
-
 
 ### LegacyUnknown
 
@@ -1057,15 +963,20 @@ Create an instance: `legacy_unknown = client.LegacyUnknown()`
 
 | Method | Description |
 | --- | --- |
+| `list()` | List entities, optionally matching the given criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `color` | `str` |  |
 | `data` | `dict` |  |
-| `id` | `str` |  |
+| `id` | `int` |  |
+| `name` | `str` |  |
+| `pantone_value` | `str` |  |
 | `support` | `dict` |  |
+| `year` | `int` |  |
 
 #### Example: Load
 
@@ -1073,31 +984,10 @@ Create an instance: `legacy_unknown = client.LegacyUnknown()`
 legacy_unknown = client.LegacyUnknown().load({"id": 1})
 ```
 
-
-### LegacyUnknownList
-
-Create an instance: `legacy_unknown_list = client.LegacyUnknownList()`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list()` | List entities, optionally matching the given criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `color` | `str` |  |
-| `id` | `int` |  |
-| `name` | `str` |  |
-| `pantone_value` | `str` |  |
-| `year` | `int` |  |
-
 #### Example: List
 
 ```python
-legacy_unknown_lists = client.LegacyUnknownList().list()
+legacy_unknowns = client.LegacyUnknown().list()
 ```
 
 
@@ -1123,33 +1013,6 @@ Create an instance: `legacy_user = client.LegacyUser()`
 
 ```python
 legacy_user = client.LegacyUser().load({"id": 1})
-```
-
-
-### LegacyUserList
-
-Create an instance: `legacy_user_list = client.LegacyUserList()`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list()` | List entities, optionally matching the given criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `avatar` | `str` |  |
-| `email` | `str` |  |
-| `first_name` | `str` |  |
-| `id` | `int` |  |
-| `last_name` | `str` |  |
-
-#### Example: List
-
-```python
-legacy_user_lists = client.LegacyUserList().list()
 ```
 
 

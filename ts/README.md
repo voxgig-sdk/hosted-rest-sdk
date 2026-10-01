@@ -15,9 +15,13 @@ predictable and low-friction for both humans and AI agents.
 
 ## Install
 This package is not yet published to npm. Install it from the GitHub
-release tag (`ts/vX.Y.Z`):
+release tag (`ts/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/hosted-rest-sdk/releases)), or from a
+clone, which carries the compiled `dist/`:
 
-- Releases: [https://github.com/voxgig-sdk/hosted-rest-sdk/releases](https://github.com/voxgig-sdk/hosted-rest-sdk/releases)
+```bash
+git clone https://github.com/voxgig-sdk/hosted-rest-sdk
+npm install ./hosted-rest-sdk/ts
+```
 
 
 ## Tutorial: your first API call
@@ -234,7 +238,6 @@ new HostedRestSDK(options?: {
 | `AgentHealth(data?)` | `AgentHealthEntity` | Create an AgentHealth entity instance. |
 | `AgentSandbox(data?)` | `AgentSandboxEntity` | Create an AgentSandbox entity instance. |
 | `AgentUser(data?)` | `AgentUserEntity` | Create an AgentUser entity instance. |
-| `AgentUserList(data?)` | `AgentUserListEntity` | Create an AgentUserList entity instance. |
 | `AppUser(data?)` | `AppUserEntity` | Create an AppUser entity instance. |
 | `AppUserLogin(data?)` | `AppUserLoginEntity` | Create an AppUserLogin entity instance. |
 | `AppUserSession(data?)` | `AppUserSessionEntity` | Create an AppUserSession entity instance. |
@@ -243,14 +246,11 @@ new HostedRestSDK(options?: {
 | `Authentication(data?)` | `AuthenticationEntity` | Create an Authentication entity instance. |
 | `Collection(data?)` | `CollectionEntity` | Create a Collection entity instance. |
 | `CollectionRecord(data?)` | `CollectionRecordEntity` | Create a CollectionRecord entity instance. |
-| `CollectionRecordList(data?)` | `CollectionRecordListEntity` | Create a CollectionRecordList entity instance. |
 | `Custom(data?)` | `CustomEntity` | Create a Custom entity instance. |
 | `Legacy(data?)` | `LegacyEntity` | Create a Legacy entity instance. |
 | `LegacyMutation(data?)` | `LegacyMutationEntity` | Create a LegacyMutation entity instance. |
 | `LegacyUnknown(data?)` | `LegacyUnknownEntity` | Create a LegacyUnknown entity instance. |
-| `LegacyUnknownList(data?)` | `LegacyUnknownListEntity` | Create a LegacyUnknownList entity instance. |
 | `LegacyUser(data?)` | `LegacyUserEntity` | Create a LegacyUser entity instance. |
-| `LegacyUserList(data?)` | `LegacyUserListEntity` | Create a LegacyUserList entity instance. |
 | `Login(data?)` | `LoginEntity` | Create a Login entity instance. |
 | `Register(data?)` | `RegisterEntity` | Create a Register entity instance. |
 | `tester(testopts?, sdkopts?)` | `HostedRestSDK` | Create a test-mode client instance. |
@@ -364,26 +364,7 @@ API path: `/agent/v1/auth/login`
 | `timezone` |  |
 | `updated_at` |  |
 
-Operations: load.
-
-API path: `/agent/v1/users/{id}`
-
-#### AgentUserList
-
-| Field | Description |
-| --- | --- |
-| `created_at` |  |
-| `email` |  |
-| `full_name` |  |
-| `id` |  |
-| `locale` |  |
-| `preferences` |  |
-| `profile` |  |
-| `status` |  |
-| `timezone` |  |
-| `updated_at` |  |
-
-Operations: list.
+Operations: list, load.
 
 API path: `/agent/v1/users`
 
@@ -484,25 +465,7 @@ API path: `/api/collections`
 | `project_id` |  |
 | `updated_at` |  |
 
-Operations: create, load, update.
-
-API path: `/api/collections/{slug}/records`
-
-#### CollectionRecordList
-
-| Field | Description |
-| --- | --- |
-| `app_user_id` |  |
-| `collection_id` |  |
-| `created_at` |  |
-| `created_by` |  |
-| `data` |  |
-| `deleted_at` |  |
-| `id` |  |
-| `project_id` |  |
-| `updated_at` |  |
-
-Operations: list.
+Operations: create, list, load, update.
 
 API path: `/api/collections/{slug}/records`
 
@@ -520,11 +483,15 @@ API path: `/api/custom/{path}`
 
 | Field | Description |
 | --- | --- |
+| `avatar` |  |
+| `email` |  |
+| `first_name` |  |
 | `id` |  |
+| `last_name` |  |
 
-Operations: remove.
+Operations: create, list, remove.
 
-API path: `/api/users/{id}`
+API path: `/api/users`
 
 #### LegacyMutation
 
@@ -534,33 +501,23 @@ API path: `/api/users/{id}`
 | `id` |  |
 | `updatedAt` |  |
 
-Operations: create, patch, update.
+Operations: patch, update.
 
-API path: `/api/users`
+API path: `/api/users/{id}`
 
 #### LegacyUnknown
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
-| `id` |  |
-| `support` |  |
-
-Operations: load.
-
-API path: `/api/unknown/{id}`
-
-#### LegacyUnknownList
-
-| Field | Description |
-| --- | --- |
 | `color` |  |
+| `data` |  |
 | `id` |  |
 | `name` |  |
 | `pantone_value` |  |
+| `support` |  |
 | `year` |  |
 
-Operations: list.
+Operations: list, load.
 
 API path: `/api/unknown`
 
@@ -575,20 +532,6 @@ API path: `/api/unknown`
 Operations: load.
 
 API path: `/api/users/{id}`
-
-#### LegacyUserList
-
-| Field | Description |
-| --- | --- |
-| `avatar` |  |
-| `email` |  |
-| `first_name` |  |
-| `id` |  |
-| `last_name` |  |
-
-Operations: list.
-
-API path: `/api/users`
 
 #### Login
 
@@ -689,6 +632,7 @@ Create an instance: `const agent_user = client.AgentUser()`
 
 | Method | Description |
 | --- | --- |
+| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
@@ -712,36 +656,10 @@ Create an instance: `const agent_user = client.AgentUser()`
 const agent_user = await client.AgentUser().load({ id: 'agent_user_id' })
 ```
 
-
-### AgentUserList
-
-Create an instance: `const agent_user_list = client.AgentUserList()`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list(match)` | List entities matching the criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `created_at` | `string` |  |
-| `email` | `string` |  |
-| `full_name` | `string` |  |
-| `id` | `string` |  |
-| `locale` | `string` |  |
-| `preferences` | `Record<string, any>` |  |
-| `profile` | `Record<string, any>` |  |
-| `status` | `string` |  |
-| `timezone` | `string` |  |
-| `updated_at` | `string` |  |
-
 #### Example: List
 
 ```ts
-const agent_user_lists = await client.AgentUserList().list()
+const agent_users = await client.AgentUser().list()
 ```
 
 
@@ -962,6 +880,7 @@ Create an instance: `const collection_record = client.CollectionRecord()`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
+| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `update(data)` | Update an existing entity. |
 
@@ -985,6 +904,12 @@ Create an instance: `const collection_record = client.CollectionRecord()`
 const collection_record = await client.CollectionRecord().load({ id: 'collection_record_id', collection_id: 'collection_id' })
 ```
 
+#### Example: List
+
+```ts
+const collection_records = await client.CollectionRecord().list({ slug: "example" })
+```
+
 #### Example: Create
 
 ```ts
@@ -993,37 +918,6 @@ const collection_record = await client.CollectionRecord().create({
   data: {},
   id: 'example_id',
 })
-```
-
-
-### CollectionRecordList
-
-Create an instance: `const collection_record_list = client.CollectionRecordList()`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list(match)` | List entities matching the criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `app_user_id` | `string` |  |
-| `collection_id` | `string` |  |
-| `created_at` | `string` |  |
-| `created_by` | `string` |  |
-| `data` | `Record<string, any>` |  |
-| `deleted_at` | `string` |  |
-| `id` | `string` |  |
-| `project_id` | `string` |  |
-| `updated_at` | `string` |  |
-
-#### Example: List
-
-```ts
-const collection_record_lists = await client.CollectionRecordList().list({ slug: "example" })
 ```
 
 
@@ -1069,13 +963,37 @@ Create an instance: `const legacy = client.Legacy()`
 
 | Method | Description |
 | --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `list(match)` | List entities matching the criteria. |
 | `remove(match)` | Remove the matching entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` | `string` |  |
+| `avatar` | `string` |  |
+| `email` | `string` |  |
+| `first_name` | `string` |  |
+| `id` | `number` |  |
+| `last_name` | `string` |  |
+
+#### Example: List
+
+```ts
+const legacys = await client.Legacy().list()
+```
+
+#### Example: Create
+
+```ts
+const legacy = await client.Legacy().create({
+  avatar: 'example_avatar',
+  email: 'example_email',
+  first_name: 'example_first_name',
+  id: 1,
+  last_name: 'example_last_name',
+})
+```
 
 
 ### LegacyMutation
@@ -1086,7 +1004,6 @@ Create an instance: `const legacy_mutation = client.LegacyMutation()`
 
 | Method | Description |
 | --- | --- |
-| `create(data)` | Create a new entity with the given data. |
 | `update(data)` | Update an existing entity. |
 
 #### Fields
@@ -1097,13 +1014,6 @@ Create an instance: `const legacy_mutation = client.LegacyMutation()`
 | `id` | `string` |  |
 | `updatedAt` | `string` |  |
 
-#### Example: Create
-
-```ts
-const legacy_mutation = await client.LegacyMutation().create({
-})
-```
-
 
 ### LegacyUnknown
 
@@ -1113,15 +1023,20 @@ Create an instance: `const legacy_unknown = client.LegacyUnknown()`
 
 | Method | Description |
 | --- | --- |
+| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `color` | `string` |  |
 | `data` | `Record<string, any>` |  |
-| `id` | `string` |  |
+| `id` | `number` |  |
+| `name` | `string` |  |
+| `pantone_value` | `string` |  |
 | `support` | `Record<string, any>` |  |
+| `year` | `number` |  |
 
 #### Example: Load
 
@@ -1129,31 +1044,10 @@ Create an instance: `const legacy_unknown = client.LegacyUnknown()`
 const legacy_unknown = await client.LegacyUnknown().load({ id: 1 })
 ```
 
-
-### LegacyUnknownList
-
-Create an instance: `const legacy_unknown_list = client.LegacyUnknownList()`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list(match)` | List entities matching the criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `color` | `string` |  |
-| `id` | `number` |  |
-| `name` | `string` |  |
-| `pantone_value` | `string` |  |
-| `year` | `number` |  |
-
 #### Example: List
 
 ```ts
-const legacy_unknown_lists = await client.LegacyUnknownList().list()
+const legacy_unknowns = await client.LegacyUnknown().list()
 ```
 
 
@@ -1179,33 +1073,6 @@ Create an instance: `const legacy_user = client.LegacyUser()`
 
 ```ts
 const legacy_user = await client.LegacyUser().load({ id: 1 })
-```
-
-
-### LegacyUserList
-
-Create an instance: `const legacy_user_list = client.LegacyUserList()`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list(match)` | List entities matching the criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `avatar` | `string` |  |
-| `email` | `string` |  |
-| `first_name` | `string` |  |
-| `id` | `number` |  |
-| `last_name` | `string` |  |
-
-#### Example: List
-
-```ts
-const legacy_user_lists = await client.LegacyUserList().list()
 ```
 
 

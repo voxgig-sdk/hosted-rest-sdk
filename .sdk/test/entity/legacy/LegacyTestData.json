@@ -2,22 +2,49 @@
   "existing": {
     "legacy": {
       "LEGACY00": {
-        "id": "LEGACY00"
+        "avatar": "s32",
+        "email": "s33",
+        "first_name": "s34",
+        "id": "LEGACY00",
+        "last_name": "s36"
       },
       "LEGACY01": {
-        "id": "LEGACY01"
+        "avatar": "s64",
+        "email": "s65",
+        "first_name": "s66",
+        "id": "LEGACY01",
+        "last_name": "s68"
       },
       "LEGACY02": {
-        "id": "LEGACY02"
+        "avatar": "s96",
+        "email": "s97",
+        "first_name": "s98",
+        "id": "LEGACY02",
+        "last_name": "s9a"
       }
     }
   },
   "new": {
     "legacy": {
-      "legacy_ref01": {}
+      "legacy_ref01": {
+        "avatar": "sc8",
+        "email": "sc9",
+        "first_name": "sca",
+        "last_name": "scc"
+      }
     }
   },
   "requests": {
+    "POST /api/users": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/users": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
     "DELETE /api/users/{id}": {
       "provenance": "operation-contract",
       "version": 2,

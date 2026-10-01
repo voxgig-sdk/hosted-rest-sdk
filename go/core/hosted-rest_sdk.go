@@ -1,6 +1,7 @@
 package core
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 
@@ -82,6 +83,22 @@ func NewHostedRestSDK(options map[string]any) *HostedRestSDK {
 	sdk.utility.FeatureHook(sdk.rootctx, "PostConstruct")
 
 	return sdk
+}
+
+// The client holds the credential in its options, so a print or a JSON dump
+// carries the name alone. Value receivers: a dereferenced client prints the
+// same way.
+func (sdk HostedRestSDK) String() string {
+	return "HostedRest " + vs.Jsonify(map[string]any{"name": "HostedRest"},
+		map[string]any{"indent": 0})
+}
+
+func (sdk HostedRestSDK) GoString() string {
+	return sdk.String()
+}
+
+func (sdk HostedRestSDK) MarshalJSON() ([]byte, error) {
+	return json.Marshal(map[string]any{"name": "HostedRest"})
 }
 
 func (sdk *HostedRestSDK) OptionsMap() map[string]any {
@@ -210,7 +227,7 @@ func (sdk *HostedRestSDK) rawRequest(fetchargs map[string]any) (map[string]any, 
 
 	fetchdef, err := sdk.Prepare(fetchargs)
 	if err != nil {
-		return map[string]any{"ok": false, "err": err}, nil
+		return map[string]any{"ok": false, "err": sdk.cleanErr(sdk.rootctx, err)}, nil
 	}
 
 	if fetchargs == nil {
@@ -236,7 +253,7 @@ func (sdk *HostedRestSDK) rawRequest(fetchargs map[string]any) (map[string]any, 
 	fetched, fetchErr := utility.Fetcher(ctx, url, fetchdef)
 
 	if fetchErr != nil {
-		return map[string]any{"ok": false, "err": fetchErr}, nil
+		return map[string]any{"ok": false, "err": sdk.cleanErr(ctx, fetchErr)}, nil
 	}
 
 	if fetched == nil {
@@ -278,6 +295,14 @@ func (sdk *HostedRestSDK) rawRequest(fetchargs map[string]any) (map[string]any, 
 	}
 
 	return map[string]any{"ok": false, "err": ctx.MakeError("direct_invalid", "invalid response type")}, nil
+}
+
+// A raw request returns its error rather than passing it through MakeError.
+func (sdk *HostedRestSDK) cleanErr(ctx *Context, err error) error {
+	if cleaned, ok := sdk.utility.Clean(ctx, err).(error); ok {
+		return cleaned
+	}
+	return err
 }
 
 func (sdk *HostedRestSDK) Graphql(
@@ -350,14 +375,6 @@ func (sdk *HostedRestSDK) AgentUser(data map[string]any) HostedRestEntity {
 }
 
 
-// AgentUserList returns a AgentUserList entity bound to this client.
-// Idiomatic usage: client.AgentUserList(nil).List(nil, nil) or
-// client.AgentUserList(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *HostedRestSDK) AgentUserList(data map[string]any) HostedRestEntity {
-	return NewAgentUserListEntityFunc(sdk, data)
-}
-
-
 // AppUser returns a AppUser entity bound to this client.
 // Idiomatic usage: client.AppUser(nil).List(nil, nil) or
 // client.AppUser(nil).Load(map[string]any{"id": ...}, nil).
@@ -422,14 +439,6 @@ func (sdk *HostedRestSDK) CollectionRecord(data map[string]any) HostedRestEntity
 }
 
 
-// CollectionRecordList returns a CollectionRecordList entity bound to this client.
-// Idiomatic usage: client.CollectionRecordList(nil).List(nil, nil) or
-// client.CollectionRecordList(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *HostedRestSDK) CollectionRecordList(data map[string]any) HostedRestEntity {
-	return NewCollectionRecordListEntityFunc(sdk, data)
-}
-
-
 // Custom returns a Custom entity bound to this client.
 // Idiomatic usage: client.Custom(nil).List(nil, nil) or
 // client.Custom(nil).Load(map[string]any{"id": ...}, nil).
@@ -462,27 +471,11 @@ func (sdk *HostedRestSDK) LegacyUnknown(data map[string]any) HostedRestEntity {
 }
 
 
-// LegacyUnknownList returns a LegacyUnknownList entity bound to this client.
-// Idiomatic usage: client.LegacyUnknownList(nil).List(nil, nil) or
-// client.LegacyUnknownList(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *HostedRestSDK) LegacyUnknownList(data map[string]any) HostedRestEntity {
-	return NewLegacyUnknownListEntityFunc(sdk, data)
-}
-
-
 // LegacyUser returns a LegacyUser entity bound to this client.
 // Idiomatic usage: client.LegacyUser(nil).List(nil, nil) or
 // client.LegacyUser(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *HostedRestSDK) LegacyUser(data map[string]any) HostedRestEntity {
 	return NewLegacyUserEntityFunc(sdk, data)
-}
-
-
-// LegacyUserList returns a LegacyUserList entity bound to this client.
-// Idiomatic usage: client.LegacyUserList(nil).List(nil, nil) or
-// client.LegacyUserList(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *HostedRestSDK) LegacyUserList(data map[string]any) HostedRestEntity {
-	return NewLegacyUserListEntityFunc(sdk, data)
 }
 
 

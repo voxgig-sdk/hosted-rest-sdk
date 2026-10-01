@@ -1,7 +1,6 @@
 import { AgentHealthEntity } from './entity/AgentHealthEntity';
 import { AgentSandboxEntity } from './entity/AgentSandboxEntity';
 import { AgentUserEntity } from './entity/AgentUserEntity';
-import { AgentUserListEntity } from './entity/AgentUserListEntity';
 import { AppUserEntity } from './entity/AppUserEntity';
 import { AppUserLoginEntity } from './entity/AppUserLoginEntity';
 import { AppUserSessionEntity } from './entity/AppUserSessionEntity';
@@ -10,14 +9,11 @@ import { AppUserVerifyEntity } from './entity/AppUserVerifyEntity';
 import { AuthenticationEntity } from './entity/AuthenticationEntity';
 import { CollectionEntity } from './entity/CollectionEntity';
 import { CollectionRecordEntity } from './entity/CollectionRecordEntity';
-import { CollectionRecordListEntity } from './entity/CollectionRecordListEntity';
 import { CustomEntity } from './entity/CustomEntity';
 import { LegacyEntity } from './entity/LegacyEntity';
 import { LegacyMutationEntity } from './entity/LegacyMutationEntity';
 import { LegacyUnknownEntity } from './entity/LegacyUnknownEntity';
-import { LegacyUnknownListEntity } from './entity/LegacyUnknownListEntity';
 import { LegacyUserEntity } from './entity/LegacyUserEntity';
-import { LegacyUserListEntity } from './entity/LegacyUserListEntity';
 import { LoginEntity } from './entity/LoginEntity';
 import { RegisterEntity } from './entity/RegisterEntity';
 export type * from './HostedRestTypes';
@@ -40,35 +36,34 @@ declare class HostedRestSDK {
     prepare(fetchargs?: any): Promise<any>;
     direct(fetchargs?: any): Promise<Error | {
         ok: boolean;
-        status: number;
-        headers: any;
-        data: any;
-        err?: undefined;
-    } | {
-        ok: boolean;
         err: any;
         status?: undefined;
         headers?: undefined;
         data?: undefined;
+    } | {
+        ok: boolean;
+        status: number;
+        headers: any;
+        data: any;
+        err?: undefined;
     }>;
     _rawRequest(fetchargs?: any): Promise<Error | {
         ok: boolean;
-        status: number;
-        headers: any;
-        data: any;
-        err?: undefined;
-    } | {
-        ok: boolean;
         err: any;
         status?: undefined;
         headers?: undefined;
         data?: undefined;
+    } | {
+        ok: boolean;
+        status: number;
+        headers: any;
+        data: any;
+        err?: undefined;
     }>;
     graphql(query: string, variables?: any, ctrl?: any): Promise<any>;
     AgentHealth(entopts?: Record<string, any>): AgentHealthEntity;
     AgentSandbox(entopts?: Record<string, any>): AgentSandboxEntity;
     AgentUser(entopts?: Record<string, any>): AgentUserEntity;
-    AgentUserList(entopts?: Record<string, any>): AgentUserListEntity;
     AppUser(entopts?: Record<string, any>): AppUserEntity;
     AppUserLogin(entopts?: Record<string, any>): AppUserLoginEntity;
     AppUserSession(entopts?: Record<string, any>): AppUserSessionEntity;
@@ -77,14 +72,11 @@ declare class HostedRestSDK {
     Authentication(entopts?: Record<string, any>): AuthenticationEntity;
     Collection(entopts?: Record<string, any>): CollectionEntity;
     CollectionRecord(entopts?: Record<string, any>): CollectionRecordEntity;
-    CollectionRecordList(entopts?: Record<string, any>): CollectionRecordListEntity;
     Custom(entopts?: Record<string, any>): CustomEntity;
     Legacy(entopts?: Record<string, any>): LegacyEntity;
     LegacyMutation(entopts?: Record<string, any>): LegacyMutationEntity;
     LegacyUnknown(entopts?: Record<string, any>): LegacyUnknownEntity;
-    LegacyUnknownList(entopts?: Record<string, any>): LegacyUnknownListEntity;
     LegacyUser(entopts?: Record<string, any>): LegacyUserEntity;
-    LegacyUserList(entopts?: Record<string, any>): LegacyUserListEntity;
     Login(entopts?: Record<string, any>): LoginEntity;
     Register(entopts?: Record<string, any>): RegisterEntity;
     static test(testoptsarg?: any, sdkoptsarg?: any): HostedRestSDK;

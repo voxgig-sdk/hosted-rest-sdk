@@ -44,14 +44,14 @@ describe('LegacyEntity', async () => {
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.HOSTED_REST_TEST_LIVE
-    for (const op of []) {
+    for (const op of ['create', 'list', 'remove']) {
       if (!live && maybeSkipControl(t, 'entityOp', 'legacy.' + op, live)) return
     }
 
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"id":{"a":true,"h":"Id","n":"id","r":false,"t":"`$STRING`","key$":"id","index$":0}},"id":{"field":"id","name":"id"},"name":"legacy","op":{"remove":{"input":"data","name":"remove","points":[{"a":true,"co":{"id":"DELETE /api/users/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"DELETE","o":"/api/users/{id}","q":{"exist":["id"]},"r":{},"s":[{"lit":"api"},{"lit":"users"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"remove"}},"relations":{"ancestors":[]},"key$":"legacy","name__orig":"legacy","Name":"Legacy","name_":"legacy","name-":"legacy","NAME":"LEGACY","index$":14}, {"active":true,"entity":"legacy","key$":"BasicLegacyFlow","kind":"basic","name":"BasicLegacyFlow","param":{},"step":[]}, 'Legacy', {"DELETE /api/users/{id}":{"protocol":"http","operationId":"deleteLegacyUser","responses":{"204":{"description":"No content"}},"parameters":[{"name":"id","in":"path","description":"User id.","required":true,"schema":{"type":"integer","minimum":1},"index$":0}],"security":[{"ApiKeyAuth":[]}],"securitySource":"operation","securitySchemes":{"ApiKeyAuth":{"type":"apiKey","in":"header","name":"x-api-key"},"BearerAuth":{"type":"http","scheme":"bearer","bearerFormat":"session_token"}}}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"avatar":{"a":true,"h":"Avatar","n":"avatar","r":true,"t":"`$STRING`","key$":"avatar","index$":0},"email":{"a":true,"fo":"email","h":"Email","n":"email","r":true,"t":"`$STRING`","key$":"email","index$":1},"first_name":{"a":true,"h":"First Name","n":"first_name","r":true,"t":"`$STRING`","key$":"first_name","index$":2},"id":{"a":true,"h":"Id","n":"id","r":true,"t":"`$INTEGER`","key$":"id","index$":3},"last_name":{"a":true,"h":"Last Name","n":"last_name","r":true,"t":"`$STRING`","key$":"last_name","index$":4}},"id":{"field":"id","name":"id"},"name":"legacy","op":{"create":{"input":"data","name":"create","points":[{"a":true,"co":{"id":"POST /api/users","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/api/users","q":{},"r":{},"s":[{"lit":"api"},{"lit":"users"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"},"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /api/users","source":"openapi3","version":2},"g":{"query":[{"a":true,"ex":1,"k":"query","n":"page","or":"page","r":false,"t":"`$INTEGER`","index$":0},{"a":true,"k":"query","n":"per_page","or":"per_page","r":false,"t":"`$INTEGER`","index$":1}]},"k":"http","m":"GET","o":"/api/users","q":{"exist":["page","per_page"]},"r":{},"s":[{"lit":"api"},{"lit":"users"}],"t":{"req":"`reqdata`","res":"`body.data`"},"index$":0}],"key$":"list"},"remove":{"input":"data","name":"remove","points":[{"a":true,"co":{"id":"DELETE /api/users/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"DELETE","o":"/api/users/{id}","q":{"exist":["id"]},"r":{},"s":[{"lit":"api"},{"lit":"users"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"remove"}},"relations":{"ancestors":[]},"key$":"legacy","name__orig":"legacy","Name":"Legacy","name_":"legacy","name-":"legacy","NAME":"LEGACY","index$":12}, {"active":true,"entity":"legacy","key$":"BasicLegacyFlow","kind":"basic","name":"BasicLegacyFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"legacy_ref01"},"m":{},"o":"create","s":[],"v":[],"index$":0},{"a":true,"d":{},"i":{},"m":{},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"legacy_ref01"}}],"index$":1},{"a":true,"d":{},"i":{"ref":"legacy_ref01","suffix":"_rm0"},"m":{"id":"legacy01"},"o":"remove","s":[],"v":[],"index$":2},{"a":true,"d":{},"i":{"suffix":"_rt0"},"m":{},"o":"list","s":[],"v":[{"apply":"ItemNotExists","def":{"ref":"legacy_ref01"}}],"index$":3}]}, 'Legacy', {"POST /api/users":{"protocol":"http","requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","additionalProperties":true,"x-ref":"#/components/schemas/LegacyMutationRequest","index$":1}}}},"parameters":[]},"GET /api/users":{"protocol":"http","parameters":[{"name":"page","in":"query","description":"Page number for pagination.","required":false,"schema":{"type":"integer","minimum":1,"default":1},"index$":0},{"name":"per_page","in":"query","description":"Number of users per page.","required":false,"schema":{"type":"integer","minimum":1,"maximum":100},"index$":1}]},"DELETE /api/users/{id}":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"User id.","required":true,"schema":{"type":"integer","minimum":1},"index$":0}]}})
     }
     const client = setup.client
     const struct = setup.struct
@@ -59,7 +59,35 @@ describe('LegacyEntity', async () => {
     const isempty = struct.isempty
     const select = struct.select
 
-    let legacy_ref01_data = Object.values(setup.data.existing.legacy)[0] as any
+
+    // CREATE
+    const legacy_ref01_ent = client.Legacy()
+    let legacy_ref01_data = setup.data.new.legacy['legacy_ref01']
+
+    legacy_ref01_data = (await legacy_ref01_ent.create(legacy_ref01_data)).data()
+    assert(null != legacy_ref01_data.id)
+
+
+    // LIST
+    const legacy_ref01_match: any = {}
+
+    const legacy_ref01_list = (await legacy_ref01_ent.list(legacy_ref01_match)).map((e: any) => e.data())
+
+    assert(!isempty(select(legacy_ref01_list, { id: legacy_ref01_data.id })))
+
+
+    // REMOVE
+    const legacy_ref01_match_rm0: any = { id: legacy_ref01_data.id }
+    await legacy_ref01_ent.remove(legacy_ref01_match_rm0)
+  
+
+    // LIST
+    const legacy_ref01_match_rt0: any = {}
+
+    const legacy_ref01_list_rt0 = (await legacy_ref01_ent.list(legacy_ref01_match_rt0)).map((e: any) => e.data())
+
+    assert(isempty(select(legacy_ref01_list_rt0, { id: legacy_ref01_data.id })))
+
 
   })
 })

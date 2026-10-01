@@ -47,19 +47,7 @@
 ---@field id string
 ---@field expand? string
 
----@class AgentUserList
----@field created_at string
----@field email string
----@field full_name string
----@field id string
----@field locale string
----@field preferences table
----@field profile table
----@field status string
----@field timezone string
----@field updated_at string
-
----@class AgentUserListListMatch
+---@class AgentUserListMatch
 ---@field cursor? string
 ---@field field? string
 ---@field limit? number
@@ -193,6 +181,17 @@
 ---@field collection_id string
 ---@field id string
 
+---@class CollectionRecordListMatch
+---@field slug string
+---@field created_after? string
+---@field created_before? string
+---@field data_contain? string
+---@field include_deleted? boolean
+---@field limit? number
+---@field order? string
+---@field page? number
+---@field search? string
+
 ---@class CollectionRecordCreateData
 ---@field slug string
 ---@field app_user_id? string
@@ -216,28 +215,6 @@
 ---@field project_id? string
 ---@field updated_at? string
 
----@class CollectionRecordList
----@field app_user_id? string
----@field collection_id? string
----@field created_at? string
----@field created_by? string
----@field data table
----@field deleted_at? string
----@field id string
----@field project_id? string
----@field updated_at? string
-
----@class CollectionRecordListListMatch
----@field slug string
----@field created_after? string
----@field created_before? string
----@field data_contain? string
----@field include_deleted? boolean
----@field limit? number
----@field order? string
----@field page? number
----@field search? string
-
 ---@class Custom
 ---@field id? string
 
@@ -254,17 +231,27 @@
 ---@field id string
 
 ---@class Legacy
----@field id? string
+---@field avatar string
+---@field email string
+---@field first_name string
+---@field id number
+---@field last_name string
+
+---@class LegacyListMatch
+---@field page? number
+---@field per_page? number
+
+---@class LegacyCreateData
+---@field avatar string
+---@field email string
+---@field first_name string
+---@field id number
+---@field last_name string
 
 ---@class LegacyRemoveMatch
 ---@field id number
 
 ---@class LegacyMutation
----@field createdAt? string
----@field id? string
----@field updatedAt? string
-
----@class LegacyMutationCreateData
 ---@field createdAt? string
 ---@field id? string
 ---@field updatedAt? string
@@ -275,21 +262,18 @@
 ---@field updatedAt? string
 
 ---@class LegacyUnknown
+---@field color string
 ---@field data table
----@field id? string
+---@field id number
+---@field name string
+---@field pantone_value string
 ---@field support? table
+---@field year number
 
 ---@class LegacyUnknownLoadMatch
 ---@field id number
 
----@class LegacyUnknownList
----@field color string
----@field id number
----@field name string
----@field pantone_value string
----@field year number
-
----@class LegacyUnknownListListMatch
+---@class LegacyUnknownListMatch
 ---@field page? number
 ---@field per_page? number
 
@@ -300,17 +284,6 @@
 
 ---@class LegacyUserLoadMatch
 ---@field id number
-
----@class LegacyUserList
----@field avatar string
----@field email string
----@field first_name string
----@field id number
----@field last_name string
-
----@class LegacyUserListListMatch
----@field page? number
----@field per_page? number
 
 ---@class Login
 ---@field email string

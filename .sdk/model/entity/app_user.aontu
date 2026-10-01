@@ -146,7 +146,7 @@ main: kit: entity: app_user: {
               {
                 k: "header"
                 n: "x_reqres_env"
-                or: "x_reqres_env"
+                or: "X-Reqres-Env"
                 r: false
                 t: "`$STRING`"
               }
@@ -155,7 +155,7 @@ main: kit: entity: app_user: {
               {
                 k: "param"
                 n: "project_id"
-                or: "project_id"
+                or: "projectId"
                 r: true
                 t: "`$STRING`"
               }
@@ -164,7 +164,7 @@ main: kit: entity: app_user: {
               {
                 k: "query"
                 n: "status"
-                or: "status"
+                or: "statuses"
                 r: false
                 t: "`$STRING`"
               }
@@ -214,7 +214,7 @@ main: kit: entity: app_user: {
               {
                 k: "header"
                 n: "x_reqres_env"
-                or: "x_reqres_env"
+                or: "X-Reqres-Env"
                 r: false
                 t: "`$STRING`"
               }
@@ -318,7 +318,7 @@ main: kit: entity: app_user: {
               {
                 k: "param"
                 n: "record_id"
-                or: "record_id"
+                or: "recordId"
                 r: true
                 t: "`$STRING`"
               }

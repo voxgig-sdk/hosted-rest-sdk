@@ -18,12 +18,51 @@ class LegacyEntityTest extends TestCase
         $this->assertNotNull($ent);
     }
 
+    // Feature #4: the entity stream(action, ...) method runs the op pipeline
+    // and yields result items. With the streaming feature active it yields the
+    // feature's incremental output; otherwise it falls back to the materialised
+    // list so stream always yields.
+    public function test_stream(): void
+    {
+        $seed = [
+            "entity" => [
+                "legacy" => [
+                    "s1" => ["id" => "s1"],
+                    "s2" => ["id" => "s2"],
+                    "s3" => ["id" => "s3"],
+                ],
+            ],
+        ];
+
+        // Fallback: streaming inactive -> yields the materialised list items.
+        $base = HostedRestSDK::test($seed, null);
+        $seen = iterator_to_array($base->Legacy(null)->stream("list", null, null), false);
+        $this->assertCount(3, $seen);
+
+        // Inbound: streaming active -> yields each item from the feature.
+        $cfg = HostedRestConfig::shared_config();
+        if (isset($cfg["feature"]) && is_array($cfg["feature"]) && isset($cfg["feature"]["streaming"])) {
+            $sdk = HostedRestSDK::test($seed, ["feature" => ["streaming" => ["active" => true]]]);
+            $got = [];
+            foreach ($sdk->Legacy(null)->stream("list", null, null) as $item) {
+                if (is_array($item) && array_is_list($item)) {
+                    foreach ($item as $sub) {
+                        $got[] = $sub;
+                    }
+                } else {
+                    $got[] = $item;
+                }
+            }
+            $this->assertCount(3, $got);
+        }
+    }
+
     public function test_basic_flow(): void
     {
         $setup = legacy_basic_setup(null);
         // Per-op sdk-test-control.json skip.
         $_live = !empty($setup["live"]);
-        foreach ([] as $_op) {
+        foreach (["create", "list", "remove"] as $_op) {
             [$_shouldSkip, $_reason] = Runner::is_control_skipped("entityOp", "legacy." . $_op, $_live ? "live" : "unit");
             if ($_shouldSkip) {
                 $this->markTestSkipped($_reason ?? "skipped via sdk-test-control.json");
@@ -38,13 +77,43 @@ class LegacyEntityTest extends TestCase
         }
         $client = $setup["client"];
 
-        // Bootstrap entity data from existing test data.
-        $legacy_ref01_data_raw = Vs::items(Helpers::to_map(
-            Vs::getpath($setup["data"], "existing.legacy")));
-        $legacy_ref01_data = null;
-        if (count($legacy_ref01_data_raw) > 0) {
-            $legacy_ref01_data = Helpers::to_map($legacy_ref01_data_raw[0][1]);
-        }
+        // CREATE
+        $legacy_ref01_ent = $client->Legacy(null);
+        $legacy_ref01_data = Helpers::to_map(Vs::getprop(
+            Vs::getpath($setup["data"], "new.legacy"), "legacy_ref01"));
+
+        $legacy_ref01_data_result = $legacy_ref01_ent->create($legacy_ref01_data, null);
+        $legacy_ref01_data = Helpers::to_map(is_object($legacy_ref01_data_result) && method_exists($legacy_ref01_data_result, 'data_get') ? $legacy_ref01_data_result->data_get() : $legacy_ref01_data_result);
+        $this->assertNotNull($legacy_ref01_data);
+        $this->assertNotNull($legacy_ref01_data["id"]);
+
+        // LIST
+        $legacy_ref01_match = [];
+
+        $legacy_ref01_list_result = $legacy_ref01_ent->list($legacy_ref01_match, null);
+        $this->assertIsArray($legacy_ref01_list_result);
+
+        $found_item = sdk_select(
+            Runner::entity_list_to_data($legacy_ref01_list_result),
+            ["id" => $legacy_ref01_data["id"]]);
+        $this->assertNotEmpty($found_item);
+
+        // REMOVE
+        $legacy_ref01_match_rm0 = [
+            "id" => $legacy_ref01_data["id"],
+        ];
+        $legacy_ref01_ent->remove($legacy_ref01_match_rm0, null);
+
+        // LIST
+        $legacy_ref01_match_rt0 = [];
+
+        $legacy_ref01_list_rt0_result = $legacy_ref01_ent->list($legacy_ref01_match_rt0, null);
+        $this->assertIsArray($legacy_ref01_list_rt0_result);
+
+        $not_found_item = sdk_select(
+            Runner::entity_list_to_data($legacy_ref01_list_rt0_result),
+            ["id" => $legacy_ref01_data["id"]]);
+        $this->assertEmpty($not_found_item);
 
     }
 }

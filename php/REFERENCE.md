@@ -54,10 +54,6 @@ Create a new `AgentSandboxEntity` instance. Pass `null` for no initial data.
 
 Create a new `AgentUserEntity` instance. Pass `null` for no initial data.
 
-#### `AgentUserList($data = null)`
-
-Create a new `AgentUserListEntity` instance. Pass `null` for no initial data.
-
 #### `AppUser($data = null)`
 
 Create a new `AppUserEntity` instance. Pass `null` for no initial data.
@@ -90,10 +86,6 @@ Create a new `CollectionEntity` instance. Pass `null` for no initial data.
 
 Create a new `CollectionRecordEntity` instance. Pass `null` for no initial data.
 
-#### `CollectionRecordList($data = null)`
-
-Create a new `CollectionRecordListEntity` instance. Pass `null` for no initial data.
-
 #### `Custom($data = null)`
 
 Create a new `CustomEntity` instance. Pass `null` for no initial data.
@@ -110,17 +102,9 @@ Create a new `LegacyMutationEntity` instance. Pass `null` for no initial data.
 
 Create a new `LegacyUnknownEntity` instance. Pass `null` for no initial data.
 
-#### `LegacyUnknownList($data = null)`
-
-Create a new `LegacyUnknownListEntity` instance. Pass `null` for no initial data.
-
 #### `LegacyUser($data = null)`
 
 Create a new `LegacyUserEntity` instance. Pass `null` for no initial data.
-
-#### `LegacyUserList($data = null)`
-
-Create a new `LegacyUserListEntity` instance. Pass `null` for no initial data.
 
 #### `Login($data = null)`
 
@@ -310,6 +294,14 @@ $agent_user = $client->AgentUser();
 
 ### Operations
 
+#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
+
+List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+
+```php
+$results = $client->AgentUser()->list();
+```
+
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
 Load a single entity matching the given criteria. Throws on error.
@@ -339,67 +331,6 @@ Set the entity match criteria.
 #### `make(): AgentUserEntity`
 
 Create a new `AgentUserEntity` instance with the same client and
-options.
-
-#### `get_name(): string`
-
-Return the entity name.
-
-
----
-
-## AgentUserListEntity
-
-```php
-$agent_user_list = $client->AgentUserList();
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `created_at` | `string` | Yes |  |
-| `email` | `string` | Yes |  |
-| `full_name` | `string` | Yes |  |
-| `id` | `string` | Yes |  |
-| `locale` | `string` | Yes |  |
-| `preferences` | `array` | Yes |  |
-| `profile` | `array` | Yes |  |
-| `status` | `string` | Yes |  |
-| `timezone` | `string` | Yes |  |
-| `updated_at` | `string` | Yes |  |
-
-### Operations
-
-#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
-
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
-
-```php
-$results = $client->AgentUserList()->list();
-```
-
-### Common Methods
-
-#### `data_get(): array`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set($data): void`
-
-Set the entity data.
-
-#### `match_get(): array`
-
-Get the entity match criteria.
-
-#### `match_set($match): void`
-
-Set the entity match criteria.
-
-#### `make(): AgentUserListEntity`
-
-Create a new `AgentUserListEntity` instance with the same client and
 options.
 
 #### `get_name(): string`
@@ -917,6 +848,14 @@ $result = $client->CollectionRecord()->create([
 ]);
 ```
 
+#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
+
+List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+
+```php
+$results = $client->CollectionRecord()->list();
+```
+
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
 Load a single entity matching the given criteria. Throws on error.
@@ -958,66 +897,6 @@ Set the entity match criteria.
 #### `make(): CollectionRecordEntity`
 
 Create a new `CollectionRecordEntity` instance with the same client and
-options.
-
-#### `get_name(): string`
-
-Return the entity name.
-
-
----
-
-## CollectionRecordListEntity
-
-```php
-$collection_record_list = $client->CollectionRecordList();
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `app_user_id` | `string` | No |  |
-| `collection_id` | `string` | No |  |
-| `created_at` | `string` | No |  |
-| `created_by` | `string` | No |  |
-| `data` | `array` | Yes |  |
-| `deleted_at` | `string` | No |  |
-| `id` | `string` | Yes |  |
-| `project_id` | `string` | No |  |
-| `updated_at` | `string` | No |  |
-
-### Operations
-
-#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
-
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
-
-```php
-$results = $client->CollectionRecordList()->list();
-```
-
-### Common Methods
-
-#### `data_get(): array`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set($data): void`
-
-Set the entity data.
-
-#### `match_get(): array`
-
-Get the entity match criteria.
-
-#### `match_set($match): void`
-
-Set the entity match criteria.
-
-#### `make(): CollectionRecordListEntity`
-
-Create a new `CollectionRecordListEntity` instance with the same client and
 options.
 
 #### `get_name(): string`
@@ -1118,9 +997,35 @@ $legacy = $client->Legacy();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `string` | No |  |
+| `avatar` | `string` | Yes |  |
+| `email` | `string` | Yes |  |
+| `first_name` | `string` | Yes |  |
+| `id` | `int` | Yes |  |
+| `last_name` | `string` | Yes |  |
 
 ### Operations
+
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
+
+Create a new entity with the given data. Throws on error.
+
+```php
+$result = $client->Legacy()->create([
+  "avatar" => null, // string
+  "email" => null, // string
+  "first_name" => null, // string
+  "id" => null, // int
+  "last_name" => null, // string
+]);
+```
+
+#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
+
+List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+
+```php
+$results = $client->Legacy()->list();
+```
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
 
@@ -1176,15 +1081,6 @@ $legacy_mutation = $client->LegacyMutation();
 
 ### Operations
 
-#### `create(array $reqdata, ?array $ctrl = null): mixed`
-
-Create a new entity with the given data. Throws on error.
-
-```php
-$result = $client->LegacyMutation()->create([
-]);
-```
-
 #### `update(array $reqdata, ?array $ctrl = null): mixed`
 
 Update an existing entity. The data must include the entity `id`. Throws on error.
@@ -1236,11 +1132,23 @@ $legacy_unknown = $client->LegacyUnknown();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `color` | `string` | Yes |  |
 | `data` | `array` | Yes |  |
-| `id` | `string` | No |  |
+| `id` | `int` | Yes |  |
+| `name` | `string` | Yes |  |
+| `pantone_value` | `string` | Yes |  |
 | `support` | `array` | No |  |
+| `year` | `int` | Yes |  |
 
 ### Operations
+
+#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
+
+List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+
+```php
+$results = $client->LegacyUnknown()->list();
+```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
@@ -1271,62 +1179,6 @@ Set the entity match criteria.
 #### `make(): LegacyUnknownEntity`
 
 Create a new `LegacyUnknownEntity` instance with the same client and
-options.
-
-#### `get_name(): string`
-
-Return the entity name.
-
-
----
-
-## LegacyUnknownListEntity
-
-```php
-$legacy_unknown_list = $client->LegacyUnknownList();
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `color` | `string` | Yes |  |
-| `id` | `int` | Yes |  |
-| `name` | `string` | Yes |  |
-| `pantone_value` | `string` | Yes |  |
-| `year` | `int` | Yes |  |
-
-### Operations
-
-#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
-
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
-
-```php
-$results = $client->LegacyUnknownList()->list();
-```
-
-### Common Methods
-
-#### `data_get(): array`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set($data): void`
-
-Set the entity data.
-
-#### `match_get(): array`
-
-Get the entity match criteria.
-
-#### `match_set($match): void`
-
-Set the entity match criteria.
-
-#### `make(): LegacyUnknownListEntity`
-
-Create a new `LegacyUnknownListEntity` instance with the same client and
 options.
 
 #### `get_name(): string`
@@ -1381,62 +1233,6 @@ Set the entity match criteria.
 #### `make(): LegacyUserEntity`
 
 Create a new `LegacyUserEntity` instance with the same client and
-options.
-
-#### `get_name(): string`
-
-Return the entity name.
-
-
----
-
-## LegacyUserListEntity
-
-```php
-$legacy_user_list = $client->LegacyUserList();
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `avatar` | `string` | Yes |  |
-| `email` | `string` | Yes |  |
-| `first_name` | `string` | Yes |  |
-| `id` | `int` | Yes |  |
-| `last_name` | `string` | Yes |  |
-
-### Operations
-
-#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
-
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
-
-```php
-$results = $client->LegacyUserList()->list();
-```
-
-### Common Methods
-
-#### `data_get(): array`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set($data): void`
-
-Set the entity data.
-
-#### `match_get(): array`
-
-Get the entity match criteria.
-
-#### `match_set($match): void`
-
-Set the entity match criteria.
-
-#### `make(): LegacyUserListEntity`
-
-Create a new `LegacyUserListEntity` instance with the same client and
 options.
 
 #### `get_name(): string`

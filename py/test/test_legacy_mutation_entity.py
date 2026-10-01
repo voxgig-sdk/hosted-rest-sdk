@@ -27,7 +27,7 @@ class TestLegacyMutationEntity:
         # multiple ops; skipping any one skips the whole flow (steps depend
         # on each other).
         _live = setup.get("live", False)
-        for _op in ["create", "update"]:
+        for _op in ["update"]:
             _skip, _reason = runner.is_control_skipped("entityOp", "legacy_mutation." + _op, "live" if _live else "unit")
             if _skip:
                 pytest.skip(_reason or "skipped via sdk-test-control.json")
@@ -39,16 +39,15 @@ class TestLegacyMutationEntity:
                         "set HOSTED_REST_TEST_LEGACY_MUTATION_ENTID JSON to run live")
         client = setup["client"]
 
-        # CREATE
-        legacy_mutation_ref01_ent = client.LegacyMutation(None)
-        legacy_mutation_ref01_data = helpers.to_map(vs.getprop(
-            vs.getpath(setup["data"], "new.legacy_mutation"), "legacy_mutation_ref01"))
-
-        legacy_mutation_ref01_data = helpers.to_map(runner.entity_data(legacy_mutation_ref01_ent.create(legacy_mutation_ref01_data, None)))
-        assert legacy_mutation_ref01_data is not None
-        assert legacy_mutation_ref01_data["id"] is not None
+        # Bootstrap entity data from existing test data.
+        legacy_mutation_ref01_data_raw = vs.items(helpers.to_map(
+            vs.getpath(setup["data"], "existing.legacy_mutation")))
+        legacy_mutation_ref01_data = None
+        if len(legacy_mutation_ref01_data_raw) > 0:
+            legacy_mutation_ref01_data = helpers.to_map(legacy_mutation_ref01_data_raw[0][1])
 
         # UPDATE
+        legacy_mutation_ref01_ent = client.LegacyMutation(None)
         legacy_mutation_ref01_data_up0_up = {
             "id": legacy_mutation_ref01_data["id"],
         }

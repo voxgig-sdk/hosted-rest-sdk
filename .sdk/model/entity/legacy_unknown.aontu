@@ -5,6 +5,12 @@ main: kit: entity: legacy_unknown: {
   alias: field: {}
 
   fields: {
+    color: {
+      h: "Color"
+      n: "color"
+      r: true
+      t: "`$STRING`"
+    }
     data: {
       h: "Data"
       n: "data"
@@ -14,7 +20,19 @@ main: kit: entity: legacy_unknown: {
     id: {
       h: "Id"
       n: "id"
-      r: false
+      r: true
+      t: "`$INTEGER`"
+    }
+    name: {
+      h: "Name"
+      n: "name"
+      r: true
+      t: "`$STRING`"
+    }
+    pantone_value: {
+      h: "Pantone Value"
+      n: "pantone_value"
+      r: true
       t: "`$STRING`"
     }
     support: {
@@ -22,6 +40,12 @@ main: kit: entity: legacy_unknown: {
       n: "support"
       r: false
       t: "`$OBJECT`"
+    }
+    year: {
+      h: "Year"
+      n: "year"
+      r: true
+      t: "`$INTEGER`"
     }
   }
 
@@ -32,6 +56,57 @@ main: kit: entity: legacy_unknown: {
 
   name: "legacy_unknown"
   op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /api/unknown"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                ex: 1
+                k: "query"
+                n: "page"
+                or: "page"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                k: "query"
+                n: "per_page"
+                or: "per_page"
+                r: false
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/unknown"
+          q: {
+            exist: [
+              "page"
+              "per_page"
+            ]
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "unknown"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
     load: {
       name: "load"
       points: [

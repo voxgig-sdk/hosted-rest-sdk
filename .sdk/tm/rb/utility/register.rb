@@ -33,6 +33,8 @@ require_relative 'transform_response'
 
 HostedRestUtility.registrar = ->(u) {
   u.clean = HostedRestUtilities::Clean
+  u.clean_add = HostedRestUtilities::CleanAdd
+  u.clean_explain = HostedRestUtilities::CleanExplain
   u.done = HostedRestUtilities::Done
   u.make_error = HostedRestUtilities::MakeError
   u.feature_add = HostedRestUtilities::FeatureAdd

@@ -53,10 +53,6 @@ Create a new `AgentSandbox` entity instance. Pass `nil` for no initial data.
 
 Create a new `AgentUser` entity instance. Pass `nil` for no initial data.
 
-#### `AgentUserList(data)`
-
-Create a new `AgentUserList` entity instance. Pass `nil` for no initial data.
-
 #### `AppUser(data)`
 
 Create a new `AppUser` entity instance. Pass `nil` for no initial data.
@@ -89,10 +85,6 @@ Create a new `Collection` entity instance. Pass `nil` for no initial data.
 
 Create a new `CollectionRecord` entity instance. Pass `nil` for no initial data.
 
-#### `CollectionRecordList(data)`
-
-Create a new `CollectionRecordList` entity instance. Pass `nil` for no initial data.
-
 #### `Custom(data)`
 
 Create a new `Custom` entity instance. Pass `nil` for no initial data.
@@ -109,17 +101,9 @@ Create a new `LegacyMutation` entity instance. Pass `nil` for no initial data.
 
 Create a new `LegacyUnknown` entity instance. Pass `nil` for no initial data.
 
-#### `LegacyUnknownList(data)`
-
-Create a new `LegacyUnknownList` entity instance. Pass `nil` for no initial data.
-
 #### `LegacyUser(data)`
 
 Create a new `LegacyUser` entity instance. Pass `nil` for no initial data.
-
-#### `LegacyUserList(data)`
-
-Create a new `LegacyUserList` entity instance. Pass `nil` for no initial data.
 
 #### `Login(data)`
 
@@ -308,6 +292,14 @@ local agent_user = client:AgentUser(nil)
 
 ### Operations
 
+#### `list(reqmatch, ctrl) -> any, err`
+
+List entities matching the given criteria. Returns an array.
+
+```lua
+local results, err = client:AgentUser():list()
+```
+
 #### `load(reqmatch, ctrl) -> any, err`
 
 Load a single entity matching the given criteria.
@@ -337,67 +329,6 @@ Set the entity match criteria.
 #### `make() -> Entity`
 
 Create a new `AgentUserEntity` instance with the same client and
-options.
-
-#### `get_name() -> string`
-
-Return the entity name.
-
-
----
-
-## AgentUserListEntity
-
-```lua
-local agent_user_list = client:AgentUserList(nil)
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `created_at` | `string` | Yes |  |
-| `email` | `string` | Yes |  |
-| `full_name` | `string` | Yes |  |
-| `id` | `string` | Yes |  |
-| `locale` | `string` | Yes |  |
-| `preferences` | `table` | Yes |  |
-| `profile` | `table` | Yes |  |
-| `status` | `string` | Yes |  |
-| `timezone` | `string` | Yes |  |
-| `updated_at` | `string` | Yes |  |
-
-### Operations
-
-#### `list(reqmatch, ctrl) -> any, err`
-
-List entities matching the given criteria. Returns an array.
-
-```lua
-local results, err = client:AgentUserList():list()
-```
-
-### Common Methods
-
-#### `data_get() -> table`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get() -> table`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `AgentUserListEntity` instance with the same client and
 options.
 
 #### `get_name() -> string`
@@ -915,6 +846,14 @@ local result, err = client:CollectionRecord():create({
 })
 ```
 
+#### `list(reqmatch, ctrl) -> any, err`
+
+List entities matching the given criteria. Returns an array.
+
+```lua
+local results, err = client:CollectionRecord():list()
+```
+
 #### `load(reqmatch, ctrl) -> any, err`
 
 Load a single entity matching the given criteria.
@@ -956,66 +895,6 @@ Set the entity match criteria.
 #### `make() -> Entity`
 
 Create a new `CollectionRecordEntity` instance with the same client and
-options.
-
-#### `get_name() -> string`
-
-Return the entity name.
-
-
----
-
-## CollectionRecordListEntity
-
-```lua
-local collection_record_list = client:CollectionRecordList(nil)
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `app_user_id` | `string` | No |  |
-| `collection_id` | `string` | No |  |
-| `created_at` | `string` | No |  |
-| `created_by` | `string` | No |  |
-| `data` | `table` | Yes |  |
-| `deleted_at` | `string` | No |  |
-| `id` | `string` | Yes |  |
-| `project_id` | `string` | No |  |
-| `updated_at` | `string` | No |  |
-
-### Operations
-
-#### `list(reqmatch, ctrl) -> any, err`
-
-List entities matching the given criteria. Returns an array.
-
-```lua
-local results, err = client:CollectionRecordList():list()
-```
-
-### Common Methods
-
-#### `data_get() -> table`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get() -> table`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `CollectionRecordListEntity` instance with the same client and
 options.
 
 #### `get_name() -> string`
@@ -1116,9 +995,35 @@ local legacy = client:Legacy(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `string` | No |  |
+| `avatar` | `string` | Yes |  |
+| `email` | `string` | Yes |  |
+| `first_name` | `string` | Yes |  |
+| `id` | `number` | Yes |  |
+| `last_name` | `string` | Yes |  |
 
 ### Operations
+
+#### `create(reqdata, ctrl) -> any, err`
+
+Create a new entity with the given data.
+
+```lua
+local result, err = client:Legacy():create({
+  avatar = --[[ string ]],
+  email = --[[ string ]],
+  first_name = --[[ string ]],
+  id = --[[ number ]],
+  last_name = --[[ string ]],
+})
+```
+
+#### `list(reqmatch, ctrl) -> any, err`
+
+List entities matching the given criteria. Returns an array.
+
+```lua
+local results, err = client:Legacy():list()
+```
 
 #### `remove(reqmatch, ctrl) -> any, err`
 
@@ -1174,15 +1079,6 @@ local legacy_mutation = client:LegacyMutation(nil)
 
 ### Operations
 
-#### `create(reqdata, ctrl) -> any, err`
-
-Create a new entity with the given data.
-
-```lua
-local result, err = client:LegacyMutation():create({
-})
-```
-
 #### `update(reqdata, ctrl) -> any, err`
 
 Update an existing entity. The data must include the entity `id`.
@@ -1234,11 +1130,23 @@ local legacy_unknown = client:LegacyUnknown(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `color` | `string` | Yes |  |
 | `data` | `table` | Yes |  |
-| `id` | `string` | No |  |
+| `id` | `number` | Yes |  |
+| `name` | `string` | Yes |  |
+| `pantone_value` | `string` | Yes |  |
 | `support` | `table` | No |  |
+| `year` | `number` | Yes |  |
 
 ### Operations
+
+#### `list(reqmatch, ctrl) -> any, err`
+
+List entities matching the given criteria. Returns an array.
+
+```lua
+local results, err = client:LegacyUnknown():list()
+```
 
 #### `load(reqmatch, ctrl) -> any, err`
 
@@ -1269,62 +1177,6 @@ Set the entity match criteria.
 #### `make() -> Entity`
 
 Create a new `LegacyUnknownEntity` instance with the same client and
-options.
-
-#### `get_name() -> string`
-
-Return the entity name.
-
-
----
-
-## LegacyUnknownListEntity
-
-```lua
-local legacy_unknown_list = client:LegacyUnknownList(nil)
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `color` | `string` | Yes |  |
-| `id` | `number` | Yes |  |
-| `name` | `string` | Yes |  |
-| `pantone_value` | `string` | Yes |  |
-| `year` | `number` | Yes |  |
-
-### Operations
-
-#### `list(reqmatch, ctrl) -> any, err`
-
-List entities matching the given criteria. Returns an array.
-
-```lua
-local results, err = client:LegacyUnknownList():list()
-```
-
-### Common Methods
-
-#### `data_get() -> table`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get() -> table`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `LegacyUnknownListEntity` instance with the same client and
 options.
 
 #### `get_name() -> string`
@@ -1379,62 +1231,6 @@ Set the entity match criteria.
 #### `make() -> Entity`
 
 Create a new `LegacyUserEntity` instance with the same client and
-options.
-
-#### `get_name() -> string`
-
-Return the entity name.
-
-
----
-
-## LegacyUserListEntity
-
-```lua
-local legacy_user_list = client:LegacyUserList(nil)
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `avatar` | `string` | Yes |  |
-| `email` | `string` | Yes |  |
-| `first_name` | `string` | Yes |  |
-| `id` | `number` | Yes |  |
-| `last_name` | `string` | Yes |  |
-
-### Operations
-
-#### `list(reqmatch, ctrl) -> any, err`
-
-List entities matching the given criteria. Returns an array.
-
-```lua
-local results, err = client:LegacyUserList():list()
-```
-
-### Common Methods
-
-#### `data_get() -> table`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get() -> table`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `LegacyUserListEntity` instance with the same client and
 options.
 
 #### `get_name() -> string`

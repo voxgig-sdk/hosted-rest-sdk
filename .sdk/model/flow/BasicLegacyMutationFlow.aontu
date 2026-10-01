@@ -8,14 +8,6 @@ main: kit: flow: BasicLegacyMutationFlow:
   step: [
     {
       i: {
-        ref: "legacy_mutation_ref01"
-      }
-
-      o: "create"
-    }
-
-    {
-      i: {
         ref: "legacy_mutation_ref01",
         srcdatavar: "legacy_mutation_ref01_data",
         suffix: "_up0",

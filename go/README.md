@@ -226,7 +226,6 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `AgentHealth` | `(data map[string]any) HostedRestEntity` | Create an AgentHealth entity instance. |
 | `AgentSandbox` | `(data map[string]any) HostedRestEntity` | Create an AgentSandbox entity instance. |
 | `AgentUser` | `(data map[string]any) HostedRestEntity` | Create an AgentUser entity instance. |
-| `AgentUserList` | `(data map[string]any) HostedRestEntity` | Create an AgentUserList entity instance. |
 | `AppUser` | `(data map[string]any) HostedRestEntity` | Create an AppUser entity instance. |
 | `AppUserLogin` | `(data map[string]any) HostedRestEntity` | Create an AppUserLogin entity instance. |
 | `AppUserSession` | `(data map[string]any) HostedRestEntity` | Create an AppUserSession entity instance. |
@@ -235,14 +234,11 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `Authentication` | `(data map[string]any) HostedRestEntity` | Create an Authentication entity instance. |
 | `Collection` | `(data map[string]any) HostedRestEntity` | Create a Collection entity instance. |
 | `CollectionRecord` | `(data map[string]any) HostedRestEntity` | Create a CollectionRecord entity instance. |
-| `CollectionRecordList` | `(data map[string]any) HostedRestEntity` | Create a CollectionRecordList entity instance. |
 | `Custom` | `(data map[string]any) HostedRestEntity` | Create a Custom entity instance. |
 | `Legacy` | `(data map[string]any) HostedRestEntity` | Create a Legacy entity instance. |
 | `LegacyMutation` | `(data map[string]any) HostedRestEntity` | Create a LegacyMutation entity instance. |
 | `LegacyUnknown` | `(data map[string]any) HostedRestEntity` | Create a LegacyUnknown entity instance. |
-| `LegacyUnknownList` | `(data map[string]any) HostedRestEntity` | Create a LegacyUnknownList entity instance. |
 | `LegacyUser` | `(data map[string]any) HostedRestEntity` | Create a LegacyUser entity instance. |
-| `LegacyUserList` | `(data map[string]any) HostedRestEntity` | Create a LegacyUserList entity instance. |
 | `Login` | `(data map[string]any) HostedRestEntity` | Create a Login entity instance. |
 | `Register` | `(data map[string]any) HostedRestEntity` | Create a Register entity instance. |
 
@@ -325,26 +321,7 @@ API path: `/agent/v1/auth/login`
 | `"timezone"` |  |
 | `"updated_at"` |  |
 
-Operations: Load.
-
-API path: `/agent/v1/users/{id}`
-
-#### AgentUserList
-
-| Field | Description |
-| --- | --- |
-| `"created_at"` |  |
-| `"email"` |  |
-| `"full_name"` |  |
-| `"id"` |  |
-| `"locale"` |  |
-| `"preferences"` |  |
-| `"profile"` |  |
-| `"status"` |  |
-| `"timezone"` |  |
-| `"updated_at"` |  |
-
-Operations: List.
+Operations: List, Load.
 
 API path: `/agent/v1/users`
 
@@ -445,25 +422,7 @@ API path: `/api/collections`
 | `"project_id"` |  |
 | `"updated_at"` |  |
 
-Operations: Create, Load, Update.
-
-API path: `/api/collections/{slug}/records`
-
-#### CollectionRecordList
-
-| Field | Description |
-| --- | --- |
-| `"app_user_id"` |  |
-| `"collection_id"` |  |
-| `"created_at"` |  |
-| `"created_by"` |  |
-| `"data"` |  |
-| `"deleted_at"` |  |
-| `"id"` |  |
-| `"project_id"` |  |
-| `"updated_at"` |  |
-
-Operations: List.
+Operations: Create, List, Load, Update.
 
 API path: `/api/collections/{slug}/records`
 
@@ -481,11 +440,15 @@ API path: `/api/custom/{path}`
 
 | Field | Description |
 | --- | --- |
+| `"avatar"` |  |
+| `"email"` |  |
+| `"first_name"` |  |
 | `"id"` |  |
+| `"last_name"` |  |
 
-Operations: Remove.
+Operations: Create, List, Remove.
 
-API path: `/api/users/{id}`
+API path: `/api/users`
 
 #### LegacyMutation
 
@@ -495,33 +458,23 @@ API path: `/api/users/{id}`
 | `"id"` |  |
 | `"updatedAt"` |  |
 
-Operations: Create, Patch, Update.
+Operations: Patch, Update.
 
-API path: `/api/users`
+API path: `/api/users/{id}`
 
 #### LegacyUnknown
 
 | Field | Description |
 | --- | --- |
-| `"data"` |  |
-| `"id"` |  |
-| `"support"` |  |
-
-Operations: Load.
-
-API path: `/api/unknown/{id}`
-
-#### LegacyUnknownList
-
-| Field | Description |
-| --- | --- |
 | `"color"` |  |
+| `"data"` |  |
 | `"id"` |  |
 | `"name"` |  |
 | `"pantone_value"` |  |
+| `"support"` |  |
 | `"year"` |  |
 
-Operations: List.
+Operations: List, Load.
 
 API path: `/api/unknown`
 
@@ -536,20 +489,6 @@ API path: `/api/unknown`
 Operations: Load.
 
 API path: `/api/users/{id}`
-
-#### LegacyUserList
-
-| Field | Description |
-| --- | --- |
-| `"avatar"` |  |
-| `"email"` |  |
-| `"first_name"` |  |
-| `"id"` |  |
-| `"last_name"` |  |
-
-Operations: List.
-
-API path: `/api/users`
 
 #### Login
 
@@ -662,6 +601,7 @@ Create an instance: `agentUser := client.AgentUser(nil)`
 
 | Method | Description |
 | --- | --- |
+| `List(match, ctrl)` | List entities matching the criteria. |
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
 
 #### Fields
@@ -689,40 +629,14 @@ if err != nil {
 fmt.Println(agentUser) // the loaded record
 ```
 
-
-### AgentUserList
-
-Create an instance: `agentUserList := client.AgentUserList(nil)`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `List(match, ctrl)` | List entities matching the criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `created_at` | `string` |  |
-| `email` | `string` |  |
-| `full_name` | `string` |  |
-| `id` | `string` |  |
-| `locale` | `string` |  |
-| `preferences` | `map[string]any` |  |
-| `profile` | `map[string]any` |  |
-| `status` | `string` |  |
-| `timezone` | `string` |  |
-| `updated_at` | `string` |  |
-
 #### Example: List
 
 ```go
-agentUserLists, err := client.AgentUserList(nil).List(nil, nil)
+agentUsers, err := client.AgentUser(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(agentUserLists) // the array of records
+fmt.Println(agentUsers) // the array of records
 ```
 
 
@@ -986,6 +900,7 @@ Create an instance: `collectionRecord := client.CollectionRecord(nil)`
 
 | Method | Description |
 | --- | --- |
+| `List(match, ctrl)` | List entities matching the criteria. |
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
 | `Create(data, ctrl)` | Create a new entity with the given data. |
 | `Update(data, ctrl)` | Update an existing entity. |
@@ -1014,6 +929,16 @@ if err != nil {
 fmt.Println(collectionRecord) // the loaded record
 ```
 
+#### Example: List
+
+```go
+collectionRecords, err := client.CollectionRecord(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(collectionRecords) // the array of records
+```
+
 #### Example: Create
 
 ```go
@@ -1026,41 +951,6 @@ if err != nil {
     panic(err)
 }
 fmt.Println(result)
-```
-
-
-### CollectionRecordList
-
-Create an instance: `collectionRecordList := client.CollectionRecordList(nil)`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `List(match, ctrl)` | List entities matching the criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `app_user_id` | `string` |  |
-| `collection_id` | `string` |  |
-| `created_at` | `string` |  |
-| `created_by` | `string` |  |
-| `data` | `map[string]any` |  |
-| `deleted_at` | `string` |  |
-| `id` | `string` |  |
-| `project_id` | `string` |  |
-| `updated_at` | `string` |  |
-
-#### Example: List
-
-```go
-collectionRecordLists, err := client.CollectionRecordList(nil).List(nil, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(collectionRecordLists) // the array of records
 ```
 
 
@@ -1114,13 +1004,45 @@ Create an instance: `legacy := client.Legacy(nil)`
 
 | Method | Description |
 | --- | --- |
+| `List(match, ctrl)` | List entities matching the criteria. |
+| `Create(data, ctrl)` | Create a new entity with the given data. |
 | `Remove(match, ctrl)` | Remove the matching entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` | `string` |  |
+| `avatar` | `string` |  |
+| `email` | `string` |  |
+| `first_name` | `string` |  |
+| `id` | `int` |  |
+| `last_name` | `string` |  |
+
+#### Example: List
+
+```go
+legacys, err := client.Legacy(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(legacys) // the array of records
+```
+
+#### Example: Create
+
+```go
+result, err := client.Legacy(nil).Create(map[string]any{
+    "avatar": "example_avatar",
+    "email": "example_email",
+    "first_name": "example_first_name",
+    "id": 1,
+    "last_name": "example_last_name",
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
 
 
 ### LegacyMutation
@@ -1131,7 +1053,6 @@ Create an instance: `legacyMutation := client.LegacyMutation(nil)`
 
 | Method | Description |
 | --- | --- |
-| `Create(data, ctrl)` | Create a new entity with the given data. |
 | `Update(data, ctrl)` | Update an existing entity. |
 
 #### Fields
@@ -1142,17 +1063,6 @@ Create an instance: `legacyMutation := client.LegacyMutation(nil)`
 | `id` | `string` |  |
 | `updatedAt` | `string` |  |
 
-#### Example: Create
-
-```go
-result, err := client.LegacyMutation(nil).Create(map[string]any{
-}, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(result)
-```
-
 
 ### LegacyUnknown
 
@@ -1162,15 +1072,20 @@ Create an instance: `legacyUnknown := client.LegacyUnknown(nil)`
 
 | Method | Description |
 | --- | --- |
+| `List(match, ctrl)` | List entities matching the criteria. |
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `color` | `string` |  |
 | `data` | `map[string]any` |  |
-| `id` | `string` |  |
+| `id` | `int` |  |
+| `name` | `string` |  |
+| `pantone_value` | `string` |  |
 | `support` | `map[string]any` |  |
+| `year` | `int` |  |
 
 #### Example: Load
 
@@ -1182,35 +1097,14 @@ if err != nil {
 fmt.Println(legacyUnknown) // the loaded record
 ```
 
-
-### LegacyUnknownList
-
-Create an instance: `legacyUnknownList := client.LegacyUnknownList(nil)`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `List(match, ctrl)` | List entities matching the criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `color` | `string` |  |
-| `id` | `int` |  |
-| `name` | `string` |  |
-| `pantone_value` | `string` |  |
-| `year` | `int` |  |
-
 #### Example: List
 
 ```go
-legacyUnknownLists, err := client.LegacyUnknownList(nil).List(nil, nil)
+legacyUnknowns, err := client.LegacyUnknown(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(legacyUnknownLists) // the array of records
+fmt.Println(legacyUnknowns) // the array of records
 ```
 
 
@@ -1240,37 +1134,6 @@ if err != nil {
     panic(err)
 }
 fmt.Println(legacyUser) // the loaded record
-```
-
-
-### LegacyUserList
-
-Create an instance: `legacyUserList := client.LegacyUserList(nil)`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `List(match, ctrl)` | List entities matching the criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `avatar` | `string` |  |
-| `email` | `string` |  |
-| `first_name` | `string` |  |
-| `id` | `int` |  |
-| `last_name` | `string` |  |
-
-#### Example: List
-
-```go
-legacyUserLists, err := client.LegacyUserList(nil).List(nil, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(legacyUserLists) // the array of records
 ```
 
 

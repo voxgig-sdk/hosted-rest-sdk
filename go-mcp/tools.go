@@ -15,7 +15,7 @@ import (
 // reqdata map passed through to the SDK. For load, `query` should be
 // `{"id": <value>}`. For list, omit `query` or pass an empty map.
 type Args struct {
-	Entity string         `json:"entity" jsonschema:"agent_health | agent_sandbox | agent_user | agent_user_list | app_user | app_user_login | app_user_session | app_user_total | app_user_verify | authentication | collection | collection_record | collection_record_list | custom | legacy | legacy_mutation | legacy_unknown | legacy_unknown_list | legacy_user | legacy_user_list | login | register"`
+	Entity string         `json:"entity" jsonschema:"agent_health | agent_sandbox | agent_user | app_user | app_user_login | app_user_session | app_user_total | app_user_verify | authentication | collection | collection_record | custom | legacy | legacy_mutation | legacy_unknown | legacy_user | login | register"`
 	Query  map[string]any `json:"query,omitempty" jsonschema:"optional match map e.g. {\"id\":1} for load, omit for list"`
 }
 
@@ -82,8 +82,6 @@ func entityFor(client *sdk.HostedRestSDK, name string) (sdk.HostedRestEntity, er
 		return client.AgentSandbox(nil), nil
 	case "agent_user":
 		return client.AgentUser(nil), nil
-	case "agent_user_list":
-		return client.AgentUserList(nil), nil
 	case "app_user":
 		return client.AppUser(nil), nil
 	case "app_user_login":
@@ -100,8 +98,6 @@ func entityFor(client *sdk.HostedRestSDK, name string) (sdk.HostedRestEntity, er
 		return client.Collection(nil), nil
 	case "collection_record":
 		return client.CollectionRecord(nil), nil
-	case "collection_record_list":
-		return client.CollectionRecordList(nil), nil
 	case "custom":
 		return client.Custom(nil), nil
 	case "legacy":
@@ -110,12 +106,8 @@ func entityFor(client *sdk.HostedRestSDK, name string) (sdk.HostedRestEntity, er
 		return client.LegacyMutation(nil), nil
 	case "legacy_unknown":
 		return client.LegacyUnknown(nil), nil
-	case "legacy_unknown_list":
-		return client.LegacyUnknownList(nil), nil
 	case "legacy_user":
 		return client.LegacyUser(nil), nil
-	case "legacy_user_list":
-		return client.LegacyUserList(nil), nil
 	case "login":
 		return client.Login(nil), nil
 	case "register":

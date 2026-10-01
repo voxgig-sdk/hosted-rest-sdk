@@ -483,6 +483,85 @@
           },
           "name": "agent_user",
           "op": {
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /agent/v1/users",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "query": [
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "cursor",
+                        "or": "cursor",
+                        "r": false,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "field",
+                        "or": "fields",
+                        "r": false,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "ex": 20,
+                        "k": "query",
+                        "n": "limit",
+                        "or": "limit",
+                        "r": false,
+                        "t": "`$INTEGER`"
+                      },
+                      {
+                        "a": true,
+                        "ex": 42,
+                        "k": "query",
+                        "n": "seed",
+                        "or": "seed",
+                        "r": false,
+                        "t": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/agent/v1/users",
+                  "q": {
+                    "exist": [
+                      "cursor",
+                      "field",
+                      "limit",
+                      "seed"
+                    ]
+                  },
+                  "r": {},
+                  "s": [
+                    {
+                      "lit": "agent"
+                    },
+                    {
+                      "lit": "v1"
+                    },
+                    {
+                      "lit": "users"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body.data`"
+                  }
+                }
+              ]
+            },
             "load": {
               "input": "data",
               "name": "load",
@@ -543,176 +622,6 @@
                   "t": {
                     "req": "`reqdata`",
                     "res": "`body.data`"
-                  }
-                }
-              ]
-            }
-          },
-          "relations": {
-            "ancestors": []
-          }
-        },
-        "agent_user_list": {
-          "active": true,
-          "alias": {
-            "field": {}
-          },
-          "fields": {
-            "created_at": {
-              "a": true,
-              "fo": "date-time",
-              "h": "Created At",
-              "n": "created_at",
-              "r": true,
-              "t": "`$STRING`"
-            },
-            "email": {
-              "a": true,
-              "fo": "email",
-              "h": "Email",
-              "n": "email",
-              "r": true,
-              "t": "`$STRING`"
-            },
-            "full_name": {
-              "a": true,
-              "h": "Full Name",
-              "n": "full_name",
-              "r": true,
-              "t": "`$STRING`"
-            },
-            "id": {
-              "a": true,
-              "h": "Id",
-              "n": "id",
-              "r": true,
-              "t": "`$STRING`"
-            },
-            "locale": {
-              "a": true,
-              "h": "Locale",
-              "n": "locale",
-              "r": true,
-              "t": "`$STRING`"
-            },
-            "preferences": {
-              "a": true,
-              "h": "Preferences",
-              "n": "preferences",
-              "r": true,
-              "t": "`$OBJECT`"
-            },
-            "profile": {
-              "a": true,
-              "h": "Profile",
-              "n": "profile",
-              "r": true,
-              "t": "`$OBJECT`"
-            },
-            "status": {
-              "a": true,
-              "h": "Status",
-              "n": "status",
-              "r": true,
-              "t": "`$STRING`"
-            },
-            "timezone": {
-              "a": true,
-              "h": "Timezone",
-              "n": "timezone",
-              "r": true,
-              "t": "`$STRING`"
-            },
-            "updated_at": {
-              "a": true,
-              "fo": "date-time",
-              "h": "Updated At",
-              "n": "updated_at",
-              "r": true,
-              "t": "`$STRING`"
-            }
-          },
-          "id": {
-            "field": "id",
-            "name": "id"
-          },
-          "name": "agent_user_list",
-          "op": {
-            "list": {
-              "input": "data",
-              "name": "list",
-              "points": [
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /agent/v1/users",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "query": [
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "cursor",
-                        "or": "cursor",
-                        "r": false,
-                        "t": "`$STRING`"
-                      },
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "field",
-                        "or": "field",
-                        "r": false,
-                        "t": "`$STRING`"
-                      },
-                      {
-                        "a": true,
-                        "ex": 20,
-                        "k": "query",
-                        "n": "limit",
-                        "or": "limit",
-                        "r": false,
-                        "t": "`$INTEGER`"
-                      },
-                      {
-                        "a": true,
-                        "ex": 42,
-                        "k": "query",
-                        "n": "seed",
-                        "or": "seed",
-                        "r": false,
-                        "t": "`$INTEGER`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/agent/v1/users",
-                  "q": {
-                    "exist": [
-                      "cursor",
-                      "field",
-                      "limit",
-                      "seed"
-                    ]
-                  },
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "agent"
-                    },
-                    {
-                      "lit": "v1"
-                    },
-                    {
-                      "lit": "users"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
                   }
                 }
               ]
@@ -886,7 +795,7 @@
                         "a": true,
                         "k": "header",
                         "n": "x_reqres_env",
-                        "or": "x_reqres_env",
+                        "or": "X-Reqres-Env",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -896,7 +805,7 @@
                         "a": true,
                         "k": "param",
                         "n": "project_id",
-                        "or": "project_id",
+                        "or": "projectId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -906,7 +815,7 @@
                         "a": true,
                         "k": "query",
                         "n": "status",
-                        "or": "status",
+                        "or": "statuses",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -959,7 +868,7 @@
                         "a": true,
                         "k": "header",
                         "n": "x_reqres_env",
-                        "or": "x_reqres_env",
+                        "or": "X-Reqres-Env",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -1075,7 +984,7 @@
                         "a": true,
                         "k": "param",
                         "n": "record_id",
-                        "or": "record_id",
+                        "or": "recordId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -1406,7 +1315,7 @@
                         "a": true,
                         "k": "header",
                         "n": "x_reqres_env",
-                        "or": "x_reqres_env",
+                        "or": "X-Reqres-Env",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -1416,7 +1325,7 @@
                         "a": true,
                         "k": "param",
                         "n": "project_id",
-                        "or": "project_id",
+                        "or": "projectId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -1677,7 +1586,7 @@
                         "a": true,
                         "k": "header",
                         "n": "x_reqres_env",
-                        "or": "x_reqres_env",
+                        "or": "X-Reqres-Env",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -1724,7 +1633,7 @@
                         "a": true,
                         "k": "header",
                         "n": "x_reqres_env",
-                        "or": "x_reqres_env",
+                        "or": "X-Reqres-Env",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -1797,7 +1706,7 @@
                         "a": true,
                         "k": "header",
                         "n": "x_reqres_env",
-                        "or": "x_reqres_env",
+                        "or": "X-Reqres-Env",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -1910,7 +1819,7 @@
                         "a": true,
                         "k": "header",
                         "n": "x_reqres_env",
-                        "or": "x_reqres_env",
+                        "or": "X-Reqres-Env",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -1928,7 +1837,7 @@
                         "a": true,
                         "k": "param",
                         "n": "record_id",
-                        "or": "record_id",
+                        "or": "recordId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -1985,7 +1894,7 @@
                         "a": true,
                         "k": "header",
                         "n": "x_reqres_env",
-                        "or": "x_reqres_env",
+                        "or": "X-Reqres-Env",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -2050,7 +1959,7 @@
                         "a": true,
                         "k": "header",
                         "n": "x_reqres_env",
-                        "or": "x_reqres_env",
+                        "or": "X-Reqres-Env",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -2199,7 +2108,7 @@
                         "a": true,
                         "k": "header",
                         "n": "x_reqres_env",
-                        "or": "x_reqres_env",
+                        "or": "X-Reqres-Env",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -2293,384 +2202,6 @@
                 }
               ]
             },
-            "load": {
-              "input": "data",
-              "name": "load",
-              "points": [
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /api/collections/{slug}/records/{recordId}",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "header": [
-                      {
-                        "a": true,
-                        "k": "header",
-                        "n": "x_reqres_env",
-                        "or": "x_reqres_env",
-                        "r": false,
-                        "t": "`$STRING`"
-                      }
-                    ],
-                    "params": [
-                      {
-                        "a": true,
-                        "k": "param",
-                        "n": "collection_id",
-                        "or": "slug",
-                        "r": true,
-                        "t": "`$STRING`"
-                      },
-                      {
-                        "a": true,
-                        "k": "param",
-                        "n": "id",
-                        "or": "record_id",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/api/collections/{slug}/records/{recordId}",
-                  "q": {
-                    "exist": [
-                      "collection_id",
-                      "id",
-                      "x_reqres_env"
-                    ]
-                  },
-                  "r": {
-                    "param": {
-                      "recordId": "id",
-                      "slug": "collection_id"
-                    }
-                  },
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "collections"
-                    },
-                    {
-                      "var": "collection_id"
-                    },
-                    {
-                      "lit": "records"
-                    },
-                    {
-                      "var": "id"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body.data`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /app/collections/{slug}/records/{recordId}",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "params": [
-                      {
-                        "a": true,
-                        "k": "param",
-                        "n": "collection_id",
-                        "or": "slug",
-                        "r": true,
-                        "t": "`$STRING`"
-                      },
-                      {
-                        "a": true,
-                        "k": "param",
-                        "n": "id",
-                        "or": "record_id",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/app/collections/{slug}/records/{recordId}",
-                  "q": {
-                    "exist": [
-                      "collection_id",
-                      "id"
-                    ]
-                  },
-                  "r": {
-                    "param": {
-                      "recordId": "id",
-                      "slug": "collection_id"
-                    }
-                  },
-                  "s": [
-                    {
-                      "lit": "app"
-                    },
-                    {
-                      "lit": "collections"
-                    },
-                    {
-                      "var": "collection_id"
-                    },
-                    {
-                      "lit": "records"
-                    },
-                    {
-                      "var": "id"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body.data`"
-                  }
-                }
-              ]
-            },
-            "update": {
-              "input": "data",
-              "name": "update",
-              "points": [
-                {
-                  "a": true,
-                  "co": {
-                    "id": "PUT /api/collections/{slug}/records/{recordId}",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "header": [
-                      {
-                        "a": true,
-                        "k": "header",
-                        "n": "x_reqres_env",
-                        "or": "x_reqres_env",
-                        "r": false,
-                        "t": "`$STRING`"
-                      }
-                    ],
-                    "params": [
-                      {
-                        "a": true,
-                        "k": "param",
-                        "n": "collection_id",
-                        "or": "slug",
-                        "r": true,
-                        "t": "`$STRING`"
-                      },
-                      {
-                        "a": true,
-                        "k": "param",
-                        "n": "id",
-                        "or": "record_id",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "PUT",
-                  "o": "/api/collections/{slug}/records/{recordId}",
-                  "q": {
-                    "exist": [
-                      "collection_id",
-                      "id",
-                      "x_reqres_env"
-                    ]
-                  },
-                  "r": {
-                    "param": {
-                      "recordId": "id",
-                      "slug": "collection_id"
-                    }
-                  },
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "collections"
-                    },
-                    {
-                      "var": "collection_id"
-                    },
-                    {
-                      "lit": "records"
-                    },
-                    {
-                      "var": "id"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body.data`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "PUT /app/collections/{slug}/records/{recordId}",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "params": [
-                      {
-                        "a": true,
-                        "k": "param",
-                        "n": "collection_id",
-                        "or": "slug",
-                        "r": true,
-                        "t": "`$STRING`"
-                      },
-                      {
-                        "a": true,
-                        "k": "param",
-                        "n": "id",
-                        "or": "record_id",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "PUT",
-                  "o": "/app/collections/{slug}/records/{recordId}",
-                  "q": {
-                    "exist": [
-                      "collection_id",
-                      "id"
-                    ]
-                  },
-                  "r": {
-                    "param": {
-                      "recordId": "id",
-                      "slug": "collection_id"
-                    }
-                  },
-                  "s": [
-                    {
-                      "lit": "app"
-                    },
-                    {
-                      "lit": "collections"
-                    },
-                    {
-                      "var": "collection_id"
-                    },
-                    {
-                      "lit": "records"
-                    },
-                    {
-                      "var": "id"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body.data`"
-                  }
-                }
-              ]
-            }
-          },
-          "relations": {
-            "ancestors": [
-              [
-                "$.main.kit.entity.collection"
-              ]
-            ]
-          }
-        },
-        "collection_record_list": {
-          "active": true,
-          "alias": {
-            "field": {}
-          },
-          "fields": {
-            "app_user_id": {
-              "a": true,
-              "h": "App User Id",
-              "n": "app_user_id",
-              "r": false,
-              "t": "`$STRING`"
-            },
-            "collection_id": {
-              "a": true,
-              "h": "Collection Id",
-              "n": "collection_id",
-              "r": false,
-              "t": "`$STRING`"
-            },
-            "created_at": {
-              "a": true,
-              "fo": "date-time",
-              "h": "Created At",
-              "n": "created_at",
-              "r": false,
-              "t": "`$STRING`"
-            },
-            "created_by": {
-              "a": true,
-              "h": "Created By",
-              "n": "created_by",
-              "r": false,
-              "t": "`$STRING`"
-            },
-            "data": {
-              "a": true,
-              "h": "Data",
-              "n": "data",
-              "r": true,
-              "t": "`$OBJECT`"
-            },
-            "deleted_at": {
-              "a": true,
-              "fo": "date-time",
-              "h": "Deleted At",
-              "n": "deleted_at",
-              "r": false,
-              "t": "`$STRING`"
-            },
-            "id": {
-              "a": true,
-              "h": "Id",
-              "n": "id",
-              "r": true,
-              "t": "`$STRING`"
-            },
-            "project_id": {
-              "a": true,
-              "h": "Project Id",
-              "n": "project_id",
-              "r": false,
-              "t": "`$STRING`"
-            },
-            "updated_at": {
-              "a": true,
-              "fo": "date-time",
-              "h": "Updated At",
-              "n": "updated_at",
-              "r": false,
-              "t": "`$STRING`"
-            }
-          },
-          "id": {
-            "field": "id",
-            "name": "id"
-          },
-          "name": "collection_record_list",
-          "op": {
             "list": {
               "input": "data",
               "name": "list",
@@ -2688,7 +2219,7 @@
                         "a": true,
                         "k": "header",
                         "n": "x_reqres_env",
-                        "or": "x_reqres_env",
+                        "or": "X-Reqres-Env",
                         "r": false,
                         "t": "`$STRING`"
                       }
@@ -2724,7 +2255,7 @@
                         "a": true,
                         "k": "query",
                         "n": "data_contain",
-                        "or": "data_contain",
+                        "or": "data_contains",
                         "r": false,
                         "t": "`$STRING`"
                       },
@@ -2804,7 +2335,7 @@
                   ],
                   "t": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
                   }
                 },
                 {
@@ -2851,7 +2382,297 @@
                   ],
                   "t": {
                     "req": "`reqdata`",
-                    "res": "`body`"
+                    "res": "`body.data`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /api/collections/{slug}/records/{recordId}",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "header": [
+                      {
+                        "a": true,
+                        "k": "header",
+                        "n": "x_reqres_env",
+                        "or": "X-Reqres-Env",
+                        "r": false,
+                        "t": "`$STRING`"
+                      }
+                    ],
+                    "params": [
+                      {
+                        "a": true,
+                        "k": "param",
+                        "n": "collection_id",
+                        "or": "slug",
+                        "r": true,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "k": "param",
+                        "n": "id",
+                        "or": "recordId",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/api/collections/{slug}/records/{recordId}",
+                  "q": {
+                    "exist": [
+                      "collection_id",
+                      "id",
+                      "x_reqres_env"
+                    ]
+                  },
+                  "r": {
+                    "param": {
+                      "recordId": "id",
+                      "slug": "collection_id"
+                    }
+                  },
+                  "s": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "collections"
+                    },
+                    {
+                      "var": "collection_id"
+                    },
+                    {
+                      "lit": "records"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body.data`"
+                  }
+                },
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /app/collections/{slug}/records/{recordId}",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "params": [
+                      {
+                        "a": true,
+                        "k": "param",
+                        "n": "collection_id",
+                        "or": "slug",
+                        "r": true,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "k": "param",
+                        "n": "id",
+                        "or": "recordId",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/app/collections/{slug}/records/{recordId}",
+                  "q": {
+                    "exist": [
+                      "collection_id",
+                      "id"
+                    ]
+                  },
+                  "r": {
+                    "param": {
+                      "recordId": "id",
+                      "slug": "collection_id"
+                    }
+                  },
+                  "s": [
+                    {
+                      "lit": "app"
+                    },
+                    {
+                      "lit": "collections"
+                    },
+                    {
+                      "var": "collection_id"
+                    },
+                    {
+                      "lit": "records"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body.data`"
+                  }
+                }
+              ]
+            },
+            "update": {
+              "input": "data",
+              "name": "update",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "PUT /api/collections/{slug}/records/{recordId}",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "header": [
+                      {
+                        "a": true,
+                        "k": "header",
+                        "n": "x_reqres_env",
+                        "or": "X-Reqres-Env",
+                        "r": false,
+                        "t": "`$STRING`"
+                      }
+                    ],
+                    "params": [
+                      {
+                        "a": true,
+                        "k": "param",
+                        "n": "collection_id",
+                        "or": "slug",
+                        "r": true,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "k": "param",
+                        "n": "id",
+                        "or": "recordId",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "PUT",
+                  "o": "/api/collections/{slug}/records/{recordId}",
+                  "q": {
+                    "exist": [
+                      "collection_id",
+                      "id",
+                      "x_reqres_env"
+                    ]
+                  },
+                  "r": {
+                    "param": {
+                      "recordId": "id",
+                      "slug": "collection_id"
+                    }
+                  },
+                  "s": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "collections"
+                    },
+                    {
+                      "var": "collection_id"
+                    },
+                    {
+                      "lit": "records"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body.data`"
+                  }
+                },
+                {
+                  "a": true,
+                  "co": {
+                    "id": "PUT /app/collections/{slug}/records/{recordId}",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "params": [
+                      {
+                        "a": true,
+                        "k": "param",
+                        "n": "collection_id",
+                        "or": "slug",
+                        "r": true,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "k": "param",
+                        "n": "id",
+                        "or": "recordId",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "PUT",
+                  "o": "/app/collections/{slug}/records/{recordId}",
+                  "q": {
+                    "exist": [
+                      "collection_id",
+                      "id"
+                    ]
+                  },
+                  "r": {
+                    "param": {
+                      "recordId": "id",
+                      "slug": "collection_id"
+                    }
+                  },
+                  "s": [
+                    {
+                      "lit": "app"
+                    },
+                    {
+                      "lit": "collections"
+                    },
+                    {
+                      "var": "collection_id"
+                    },
+                    {
+                      "lit": "records"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body.data`"
                   }
                 }
               ]
@@ -3166,11 +2987,40 @@
             "field": {}
           },
           "fields": {
+            "avatar": {
+              "a": true,
+              "h": "Avatar",
+              "n": "avatar",
+              "r": true,
+              "t": "`$STRING`"
+            },
+            "email": {
+              "a": true,
+              "fo": "email",
+              "h": "Email",
+              "n": "email",
+              "r": true,
+              "t": "`$STRING`"
+            },
+            "first_name": {
+              "a": true,
+              "h": "First Name",
+              "n": "first_name",
+              "r": true,
+              "t": "`$STRING`"
+            },
             "id": {
               "a": true,
               "h": "Id",
               "n": "id",
-              "r": false,
+              "r": true,
+              "t": "`$INTEGER`"
+            },
+            "last_name": {
+              "a": true,
+              "h": "Last Name",
+              "n": "last_name",
+              "r": true,
               "t": "`$STRING`"
             }
           },
@@ -3180,6 +3030,95 @@
           },
           "name": "legacy",
           "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "POST /api/users",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "POST",
+                  "o": "/api/users",
+                  "q": {},
+                  "r": {},
+                  "s": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "users"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /api/users",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "query": [
+                      {
+                        "a": true,
+                        "ex": 1,
+                        "k": "query",
+                        "n": "page",
+                        "or": "page",
+                        "r": false,
+                        "t": "`$INTEGER`"
+                      },
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "per_page",
+                        "or": "per_page",
+                        "r": false,
+                        "t": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/api/users",
+                  "q": {
+                    "exist": [
+                      "page",
+                      "per_page"
+                    ]
+                  },
+                  "r": {},
+                  "s": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "users"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body.data`"
+                  }
+                }
+              ]
+            },
             "remove": {
               "input": "data",
               "name": "remove",
@@ -3271,38 +3210,6 @@
           },
           "name": "legacy_mutation",
           "op": {
-            "create": {
-              "input": "data",
-              "name": "create",
-              "points": [
-                {
-                  "a": true,
-                  "co": {
-                    "id": "POST /api/users",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "POST",
-                  "o": "/api/users",
-                  "q": {},
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "users"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                }
-              ]
-            },
             "patch": {
               "input": "data",
               "name": "patch",
@@ -3414,101 +3321,19 @@
             "field": {}
           },
           "fields": {
-            "data": {
-              "a": true,
-              "h": "Data",
-              "n": "data",
-              "r": true,
-              "t": "`$OBJECT`"
-            },
-            "id": {
-              "a": true,
-              "h": "Id",
-              "n": "id",
-              "r": false,
-              "t": "`$STRING`"
-            },
-            "support": {
-              "a": true,
-              "h": "Support",
-              "n": "support",
-              "r": false,
-              "t": "`$OBJECT`"
-            }
-          },
-          "id": {
-            "field": "id",
-            "name": "id"
-          },
-          "name": "legacy_unknown",
-          "op": {
-            "load": {
-              "input": "data",
-              "name": "load",
-              "points": [
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /api/unknown/{id}",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "params": [
-                      {
-                        "a": true,
-                        "k": "param",
-                        "n": "id",
-                        "or": "id",
-                        "r": true,
-                        "t": "`$INTEGER`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/api/unknown/{id}",
-                  "q": {
-                    "exist": [
-                      "id"
-                    ]
-                  },
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "unknown"
-                    },
-                    {
-                      "var": "id"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                }
-              ]
-            }
-          },
-          "relations": {
-            "ancestors": []
-          }
-        },
-        "legacy_unknown_list": {
-          "active": true,
-          "alias": {
-            "field": {}
-          },
-          "fields": {
             "color": {
               "a": true,
               "h": "Color",
               "n": "color",
               "r": true,
               "t": "`$STRING`"
+            },
+            "data": {
+              "a": true,
+              "h": "Data",
+              "n": "data",
+              "r": true,
+              "t": "`$OBJECT`"
             },
             "id": {
               "a": true,
@@ -3531,6 +3356,13 @@
               "r": true,
               "t": "`$STRING`"
             },
+            "support": {
+              "a": true,
+              "h": "Support",
+              "n": "support",
+              "r": false,
+              "t": "`$OBJECT`"
+            },
             "year": {
               "a": true,
               "h": "Year",
@@ -3543,7 +3375,7 @@
             "field": "id",
             "name": "id"
           },
-          "name": "legacy_unknown_list",
+          "name": "legacy_unknown",
           "op": {
             "list": {
               "input": "data",
@@ -3593,6 +3425,56 @@
                     },
                     {
                       "lit": "unknown"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body.data`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /api/unknown/{id}",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "params": [
+                      {
+                        "a": true,
+                        "k": "param",
+                        "n": "id",
+                        "or": "id",
+                        "r": true,
+                        "t": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/api/unknown/{id}",
+                  "q": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "r": {},
+                  "s": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "unknown"
+                    },
+                    {
+                      "var": "id"
                     }
                   ],
                   "t": {
@@ -3682,117 +3564,6 @@
                     },
                     {
                       "var": "id"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                }
-              ]
-            }
-          },
-          "relations": {
-            "ancestors": []
-          }
-        },
-        "legacy_user_list": {
-          "active": true,
-          "alias": {
-            "field": {}
-          },
-          "fields": {
-            "avatar": {
-              "a": true,
-              "h": "Avatar",
-              "n": "avatar",
-              "r": true,
-              "t": "`$STRING`"
-            },
-            "email": {
-              "a": true,
-              "fo": "email",
-              "h": "Email",
-              "n": "email",
-              "r": true,
-              "t": "`$STRING`"
-            },
-            "first_name": {
-              "a": true,
-              "h": "First Name",
-              "n": "first_name",
-              "r": true,
-              "t": "`$STRING`"
-            },
-            "id": {
-              "a": true,
-              "h": "Id",
-              "n": "id",
-              "r": true,
-              "t": "`$INTEGER`"
-            },
-            "last_name": {
-              "a": true,
-              "h": "Last Name",
-              "n": "last_name",
-              "r": true,
-              "t": "`$STRING`"
-            }
-          },
-          "id": {
-            "field": "id",
-            "name": "id"
-          },
-          "name": "legacy_user_list",
-          "op": {
-            "list": {
-              "input": "data",
-              "name": "list",
-              "points": [
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /api/users",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "query": [
-                      {
-                        "a": true,
-                        "ex": 1,
-                        "k": "query",
-                        "n": "page",
-                        "or": "page",
-                        "r": false,
-                        "t": "`$INTEGER`"
-                      },
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "per_page",
-                        "or": "per_page",
-                        "r": false,
-                        "t": "`$INTEGER`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/api/users",
-                  "q": {
-                    "exist": [
-                      "page",
-                      "per_page"
-                    ]
-                  },
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "users"
                     }
                   ],
                   "t": {
@@ -4448,6 +4219,22 @@
             {
               "a": true,
               "d": {},
+              "i": {},
+              "m": {},
+              "o": "list",
+              "s": [],
+              "v": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "agent_user_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "a": true,
+              "d": {},
               "i": {
                 "ref": "agent_user_ref01",
                 "srcdatavar": "agent_user_ref01_data",
@@ -4463,32 +4250,6 @@
                   "apply": "TextFieldMark",
                   "def": {
                     "mark": "Mark01-agent_user_ref01"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        "BasicAgentUserListFlow": {
-          "active": true,
-          "entity": "agent_user_list",
-          "key$": "BasicAgentUserListFlow",
-          "kind": "basic",
-          "name": "BasicAgentUserListFlow",
-          "param": {},
-          "step": [
-            {
-              "a": true,
-              "d": {},
-              "i": {},
-              "m": {},
-              "o": "list",
-              "s": [],
-              "v": [
-                {
-                  "apply": "ItemExists",
-                  "def": {
-                    "ref": "agent_user_list_ref01"
                   }
                 }
               ]
@@ -4873,6 +4634,24 @@
             },
             {
               "a": true,
+              "d": {},
+              "i": {},
+              "m": {
+                "slug": "slug01"
+              },
+              "o": "list",
+              "s": [],
+              "v": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "collection_record_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "a": true,
               "d": {
                 "collection_id": "collection01"
               },
@@ -4913,34 +4692,6 @@
                   "apply": "TextFieldMark",
                   "def": {
                     "mark": "Mark01-collection_record_ref01"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        "BasicCollectionRecordListFlow": {
-          "active": true,
-          "entity": "collection_record_list",
-          "key$": "BasicCollectionRecordListFlow",
-          "kind": "basic",
-          "name": "BasicCollectionRecordListFlow",
-          "param": {},
-          "step": [
-            {
-              "a": true,
-              "d": {},
-              "i": {},
-              "m": {
-                "slug": "slug01"
-              },
-              "o": "list",
-              "s": [],
-              "v": [
-                {
-                  "apply": "ItemExists",
-                  "def": {
-                    "ref": "collection_record_list_ref01"
                   }
                 }
               ]
@@ -5033,7 +4784,67 @@
           "kind": "basic",
           "name": "BasicLegacyFlow",
           "param": {},
-          "step": []
+          "step": [
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "ref": "legacy_ref01"
+              },
+              "m": {},
+              "o": "create",
+              "s": [],
+              "v": []
+            },
+            {
+              "a": true,
+              "d": {},
+              "i": {},
+              "m": {},
+              "o": "list",
+              "s": [],
+              "v": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "legacy_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "ref": "legacy_ref01",
+                "suffix": "_rm0"
+              },
+              "m": {
+                "id": "legacy01"
+              },
+              "o": "remove",
+              "s": [],
+              "v": []
+            },
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "suffix": "_rt0"
+              },
+              "m": {},
+              "o": "list",
+              "s": [],
+              "v": [
+                {
+                  "apply": "ItemNotExists",
+                  "def": {
+                    "ref": "legacy_ref01"
+                  }
+                }
+              ]
+            }
+          ]
         },
         "BasicLegacyMutationFlow": {
           "active": true,
@@ -5043,17 +4854,6 @@
           "name": "BasicLegacyMutationFlow",
           "param": {},
           "step": [
-            {
-              "a": true,
-              "d": {},
-              "i": {
-                "ref": "legacy_mutation_ref01"
-              },
-              "m": {},
-              "o": "create",
-              "s": [],
-              "v": []
-            },
             {
               "a": true,
               "d": {},
@@ -5088,6 +4888,22 @@
             {
               "a": true,
               "d": {},
+              "i": {},
+              "m": {},
+              "o": "list",
+              "s": [],
+              "v": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "legacy_unknown_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "a": true,
+              "d": {},
               "i": {
                 "ref": "legacy_unknown_ref01",
                 "srcdatavar": "legacy_unknown_ref01_data",
@@ -5103,32 +4919,6 @@
                   "apply": "TextFieldMark",
                   "def": {
                     "mark": "Mark01-legacy_unknown_ref01"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        "BasicLegacyUnknownListFlow": {
-          "active": true,
-          "entity": "legacy_unknown_list",
-          "key$": "BasicLegacyUnknownListFlow",
-          "kind": "basic",
-          "name": "BasicLegacyUnknownListFlow",
-          "param": {},
-          "step": [
-            {
-              "a": true,
-              "d": {},
-              "i": {},
-              "m": {},
-              "o": "list",
-              "s": [],
-              "v": [
-                {
-                  "apply": "ItemExists",
-                  "def": {
-                    "ref": "legacy_unknown_list_ref01"
                   }
                 }
               ]
@@ -5161,32 +4951,6 @@
                   "apply": "TextFieldMark",
                   "def": {
                     "mark": "Mark01-legacy_user_ref01"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        "BasicLegacyUserListFlow": {
-          "active": true,
-          "entity": "legacy_user_list",
-          "key$": "BasicLegacyUserListFlow",
-          "kind": "basic",
-          "name": "BasicLegacyUserListFlow",
-          "param": {},
-          "step": [
-            {
-              "a": true,
-              "d": {},
-              "i": {},
-              "m": {},
-              "o": "list",
-              "s": [],
-              "v": [
-                {
-                  "apply": "ItemExists",
-                  "def": {
-                    "ref": "legacy_user_list_ref01"
                   }
                 }
               ]
@@ -5285,7 +5049,12 @@
         },
         "base": "http://localhost:8000",
         "clean": {
-          "keys": "key,token,id"
+          "active": true,
+          "hint": "0",
+          "keys": "key,secret,token,password,passwd,authorization,cookie,credential,signature",
+          "mask": "[redacted]",
+          "min": "4",
+          "values": ""
         },
         "entity": {
           "`$CHILD`": {

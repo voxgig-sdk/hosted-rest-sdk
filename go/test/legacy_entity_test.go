@@ -24,6 +24,54 @@ func TestLegacyEntity(t *testing.T) {
 		}
 	})
 
+	// Feature #4: the entity Stream(action, ...) method runs the op pipeline and
+	// returns a channel over result items. With the streaming feature active it
+	// yields the feature's incremental output; otherwise it falls back to the
+	// materialised list so Stream always yields.
+	t.Run("stream", func(t *testing.T) {
+		seed := map[string]any{
+			"entity": map[string]any{
+				"legacy": map[string]any{
+					"s1": map[string]any{"id": "s1"},
+					"s2": map[string]any{"id": "s2"},
+					"s3": map[string]any{"id": "s3"},
+				},
+			},
+		}
+
+		// Fallback: streaming inactive -> yields the materialised list items.
+		base := sdk.TestSDK(seed, nil)
+		var seen []any
+		for item := range base.Legacy(nil).Stream("list", nil, nil) {
+			seen = append(seen, item)
+		}
+		if len(seen) != 3 {
+			t.Fatalf("expected 3 streamed items, got %d", len(seen))
+		}
+
+		// Inbound: streaming active -> yields each item from the feature iterator.
+		hasStreaming := false
+		if fm, ok := core.SharedConfig()["feature"].(map[string]any); ok {
+			_, hasStreaming = fm["streaming"]
+		}
+		if hasStreaming {
+			streamSdk := sdk.TestSDK(seed, map[string]any{
+				"feature": map[string]any{"streaming": map[string]any{"active": true}},
+			})
+			var got []any
+			for item := range streamSdk.Legacy(nil).Stream("list", nil, nil) {
+				if sub, ok := item.([]any); ok {
+					got = append(got, sub...)
+				} else {
+					got = append(got, item)
+				}
+			}
+			if len(got) != 3 {
+				t.Fatalf("expected 3 items via streaming feature, got %d", len(got))
+			}
+		}
+	})
+
 	t.Run("basic", func(t *testing.T) {
 		setup := legacyBasicSetup(nil)
 		// Per-op sdk-test-control.json skip — basic test exercises a flow
@@ -32,7 +80,7 @@ func TestLegacyEntity(t *testing.T) {
 		if setup.live {
 			_mode = "live"
 		}
-		for _, _op := range []string{} {
+		for _, _op := range []string{"create", "list", "remove"} {
 			if _shouldSkip, _reason := isControlSkipped("entityOp", "legacy." + _op, _mode); _shouldSkip {
 				if _reason == "" {
 					_reason = "skipped via sdk-test-control.json"
@@ -47,15 +95,67 @@ func TestLegacyEntity(t *testing.T) {
 			t.Skip("live entity test uses synthetic IDs from fixture — set HOSTED_REST_TEST_LEGACY_ENTID JSON to run live")
 			return
 		}
-		// Bootstrap entity data from existing test data (no create step in flow).
-		legacyRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.legacy")))
-		var legacyRef01Data map[string]any
-		if len(legacyRef01DataRaw) > 0 {
-			legacyRef01Data = core.ToMapAny(legacyRef01DataRaw[0][1])
+		client := setup.client
+
+		// CREATE
+		legacyRef01Ent := client.Legacy(nil)
+		legacyRef01Data := core.ToMapAny(vs.GetProp(
+			vs.GetPath(setup.data, []any{"new", "legacy"}), "legacy_ref01"))
+
+		legacyRef01DataResult, err := legacyRef01Ent.Create(legacyRef01Data, nil)
+		if err != nil {
+			t.Fatalf("create failed: %v", err)
 		}
-		// Discard guards against Go's unused-var check when the flow's steps
-		// happen not to consume the bootstrap data (e.g. list-only flows).
-		_ = legacyRef01Data
+		legacyRef01Data = core.ToMapAny(entityData(legacyRef01DataResult))
+		if legacyRef01Data == nil {
+			t.Fatal("expected create result to be a map")
+		}
+		if legacyRef01Data["id"] == nil {
+			t.Fatal("expected created entity to have an id")
+		}
+
+		// LIST
+		legacyRef01Match := map[string]any{}
+
+		legacyRef01ListResult, err := legacyRef01Ent.List(legacyRef01Match, nil)
+		if err != nil {
+			t.Fatalf("list failed: %v", err)
+		}
+		legacyRef01List, legacyRef01ListOk := legacyRef01ListResult.([]any)
+		if !legacyRef01ListOk {
+			t.Fatalf("expected list result to be an array, got %T", legacyRef01ListResult)
+		}
+
+		foundItem := vs.Select(entityListToData(legacyRef01List), map[string]any{"id": legacyRef01Data["id"]})
+		if vs.IsEmpty(foundItem) {
+			t.Fatal("expected to find created entity in list")
+		}
+
+		// REMOVE
+		legacyRef01MatchRm0 := map[string]any{
+			"id": legacyRef01Data["id"],
+		}
+		_, err = legacyRef01Ent.Remove(legacyRef01MatchRm0, nil)
+		if err != nil {
+			t.Fatalf("remove failed: %v", err)
+		}
+
+		// LIST
+		legacyRef01MatchRt0 := map[string]any{}
+
+		legacyRef01ListRt0Result, err := legacyRef01Ent.List(legacyRef01MatchRt0, nil)
+		if err != nil {
+			t.Fatalf("list failed: %v", err)
+		}
+		legacyRef01ListRt0, legacyRef01ListRt0Ok := legacyRef01ListRt0Result.([]any)
+		if !legacyRef01ListRt0Ok {
+			t.Fatalf("expected list result to be an array, got %T", legacyRef01ListRt0Result)
+		}
+
+		notFoundItem := vs.Select(entityListToData(legacyRef01ListRt0), map[string]any{"id": legacyRef01Data["id"]})
+		if !vs.IsEmpty(notFoundItem) {
+			t.Fatal("expected removed entity to not be in list")
+		}
 
 	})
 }

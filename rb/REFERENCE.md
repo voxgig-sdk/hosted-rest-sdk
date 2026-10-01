@@ -54,10 +54,6 @@ Create a new `AgentSandbox` entity instance. Pass `nil` for no initial data.
 
 Create a new `AgentUser` entity instance. Pass `nil` for no initial data.
 
-#### `AgentUserList(data = nil)`
-
-Create a new `AgentUserList` entity instance. Pass `nil` for no initial data.
-
 #### `AppUser(data = nil)`
 
 Create a new `AppUser` entity instance. Pass `nil` for no initial data.
@@ -90,10 +86,6 @@ Create a new `Collection` entity instance. Pass `nil` for no initial data.
 
 Create a new `CollectionRecord` entity instance. Pass `nil` for no initial data.
 
-#### `CollectionRecordList(data = nil)`
-
-Create a new `CollectionRecordList` entity instance. Pass `nil` for no initial data.
-
 #### `Custom(data = nil)`
 
 Create a new `Custom` entity instance. Pass `nil` for no initial data.
@@ -110,17 +102,9 @@ Create a new `LegacyMutation` entity instance. Pass `nil` for no initial data.
 
 Create a new `LegacyUnknown` entity instance. Pass `nil` for no initial data.
 
-#### `LegacyUnknownList(data = nil)`
-
-Create a new `LegacyUnknownList` entity instance. Pass `nil` for no initial data.
-
 #### `LegacyUser(data = nil)`
 
 Create a new `LegacyUser` entity instance. Pass `nil` for no initial data.
-
-#### `LegacyUserList(data = nil)`
-
-Create a new `LegacyUserList` entity instance. Pass `nil` for no initial data.
 
 #### `Login(data = nil)`
 
@@ -311,6 +295,14 @@ agent_user = client.AgentUser
 
 ### Operations
 
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
+
+List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+
+```ruby
+results = client.AgentUser.list
+```
+
 #### `load(reqmatch, ctrl = nil) -> result`
 
 Load a single entity matching the given criteria. Raises on error.
@@ -340,67 +332,6 @@ Set the entity match criteria.
 #### `make -> Entity`
 
 Create a new `AgentUserEntity` instance with the same client and
-options.
-
-#### `get_name -> String`
-
-Return the entity name.
-
-
----
-
-## AgentUserListEntity
-
-```ruby
-agent_user_list = client.AgentUserList
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `created_at` | `String` | Yes |  |
-| `email` | `String` | Yes |  |
-| `full_name` | `String` | Yes |  |
-| `id` | `String` | Yes |  |
-| `locale` | `String` | Yes |  |
-| `preferences` | `Hash` | Yes |  |
-| `profile` | `Hash` | Yes |  |
-| `status` | `String` | Yes |  |
-| `timezone` | `String` | Yes |  |
-| `updated_at` | `String` | Yes |  |
-
-### Operations
-
-#### `list(reqmatch = nil, ctrl = nil) -> Array`
-
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
-
-```ruby
-results = client.AgentUserList.list
-```
-
-### Common Methods
-
-#### `data_get -> Hash`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get -> Hash`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make -> Entity`
-
-Create a new `AgentUserListEntity` instance with the same client and
 options.
 
 #### `get_name -> String`
@@ -918,6 +849,14 @@ result = client.CollectionRecord.create({
 })
 ```
 
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
+
+List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+
+```ruby
+results = client.CollectionRecord.list
+```
+
 #### `load(reqmatch, ctrl = nil) -> result`
 
 Load a single entity matching the given criteria. Raises on error.
@@ -959,66 +898,6 @@ Set the entity match criteria.
 #### `make -> Entity`
 
 Create a new `CollectionRecordEntity` instance with the same client and
-options.
-
-#### `get_name -> String`
-
-Return the entity name.
-
-
----
-
-## CollectionRecordListEntity
-
-```ruby
-collection_record_list = client.CollectionRecordList
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `app_user_id` | `String` | No |  |
-| `collection_id` | `String` | No |  |
-| `created_at` | `String` | No |  |
-| `created_by` | `String` | No |  |
-| `data` | `Hash` | Yes |  |
-| `deleted_at` | `String` | No |  |
-| `id` | `String` | Yes |  |
-| `project_id` | `String` | No |  |
-| `updated_at` | `String` | No |  |
-
-### Operations
-
-#### `list(reqmatch = nil, ctrl = nil) -> Array`
-
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
-
-```ruby
-results = client.CollectionRecordList.list
-```
-
-### Common Methods
-
-#### `data_get -> Hash`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get -> Hash`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make -> Entity`
-
-Create a new `CollectionRecordListEntity` instance with the same client and
 options.
 
 #### `get_name -> String`
@@ -1119,9 +998,35 @@ legacy = client.Legacy
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `String` | No |  |
+| `avatar` | `String` | Yes |  |
+| `email` | `String` | Yes |  |
+| `first_name` | `String` | Yes |  |
+| `id` | `Integer` | Yes |  |
+| `last_name` | `String` | Yes |  |
 
 ### Operations
+
+#### `create(reqdata, ctrl = nil) -> result`
+
+Create a new entity with the given data. Raises on error.
+
+```ruby
+result = client.Legacy.create({
+  "avatar" => "example_avatar", # String
+  "email" => "example_email", # String
+  "first_name" => "example_first_name", # String
+  "id" => 1, # Integer
+  "last_name" => "example_last_name", # String
+})
+```
+
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
+
+List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+
+```ruby
+results = client.Legacy.list
+```
 
 #### `remove(reqmatch, ctrl = nil) -> result`
 
@@ -1177,15 +1082,6 @@ legacy_mutation = client.LegacyMutation
 
 ### Operations
 
-#### `create(reqdata, ctrl = nil) -> result`
-
-Create a new entity with the given data. Raises on error.
-
-```ruby
-result = client.LegacyMutation.create({
-})
-```
-
 #### `update(reqdata, ctrl = nil) -> result`
 
 Update an existing entity. The data must include the entity `id`. Raises on error.
@@ -1237,11 +1133,23 @@ legacy_unknown = client.LegacyUnknown
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `color` | `String` | Yes |  |
 | `data` | `Hash` | Yes |  |
-| `id` | `String` | No |  |
+| `id` | `Integer` | Yes |  |
+| `name` | `String` | Yes |  |
+| `pantone_value` | `String` | Yes |  |
 | `support` | `Hash` | No |  |
+| `year` | `Integer` | Yes |  |
 
 ### Operations
+
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
+
+List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+
+```ruby
+results = client.LegacyUnknown.list
+```
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
@@ -1272,62 +1180,6 @@ Set the entity match criteria.
 #### `make -> Entity`
 
 Create a new `LegacyUnknownEntity` instance with the same client and
-options.
-
-#### `get_name -> String`
-
-Return the entity name.
-
-
----
-
-## LegacyUnknownListEntity
-
-```ruby
-legacy_unknown_list = client.LegacyUnknownList
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `color` | `String` | Yes |  |
-| `id` | `Integer` | Yes |  |
-| `name` | `String` | Yes |  |
-| `pantone_value` | `String` | Yes |  |
-| `year` | `Integer` | Yes |  |
-
-### Operations
-
-#### `list(reqmatch = nil, ctrl = nil) -> Array`
-
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
-
-```ruby
-results = client.LegacyUnknownList.list
-```
-
-### Common Methods
-
-#### `data_get -> Hash`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get -> Hash`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make -> Entity`
-
-Create a new `LegacyUnknownListEntity` instance with the same client and
 options.
 
 #### `get_name -> String`
@@ -1382,62 +1234,6 @@ Set the entity match criteria.
 #### `make -> Entity`
 
 Create a new `LegacyUserEntity` instance with the same client and
-options.
-
-#### `get_name -> String`
-
-Return the entity name.
-
-
----
-
-## LegacyUserListEntity
-
-```ruby
-legacy_user_list = client.LegacyUserList
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `avatar` | `String` | Yes |  |
-| `email` | `String` | Yes |  |
-| `first_name` | `String` | Yes |  |
-| `id` | `Integer` | Yes |  |
-| `last_name` | `String` | Yes |  |
-
-### Operations
-
-#### `list(reqmatch = nil, ctrl = nil) -> Array`
-
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
-
-```ruby
-results = client.LegacyUserList.list
-```
-
-### Common Methods
-
-#### `data_get -> Hash`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get -> Hash`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make -> Entity`
-
-Create a new `LegacyUserListEntity` instance with the same client and
 options.
 
 #### `get_name -> String`

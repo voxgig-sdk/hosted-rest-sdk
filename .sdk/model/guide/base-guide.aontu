@@ -4,7 +4,7 @@
 #   guide.aontu
 
 guide: {
-  metrics: count: entity: 22
+  metrics: count: entity: 18
   metrics: count: path: 32
   metrics: count: method: 52
 
@@ -31,15 +31,13 @@ guide: {
   }
 
   entity: agent_user: {
+    path: "/agent/v1/users": {
+      op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
+    }
     path: "/agent/v1/users/{id}": {
       op: load: method: *GET
       op: load: transform: res: *("`body.data`")|top
-    }
-  }
-
-  entity: agent_user_list: {
-    path: "/agent/v1/users": {
-      op: list: method: *GET
     }
   }
 
@@ -146,6 +144,8 @@ guide: {
     path: "/api/collections/{slug}/records": {
       op: create: method: *POST
       op: create: transform: res: *("`body.data`")|top
+      op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
     }
     path: "/api/collections/{slug}/records/{recordId}": {
       rename: param: "recordId": *"id"
@@ -158,6 +158,8 @@ guide: {
     path: "/app/collections/{slug}/records": {
       op: create: method: *POST
       op: create: transform: res: *("`body.data`")|top
+      op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
     }
     path: "/app/collections/{slug}/records/{recordId}": {
       rename: param: "recordId": *"id"
@@ -166,15 +168,6 @@ guide: {
       op: load: transform: res: *("`body.data`")|top
       op: update: method: *PUT
       op: update: transform: res: *("`body.data`")|top
-    }
-  }
-
-  entity: collection_record_list: {
-    path: "/api/collections/{slug}/records": {
-      op: list: method: *GET
-    }
-    path: "/app/collections/{slug}/records": {
-      op: list: method: *GET
     }
   }
 
@@ -190,15 +183,17 @@ guide: {
   }
 
   entity: legacy: {
+    path: "/api/users": {
+      op: create: method: *POST
+      op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
+    }
     path: "/api/users/{id}": {
       op: remove: method: *DELETE
     }
   }
 
   entity: legacy_mutation: {
-    path: "/api/users": {
-      op: create: method: *POST
-    }
     path: "/api/users/{id}": {
       op: patch: method: *PATCH
       op: update: method: *PUT
@@ -206,26 +201,18 @@ guide: {
   }
 
   entity: legacy_unknown: {
-    path: "/api/unknown/{id}": {
-      op: load: method: *GET
-    }
-  }
-
-  entity: legacy_unknown_list: {
     path: "/api/unknown": {
       op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
+    }
+    path: "/api/unknown/{id}": {
+      op: load: method: *GET
     }
   }
 
   entity: legacy_user: {
     path: "/api/users/{id}": {
       op: load: method: *GET
-    }
-  }
-
-  entity: legacy_user_list: {
-    path: "/api/users": {
-      op: list: method: *GET
     }
   }
 

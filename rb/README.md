@@ -12,9 +12,18 @@ The SDK exposes the API as capitalised, semantic **Entities** — for example `c
 
 ## Install
 This package is not yet published to RubyGems. Install it from the
-GitHub release tag (`rb/vX.Y.Z`):
+GitHub release tag (`rb/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/hosted-rest-sdk/releases)), or
+from a clone:
 
-- Releases: [https://github.com/voxgig-sdk/hosted-rest-sdk/releases](https://github.com/voxgig-sdk/hosted-rest-sdk/releases)
+```bash
+git clone https://github.com/voxgig-sdk/hosted-rest-sdk
+```
+
+Then add it to your `Gemfile` by path, and run `bundle install`:
+
+```ruby
+gem "voxgig-sdk-hosted-rest-sdk", path: "./hosted-rest-sdk/rb"
+```
 
 
 ## Tutorial: your first API call
@@ -205,7 +214,6 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `AgentHealth` | `(data) -> AgentHealthEntity` | Create an AgentHealth entity instance. |
 | `AgentSandbox` | `(data) -> AgentSandboxEntity` | Create an AgentSandbox entity instance. |
 | `AgentUser` | `(data) -> AgentUserEntity` | Create an AgentUser entity instance. |
-| `AgentUserList` | `(data) -> AgentUserListEntity` | Create an AgentUserList entity instance. |
 | `AppUser` | `(data) -> AppUserEntity` | Create an AppUser entity instance. |
 | `AppUserLogin` | `(data) -> AppUserLoginEntity` | Create an AppUserLogin entity instance. |
 | `AppUserSession` | `(data) -> AppUserSessionEntity` | Create an AppUserSession entity instance. |
@@ -214,14 +222,11 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `Authentication` | `(data) -> AuthenticationEntity` | Create an Authentication entity instance. |
 | `Collection` | `(data) -> CollectionEntity` | Create a Collection entity instance. |
 | `CollectionRecord` | `(data) -> CollectionRecordEntity` | Create a CollectionRecord entity instance. |
-| `CollectionRecordList` | `(data) -> CollectionRecordListEntity` | Create a CollectionRecordList entity instance. |
 | `Custom` | `(data) -> CustomEntity` | Create a Custom entity instance. |
 | `Legacy` | `(data) -> LegacyEntity` | Create a Legacy entity instance. |
 | `LegacyMutation` | `(data) -> LegacyMutationEntity` | Create a LegacyMutation entity instance. |
 | `LegacyUnknown` | `(data) -> LegacyUnknownEntity` | Create a LegacyUnknown entity instance. |
-| `LegacyUnknownList` | `(data) -> LegacyUnknownListEntity` | Create a LegacyUnknownList entity instance. |
 | `LegacyUser` | `(data) -> LegacyUserEntity` | Create a LegacyUser entity instance. |
-| `LegacyUserList` | `(data) -> LegacyUserListEntity` | Create a LegacyUserList entity instance. |
 | `Login` | `(data) -> LoginEntity` | Create a Login entity instance. |
 | `Register` | `(data) -> RegisterEntity` | Create a Register entity instance. |
 
@@ -302,26 +307,7 @@ API path: `/agent/v1/auth/login`
 | `timezone` |  |
 | `updated_at` |  |
 
-Operations: Load.
-
-API path: `/agent/v1/users/{id}`
-
-#### AgentUserList
-
-| Field | Description |
-| --- | --- |
-| `created_at` |  |
-| `email` |  |
-| `full_name` |  |
-| `id` |  |
-| `locale` |  |
-| `preferences` |  |
-| `profile` |  |
-| `status` |  |
-| `timezone` |  |
-| `updated_at` |  |
-
-Operations: List.
+Operations: List, Load.
 
 API path: `/agent/v1/users`
 
@@ -422,25 +408,7 @@ API path: `/api/collections`
 | `project_id` |  |
 | `updated_at` |  |
 
-Operations: Create, Load, Update.
-
-API path: `/api/collections/{slug}/records`
-
-#### CollectionRecordList
-
-| Field | Description |
-| --- | --- |
-| `app_user_id` |  |
-| `collection_id` |  |
-| `created_at` |  |
-| `created_by` |  |
-| `data` |  |
-| `deleted_at` |  |
-| `id` |  |
-| `project_id` |  |
-| `updated_at` |  |
-
-Operations: List.
+Operations: Create, List, Load, Update.
 
 API path: `/api/collections/{slug}/records`
 
@@ -458,11 +426,15 @@ API path: `/api/custom/{path}`
 
 | Field | Description |
 | --- | --- |
+| `avatar` |  |
+| `email` |  |
+| `first_name` |  |
 | `id` |  |
+| `last_name` |  |
 
-Operations: Remove.
+Operations: Create, List, Remove.
 
-API path: `/api/users/{id}`
+API path: `/api/users`
 
 #### LegacyMutation
 
@@ -472,33 +444,23 @@ API path: `/api/users/{id}`
 | `id` |  |
 | `updatedAt` |  |
 
-Operations: Create, Patch, Update.
+Operations: Patch, Update.
 
-API path: `/api/users`
+API path: `/api/users/{id}`
 
 #### LegacyUnknown
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
-| `id` |  |
-| `support` |  |
-
-Operations: Load.
-
-API path: `/api/unknown/{id}`
-
-#### LegacyUnknownList
-
-| Field | Description |
-| --- | --- |
 | `color` |  |
+| `data` |  |
 | `id` |  |
 | `name` |  |
 | `pantone_value` |  |
+| `support` |  |
 | `year` |  |
 
-Operations: List.
+Operations: List, Load.
 
 API path: `/api/unknown`
 
@@ -513,20 +475,6 @@ API path: `/api/unknown`
 Operations: Load.
 
 API path: `/api/users/{id}`
-
-#### LegacyUserList
-
-| Field | Description |
-| --- | --- |
-| `avatar` |  |
-| `email` |  |
-| `first_name` |  |
-| `id` |  |
-| `last_name` |  |
-
-Operations: List.
-
-API path: `/api/users`
 
 #### Login
 
@@ -629,6 +577,7 @@ Create an instance: `agent_user = client.AgentUser`
 
 | Method | Description |
 | --- | --- |
+| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
@@ -653,37 +602,11 @@ Create an instance: `agent_user = client.AgentUser`
 agent_user = client.AgentUser.load({ "id" => "agent_user_id" })
 ```
 
-
-### AgentUserList
-
-Create an instance: `agent_user_list = client.AgentUserList`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list(match)` | List entities matching the criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `created_at` | `String` |  |
-| `email` | `String` |  |
-| `full_name` | `String` |  |
-| `id` | `String` |  |
-| `locale` | `String` |  |
-| `preferences` | `Hash` |  |
-| `profile` | `Hash` |  |
-| `status` | `String` |  |
-| `timezone` | `String` |  |
-| `updated_at` | `String` |  |
-
 #### Example: List
 
 ```ruby
-# list returns an Array of AgentUserList records (raises on error).
-agent_user_lists = client.AgentUserList.list
+# list returns an Array of AgentUser records (raises on error).
+agent_users = client.AgentUser.list
 ```
 
 
@@ -910,6 +833,7 @@ Create an instance: `collection_record = client.CollectionRecord`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
+| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `update(data)` | Update an existing entity. |
 
@@ -934,6 +858,13 @@ Create an instance: `collection_record = client.CollectionRecord`
 collection_record = client.CollectionRecord.load({ "id" => "collection_record_id", "collection_id" => "collection_id" })
 ```
 
+#### Example: List
+
+```ruby
+# list returns an Array of CollectionRecord records (raises on error).
+collection_records = client.CollectionRecord.list
+```
+
 #### Example: Create
 
 ```ruby
@@ -942,38 +873,6 @@ collection_record = client.CollectionRecord.create({
   "data" => {}, # Hash
   "id" => "example_id", # String
 })
-```
-
-
-### CollectionRecordList
-
-Create an instance: `collection_record_list = client.CollectionRecordList`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list(match)` | List entities matching the criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `app_user_id` | `String` |  |
-| `collection_id` | `String` |  |
-| `created_at` | `String` |  |
-| `created_by` | `String` |  |
-| `data` | `Hash` |  |
-| `deleted_at` | `String` |  |
-| `id` | `String` |  |
-| `project_id` | `String` |  |
-| `updated_at` | `String` |  |
-
-#### Example: List
-
-```ruby
-# list returns an Array of CollectionRecordList records (raises on error).
-collection_record_lists = client.CollectionRecordList.list
 ```
 
 
@@ -1020,13 +919,38 @@ Create an instance: `legacy = client.Legacy`
 
 | Method | Description |
 | --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `list(match)` | List entities matching the criteria. |
 | `remove(match)` | Remove the matching entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` | `String` |  |
+| `avatar` | `String` |  |
+| `email` | `String` |  |
+| `first_name` | `String` |  |
+| `id` | `Integer` |  |
+| `last_name` | `String` |  |
+
+#### Example: List
+
+```ruby
+# list returns an Array of Legacy records (raises on error).
+legacys = client.Legacy.list
+```
+
+#### Example: Create
+
+```ruby
+legacy = client.Legacy.create({
+  "avatar" => "example_avatar", # String
+  "email" => "example_email", # String
+  "first_name" => "example_first_name", # String
+  "id" => 1, # Integer
+  "last_name" => "example_last_name", # String
+})
+```
 
 
 ### LegacyMutation
@@ -1037,7 +961,6 @@ Create an instance: `legacy_mutation = client.LegacyMutation`
 
 | Method | Description |
 | --- | --- |
-| `create(data)` | Create a new entity with the given data. |
 | `update(data)` | Update an existing entity. |
 
 #### Fields
@@ -1048,13 +971,6 @@ Create an instance: `legacy_mutation = client.LegacyMutation`
 | `id` | `String` |  |
 | `updatedAt` | `String` |  |
 
-#### Example: Create
-
-```ruby
-legacy_mutation = client.LegacyMutation.create({
-})
-```
-
 
 ### LegacyUnknown
 
@@ -1064,15 +980,20 @@ Create an instance: `legacy_unknown = client.LegacyUnknown`
 
 | Method | Description |
 | --- | --- |
+| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `color` | `String` |  |
 | `data` | `Hash` |  |
-| `id` | `String` |  |
+| `id` | `Integer` |  |
+| `name` | `String` |  |
+| `pantone_value` | `String` |  |
 | `support` | `Hash` |  |
+| `year` | `Integer` |  |
 
 #### Example: Load
 
@@ -1081,32 +1002,11 @@ Create an instance: `legacy_unknown = client.LegacyUnknown`
 legacy_unknown = client.LegacyUnknown.load({ "id" => 1 })
 ```
 
-
-### LegacyUnknownList
-
-Create an instance: `legacy_unknown_list = client.LegacyUnknownList`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list(match)` | List entities matching the criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `color` | `String` |  |
-| `id` | `Integer` |  |
-| `name` | `String` |  |
-| `pantone_value` | `String` |  |
-| `year` | `Integer` |  |
-
 #### Example: List
 
 ```ruby
-# list returns an Array of LegacyUnknownList records (raises on error).
-legacy_unknown_lists = client.LegacyUnknownList.list
+# list returns an Array of LegacyUnknown records (raises on error).
+legacy_unknowns = client.LegacyUnknown.list
 ```
 
 
@@ -1133,34 +1033,6 @@ Create an instance: `legacy_user = client.LegacyUser`
 ```ruby
 # load returns the ENTITY — call data_get for the LegacyUser record (raises on error).
 legacy_user = client.LegacyUser.load({ "id" => 1 })
-```
-
-
-### LegacyUserList
-
-Create an instance: `legacy_user_list = client.LegacyUserList`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list(match)` | List entities matching the criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `avatar` | `String` |  |
-| `email` | `String` |  |
-| `first_name` | `String` |  |
-| `id` | `Integer` |  |
-| `last_name` | `String` |  |
-
-#### Example: List
-
-```ruby
-# list returns an Array of LegacyUserList records (raises on error).
-legacy_user_lists = client.LegacyUserList.list
 ```
 
 

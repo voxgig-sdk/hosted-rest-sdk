@@ -7,6 +7,18 @@ main: kit: flow: BasicLegacyUnknownFlow:
   name: "BasicLegacyUnknownFlow",
   step: [
     {
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "legacy_unknown_ref01"
+          }
+        }
+      ]
+    }
+
+    {
       i: {
         ref: "legacy_unknown_ref01",
         srcdatavar: "legacy_unknown_ref01_data",

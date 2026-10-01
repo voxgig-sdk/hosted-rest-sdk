@@ -34,32 +34,6 @@ main: kit: entity: legacy_mutation: {
 
   name: "legacy_mutation"
   op: {
-    create: {
-      name: "create"
-      points: [
-        {
-          co: {
-            id: "POST /api/users"
-            source: "openapi3"
-            version: 2
-          }
-          m: "POST"
-          o: "/api/users"
-          s: [
-            {
-              lit: "api"
-            }
-            {
-              lit: "users"
-            }
-          ]
-          t: {
-            req: "`reqdata`"
-            res: "`body`"
-          }
-        }
-      ]
-    }
     patch: {
       name: "patch"
       points: [

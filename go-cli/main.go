@@ -20,7 +20,7 @@ import (
 const prompt = "hosted-rest"
 
 // entitiesHelp is the space-separated entity list shown by /help.
-const entitiesHelp = "agent_health agent_sandbox agent_user agent_user_list app_user app_user_login app_user_session app_user_total app_user_verify authentication collection collection_record collection_record_list custom legacy legacy_mutation legacy_unknown legacy_unknown_list legacy_user legacy_user_list login register"
+const entitiesHelp = "agent_health agent_sandbox agent_user app_user app_user_login app_user_session app_user_total app_user_verify authentication collection collection_record custom legacy legacy_mutation legacy_unknown legacy_user login register"
 
 func main() {
 	os.Exit(run(os.Args[1:], os.Stdin, os.Stdout, os.Stderr))

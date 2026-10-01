@@ -27,8 +27,8 @@ Tool-call arguments (what an agent sends):
 
 ```jsonc
 // hosted-rest_list: first page of records
-{ "entity": "agent_user_list" }
-{ "entity": "agent_user_list", "query": { } }
+{ "entity": "agent_user" }
+{ "entity": "agent_user", "query": { } }
 
 // hosted-rest_load: one record by id
 { "entity": "agent_health", "query": { "id": 1 } }
@@ -60,8 +60,8 @@ Tool-call arguments (what an agent sends):
    ```
 
 4. **Restart Claude Code.** The `hosted-rest_list` and `hosted-rest_load` tools now appear
-   in new sessions. Ask the agent to *"list agent_user_list using hosted-rest"*
-   and it calls `hosted-rest_list` with `{"entity":"agent_user_list"}`.
+   in new sessions. Ask the agent to *"list agent_user using hosted-rest"*
+   and it calls `hosted-rest_list` with `{"entity":"agent_user"}`.
 
 ## How-to guides
 
@@ -92,7 +92,7 @@ Args: `entity` (required), `query` (optional filter map). Returns the first
 page of records as JSON:
 
 ```jsonc
-{ "entity": "agent_user_list" }
+{ "entity": "agent_user" }
 ```
 
 ### Call the `hosted-rest_load` tool
@@ -129,7 +129,7 @@ Both tools take the same argument object:
 
 | Field | Type | Notes |
 |-------|------|-------|
-| `entity` | string | One of the 22 supported entities (see below). |
+| `entity` | string | One of the 18 supported entities (see below). |
 | `query` | object | Optional match map. `{"id":N}` for load; omit or `{}` for list. |
 
 JSON schemas are emitted by the SDK from the `Args` struct's `json` /
@@ -151,9 +151,9 @@ JSON schemas are emitted by the SDK from the `Args` struct's `json` /
 
 ### Entities
 
-The 22 entities valid as the `entity` argument:
+The 18 entities valid as the `entity` argument:
 
-agent_health | agent_sandbox | agent_user | agent_user_list | app_user | app_user_login | app_user_session | app_user_total | app_user_verify | authentication | collection | collection_record | collection_record_list | custom | legacy | legacy_mutation | legacy_unknown | legacy_unknown_list | legacy_user | legacy_user_list | login | register
+agent_health | agent_sandbox | agent_user | app_user | app_user_login | app_user_session | app_user_total | app_user_verify | authentication | collection | collection_record | custom | legacy | legacy_mutation | legacy_unknown | legacy_user | login | register
 
 ### Smoke test via HTTP (raw JSON-RPC)
 

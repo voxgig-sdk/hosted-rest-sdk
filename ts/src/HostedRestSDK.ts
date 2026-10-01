@@ -3,7 +3,6 @@
 import { AgentHealthEntity } from './entity/AgentHealthEntity'
 import { AgentSandboxEntity } from './entity/AgentSandboxEntity'
 import { AgentUserEntity } from './entity/AgentUserEntity'
-import { AgentUserListEntity } from './entity/AgentUserListEntity'
 import { AppUserEntity } from './entity/AppUserEntity'
 import { AppUserLoginEntity } from './entity/AppUserLoginEntity'
 import { AppUserSessionEntity } from './entity/AppUserSessionEntity'
@@ -12,14 +11,11 @@ import { AppUserVerifyEntity } from './entity/AppUserVerifyEntity'
 import { AuthenticationEntity } from './entity/AuthenticationEntity'
 import { CollectionEntity } from './entity/CollectionEntity'
 import { CollectionRecordEntity } from './entity/CollectionRecordEntity'
-import { CollectionRecordListEntity } from './entity/CollectionRecordListEntity'
 import { CustomEntity } from './entity/CustomEntity'
 import { LegacyEntity } from './entity/LegacyEntity'
 import { LegacyMutationEntity } from './entity/LegacyMutationEntity'
 import { LegacyUnknownEntity } from './entity/LegacyUnknownEntity'
-import { LegacyUnknownListEntity } from './entity/LegacyUnknownListEntity'
 import { LegacyUserEntity } from './entity/LegacyUserEntity'
-import { LegacyUserListEntity } from './entity/LegacyUserListEntity'
 import { LoginEntity } from './entity/LoginEntity'
 import { RegisterEntity } from './entity/RegisterEntity'
 
@@ -61,6 +57,12 @@ class HostedRestSDK {
     })
 
     this._options = this._utility.makeOptions(this._rootctx)
+
+    for (const key of ['_options', '_rootctx', '_features']) {
+      Object.defineProperty(this, key, {
+        value: (this as any)[key], enumerable: false, writable: true, configurable: true
+      })
+    }
 
     const struct = this._utility.struct
     const getpath = struct.getpath
@@ -221,7 +223,7 @@ class HostedRestSDK {
         return { ok: false, err: ctx.error('direct_no_response', 'response: undefined') }
       }
       else if (fetched instanceof Error) {
-        return { ok: false, err: fetched }
+        return { ok: false, err: utility.clean(ctx, fetched) }
       }
 
       const status = fetched.status
@@ -255,7 +257,7 @@ class HostedRestSDK {
       }
     }
     catch (err: any) {
-      return { ok: false, err }
+      return { ok: false, err: utility.clean(ctx, err) }
     }
   }
 
@@ -327,15 +329,6 @@ class HostedRestSDK {
   AgentUser(entopts?: Record<string, any>) {
     const self = this
     return new AgentUserEntity(self, entopts)
-  }
-
-
-  // Entity access: `client.AgentUserList().list()` / `client.AgentUserList().load({ id })`.
-  // The argument is the entity OPTIONS object (passed to the entity
-  // constructor as entopts), not initial entity data.
-  AgentUserList(entopts?: Record<string, any>) {
-    const self = this
-    return new AgentUserListEntity(self, entopts)
   }
 
 
@@ -411,15 +404,6 @@ class HostedRestSDK {
   }
 
 
-  // Entity access: `client.CollectionRecordList().list()` / `client.CollectionRecordList().load({ id })`.
-  // The argument is the entity OPTIONS object (passed to the entity
-  // constructor as entopts), not initial entity data.
-  CollectionRecordList(entopts?: Record<string, any>) {
-    const self = this
-    return new CollectionRecordListEntity(self, entopts)
-  }
-
-
   // Entity access: `client.Custom().list()` / `client.Custom().load({ id })`.
   // The argument is the entity OPTIONS object (passed to the entity
   // constructor as entopts), not initial entity data.
@@ -456,30 +440,12 @@ class HostedRestSDK {
   }
 
 
-  // Entity access: `client.LegacyUnknownList().list()` / `client.LegacyUnknownList().load({ id })`.
-  // The argument is the entity OPTIONS object (passed to the entity
-  // constructor as entopts), not initial entity data.
-  LegacyUnknownList(entopts?: Record<string, any>) {
-    const self = this
-    return new LegacyUnknownListEntity(self, entopts)
-  }
-
-
   // Entity access: `client.LegacyUser().list()` / `client.LegacyUser().load({ id })`.
   // The argument is the entity OPTIONS object (passed to the entity
   // constructor as entopts), not initial entity data.
   LegacyUser(entopts?: Record<string, any>) {
     const self = this
     return new LegacyUserEntity(self, entopts)
-  }
-
-
-  // Entity access: `client.LegacyUserList().list()` / `client.LegacyUserList().load({ id })`.
-  // The argument is the entity OPTIONS object (passed to the entity
-  // constructor as entopts), not initial entity data.
-  LegacyUserList(entopts?: Record<string, any>) {
-    const self = this
-    return new LegacyUserListEntity(self, entopts)
   }
 
 

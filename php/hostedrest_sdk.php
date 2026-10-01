@@ -22,7 +22,7 @@ use Voxgig\Struct\Struct;
 // (_retry, _cache, _metrics, ...); allow them explicitly (PHP 8.2+
 // deprecates implicit dynamic properties).
 #[\AllowDynamicProperties]
-class HostedRestSDK
+class HostedRestSDK implements \JsonSerializable
 {
     public string $mode;
     public array $features;
@@ -115,6 +115,19 @@ class HostedRestSDK
     {
         $out = Struct::clone($this->options);
         return is_array($out) ? $out : [];
+    }
+
+    // The options hold the credential, so the default print and json form
+    // name the client and nothing more; options_map() is the way to read
+    // them back.
+    public function jsonSerialize(): array
+    {
+        return ['name' => 'HostedRest'];
+    }
+
+    public function __debugInfo(): array
+    {
+        return $this->jsonSerialize();
     }
 
     public function get_utility()
@@ -242,7 +255,7 @@ class HostedRestSDK
         [$fetched, $fetch_err] = ($utility->fetcher)($ctx, $url, $fetchdef);
 
         if ($fetch_err) {
-            return ["ok" => false, "err" => $fetch_err];
+            return ["ok" => false, "err" => ($utility->clean)($ctx, $fetch_err)];
         }
 
         if ($fetched === null) {
@@ -395,24 +408,6 @@ class HostedRestSDK
     }
 
 
-    private $_agent_user_list = null;
-
-    // Canonical facade: $client->AgentUserList()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->agent_user_list()
-    // resolves here too.
-    public function AgentUserList($data = null)
-    {
-        require_once __DIR__ . '/entity/agent_user_list_entity.php';
-        if ($data === null) {
-            if ($this->_agent_user_list === null) {
-                $this->_agent_user_list = new AgentUserListEntity($this, null);
-            }
-            return $this->_agent_user_list;
-        }
-        return new AgentUserListEntity($this, $data);
-    }
-
-
     private $_app_user = null;
 
     // Canonical facade: $client->AppUser()->list() / ->load(["id" => ...]).
@@ -557,24 +552,6 @@ class HostedRestSDK
     }
 
 
-    private $_collection_record_list = null;
-
-    // Canonical facade: $client->CollectionRecordList()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->collection_record_list()
-    // resolves here too.
-    public function CollectionRecordList($data = null)
-    {
-        require_once __DIR__ . '/entity/collection_record_list_entity.php';
-        if ($data === null) {
-            if ($this->_collection_record_list === null) {
-                $this->_collection_record_list = new CollectionRecordListEntity($this, null);
-            }
-            return $this->_collection_record_list;
-        }
-        return new CollectionRecordListEntity($this, $data);
-    }
-
-
     private $_custom = null;
 
     // Canonical facade: $client->Custom()->list() / ->load(["id" => ...]).
@@ -647,24 +624,6 @@ class HostedRestSDK
     }
 
 
-    private $_legacy_unknown_list = null;
-
-    // Canonical facade: $client->LegacyUnknownList()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->legacy_unknown_list()
-    // resolves here too.
-    public function LegacyUnknownList($data = null)
-    {
-        require_once __DIR__ . '/entity/legacy_unknown_list_entity.php';
-        if ($data === null) {
-            if ($this->_legacy_unknown_list === null) {
-                $this->_legacy_unknown_list = new LegacyUnknownListEntity($this, null);
-            }
-            return $this->_legacy_unknown_list;
-        }
-        return new LegacyUnknownListEntity($this, $data);
-    }
-
-
     private $_legacy_user = null;
 
     // Canonical facade: $client->LegacyUser()->list() / ->load(["id" => ...]).
@@ -680,24 +639,6 @@ class HostedRestSDK
             return $this->_legacy_user;
         }
         return new LegacyUserEntity($this, $data);
-    }
-
-
-    private $_legacy_user_list = null;
-
-    // Canonical facade: $client->LegacyUserList()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->legacy_user_list()
-    // resolves here too.
-    public function LegacyUserList($data = null)
-    {
-        require_once __DIR__ . '/entity/legacy_user_list_entity.php';
-        if ($data === null) {
-            if ($this->_legacy_user_list === null) {
-                $this->_legacy_user_list = new LegacyUserListEntity($this, null);
-            }
-            return $this->_legacy_user_list;
-        }
-        return new LegacyUserListEntity($this, $data);
     }
 
 

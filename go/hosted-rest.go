@@ -50,9 +50,6 @@ func init() {
 	core.NewAgentUserEntityFunc = func(client *core.HostedRestSDK, entopts map[string]any) core.HostedRestEntity {
 		return entity.NewAgentUserEntity(client, entopts)
 	}
-	core.NewAgentUserListEntityFunc = func(client *core.HostedRestSDK, entopts map[string]any) core.HostedRestEntity {
-		return entity.NewAgentUserListEntity(client, entopts)
-	}
 	core.NewAppUserEntityFunc = func(client *core.HostedRestSDK, entopts map[string]any) core.HostedRestEntity {
 		return entity.NewAppUserEntity(client, entopts)
 	}
@@ -77,9 +74,6 @@ func init() {
 	core.NewCollectionRecordEntityFunc = func(client *core.HostedRestSDK, entopts map[string]any) core.HostedRestEntity {
 		return entity.NewCollectionRecordEntity(client, entopts)
 	}
-	core.NewCollectionRecordListEntityFunc = func(client *core.HostedRestSDK, entopts map[string]any) core.HostedRestEntity {
-		return entity.NewCollectionRecordListEntity(client, entopts)
-	}
 	core.NewCustomEntityFunc = func(client *core.HostedRestSDK, entopts map[string]any) core.HostedRestEntity {
 		return entity.NewCustomEntity(client, entopts)
 	}
@@ -92,14 +86,8 @@ func init() {
 	core.NewLegacyUnknownEntityFunc = func(client *core.HostedRestSDK, entopts map[string]any) core.HostedRestEntity {
 		return entity.NewLegacyUnknownEntity(client, entopts)
 	}
-	core.NewLegacyUnknownListEntityFunc = func(client *core.HostedRestSDK, entopts map[string]any) core.HostedRestEntity {
-		return entity.NewLegacyUnknownListEntity(client, entopts)
-	}
 	core.NewLegacyUserEntityFunc = func(client *core.HostedRestSDK, entopts map[string]any) core.HostedRestEntity {
 		return entity.NewLegacyUserEntity(client, entopts)
-	}
-	core.NewLegacyUserListEntityFunc = func(client *core.HostedRestSDK, entopts map[string]any) core.HostedRestEntity {
-		return entity.NewLegacyUserListEntity(client, entopts)
 	}
 	core.NewLoginEntityFunc = func(client *core.HostedRestSDK, entopts map[string]any) core.HostedRestEntity {
 		return entity.NewLoginEntity(client, entopts)

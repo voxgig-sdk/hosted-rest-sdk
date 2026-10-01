@@ -12,9 +12,14 @@ The SDK exposes the API as capitalised, semantic **Entities** — for example `$
 
 ## Install
 This package is not yet published to Packagist. Install it from the
-GitHub release tag (`php/vX.Y.Z`):
+GitHub release tag (`php/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/hosted-rest-sdk/releases)), or
+from a clone as a Composer path repository:
 
-- Releases: [https://github.com/voxgig-sdk/hosted-rest-sdk/releases](https://github.com/voxgig-sdk/hosted-rest-sdk/releases)
+```bash
+git clone https://github.com/voxgig-sdk/hosted-rest-sdk
+composer config repositories.hosted-rest-sdk path ./hosted-rest-sdk/php
+composer require voxgig-sdk/hosted-rest-sdk:@dev
+```
 
 
 ## Tutorial: your first API call
@@ -127,13 +132,13 @@ data via the `entity` option so offline calls resolve without a live server:
 
 ```php
 $client = HostedRestSDK::test([
-    "entity" => ["appuser" => ["test01" => ["id" => "test01"]]],
+    "entity" => ["collection" => ["test01" => ["id" => "test01"]]],
 ]);
 
 // list() returns entity instances (throws on error);
 // call data_get() for the mock record.
-$appuser = $client->AppUser()->list();
-print_r(array_map(fn($item) => $item->data_get(), $appuser));
+$collection = $client->Collection()->list();
+print_r(array_map(fn($item) => $item->data_get(), $collection));
 ```
 
 ### Use a custom fetch function
@@ -217,7 +222,6 @@ Creates a test-mode client with mock transport. Both arguments may be `null`.
 | `AgentHealth` | `($data): AgentHealthEntity` | Create an AgentHealth entity instance. |
 | `AgentSandbox` | `($data): AgentSandboxEntity` | Create an AgentSandbox entity instance. |
 | `AgentUser` | `($data): AgentUserEntity` | Create an AgentUser entity instance. |
-| `AgentUserList` | `($data): AgentUserListEntity` | Create an AgentUserList entity instance. |
 | `AppUser` | `($data): AppUserEntity` | Create an AppUser entity instance. |
 | `AppUserLogin` | `($data): AppUserLoginEntity` | Create an AppUserLogin entity instance. |
 | `AppUserSession` | `($data): AppUserSessionEntity` | Create an AppUserSession entity instance. |
@@ -226,14 +230,11 @@ Creates a test-mode client with mock transport. Both arguments may be `null`.
 | `Authentication` | `($data): AuthenticationEntity` | Create an Authentication entity instance. |
 | `Collection` | `($data): CollectionEntity` | Create a Collection entity instance. |
 | `CollectionRecord` | `($data): CollectionRecordEntity` | Create a CollectionRecord entity instance. |
-| `CollectionRecordList` | `($data): CollectionRecordListEntity` | Create a CollectionRecordList entity instance. |
 | `Custom` | `($data): CustomEntity` | Create a Custom entity instance. |
 | `Legacy` | `($data): LegacyEntity` | Create a Legacy entity instance. |
 | `LegacyMutation` | `($data): LegacyMutationEntity` | Create a LegacyMutation entity instance. |
 | `LegacyUnknown` | `($data): LegacyUnknownEntity` | Create a LegacyUnknown entity instance. |
-| `LegacyUnknownList` | `($data): LegacyUnknownListEntity` | Create a LegacyUnknownList entity instance. |
 | `LegacyUser` | `($data): LegacyUserEntity` | Create a LegacyUser entity instance. |
-| `LegacyUserList` | `($data): LegacyUserListEntity` | Create a LegacyUserList entity instance. |
 | `Login` | `($data): LoginEntity` | Create a Login entity instance. |
 | `Register` | `($data): RegisterEntity` | Create a Register entity instance. |
 
@@ -315,26 +316,7 @@ API path: `/agent/v1/auth/login`
 | `timezone` |  |
 | `updated_at` |  |
 
-Operations: Load.
-
-API path: `/agent/v1/users/{id}`
-
-#### AgentUserList
-
-| Field | Description |
-| --- | --- |
-| `created_at` |  |
-| `email` |  |
-| `full_name` |  |
-| `id` |  |
-| `locale` |  |
-| `preferences` |  |
-| `profile` |  |
-| `status` |  |
-| `timezone` |  |
-| `updated_at` |  |
-
-Operations: List.
+Operations: List, Load.
 
 API path: `/agent/v1/users`
 
@@ -435,25 +417,7 @@ API path: `/api/collections`
 | `project_id` |  |
 | `updated_at` |  |
 
-Operations: Create, Load, Update.
-
-API path: `/api/collections/{slug}/records`
-
-#### CollectionRecordList
-
-| Field | Description |
-| --- | --- |
-| `app_user_id` |  |
-| `collection_id` |  |
-| `created_at` |  |
-| `created_by` |  |
-| `data` |  |
-| `deleted_at` |  |
-| `id` |  |
-| `project_id` |  |
-| `updated_at` |  |
-
-Operations: List.
+Operations: Create, List, Load, Update.
 
 API path: `/api/collections/{slug}/records`
 
@@ -471,11 +435,15 @@ API path: `/api/custom/{path}`
 
 | Field | Description |
 | --- | --- |
+| `avatar` |  |
+| `email` |  |
+| `first_name` |  |
 | `id` |  |
+| `last_name` |  |
 
-Operations: Remove.
+Operations: Create, List, Remove.
 
-API path: `/api/users/{id}`
+API path: `/api/users`
 
 #### LegacyMutation
 
@@ -485,33 +453,23 @@ API path: `/api/users/{id}`
 | `id` |  |
 | `updatedAt` |  |
 
-Operations: Create, Patch, Update.
+Operations: Patch, Update.
 
-API path: `/api/users`
+API path: `/api/users/{id}`
 
 #### LegacyUnknown
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
-| `id` |  |
-| `support` |  |
-
-Operations: Load.
-
-API path: `/api/unknown/{id}`
-
-#### LegacyUnknownList
-
-| Field | Description |
-| --- | --- |
 | `color` |  |
+| `data` |  |
 | `id` |  |
 | `name` |  |
 | `pantone_value` |  |
+| `support` |  |
 | `year` |  |
 
-Operations: List.
+Operations: List, Load.
 
 API path: `/api/unknown`
 
@@ -526,20 +484,6 @@ API path: `/api/unknown`
 Operations: Load.
 
 API path: `/api/users/{id}`
-
-#### LegacyUserList
-
-| Field | Description |
-| --- | --- |
-| `avatar` |  |
-| `email` |  |
-| `first_name` |  |
-| `id` |  |
-| `last_name` |  |
-
-Operations: List.
-
-API path: `/api/users`
 
 #### Login
 
@@ -642,6 +586,7 @@ Create an instance: `$agent_user = $client->AgentUser();`
 
 | Method | Description |
 | --- | --- |
+| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
@@ -666,37 +611,11 @@ Create an instance: `$agent_user = $client->AgentUser();`
 $agent_user = $client->AgentUser()->load(["id" => "agent_user_id"]);
 ```
 
-
-### AgentUserList
-
-Create an instance: `$agent_user_list = $client->AgentUserList();`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list(match)` | List entities matching the criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `created_at` | `string` |  |
-| `email` | `string` |  |
-| `full_name` | `string` |  |
-| `id` | `string` |  |
-| `locale` | `string` |  |
-| `preferences` | `array` |  |
-| `profile` | `array` |  |
-| `status` | `string` |  |
-| `timezone` | `string` |  |
-| `updated_at` | `string` |  |
-
 #### Example: List
 
 ```php
-// list() returns an array of AgentUserList records (throws on error).
-$agent_user_lists = $client->AgentUserList()->list();
+// list() returns an array of AgentUser records (throws on error).
+$agent_users = $client->AgentUser()->list();
 ```
 
 
@@ -923,6 +842,7 @@ Create an instance: `$collection_record = $client->CollectionRecord();`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
+| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `update(data)` | Update an existing entity. |
 
@@ -947,6 +867,13 @@ Create an instance: `$collection_record = $client->CollectionRecord();`
 $collection_record = $client->CollectionRecord()->load(["id" => "collection_record_id", "collection_id" => "collection_id"]);
 ```
 
+#### Example: List
+
+```php
+// list() returns an array of CollectionRecord records (throws on error).
+$collection_records = $client->CollectionRecord()->list();
+```
+
 #### Example: Create
 
 ```php
@@ -955,38 +882,6 @@ $collection_record = $client->CollectionRecord()->create([
     "data" => null, // array
     "id" => null, // string
 ]);
-```
-
-
-### CollectionRecordList
-
-Create an instance: `$collection_record_list = $client->CollectionRecordList();`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list(match)` | List entities matching the criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `app_user_id` | `string` |  |
-| `collection_id` | `string` |  |
-| `created_at` | `string` |  |
-| `created_by` | `string` |  |
-| `data` | `array` |  |
-| `deleted_at` | `string` |  |
-| `id` | `string` |  |
-| `project_id` | `string` |  |
-| `updated_at` | `string` |  |
-
-#### Example: List
-
-```php
-// list() returns an array of CollectionRecordList records (throws on error).
-$collection_record_lists = $client->CollectionRecordList()->list();
 ```
 
 
@@ -1033,13 +928,38 @@ Create an instance: `$legacy = $client->Legacy();`
 
 | Method | Description |
 | --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `list(match)` | List entities matching the criteria. |
 | `remove(match)` | Remove the matching entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` | `string` |  |
+| `avatar` | `string` |  |
+| `email` | `string` |  |
+| `first_name` | `string` |  |
+| `id` | `int` |  |
+| `last_name` | `string` |  |
+
+#### Example: List
+
+```php
+// list() returns an array of Legacy records (throws on error).
+$legacys = $client->Legacy()->list();
+```
+
+#### Example: Create
+
+```php
+$legacy = $client->Legacy()->create([
+    "avatar" => null, // string
+    "email" => null, // string
+    "first_name" => null, // string
+    "id" => null, // int
+    "last_name" => null, // string
+]);
+```
 
 
 ### LegacyMutation
@@ -1050,7 +970,6 @@ Create an instance: `$legacy_mutation = $client->LegacyMutation();`
 
 | Method | Description |
 | --- | --- |
-| `create(data)` | Create a new entity with the given data. |
 | `update(data)` | Update an existing entity. |
 
 #### Fields
@@ -1061,13 +980,6 @@ Create an instance: `$legacy_mutation = $client->LegacyMutation();`
 | `id` | `string` |  |
 | `updatedAt` | `string` |  |
 
-#### Example: Create
-
-```php
-$legacy_mutation = $client->LegacyMutation()->create([
-]);
-```
-
 
 ### LegacyUnknown
 
@@ -1077,15 +989,20 @@ Create an instance: `$legacy_unknown = $client->LegacyUnknown();`
 
 | Method | Description |
 | --- | --- |
+| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `color` | `string` |  |
 | `data` | `array` |  |
-| `id` | `string` |  |
+| `id` | `int` |  |
+| `name` | `string` |  |
+| `pantone_value` | `string` |  |
 | `support` | `array` |  |
+| `year` | `int` |  |
 
 #### Example: Load
 
@@ -1094,32 +1011,11 @@ Create an instance: `$legacy_unknown = $client->LegacyUnknown();`
 $legacy_unknown = $client->LegacyUnknown()->load(["id" => 1]);
 ```
 
-
-### LegacyUnknownList
-
-Create an instance: `$legacy_unknown_list = $client->LegacyUnknownList();`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list(match)` | List entities matching the criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `color` | `string` |  |
-| `id` | `int` |  |
-| `name` | `string` |  |
-| `pantone_value` | `string` |  |
-| `year` | `int` |  |
-
 #### Example: List
 
 ```php
-// list() returns an array of LegacyUnknownList records (throws on error).
-$legacy_unknown_lists = $client->LegacyUnknownList()->list();
+// list() returns an array of LegacyUnknown records (throws on error).
+$legacy_unknowns = $client->LegacyUnknown()->list();
 ```
 
 
@@ -1146,34 +1042,6 @@ Create an instance: `$legacy_user = $client->LegacyUser();`
 ```php
 // load() returns the ENTITY — call data_get() for the LegacyUser record (throws on error).
 $legacy_user = $client->LegacyUser()->load(["id" => 1]);
-```
-
-
-### LegacyUserList
-
-Create an instance: `$legacy_user_list = $client->LegacyUserList();`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list(match)` | List entities matching the criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `avatar` | `string` |  |
-| `email` | `string` |  |
-| `first_name` | `string` |  |
-| `id` | `int` |  |
-| `last_name` | `string` |  |
-
-#### Example: List
-
-```php
-// list() returns an array of LegacyUserList records (throws on error).
-$legacy_user_lists = $client->LegacyUserList()->list();
 ```
 
 

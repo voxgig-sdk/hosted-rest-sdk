@@ -60,10 +60,6 @@ Create a new `AgentSandbox` entity instance. Pass `nil` for no initial data.
 
 Create a new `AgentUser` entity instance. Pass `nil` for no initial data.
 
-#### `AgentUserList(data map[string]any) HostedRestEntity`
-
-Create a new `AgentUserList` entity instance. Pass `nil` for no initial data.
-
 #### `AppUser(data map[string]any) HostedRestEntity`
 
 Create a new `AppUser` entity instance. Pass `nil` for no initial data.
@@ -96,10 +92,6 @@ Create a new `Collection` entity instance. Pass `nil` for no initial data.
 
 Create a new `CollectionRecord` entity instance. Pass `nil` for no initial data.
 
-#### `CollectionRecordList(data map[string]any) HostedRestEntity`
-
-Create a new `CollectionRecordList` entity instance. Pass `nil` for no initial data.
-
 #### `Custom(data map[string]any) HostedRestEntity`
 
 Create a new `Custom` entity instance. Pass `nil` for no initial data.
@@ -116,17 +108,9 @@ Create a new `LegacyMutation` entity instance. Pass `nil` for no initial data.
 
 Create a new `LegacyUnknown` entity instance. Pass `nil` for no initial data.
 
-#### `LegacyUnknownList(data map[string]any) HostedRestEntity`
-
-Create a new `LegacyUnknownList` entity instance. Pass `nil` for no initial data.
-
 #### `LegacyUser(data map[string]any) HostedRestEntity`
 
 Create a new `LegacyUser` entity instance. Pass `nil` for no initial data.
-
-#### `LegacyUserList(data map[string]any) HostedRestEntity`
-
-Create a new `LegacyUserList` entity instance. Pass `nil` for no initial data.
 
 #### `Login(data map[string]any) HostedRestEntity`
 
@@ -318,6 +302,18 @@ fmt.Println(agentUser.GetName()) // "agent_user"
 
 ### Operations
 
+#### `List(reqmatch, ctrl map[string]any) (any, error)`
+
+List entities matching the given criteria. Returns an array.
+
+```go
+results, err := client.AgentUser(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(results)
+```
+
 #### `Load(reqmatch, ctrl map[string]any) (any, error)`
 
 Load a single entity matching the given criteria.
@@ -345,66 +341,6 @@ Get or set the entity match criteria. Works the same as `Data()`.
 #### `Make() Entity`
 
 Create a new `AgentUserEntity` instance with the same client and
-options.
-
-#### `GetName() string`
-
-Return the entity name.
-
-
----
-
-## AgentUserListEntity
-
-```go
-agentUserList := client.AgentUserList(nil)
-fmt.Println(agentUserList.GetName()) // "agent_user_list"
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `created_at` | `string` | Yes |  |
-| `email` | `string` | Yes |  |
-| `full_name` | `string` | Yes |  |
-| `id` | `string` | Yes |  |
-| `locale` | `string` | Yes |  |
-| `preferences` | `map[string]any` | Yes |  |
-| `profile` | `map[string]any` | Yes |  |
-| `status` | `string` | Yes |  |
-| `timezone` | `string` | Yes |  |
-| `updated_at` | `string` | Yes |  |
-
-### Operations
-
-#### `List(reqmatch, ctrl map[string]any) (any, error)`
-
-List entities matching the given criteria. Returns an array.
-
-```go
-results, err := client.AgentUserList(nil).List(nil, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(results)
-```
-
-### Common Methods
-
-#### `Data(args ...any) any`
-
-Get or set the entity data. When called with data, sets the entity's
-internal data and returns the current data. When called without
-arguments, returns a copy of the current data.
-
-#### `Match(args ...any) any`
-
-Get or set the entity match criteria. Works the same as `Data()`.
-
-#### `Make() Entity`
-
-Create a new `AgentUserListEntity` instance with the same client and
 options.
 
 #### `GetName() string`
@@ -936,6 +872,18 @@ fmt.Println(collectionRecord.GetName()) // "collection_record"
 
 ### Operations
 
+#### `List(reqmatch, ctrl map[string]any) (any, error)`
+
+List entities matching the given criteria. Returns an array.
+
+```go
+results, err := client.CollectionRecord(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(results)
+```
+
 #### `Load(reqmatch, ctrl map[string]any) (any, error)`
 
 Load a single entity matching the given criteria.
@@ -995,65 +943,6 @@ Get or set the entity match criteria. Works the same as `Data()`.
 #### `Make() Entity`
 
 Create a new `CollectionRecordEntity` instance with the same client and
-options.
-
-#### `GetName() string`
-
-Return the entity name.
-
-
----
-
-## CollectionRecordListEntity
-
-```go
-collectionRecordList := client.CollectionRecordList(nil)
-fmt.Println(collectionRecordList.GetName()) // "collection_record_list"
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `app_user_id` | `string` | No |  |
-| `collection_id` | `string` | No |  |
-| `created_at` | `string` | No |  |
-| `created_by` | `string` | No |  |
-| `data` | `map[string]any` | Yes |  |
-| `deleted_at` | `string` | No |  |
-| `id` | `string` | Yes |  |
-| `project_id` | `string` | No |  |
-| `updated_at` | `string` | No |  |
-
-### Operations
-
-#### `List(reqmatch, ctrl map[string]any) (any, error)`
-
-List entities matching the given criteria. Returns an array.
-
-```go
-results, err := client.CollectionRecordList(nil).List(nil, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(results)
-```
-
-### Common Methods
-
-#### `Data(args ...any) any`
-
-Get or set the entity data. When called with data, sets the entity's
-internal data and returns the current data. When called without
-arguments, returns a copy of the current data.
-
-#### `Match(args ...any) any`
-
-Get or set the entity match criteria. Works the same as `Data()`.
-
-#### `Make() Entity`
-
-Create a new `CollectionRecordListEntity` instance with the same client and
 options.
 
 #### `GetName() string`
@@ -1166,9 +1055,43 @@ fmt.Println(legacy.GetName()) // "legacy"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `string` | No |  |
+| `avatar` | `string` | Yes |  |
+| `email` | `string` | Yes |  |
+| `first_name` | `string` | Yes |  |
+| `id` | `int` | Yes |  |
+| `last_name` | `string` | Yes |  |
 
 ### Operations
+
+#### `List(reqmatch, ctrl map[string]any) (any, error)`
+
+List entities matching the given criteria. Returns an array.
+
+```go
+results, err := client.Legacy(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(results)
+```
+
+#### `Create(reqdata, ctrl map[string]any) (any, error)`
+
+Create a new entity with the given data.
+
+```go
+result, err := client.Legacy(nil).Create(map[string]any{
+    "avatar": "example_avatar",
+    "email": "example_email",
+    "first_name": "example_first_name",
+    "id": 1,
+    "last_name": "example_last_name",
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
 
 #### `Remove(reqmatch, ctrl map[string]any) (any, error)`
 
@@ -1223,19 +1146,6 @@ fmt.Println(legacyMutation.GetName()) // "legacy_mutation"
 
 ### Operations
 
-#### `Create(reqdata, ctrl map[string]any) (any, error)`
-
-Create a new entity with the given data.
-
-```go
-result, err := client.LegacyMutation(nil).Create(map[string]any{
-}, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(result)
-```
-
 #### `Update(reqdata, ctrl map[string]any) (any, error)`
 
 Update an existing entity. The data must include the entity `id`.
@@ -1286,11 +1196,27 @@ fmt.Println(legacyUnknown.GetName()) // "legacy_unknown"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `color` | `string` | Yes |  |
 | `data` | `map[string]any` | Yes |  |
-| `id` | `string` | No |  |
+| `id` | `int` | Yes |  |
+| `name` | `string` | Yes |  |
+| `pantone_value` | `string` | Yes |  |
 | `support` | `map[string]any` | No |  |
+| `year` | `int` | Yes |  |
 
 ### Operations
+
+#### `List(reqmatch, ctrl map[string]any) (any, error)`
+
+List entities matching the given criteria. Returns an array.
+
+```go
+results, err := client.LegacyUnknown(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(results)
+```
 
 #### `Load(reqmatch, ctrl map[string]any) (any, error)`
 
@@ -1319,61 +1245,6 @@ Get or set the entity match criteria. Works the same as `Data()`.
 #### `Make() Entity`
 
 Create a new `LegacyUnknownEntity` instance with the same client and
-options.
-
-#### `GetName() string`
-
-Return the entity name.
-
-
----
-
-## LegacyUnknownListEntity
-
-```go
-legacyUnknownList := client.LegacyUnknownList(nil)
-fmt.Println(legacyUnknownList.GetName()) // "legacy_unknown_list"
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `color` | `string` | Yes |  |
-| `id` | `int` | Yes |  |
-| `name` | `string` | Yes |  |
-| `pantone_value` | `string` | Yes |  |
-| `year` | `int` | Yes |  |
-
-### Operations
-
-#### `List(reqmatch, ctrl map[string]any) (any, error)`
-
-List entities matching the given criteria. Returns an array.
-
-```go
-results, err := client.LegacyUnknownList(nil).List(nil, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(results)
-```
-
-### Common Methods
-
-#### `Data(args ...any) any`
-
-Get or set the entity data. When called with data, sets the entity's
-internal data and returns the current data. When called without
-arguments, returns a copy of the current data.
-
-#### `Match(args ...any) any`
-
-Get or set the entity match criteria. Works the same as `Data()`.
-
-#### `Make() Entity`
-
-Create a new `LegacyUnknownListEntity` instance with the same client and
 options.
 
 #### `GetName() string`
@@ -1427,61 +1298,6 @@ Get or set the entity match criteria. Works the same as `Data()`.
 #### `Make() Entity`
 
 Create a new `LegacyUserEntity` instance with the same client and
-options.
-
-#### `GetName() string`
-
-Return the entity name.
-
-
----
-
-## LegacyUserListEntity
-
-```go
-legacyUserList := client.LegacyUserList(nil)
-fmt.Println(legacyUserList.GetName()) // "legacy_user_list"
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `avatar` | `string` | Yes |  |
-| `email` | `string` | Yes |  |
-| `first_name` | `string` | Yes |  |
-| `id` | `int` | Yes |  |
-| `last_name` | `string` | Yes |  |
-
-### Operations
-
-#### `List(reqmatch, ctrl map[string]any) (any, error)`
-
-List entities matching the given criteria. Returns an array.
-
-```go
-results, err := client.LegacyUserList(nil).List(nil, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(results)
-```
-
-### Common Methods
-
-#### `Data(args ...any) any`
-
-Get or set the entity data. When called with data, sets the entity's
-internal data and returns the current data. When called without
-arguments, returns a copy of the current data.
-
-#### `Match(args ...any) any`
-
-Get or set the entity match criteria. Works the same as `Data()`.
-
-#### `Make() Entity`
-
-Create a new `LegacyUserListEntity` instance with the same client and
 options.
 
 #### `GetName() string`

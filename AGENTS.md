@@ -31,7 +31,7 @@ Each feature is generated into every SDK target — as a directory
 `<lang>/src/feature/<name>/` (ts/js) or a flat file in the `<lang>/feature/`
 package (other languages). Each target's guide documents its features.
 
-**Entities** (22): `AgentHealth`, `AgentSandbox`, `AgentUser`, `AgentUserList`, `AppUser`, `AppUserLogin`, `AppUserSession`, `AppUserTotal`, `AppUserVerify`, `Authentication`, `Collection`, `CollectionRecord`, `CollectionRecordList`, `Custom`, `Legacy`, `LegacyMutation`, `LegacyUnknown`, `LegacyUnknownList`, `LegacyUser`, `LegacyUserList`, `Login`, `Register`.
+**Entities** (18): `AgentHealth`, `AgentSandbox`, `AgentUser`, `AppUser`, `AppUserLogin`, `AppUserSession`, `AppUserTotal`, `AppUserVerify`, `Authentication`, `Collection`, `CollectionRecord`, `Custom`, `Legacy`, `LegacyMutation`, `LegacyUnknown`, `LegacyUser`, `Login`, `Register`.
 
 ## Generating and updating the SDK
 

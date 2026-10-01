@@ -194,7 +194,6 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `AgentHealth` | `(data) -> AgentHealthEntity` | Create an AgentHealth entity instance. |
 | `AgentSandbox` | `(data) -> AgentSandboxEntity` | Create an AgentSandbox entity instance. |
 | `AgentUser` | `(data) -> AgentUserEntity` | Create an AgentUser entity instance. |
-| `AgentUserList` | `(data) -> AgentUserListEntity` | Create an AgentUserList entity instance. |
 | `AppUser` | `(data) -> AppUserEntity` | Create an AppUser entity instance. |
 | `AppUserLogin` | `(data) -> AppUserLoginEntity` | Create an AppUserLogin entity instance. |
 | `AppUserSession` | `(data) -> AppUserSessionEntity` | Create an AppUserSession entity instance. |
@@ -203,14 +202,11 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `Authentication` | `(data) -> AuthenticationEntity` | Create an Authentication entity instance. |
 | `Collection` | `(data) -> CollectionEntity` | Create a Collection entity instance. |
 | `CollectionRecord` | `(data) -> CollectionRecordEntity` | Create a CollectionRecord entity instance. |
-| `CollectionRecordList` | `(data) -> CollectionRecordListEntity` | Create a CollectionRecordList entity instance. |
 | `Custom` | `(data) -> CustomEntity` | Create a Custom entity instance. |
 | `Legacy` | `(data) -> LegacyEntity` | Create a Legacy entity instance. |
 | `LegacyMutation` | `(data) -> LegacyMutationEntity` | Create a LegacyMutation entity instance. |
 | `LegacyUnknown` | `(data) -> LegacyUnknownEntity` | Create a LegacyUnknown entity instance. |
-| `LegacyUnknownList` | `(data) -> LegacyUnknownListEntity` | Create a LegacyUnknownList entity instance. |
 | `LegacyUser` | `(data) -> LegacyUserEntity` | Create a LegacyUser entity instance. |
-| `LegacyUserList` | `(data) -> LegacyUserListEntity` | Create a LegacyUserList entity instance. |
 | `Login` | `(data) -> LoginEntity` | Create a Login entity instance. |
 | `Register` | `(data) -> RegisterEntity` | Create a Register entity instance. |
 
@@ -293,26 +289,7 @@ API path: `/agent/v1/auth/login`
 | `timezone` |  |
 | `updated_at` |  |
 
-Operations: Load.
-
-API path: `/agent/v1/users/{id}`
-
-#### AgentUserList
-
-| Field | Description |
-| --- | --- |
-| `created_at` |  |
-| `email` |  |
-| `full_name` |  |
-| `id` |  |
-| `locale` |  |
-| `preferences` |  |
-| `profile` |  |
-| `status` |  |
-| `timezone` |  |
-| `updated_at` |  |
-
-Operations: List.
+Operations: List, Load.
 
 API path: `/agent/v1/users`
 
@@ -413,25 +390,7 @@ API path: `/api/collections`
 | `project_id` |  |
 | `updated_at` |  |
 
-Operations: Create, Load, Update.
-
-API path: `/api/collections/{slug}/records`
-
-#### CollectionRecordList
-
-| Field | Description |
-| --- | --- |
-| `app_user_id` |  |
-| `collection_id` |  |
-| `created_at` |  |
-| `created_by` |  |
-| `data` |  |
-| `deleted_at` |  |
-| `id` |  |
-| `project_id` |  |
-| `updated_at` |  |
-
-Operations: List.
+Operations: Create, List, Load, Update.
 
 API path: `/api/collections/{slug}/records`
 
@@ -449,11 +408,15 @@ API path: `/api/custom/{path}`
 
 | Field | Description |
 | --- | --- |
+| `avatar` |  |
+| `email` |  |
+| `first_name` |  |
 | `id` |  |
+| `last_name` |  |
 
-Operations: Remove.
+Operations: Create, List, Remove.
 
-API path: `/api/users/{id}`
+API path: `/api/users`
 
 #### LegacyMutation
 
@@ -463,33 +426,23 @@ API path: `/api/users/{id}`
 | `id` |  |
 | `updatedAt` |  |
 
-Operations: Create, Patch, Update.
+Operations: Patch, Update.
 
-API path: `/api/users`
+API path: `/api/users/{id}`
 
 #### LegacyUnknown
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
-| `id` |  |
-| `support` |  |
-
-Operations: Load.
-
-API path: `/api/unknown/{id}`
-
-#### LegacyUnknownList
-
-| Field | Description |
-| --- | --- |
 | `color` |  |
+| `data` |  |
 | `id` |  |
 | `name` |  |
 | `pantone_value` |  |
+| `support` |  |
 | `year` |  |
 
-Operations: List.
+Operations: List, Load.
 
 API path: `/api/unknown`
 
@@ -504,20 +457,6 @@ API path: `/api/unknown`
 Operations: Load.
 
 API path: `/api/users/{id}`
-
-#### LegacyUserList
-
-| Field | Description |
-| --- | --- |
-| `avatar` |  |
-| `email` |  |
-| `first_name` |  |
-| `id` |  |
-| `last_name` |  |
-
-Operations: List.
-
-API path: `/api/users`
 
 #### Login
 
@@ -618,6 +557,7 @@ Create an instance: `local agent_user = client:AgentUser(nil)`
 
 | Method | Description |
 | --- | --- |
+| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
@@ -641,36 +581,10 @@ Create an instance: `local agent_user = client:AgentUser(nil)`
 local agent_user, err = client:AgentUser():load({ id = "agent_user_id" })
 ```
 
-
-### AgentUserList
-
-Create an instance: `local agent_user_list = client:AgentUserList(nil)`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list(match)` | List entities matching the criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `created_at` | `string` |  |
-| `email` | `string` |  |
-| `full_name` | `string` |  |
-| `id` | `string` |  |
-| `locale` | `string` |  |
-| `preferences` | `table` |  |
-| `profile` | `table` |  |
-| `status` | `string` |  |
-| `timezone` | `string` |  |
-| `updated_at` | `string` |  |
-
 #### Example: List
 
 ```lua
-local agent_user_lists, err = client:AgentUserList():list()
+local agent_users, err = client:AgentUser():list()
 ```
 
 
@@ -891,6 +805,7 @@ Create an instance: `local collection_record = client:CollectionRecord(nil)`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
+| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `update(data)` | Update an existing entity. |
 
@@ -914,6 +829,12 @@ Create an instance: `local collection_record = client:CollectionRecord(nil)`
 local collection_record, err = client:CollectionRecord():load({ id = "collection_record_id", collection_id = "collection_id" })
 ```
 
+#### Example: List
+
+```lua
+local collection_records, err = client:CollectionRecord():list()
+```
+
 #### Example: Create
 
 ```lua
@@ -922,37 +843,6 @@ local collection_record, err = client:CollectionRecord():create({
   data = {}, -- table
   id = "example_id", -- string
 })
-```
-
-
-### CollectionRecordList
-
-Create an instance: `local collection_record_list = client:CollectionRecordList(nil)`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list(match)` | List entities matching the criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `app_user_id` | `string` |  |
-| `collection_id` | `string` |  |
-| `created_at` | `string` |  |
-| `created_by` | `string` |  |
-| `data` | `table` |  |
-| `deleted_at` | `string` |  |
-| `id` | `string` |  |
-| `project_id` | `string` |  |
-| `updated_at` | `string` |  |
-
-#### Example: List
-
-```lua
-local collection_record_lists, err = client:CollectionRecordList():list()
 ```
 
 
@@ -998,13 +888,37 @@ Create an instance: `local legacy = client:Legacy(nil)`
 
 | Method | Description |
 | --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `list(match)` | List entities matching the criteria. |
 | `remove(match)` | Remove the matching entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` | `string` |  |
+| `avatar` | `string` |  |
+| `email` | `string` |  |
+| `first_name` | `string` |  |
+| `id` | `number` |  |
+| `last_name` | `string` |  |
+
+#### Example: List
+
+```lua
+local legacys, err = client:Legacy():list()
+```
+
+#### Example: Create
+
+```lua
+local legacy, err = client:Legacy():create({
+  avatar = "example_avatar", -- string
+  email = "example_email", -- string
+  first_name = "example_first_name", -- string
+  id = 1, -- number
+  last_name = "example_last_name", -- string
+})
+```
 
 
 ### LegacyMutation
@@ -1015,7 +929,6 @@ Create an instance: `local legacy_mutation = client:LegacyMutation(nil)`
 
 | Method | Description |
 | --- | --- |
-| `create(data)` | Create a new entity with the given data. |
 | `update(data)` | Update an existing entity. |
 
 #### Fields
@@ -1026,13 +939,6 @@ Create an instance: `local legacy_mutation = client:LegacyMutation(nil)`
 | `id` | `string` |  |
 | `updatedAt` | `string` |  |
 
-#### Example: Create
-
-```lua
-local legacy_mutation, err = client:LegacyMutation():create({
-})
-```
-
 
 ### LegacyUnknown
 
@@ -1042,15 +948,20 @@ Create an instance: `local legacy_unknown = client:LegacyUnknown(nil)`
 
 | Method | Description |
 | --- | --- |
+| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `color` | `string` |  |
 | `data` | `table` |  |
-| `id` | `string` |  |
+| `id` | `number` |  |
+| `name` | `string` |  |
+| `pantone_value` | `string` |  |
 | `support` | `table` |  |
+| `year` | `number` |  |
 
 #### Example: Load
 
@@ -1058,31 +969,10 @@ Create an instance: `local legacy_unknown = client:LegacyUnknown(nil)`
 local legacy_unknown, err = client:LegacyUnknown():load({ id = 1 })
 ```
 
-
-### LegacyUnknownList
-
-Create an instance: `local legacy_unknown_list = client:LegacyUnknownList(nil)`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list(match)` | List entities matching the criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `color` | `string` |  |
-| `id` | `number` |  |
-| `name` | `string` |  |
-| `pantone_value` | `string` |  |
-| `year` | `number` |  |
-
 #### Example: List
 
 ```lua
-local legacy_unknown_lists, err = client:LegacyUnknownList():list()
+local legacy_unknowns, err = client:LegacyUnknown():list()
 ```
 
 
@@ -1108,33 +998,6 @@ Create an instance: `local legacy_user = client:LegacyUser(nil)`
 
 ```lua
 local legacy_user, err = client:LegacyUser():load({ id = 1 })
-```
-
-
-### LegacyUserList
-
-Create an instance: `local legacy_user_list = client:LegacyUserList(nil)`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list(match)` | List entities matching the criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `avatar` | `string` |  |
-| `email` | `string` |  |
-| `first_name` | `string` |  |
-| `id` | `number` |  |
-| `last_name` | `string` |  |
-
-#### Example: List
-
-```lua
-local legacy_user_lists, err = client:LegacyUserList():list()
 ```
 
 

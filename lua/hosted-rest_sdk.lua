@@ -1,5 +1,6 @@
 -- HostedRest SDK
 
+local json = require("dkjson")
 local vs = require("utility.struct.struct")
 local Utility = require("core.utility_type")
 local Spec = require("core.spec")
@@ -17,7 +18,53 @@ local features_factory = require("features")
 
 
 local HostedRestSDK = {}
-HostedRestSDK.__index = HostedRestSDK
+
+-- The options and the root context both hold the credential. They live in
+-- a side table rather than in the client, so a dump or an encoder walking
+-- the client's fields never reaches them; `sdk.options` still reads and
+-- writes through the metamethods, and options_map() is the documented way
+-- to read the credential back.
+local HIDDEN = { options = true, _rootctx = true }
+local SLOTS = setmetatable({}, { __mode = "k" })
+
+HostedRestSDK.__index = function(self, key)
+  local member = rawget(HostedRestSDK, key)
+  if member ~= nil then
+    return member
+  end
+  if HIDDEN[key] then
+    local slots = SLOTS[self]
+    return slots ~= nil and slots[key] or nil
+  end
+  return nil
+end
+
+HostedRestSDK.__newindex = function(self, key, val)
+  if HIDDEN[key] then
+    local slots = SLOTS[self]
+    if slots == nil then
+      slots = {}
+      SLOTS[self] = slots
+    end
+    slots[key] = val
+  else
+    rawset(self, key, val)
+  end
+end
+
+-- The client's own record: what a serialiser or clean's snapshot sees in
+-- place of the client, so neither reaches the options through it.
+function HostedRestSDK:to_record()
+  return { sdk = "HostedRest", mode = self.mode }
+end
+
+HostedRestSDK.__tostring = function(self)
+  return "HostedRestSDK mode=" .. tostring(self.mode)
+end
+
+HostedRestSDK.__tojson = function(self)
+  return json.encode(self:to_record())
+end
 
 
 local function _make_feature(name)
@@ -248,7 +295,7 @@ function HostedRestSDK:_raw_request(fetchargs)
   local fetched, fetch_err = utility.fetcher(ctx, url, fetchdef)
 
   if fetch_err ~= nil then
-    return { ok = false, err = fetch_err }, nil
+    return { ok = false, err = utility.clean(ctx, fetch_err) }, nil
   end
 
   if fetched == nil then
@@ -391,20 +438,6 @@ function HostedRestSDK:AgentUser(data)
 end
 
 
--- Idiomatic facade: client:AgentUserList():list() / client:AgentUserList():load({ id = ... })
--- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function HostedRestSDK:AgentUserList(data)
-  local EntityMod = require("entity.agent_user_list_entity")
-  if data == nil then
-    if self._agent_user_list == nil then
-      self._agent_user_list = EntityMod.new(self, nil)
-    end
-    return self._agent_user_list
-  end
-  return EntityMod.new(self, data)
-end
-
-
 -- Idiomatic facade: client:AppUser():list() / client:AppUser():load({ id = ... })
 -- Entity access is capitalised (PascalCase) for parity with the other SDKs.
 function HostedRestSDK:AppUser(data)
@@ -517,20 +550,6 @@ function HostedRestSDK:CollectionRecord(data)
 end
 
 
--- Idiomatic facade: client:CollectionRecordList():list() / client:CollectionRecordList():load({ id = ... })
--- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function HostedRestSDK:CollectionRecordList(data)
-  local EntityMod = require("entity.collection_record_list_entity")
-  if data == nil then
-    if self._collection_record_list == nil then
-      self._collection_record_list = EntityMod.new(self, nil)
-    end
-    return self._collection_record_list
-  end
-  return EntityMod.new(self, data)
-end
-
-
 -- Idiomatic facade: client:Custom():list() / client:Custom():load({ id = ... })
 -- Entity access is capitalised (PascalCase) for parity with the other SDKs.
 function HostedRestSDK:Custom(data)
@@ -587,20 +606,6 @@ function HostedRestSDK:LegacyUnknown(data)
 end
 
 
--- Idiomatic facade: client:LegacyUnknownList():list() / client:LegacyUnknownList():load({ id = ... })
--- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function HostedRestSDK:LegacyUnknownList(data)
-  local EntityMod = require("entity.legacy_unknown_list_entity")
-  if data == nil then
-    if self._legacy_unknown_list == nil then
-      self._legacy_unknown_list = EntityMod.new(self, nil)
-    end
-    return self._legacy_unknown_list
-  end
-  return EntityMod.new(self, data)
-end
-
-
 -- Idiomatic facade: client:LegacyUser():list() / client:LegacyUser():load({ id = ... })
 -- Entity access is capitalised (PascalCase) for parity with the other SDKs.
 function HostedRestSDK:LegacyUser(data)
@@ -610,20 +615,6 @@ function HostedRestSDK:LegacyUser(data)
       self._legacy_user = EntityMod.new(self, nil)
     end
     return self._legacy_user
-  end
-  return EntityMod.new(self, data)
-end
-
-
--- Idiomatic facade: client:LegacyUserList():list() / client:LegacyUserList():load({ id = ... })
--- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function HostedRestSDK:LegacyUserList(data)
-  local EntityMod = require("entity.legacy_user_list_entity")
-  if data == nil then
-    if self._legacy_user_list == nil then
-      self._legacy_user_list = EntityMod.new(self, nil)
-    end
-    return self._legacy_user_list
   end
   return EntityMod.new(self, data)
 end

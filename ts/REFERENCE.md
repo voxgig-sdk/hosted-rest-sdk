@@ -85,18 +85,6 @@ Create a new `AgentUser` entity instance.
 
 **Returns:** `AgentUserEntity` instance.
 
-#### `AgentUserList(data?: object)`
-
-Create a new `AgentUserList` entity instance.
-
-**Parameters:**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `data` | `object` | Initial entity data. |
-
-**Returns:** `AgentUserListEntity` instance.
-
 #### `AppUser(data?: object)`
 
 Create a new `AppUser` entity instance.
@@ -193,18 +181,6 @@ Create a new `CollectionRecord` entity instance.
 
 **Returns:** `CollectionRecordEntity` instance.
 
-#### `CollectionRecordList(data?: object)`
-
-Create a new `CollectionRecordList` entity instance.
-
-**Parameters:**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `data` | `object` | Initial entity data. |
-
-**Returns:** `CollectionRecordListEntity` instance.
-
 #### `Custom(data?: object)`
 
 Create a new `Custom` entity instance.
@@ -253,18 +229,6 @@ Create a new `LegacyUnknown` entity instance.
 
 **Returns:** `LegacyUnknownEntity` instance.
 
-#### `LegacyUnknownList(data?: object)`
-
-Create a new `LegacyUnknownList` entity instance.
-
-**Parameters:**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `data` | `object` | Initial entity data. |
-
-**Returns:** `LegacyUnknownListEntity` instance.
-
 #### `LegacyUser(data?: object)`
 
 Create a new `LegacyUser` entity instance.
@@ -276,18 +240,6 @@ Create a new `LegacyUser` entity instance.
 | `data` | `object` | Initial entity data. |
 
 **Returns:** `LegacyUserEntity` instance.
-
-#### `LegacyUserList(data?: object)`
-
-Create a new `LegacyUserList` entity instance.
-
-**Parameters:**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `data` | `object` | Initial entity data. |
-
-**Returns:** `LegacyUserListEntity` instance.
 
 #### `Login(data?: object)`
 
@@ -498,6 +450,14 @@ const agent_user = client.AgentUser()
 
 ### Operations
 
+#### `list(match: object, ctrl?: object)`
+
+List entities matching the given criteria. Returns an array.
+
+```ts
+const results = await client.AgentUser().list()
+```
+
 #### `load(match: object, ctrl?: object)`
 
 Load a single entity matching the given criteria.
@@ -521,65 +481,6 @@ Get or set the entity match criteria. Works the same as `data()`.
 #### `make()`
 
 Create a new `AgentUserEntity` instance with the same client and
-options.
-
-#### `client()`
-
-Return the parent `HostedRestSDK` instance.
-
-#### `entopts()`
-
-Return a copy of the entity options.
-
-
----
-
-## AgentUserListEntity
-
-```ts
-const agent_user_list = client.AgentUserList()
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `created_at` | `string` | Yes |  |
-| `email` | `string` | Yes |  |
-| `full_name` | `string` | Yes |  |
-| `id` | `string` | Yes |  |
-| `locale` | `string` | Yes |  |
-| `preferences` | `Record<string, any>` | Yes |  |
-| `profile` | `Record<string, any>` | Yes |  |
-| `status` | `string` | Yes |  |
-| `timezone` | `string` | Yes |  |
-| `updated_at` | `string` | Yes |  |
-
-### Operations
-
-#### `list(match: object, ctrl?: object)`
-
-List entities matching the given criteria. Returns an array.
-
-```ts
-const results = await client.AgentUserList().list()
-```
-
-### Common Methods
-
-#### `data(data?: object)`
-
-Get or set the entity data. When called with data, sets the entity's
-internal data and returns the current data. When called without
-arguments, returns a copy of the current data.
-
-#### `match(match?: object)`
-
-Get or set the entity match criteria. Works the same as `data()`.
-
-#### `make()`
-
-Create a new `AgentUserListEntity` instance with the same client and
 options.
 
 #### `client()`
@@ -1107,6 +1008,14 @@ const result = await client.CollectionRecord().create({
 })
 ```
 
+#### `list(match: object, ctrl?: object)`
+
+List entities matching the given criteria. Returns an array.
+
+```ts
+const results = await client.CollectionRecord().list({ slug: "example" })
+```
+
 #### `load(match: object, ctrl?: object)`
 
 Load a single entity matching the given criteria.
@@ -1142,64 +1051,6 @@ Get or set the entity match criteria. Works the same as `data()`.
 #### `make()`
 
 Create a new `CollectionRecordEntity` instance with the same client and
-options.
-
-#### `client()`
-
-Return the parent `HostedRestSDK` instance.
-
-#### `entopts()`
-
-Return a copy of the entity options.
-
-
----
-
-## CollectionRecordListEntity
-
-```ts
-const collection_record_list = client.CollectionRecordList()
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `app_user_id` | `string` | No |  |
-| `collection_id` | `string` | No |  |
-| `created_at` | `string` | No |  |
-| `created_by` | `string` | No |  |
-| `data` | `Record<string, any>` | Yes |  |
-| `deleted_at` | `string` | No |  |
-| `id` | `string` | Yes |  |
-| `project_id` | `string` | No |  |
-| `updated_at` | `string` | No |  |
-
-### Operations
-
-#### `list(match: object, ctrl?: object)`
-
-List entities matching the given criteria. Returns an array.
-
-```ts
-const results = await client.CollectionRecordList().list({ slug: "example" })
-```
-
-### Common Methods
-
-#### `data(data?: object)`
-
-Get or set the entity data. When called with data, sets the entity's
-internal data and returns the current data. When called without
-arguments, returns a copy of the current data.
-
-#### `match(match?: object)`
-
-Get or set the entity match criteria. Works the same as `data()`.
-
-#### `make()`
-
-Create a new `CollectionRecordListEntity` instance with the same client and
 options.
 
 #### `client()`
@@ -1302,9 +1153,35 @@ const legacy = client.Legacy()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `string` | No |  |
+| `avatar` | `string` | Yes |  |
+| `email` | `string` | Yes |  |
+| `first_name` | `string` | Yes |  |
+| `id` | `number` | Yes |  |
+| `last_name` | `string` | Yes |  |
 
 ### Operations
+
+#### `create(data: object, ctrl?: object)`
+
+Create a new entity with the given data.
+
+```ts
+const result = await client.Legacy().create({
+  avatar: 'example_avatar',
+  email: 'example_email',
+  first_name: 'example_first_name',
+  id: 1,
+  last_name: 'example_last_name',
+})
+```
+
+#### `list(match: object, ctrl?: object)`
+
+List entities matching the given criteria. Returns an array.
+
+```ts
+const results = await client.Legacy().list()
+```
 
 #### `remove(match: object, ctrl?: object)`
 
@@ -1358,15 +1235,6 @@ const legacy_mutation = client.LegacyMutation()
 
 ### Operations
 
-#### `create(data: object, ctrl?: object)`
-
-Create a new entity with the given data.
-
-```ts
-const result = await client.LegacyMutation().create({
-})
-```
-
 #### `update(data: object, ctrl?: object)`
 
 Update an existing entity. The data must include the entity `id`.
@@ -1416,11 +1284,23 @@ const legacy_unknown = client.LegacyUnknown()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `color` | `string` | Yes |  |
 | `data` | `Record<string, any>` | Yes |  |
-| `id` | `string` | No |  |
+| `id` | `number` | Yes |  |
+| `name` | `string` | Yes |  |
+| `pantone_value` | `string` | Yes |  |
 | `support` | `Record<string, any>` | No |  |
+| `year` | `number` | Yes |  |
 
 ### Operations
+
+#### `list(match: object, ctrl?: object)`
+
+List entities matching the given criteria. Returns an array.
+
+```ts
+const results = await client.LegacyUnknown().list()
+```
 
 #### `load(match: object, ctrl?: object)`
 
@@ -1445,60 +1325,6 @@ Get or set the entity match criteria. Works the same as `data()`.
 #### `make()`
 
 Create a new `LegacyUnknownEntity` instance with the same client and
-options.
-
-#### `client()`
-
-Return the parent `HostedRestSDK` instance.
-
-#### `entopts()`
-
-Return a copy of the entity options.
-
-
----
-
-## LegacyUnknownListEntity
-
-```ts
-const legacy_unknown_list = client.LegacyUnknownList()
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `color` | `string` | Yes |  |
-| `id` | `number` | Yes |  |
-| `name` | `string` | Yes |  |
-| `pantone_value` | `string` | Yes |  |
-| `year` | `number` | Yes |  |
-
-### Operations
-
-#### `list(match: object, ctrl?: object)`
-
-List entities matching the given criteria. Returns an array.
-
-```ts
-const results = await client.LegacyUnknownList().list()
-```
-
-### Common Methods
-
-#### `data(data?: object)`
-
-Get or set the entity data. When called with data, sets the entity's
-internal data and returns the current data. When called without
-arguments, returns a copy of the current data.
-
-#### `match(match?: object)`
-
-Get or set the entity match criteria. Works the same as `data()`.
-
-#### `make()`
-
-Create a new `LegacyUnknownListEntity` instance with the same client and
 options.
 
 #### `client()`
@@ -1551,60 +1377,6 @@ Get or set the entity match criteria. Works the same as `data()`.
 #### `make()`
 
 Create a new `LegacyUserEntity` instance with the same client and
-options.
-
-#### `client()`
-
-Return the parent `HostedRestSDK` instance.
-
-#### `entopts()`
-
-Return a copy of the entity options.
-
-
----
-
-## LegacyUserListEntity
-
-```ts
-const legacy_user_list = client.LegacyUserList()
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `avatar` | `string` | Yes |  |
-| `email` | `string` | Yes |  |
-| `first_name` | `string` | Yes |  |
-| `id` | `number` | Yes |  |
-| `last_name` | `string` | Yes |  |
-
-### Operations
-
-#### `list(match: object, ctrl?: object)`
-
-List entities matching the given criteria. Returns an array.
-
-```ts
-const results = await client.LegacyUserList().list()
-```
-
-### Common Methods
-
-#### `data(data?: object)`
-
-Get or set the entity data. When called with data, sets the entity's
-internal data and returns the current data. When called without
-arguments, returns a copy of the current data.
-
-#### `match(match?: object)`
-
-Get or set the entity match criteria. Works the same as `data()`.
-
-#### `make()`
-
-Create a new `LegacyUserListEntity` instance with the same client and
 options.
 
 #### `client()`

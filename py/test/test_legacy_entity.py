@@ -21,13 +21,47 @@ class TestLegacyEntity:
         ent = testsdk.Legacy(None)
         assert ent is not None
 
+    def test_should_stream(self):
+        # Feature #4: the entity stream(action, ...) method runs the op
+        # pipeline and yields result items. With the streaming feature active
+        # it yields the feature's incremental output; otherwise it falls back
+        # to the materialised list so stream always yields.
+        seed = {
+            "entity": {
+                "legacy": {
+                    "s1": {"id": "s1"},
+                    "s2": {"id": "s2"},
+                    "s3": {"id": "s3"},
+                }
+            }
+        }
+
+        # Fallback: streaming inactive -> yields the materialised list items.
+        base = HostedRestSDK.test(seed, None)
+        seen = list(base.Legacy(None).stream("list", None, None))
+        assert len(seen) == 3
+
+        # Inbound: streaming active -> yields each item from the feature.
+        from hostedrest_sdk.config import shared_config
+        cfg = shared_config()
+        if isinstance(cfg.get("feature"), dict) and "streaming" in cfg["feature"]:
+            sdk = HostedRestSDK.test(
+                seed, {"feature": {"streaming": {"active": True}}})
+            got = []
+            for item in sdk.Legacy(None).stream("list", None, None):
+                if isinstance(item, list):
+                    got.extend(item)
+                else:
+                    got.append(item)
+            assert len(got) == 3
+
     def test_should_run_basic_flow(self):
         setup = _legacy_basic_setup(None)
         # Per-op sdk-test-control.json skip — basic test exercises a flow with
         # multiple ops; skipping any one skips the whole flow (steps depend
         # on each other).
         _live = setup.get("live", False)
-        for _op in []:
+        for _op in ["create", "list", "remove"]:
             _skip, _reason = runner.is_control_skipped("entityOp", "legacy." + _op, "live" if _live else "unit")
             if _skip:
                 pytest.skip(_reason or "skipped via sdk-test-control.json")
@@ -39,12 +73,42 @@ class TestLegacyEntity:
                         "set HOSTED_REST_TEST_LEGACY_ENTID JSON to run live")
         client = setup["client"]
 
-        # Bootstrap entity data from existing test data.
-        legacy_ref01_data_raw = vs.items(helpers.to_map(
-            vs.getpath(setup["data"], "existing.legacy")))
-        legacy_ref01_data = None
-        if len(legacy_ref01_data_raw) > 0:
-            legacy_ref01_data = helpers.to_map(legacy_ref01_data_raw[0][1])
+        # CREATE
+        legacy_ref01_ent = client.Legacy(None)
+        legacy_ref01_data = helpers.to_map(vs.getprop(
+            vs.getpath(setup["data"], "new.legacy"), "legacy_ref01"))
+
+        legacy_ref01_data = helpers.to_map(runner.entity_data(legacy_ref01_ent.create(legacy_ref01_data, None)))
+        assert legacy_ref01_data is not None
+        assert legacy_ref01_data["id"] is not None
+
+        # LIST
+        legacy_ref01_match = {}
+
+        legacy_ref01_list_result = legacy_ref01_ent.list(legacy_ref01_match, None)
+        assert isinstance(legacy_ref01_list_result, list)
+
+        found_item = vs.select(
+            runner.entity_list_to_data(legacy_ref01_list_result),
+            {"id": legacy_ref01_data["id"]})
+        assert not vs.isempty(found_item)
+
+        # REMOVE
+        legacy_ref01_match_rm0 = {
+            "id": legacy_ref01_data["id"],
+        }
+        legacy_ref01_ent.remove(legacy_ref01_match_rm0, None)
+
+        # LIST
+        legacy_ref01_match_rt0 = {}
+
+        legacy_ref01_list_rt0_result = legacy_ref01_ent.list(legacy_ref01_match_rt0, None)
+        assert isinstance(legacy_ref01_list_rt0_result, list)
+
+        not_found_item = vs.select(
+            runner.entity_list_to_data(legacy_ref01_list_rt0_result),
+            {"id": legacy_ref01_data["id"]})
+        assert vs.isempty(not_found_item)
 
 
 

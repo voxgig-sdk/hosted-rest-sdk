@@ -33,7 +33,7 @@ func TestLegacyMutationEntity(t *testing.T) {
 		if setup.live {
 			_mode = "live"
 		}
-		for _, _op := range []string{"create", "update"} {
+		for _, _op := range []string{"update"} {
 			if _shouldSkip, _reason := isControlSkipped("entityOp", "legacy_mutation." + _op, _mode); _shouldSkip {
 				if _reason == "" {
 					_reason = "skipped via sdk-test-control.json"
@@ -50,24 +50,18 @@ func TestLegacyMutationEntity(t *testing.T) {
 		}
 		client := setup.client
 
-		// CREATE
-		legacyMutationRef01Ent := client.LegacyMutation(nil)
-		legacyMutationRef01Data := core.ToMapAny(vs.GetProp(
-			vs.GetPath(setup.data, []any{"new", "legacy_mutation"}), "legacy_mutation_ref01"))
-
-		legacyMutationRef01DataResult, err := legacyMutationRef01Ent.Create(legacyMutationRef01Data, nil)
-		if err != nil {
-			t.Fatalf("create failed: %v", err)
+		// Bootstrap entity data from existing test data (no create step in flow).
+		legacyMutationRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.legacy_mutation")))
+		var legacyMutationRef01Data map[string]any
+		if len(legacyMutationRef01DataRaw) > 0 {
+			legacyMutationRef01Data = core.ToMapAny(legacyMutationRef01DataRaw[0][1])
 		}
-		legacyMutationRef01Data = core.ToMapAny(entityData(legacyMutationRef01DataResult))
-		if legacyMutationRef01Data == nil {
-			t.Fatal("expected create result to be a map")
-		}
-		if legacyMutationRef01Data["id"] == nil {
-			t.Fatal("expected created entity to have an id")
-		}
+		// Discard guards against Go's unused-var check when the flow's steps
+		// happen not to consume the bootstrap data (e.g. list-only flows).
+		_ = legacyMutationRef01Data
 
 		// UPDATE
+		legacyMutationRef01Ent := client.LegacyMutation(nil)
 		legacyMutationRef01DataUp0Up := map[string]any{
 			"id": legacyMutationRef01Data["id"],
 		}

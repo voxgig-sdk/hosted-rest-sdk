@@ -14,13 +14,13 @@ Metadata kindly supplied by [www.freepublicapis.com](https://www.freepublicapis.
 
 > TypeScript, Python, PHP, Golang, Ruby, Lua SDKs, a CLI with an interactive REPL, and an MCP server for AI agents — all generated from one OpenAPI spec by [@voxgig/sdkgen](https://github.com/voxgig/sdkgen).
 
-> **Features:** `undefined`, `undefined`, `undefined`, `undefined` — opt-in,
+> **Features:** `ratelimit`, `retry`, `test`, `timeout` — opt-in,
 > inactive until switched on, and configured per client. See the Features
 > section of any SDK README below for what each one does.
 
 ## Entities, not endpoints
 
-This SDK exposes the API as **22 semantic entities** that you
+This SDK exposes the API as **18 semantic entities** that you
 call directly, instead of assembling URL paths and query strings. See the [Entities](#entities) table below for the full list. Entities are
 **Capitalised** to mark them as the primary surface, each with the operations they
 support (`list`, `load`, `create`, `update`, `remove`, `patch`):
@@ -105,12 +105,12 @@ local result, err = client:AgentHealth():load()
 
 | Language | Package | Install |
 | --- | --- | --- |
-| TypeScript | `@voxgig-sdk/hosted-rest-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/hosted-rest-sdk/tags) |
-| Python | `voxgig-sdk-hosted-rest-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/hosted-rest-sdk/tags) |
-| PHP | `voxgig-sdk/hosted-rest-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/hosted-rest-sdk/tags) |
+| TypeScript | `@voxgig-sdk/hosted-rest-sdk` | publish pending — [install from source](ts/README.md#install) |
+| Python | `voxgig-sdk-hosted-rest-sdk` | publish pending — [install from source](py/README.md#install) |
+| PHP | `voxgig-sdk/hosted-rest-sdk` | publish pending — [install from source](php/README.md#install) |
 | Golang | `github.com/voxgig-sdk/hosted-rest-sdk/go` | `go get github.com/voxgig-sdk/hosted-rest-sdk/go@latest` |
-| Ruby | `voxgig-sdk-hosted-rest-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/hosted-rest-sdk/tags) |
-| Lua | `voxgig-sdk-hosted-rest-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/hosted-rest-sdk/tags) |
+| Ruby | `voxgig-sdk-hosted-rest-sdk` | publish pending — [install from source](rb/README.md#install) |
+| Lua | `voxgig-sdk-hosted-rest-sdk` | publish pending — [install from source](lua/README.md#install) |
 | Go CLI | `github.com/voxgig-sdk/hosted-rest-sdk/go-cli` | `go install github.com/voxgig-sdk/hosted-rest-sdk/go-cli/cmd/hosted-rest@latest` |
 | Go MCP server | `github.com/voxgig-sdk/hosted-rest-sdk/go-mcp` | `go get github.com/voxgig-sdk/hosted-rest-sdk/go-mcp@latest` |
 
@@ -168,14 +168,13 @@ Then add it to your agent's MCP config (Claude Desktop, Cursor, etc.):
 
 ## Entities
 
-The API exposes 22 entities:
+The API exposes 18 entities:
 
 | Entity | Description | API path |
 | --- | --- | --- |
 | **AgentHealth** | The AgentHealth entity (load). | `/agent/v1/health` |
 | **AgentSandbox** | The AgentSandbox entity (create, load). | `/agent/v1/orders` |
-| **AgentUser** | The AgentUser entity (load). | `/agent/v1/users/{id}` |
-| **AgentUserList** | The AgentUserList entity (list). | `/agent/v1/users` |
+| **AgentUser** | The AgentUser entity (list, load). | `/agent/v1/users` |
 | **AppUser** | The AppUser entity (create, list, load, remove, update). | `/api/projects/{projectId}/app-users` |
 | **AppUserLogin** | The AppUserLogin entity (create). | `/api/app-users/login` |
 | **AppUserSession** | The AppUserSession entity (load). | `/api/app-users/me` |
@@ -183,15 +182,12 @@ The API exposes 22 entities:
 | **AppUserVerify** | The AppUserVerify entity (create). | `/api/app-users/verify` |
 | **Authentication** | The Authentication entity (create). | `/api/logout` |
 | **Collection** | The Collection entity (create, list, load, remove, update). | `/api/collections` |
-| **CollectionRecord** | The CollectionRecord entity (create, load, update). | `/api/collections/{slug}/records/{recordId}` |
-| **CollectionRecordList** | The CollectionRecordList entity (list). | `/api/collections/{slug}/records` |
+| **CollectionRecord** | The CollectionRecord entity (create, list, load, update). | `/api/collections/{slug}/records` |
 | **Custom** | The Custom entity (create, load, patch, remove, update). | `/api/custom/{path}` |
-| **Legacy** | The Legacy entity (remove). | `/api/users/{id}` |
-| **LegacyMutation** | The LegacyMutation entity (create, patch, update). | `/api/users` |
-| **LegacyUnknown** | The LegacyUnknown entity (load). | `/api/unknown/{id}` |
-| **LegacyUnknownList** | The LegacyUnknownList entity (list). | `/api/unknown` |
+| **Legacy** | The Legacy entity (create, list, remove). | `/api/users` |
+| **LegacyMutation** | The LegacyMutation entity (patch, update). | `/api/users/{id}` |
+| **LegacyUnknown** | The LegacyUnknown entity (list, load). | `/api/unknown` |
 | **LegacyUser** | The LegacyUser entity (load). | `/api/users/{id}` |
-| **LegacyUserList** | The LegacyUserList entity (list). | `/api/users` |
 | **Login** | The Login entity (create). | `/api/login` |
 | **Register** | The Register entity (create). | `/api/register` |
 

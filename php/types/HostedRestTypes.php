@@ -74,23 +74,8 @@ class AgentUserLoadMatch
     public ?string $expand = null;
 }
 
-/** AgentUserList entity data model. */
-class AgentUserList
-{
-    public string $created_at;
-    public string $email;
-    public string $full_name;
-    public string $id;
-    public string $locale;
-    public array $preferences;
-    public array $profile;
-    public string $status;
-    public string $timezone;
-    public string $updated_at;
-}
-
-/** Request payload for AgentUserList#list. */
-class AgentUserListListMatch
+/** Request payload for AgentUser#list. */
+class AgentUserListMatch
 {
     public ?string $cursor = null;
     public ?string $field = null;
@@ -298,6 +283,20 @@ class CollectionRecordLoadMatch
     public string $id;
 }
 
+/** Request payload for CollectionRecord#list. */
+class CollectionRecordListMatch
+{
+    public string $slug;
+    public ?string $created_after = null;
+    public ?string $created_before = null;
+    public ?string $data_contain = null;
+    public ?bool $include_deleted = null;
+    public ?int $limit = null;
+    public ?string $order = null;
+    public ?int $page = null;
+    public ?string $search = null;
+}
+
 /** Request payload for CollectionRecord#create. */
 class CollectionRecordCreateData
 {
@@ -325,34 +324,6 @@ class CollectionRecordUpdateData
     public ?string $deleted_at = null;
     public ?string $project_id = null;
     public ?string $updated_at = null;
-}
-
-/** CollectionRecordList entity data model. */
-class CollectionRecordList
-{
-    public ?string $app_user_id = null;
-    public ?string $collection_id = null;
-    public ?string $created_at = null;
-    public ?string $created_by = null;
-    public array $data;
-    public ?string $deleted_at = null;
-    public string $id;
-    public ?string $project_id = null;
-    public ?string $updated_at = null;
-}
-
-/** Request payload for CollectionRecordList#list. */
-class CollectionRecordListListMatch
-{
-    public string $slug;
-    public ?string $created_after = null;
-    public ?string $created_before = null;
-    public ?string $data_contain = null;
-    public ?bool $include_deleted = null;
-    public ?int $limit = null;
-    public ?string $order = null;
-    public ?int $page = null;
-    public ?string $search = null;
 }
 
 /** Custom entity data model. */
@@ -388,7 +359,28 @@ class CustomRemoveMatch
 /** Legacy entity data model. */
 class Legacy
 {
-    public ?string $id = null;
+    public string $avatar;
+    public string $email;
+    public string $first_name;
+    public int $id;
+    public string $last_name;
+}
+
+/** Request payload for Legacy#list. */
+class LegacyListMatch
+{
+    public ?int $page = null;
+    public ?int $per_page = null;
+}
+
+/** Request payload for Legacy#create. */
+class LegacyCreateData
+{
+    public string $avatar;
+    public string $email;
+    public string $first_name;
+    public int $id;
+    public string $last_name;
 }
 
 /** Request payload for Legacy#remove. */
@@ -399,14 +391,6 @@ class LegacyRemoveMatch
 
 /** LegacyMutation entity data model. */
 class LegacyMutation
-{
-    public ?string $createdAt = null;
-    public ?string $id = null;
-    public ?string $updatedAt = null;
-}
-
-/** Request payload for LegacyMutation#create. */
-class LegacyMutationCreateData
 {
     public ?string $createdAt = null;
     public ?string $id = null;
@@ -424,9 +408,13 @@ class LegacyMutationUpdateData
 /** LegacyUnknown entity data model. */
 class LegacyUnknown
 {
+    public string $color;
     public array $data;
-    public ?string $id = null;
+    public int $id;
+    public string $name;
+    public string $pantone_value;
     public ?array $support = null;
+    public int $year;
 }
 
 /** Request payload for LegacyUnknown#load. */
@@ -435,18 +423,8 @@ class LegacyUnknownLoadMatch
     public int $id;
 }
 
-/** LegacyUnknownList entity data model. */
-class LegacyUnknownList
-{
-    public string $color;
-    public int $id;
-    public string $name;
-    public string $pantone_value;
-    public int $year;
-}
-
-/** Request payload for LegacyUnknownList#list. */
-class LegacyUnknownListListMatch
+/** Request payload for LegacyUnknown#list. */
+class LegacyUnknownListMatch
 {
     public ?int $page = null;
     public ?int $per_page = null;
@@ -464,23 +442,6 @@ class LegacyUser
 class LegacyUserLoadMatch
 {
     public int $id;
-}
-
-/** LegacyUserList entity data model. */
-class LegacyUserList
-{
-    public string $avatar;
-    public string $email;
-    public string $first_name;
-    public int $id;
-    public string $last_name;
-}
-
-/** Request payload for LegacyUserList#list. */
-class LegacyUserListListMatch
-{
-    public ?int $page = null;
-    public ?int $per_page = null;
 }
 
 /** Login entity data model. */

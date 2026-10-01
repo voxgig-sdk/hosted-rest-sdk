@@ -67,20 +67,7 @@ class AgentUserLoadMatch(AgentUserLoadMatchRequired, total=False):
     expand: str
 
 
-class AgentUserList(TypedDict):
-    created_at: str
-    email: str
-    full_name: str
-    id: str
-    locale: str
-    preferences: dict
-    profile: dict
-    status: str
-    timezone: str
-    updated_at: str
-
-
-class AgentUserListListMatch(TypedDict, total=False):
+class AgentUserListMatch(TypedDict, total=False):
     cursor: str
     field: str
     limit: int
@@ -270,6 +257,21 @@ class CollectionRecordLoadMatch(TypedDict):
     id: str
 
 
+class CollectionRecordListMatchRequired(TypedDict):
+    slug: str
+
+
+class CollectionRecordListMatch(CollectionRecordListMatchRequired, total=False):
+    created_after: str
+    created_before: str
+    data_contain: str
+    include_deleted: bool
+    limit: int
+    order: str
+    page: int
+    search: str
+
+
 class CollectionRecordCreateDataRequired(TypedDict):
     slug: str
     data: dict
@@ -301,36 +303,6 @@ class CollectionRecordUpdateData(CollectionRecordUpdateDataRequired, total=False
     updated_at: str
 
 
-class CollectionRecordListRequired(TypedDict):
-    data: dict
-    id: str
-
-
-class CollectionRecordList(CollectionRecordListRequired, total=False):
-    app_user_id: str
-    collection_id: str
-    created_at: str
-    created_by: str
-    deleted_at: str
-    project_id: str
-    updated_at: str
-
-
-class CollectionRecordListListMatchRequired(TypedDict):
-    slug: str
-
-
-class CollectionRecordListListMatch(CollectionRecordListListMatchRequired, total=False):
-    created_after: str
-    created_before: str
-    data_contain: str
-    include_deleted: bool
-    limit: int
-    order: str
-    page: int
-    search: str
-
-
 class Custom(TypedDict, total=False):
     id: str
 
@@ -351,8 +323,25 @@ class CustomRemoveMatch(TypedDict):
     id: str
 
 
-class Legacy(TypedDict, total=False):
-    id: str
+class Legacy(TypedDict):
+    avatar: str
+    email: str
+    first_name: str
+    id: int
+    last_name: str
+
+
+class LegacyListMatch(TypedDict, total=False):
+    page: int
+    per_page: int
+
+
+class LegacyCreateData(TypedDict):
+    avatar: str
+    email: str
+    first_name: str
+    id: int
+    last_name: str
 
 
 class LegacyRemoveMatch(TypedDict):
@@ -360,12 +349,6 @@ class LegacyRemoveMatch(TypedDict):
 
 
 class LegacyMutation(TypedDict, total=False):
-    createdAt: str
-    id: str
-    updatedAt: str
-
-
-class LegacyMutationCreateData(TypedDict, total=False):
     createdAt: str
     id: str
     updatedAt: str
@@ -381,11 +364,15 @@ class LegacyMutationUpdateData(LegacyMutationUpdateDataRequired, total=False):
 
 
 class LegacyUnknownRequired(TypedDict):
+    color: str
     data: dict
+    id: int
+    name: str
+    pantone_value: str
+    year: int
 
 
 class LegacyUnknown(LegacyUnknownRequired, total=False):
-    id: str
     support: dict
 
 
@@ -393,15 +380,7 @@ class LegacyUnknownLoadMatch(TypedDict):
     id: int
 
 
-class LegacyUnknownList(TypedDict):
-    color: str
-    id: int
-    name: str
-    pantone_value: str
-    year: int
-
-
-class LegacyUnknownListListMatch(TypedDict, total=False):
+class LegacyUnknownListMatch(TypedDict, total=False):
     page: int
     per_page: int
 
@@ -417,19 +396,6 @@ class LegacyUser(LegacyUserRequired, total=False):
 
 class LegacyUserLoadMatch(TypedDict):
     id: int
-
-
-class LegacyUserList(TypedDict):
-    avatar: str
-    email: str
-    first_name: str
-    id: int
-    last_name: str
-
-
-class LegacyUserListListMatch(TypedDict, total=False):
-    page: int
-    per_page: int
 
 
 class Login(TypedDict):

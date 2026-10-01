@@ -23,7 +23,7 @@ class LegacyMutationEntityTest extends TestCase
         $setup = legacy_mutation_basic_setup(null);
         // Per-op sdk-test-control.json skip.
         $_live = !empty($setup["live"]);
-        foreach (["create", "update"] as $_op) {
+        foreach (["update"] as $_op) {
             [$_shouldSkip, $_reason] = Runner::is_control_skipped("entityOp", "legacy_mutation." . $_op, $_live ? "live" : "unit");
             if ($_shouldSkip) {
                 $this->markTestSkipped($_reason ?? "skipped via sdk-test-control.json");
@@ -38,17 +38,16 @@ class LegacyMutationEntityTest extends TestCase
         }
         $client = $setup["client"];
 
-        // CREATE
-        $legacy_mutation_ref01_ent = $client->LegacyMutation(null);
-        $legacy_mutation_ref01_data = Helpers::to_map(Vs::getprop(
-            Vs::getpath($setup["data"], "new.legacy_mutation"), "legacy_mutation_ref01"));
-
-        $legacy_mutation_ref01_data_result = $legacy_mutation_ref01_ent->create($legacy_mutation_ref01_data, null);
-        $legacy_mutation_ref01_data = Helpers::to_map(is_object($legacy_mutation_ref01_data_result) && method_exists($legacy_mutation_ref01_data_result, 'data_get') ? $legacy_mutation_ref01_data_result->data_get() : $legacy_mutation_ref01_data_result);
-        $this->assertNotNull($legacy_mutation_ref01_data);
-        $this->assertNotNull($legacy_mutation_ref01_data["id"]);
+        // Bootstrap entity data from existing test data.
+        $legacy_mutation_ref01_data_raw = Vs::items(Helpers::to_map(
+            Vs::getpath($setup["data"], "existing.legacy_mutation")));
+        $legacy_mutation_ref01_data = null;
+        if (count($legacy_mutation_ref01_data_raw) > 0) {
+            $legacy_mutation_ref01_data = Helpers::to_map($legacy_mutation_ref01_data_raw[0][1]);
+        }
 
         // UPDATE
+        $legacy_mutation_ref01_ent = $client->LegacyMutation(null);
         $legacy_mutation_ref01_data_up0_up = [
             "id" => $legacy_mutation_ref01_data["id"],
         ];

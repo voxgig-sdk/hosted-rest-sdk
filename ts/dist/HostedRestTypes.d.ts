@@ -39,19 +39,7 @@ export interface AgentUserLoadMatch {
     id: string;
     expand?: string;
 }
-export interface AgentUserList {
-    created_at: string;
-    email: string;
-    full_name: string;
-    id: string;
-    locale: string;
-    preferences: Record<string, any>;
-    profile: Record<string, any>;
-    status: string;
-    timezone: string;
-    updated_at: string;
-}
-export interface AgentUserListListMatch {
+export interface AgentUserListMatch {
     cursor?: string;
     field?: string;
     limit?: number;
@@ -187,6 +175,17 @@ export interface CollectionRecordLoadMatch {
     collection_id: string;
     id: string;
 }
+export interface CollectionRecordListMatch {
+    slug: string;
+    created_after?: string;
+    created_before?: string;
+    data_contain?: string;
+    include_deleted?: boolean;
+    limit?: number;
+    order?: string;
+    page?: number;
+    search?: string;
+}
 export interface CollectionRecordCreateData {
     slug: string;
     app_user_id?: string;
@@ -210,28 +209,6 @@ export interface CollectionRecordUpdateData {
     project_id?: string;
     updated_at?: string;
 }
-export interface CollectionRecordList {
-    app_user_id?: string;
-    collection_id?: string;
-    created_at?: string;
-    created_by?: string;
-    data: Record<string, any>;
-    deleted_at?: string;
-    id: string;
-    project_id?: string;
-    updated_at?: string;
-}
-export interface CollectionRecordListListMatch {
-    slug: string;
-    created_after?: string;
-    created_before?: string;
-    data_contain?: string;
-    include_deleted?: boolean;
-    limit?: number;
-    order?: string;
-    page?: number;
-    search?: string;
-}
 export interface Custom {
     id?: string;
 }
@@ -248,17 +225,27 @@ export interface CustomRemoveMatch {
     id: string;
 }
 export interface Legacy {
-    id?: string;
+    avatar: string;
+    email: string;
+    first_name: string;
+    id: number;
+    last_name: string;
+}
+export interface LegacyListMatch {
+    page?: number;
+    per_page?: number;
+}
+export interface LegacyCreateData {
+    avatar: string;
+    email: string;
+    first_name: string;
+    id: number;
+    last_name: string;
 }
 export interface LegacyRemoveMatch {
     id: number;
 }
 export interface LegacyMutation {
-    createdAt?: string;
-    id?: string;
-    updatedAt?: string;
-}
-export interface LegacyMutationCreateData {
     createdAt?: string;
     id?: string;
     updatedAt?: string;
@@ -269,21 +256,18 @@ export interface LegacyMutationUpdateData {
     updatedAt?: string;
 }
 export interface LegacyUnknown {
+    color: string;
     data: Record<string, any>;
-    id?: string;
+    id: number;
+    name: string;
+    pantone_value: string;
     support?: Record<string, any>;
+    year: number;
 }
 export interface LegacyUnknownLoadMatch {
     id: number;
 }
-export interface LegacyUnknownList {
-    color: string;
-    id: number;
-    name: string;
-    pantone_value: string;
-    year: number;
-}
-export interface LegacyUnknownListListMatch {
+export interface LegacyUnknownListMatch {
     page?: number;
     per_page?: number;
 }
@@ -294,17 +278,6 @@ export interface LegacyUser {
 }
 export interface LegacyUserLoadMatch {
     id: number;
-}
-export interface LegacyUserList {
-    avatar: string;
-    email: string;
-    first_name: string;
-    id: number;
-    last_name: string;
-}
-export interface LegacyUserListListMatch {
-    page?: number;
-    per_page?: number;
 }
 export interface Login {
     email: string;

@@ -95,6 +95,17 @@ class HostedRestSDK
     @_rootctx
   end
 
+  # The options and the root context both hold the credential, so the
+  # client's printed form is its name alone; `options_map` is the
+  # documented way to read them back.
+  def to_s
+    "HostedRest " + VoxgigStruct.jsonify({ "name" => "HostedRest" })
+  end
+
+  def inspect
+    to_s
+  end
+
   def prepare(fetchargs = {})
     utility = @_utility
     fetchargs ||= {}
@@ -202,7 +213,7 @@ class HostedRestSDK
     url = fetchdef["url"] || ""
     fetched, fetch_err = utility.fetcher.call(ctx, url, fetchdef)
 
-    return { "ok" => false, "err" => fetch_err } if fetch_err
+    return { "ok" => false, "err" => utility.clean.call(ctx, fetch_err) } if fetch_err
 
     if fetched.nil?
       return {
@@ -310,13 +321,6 @@ class HostedRestSDK
   end
 
 
-  # Canonical facade: client.AgentUserList.list / client.AgentUserList.load({ "id" => ... })
-  def AgentUserList(data = nil)
-    require_relative 'entity/agent_user_list_entity'
-    AgentUserListEntity.new(self, data)
-  end
-
-
   # Canonical facade: client.AppUser.list / client.AppUser.load({ "id" => ... })
   def AppUser(data = nil)
     require_relative 'entity/app_user_entity'
@@ -373,13 +377,6 @@ class HostedRestSDK
   end
 
 
-  # Canonical facade: client.CollectionRecordList.list / client.CollectionRecordList.load({ "id" => ... })
-  def CollectionRecordList(data = nil)
-    require_relative 'entity/collection_record_list_entity'
-    CollectionRecordListEntity.new(self, data)
-  end
-
-
   # Canonical facade: client.Custom.list / client.Custom.load({ "id" => ... })
   def Custom(data = nil)
     require_relative 'entity/custom_entity'
@@ -408,24 +405,10 @@ class HostedRestSDK
   end
 
 
-  # Canonical facade: client.LegacyUnknownList.list / client.LegacyUnknownList.load({ "id" => ... })
-  def LegacyUnknownList(data = nil)
-    require_relative 'entity/legacy_unknown_list_entity'
-    LegacyUnknownListEntity.new(self, data)
-  end
-
-
   # Canonical facade: client.LegacyUser.list / client.LegacyUser.load({ "id" => ... })
   def LegacyUser(data = nil)
     require_relative 'entity/legacy_user_entity'
     LegacyUserEntity.new(self, data)
-  end
-
-
-  # Canonical facade: client.LegacyUserList.list / client.LegacyUserList.load({ "id" => ... })
-  def LegacyUserList(data = nil)
-    require_relative 'entity/legacy_user_list_entity'
-    LegacyUserListEntity.new(self, data)
   end
 
 

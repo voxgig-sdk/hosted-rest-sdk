@@ -20,6 +20,22 @@ main: kit: flow: BasicCollectionRecordFlow:
     }
 
     {
+      m: {
+        slug: "slug01"
+      }
+
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "collection_record_ref01"
+          }
+        }
+      ]
+    }
+
+    {
       d: {
         collection_id: "collection01"
       }

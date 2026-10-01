@@ -7,6 +7,18 @@ main: kit: flow: BasicAgentUserFlow:
   name: "BasicAgentUserFlow",
   step: [
     {
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "agent_user_ref01"
+          }
+        }
+      ]
+    }
+
+    {
       i: {
         ref: "agent_user_ref01",
         srcdatavar: "agent_user_ref01_data",
