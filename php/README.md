@@ -4,7 +4,7 @@
 
 The PHP SDK for the HostedRest API — an entity-oriented client using PHP conventions.
 
-The SDK exposes the API as capitalised, semantic **Entities** — for example `$client->AgentHealth()` — with named operations (`list`/`load`/`create`/`update`/`remove`/`patch`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
+The SDK exposes the API as capitalised, semantic **Entities** — for example `$client->AgentHealth()` — with named operations (`list`/`load`/`create`/`update`/`patch`/`remove`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
 
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
@@ -12,7 +12,7 @@ The SDK exposes the API as capitalised, semantic **Entities** — for example `$
 
 ## Install
 This package is not yet published to Packagist. Install it from the
-GitHub release tag (`php/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/hosted-rest-sdk/releases)), or
+GitHub release tag (`php/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/hosted-rest-sdk/tags)), or
 from a clone as a Composer path repository:
 
 ```bash
@@ -25,7 +25,7 @@ composer require voxgig-sdk/hosted-rest-sdk:@dev
 ## Tutorial: your first API call
 
 This tutorial walks through creating a client, listing entities, and
-loading a specific record.
+loading a specific record. The client sends the API key in the `x-api-key` header.
 
 ### 1. Create a client
 
@@ -40,12 +40,12 @@ $client = new HostedRestSDK([
 
 ### 3. Load a collectionrecord
 
-CollectionRecord is nested under collection, so provide the `collection_id`.
+CollectionRecord is nested under slug, so provide the `slug`.
 
 ```php
 try {
     // load() returns the ENTITY — call data_get() for the CollectionRecord record (throws on error).
-    $collectionrecord = $client->CollectionRecord()->load(["collection_id" => "example_collection_id", "id" => "example_id"]);
+    $collectionrecord = $client->CollectionRecord()->load(["slug" => "example_slug", "id" => "example_id"]);
     print_r($collectionrecord->data_get());
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
@@ -231,7 +231,6 @@ Creates a test-mode client with mock transport. Both arguments may be `null`.
 | `Collection` | `($data): CollectionEntity` | Create a Collection entity instance. |
 | `CollectionRecord` | `($data): CollectionRecordEntity` | Create a CollectionRecord entity instance. |
 | `Custom` | `($data): CustomEntity` | Create a Custom entity instance. |
-| `Legacy` | `($data): LegacyEntity` | Create a Legacy entity instance. |
 | `LegacyMutation` | `($data): LegacyMutationEntity` | Create a LegacyMutation entity instance. |
 | `LegacyUnknown` | `($data): LegacyUnknownEntity` | Create a LegacyUnknown entity instance. |
 | `LegacyUser` | `($data): LegacyUserEntity` | Create a LegacyUser entity instance. |
@@ -244,11 +243,12 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `($reqmatch, $ctrl): array` | Load a single entity by match criteria. |
-| `list` | `(?array $reqmatch = null, $ctrl): array` | List entities matching the criteria (call with no argument to list all). |
-| `create` | `($reqdata, $ctrl): array` | Create a new entity. |
-| `update` | `($reqdata, $ctrl): array` | Update an existing entity. |
-| `remove` | `($reqmatch, $ctrl): array` | Remove an entity. |
+| `load` | `($reqmatch, $ctrl): mixed` | Load a single entity by match criteria, and return it. |
+| `list` | `(?array $reqmatch = null, $ctrl): mixed` | List entities matching the criteria (call with no argument to list all), one per record. |
+| `create` | `($reqdata, $ctrl): mixed` | Create a new entity, and return it. |
+| `update` | `($reqdata, $ctrl): mixed` | Update an existing entity, and return it. |
+| `patch` | `($reqdata, $ctrl): mixed` | Change part of an existing entity, and return it. |
+| `remove` | `($reqmatch, $ctrl): mixed` | Remove an entity, and return it marked as deleted. |
 | `data_get` | `(): array` | Get entity data. |
 | `data_set` | `($data): void` | Set entity data. |
 | `match_get` | `(): array` | Get entity match criteria. |
@@ -258,9 +258,9 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data_get() for the record) (an `array` for single-entity
-ops, a `list` for `list`) and throw on error. Wrap calls in
-`try`/`catch` to handle failures.
+Entity operations return the entity, and `list` an `array` of entities, one
+per record; an entity's `data_get()` reads its record (an `array`). They
+throw on error, so wrap calls in `try`/`catch` to handle failures.
 
 The `direct()` escape hatch never throws — it returns a result `array`
 you branch on via `$result["ok"]`:
@@ -417,7 +417,7 @@ API path: `/api/collections`
 | `project_id` |  |
 | `updated_at` |  |
 
-Operations: Create, List, Load, Update.
+Operations: Create, List, Load, Remove, Update.
 
 API path: `/api/collections/{slug}/records`
 
@@ -431,31 +431,21 @@ Operations: Create, Load, Patch, Remove, Update.
 
 API path: `/api/custom/{path}`
 
-#### Legacy
-
-| Field | Description |
-| --- | --- |
-| `avatar` |  |
-| `email` |  |
-| `first_name` |  |
-| `id` |  |
-| `last_name` |  |
-
-Operations: Create, List, Remove.
-
-API path: `/api/users`
-
 #### LegacyMutation
 
 | Field | Description |
 | --- | --- |
+| `avatar` |  |
 | `createdAt` |  |
+| `email` |  |
+| `first_name` |  |
 | `id` |  |
+| `last_name` |  |
 | `updatedAt` |  |
 
-Operations: Patch, Update.
+Operations: Create, List, Patch, Update.
 
-API path: `/api/users/{id}`
+API path: `/api/users`
 
 #### LegacyUnknown
 
@@ -481,7 +471,7 @@ API path: `/api/unknown`
 | `id` |  |
 | `support` |  |
 
-Operations: Load.
+Operations: Load, Remove.
 
 API path: `/api/users/{id}`
 
@@ -614,7 +604,7 @@ $agent_user = $client->AgentUser()->load(["id" => "agent_user_id"]);
 #### Example: List
 
 ```php
-// list() returns an array of AgentUser records (throws on error).
+// list() returns an array of AgentUser entities, one per record (throws on error).
 $agent_users = $client->AgentUser()->list();
 ```
 
@@ -654,7 +644,7 @@ $app_user = $client->AppUser()->load(["id" => "app_user_id"]);
 #### Example: List
 
 ```php
-// list() returns an array of AppUser records (throws on error).
+// list() returns an array of AppUser entities, one per record (throws on error).
 $app_users = $client->AppUser()->list();
 ```
 
@@ -663,7 +653,6 @@ $app_users = $client->AppUser()->list();
 ```php
 $app_user = $client->AppUser()->create([
     "email" => null, // string
-    "id" => null, // string
 ]);
 ```
 
@@ -818,7 +807,7 @@ $collection = $client->Collection()->load(["id" => "collection_id"]);
 #### Example: List
 
 ```php
-// list() returns an array of Collection records (throws on error).
+// list() returns an array of Collection entities, one per record (throws on error).
 $collections = $client->Collection()->list();
 ```
 
@@ -826,9 +815,7 @@ $collections = $client->Collection()->list();
 
 ```php
 $collection = $client->Collection()->create([
-    "id" => null, // string
     "name" => null, // string
-    "slug" => null, // string
 ]);
 ```
 
@@ -844,6 +831,7 @@ Create an instance: `$collection_record = $client->CollectionRecord();`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
 #### Fields
@@ -864,14 +852,14 @@ Create an instance: `$collection_record = $client->CollectionRecord();`
 
 ```php
 // load() returns the ENTITY — call data_get() for the CollectionRecord record (throws on error).
-$collection_record = $client->CollectionRecord()->load(["id" => "collection_record_id", "collection_id" => "collection_id"]);
+$collection_record = $client->CollectionRecord()->load(["id" => "collection_record_id", "slug" => "slug"]);
 ```
 
 #### Example: List
 
 ```php
-// list() returns an array of CollectionRecord records (throws on error).
-$collection_records = $client->CollectionRecord()->list();
+// list() returns an array of CollectionRecord entities, one per record (throws on error).
+$collection_records = $client->CollectionRecord()->list(["slug" => "example"]);
 ```
 
 #### Example: Create
@@ -880,7 +868,6 @@ $collection_records = $client->CollectionRecord()->list();
 $collection_record = $client->CollectionRecord()->create([
     "slug" => null, // string
     "data" => null, // array
-    "id" => null, // string
 ]);
 ```
 
@@ -895,6 +882,7 @@ Create an instance: `$custom = $client->Custom();`
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -920,48 +908,6 @@ $custom = $client->Custom()->create([
 ```
 
 
-### Legacy
-
-Create an instance: `$legacy = $client->Legacy();`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-| `list(match)` | List entities matching the criteria. |
-| `remove(match)` | Remove the matching entity. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `avatar` | `string` |  |
-| `email` | `string` |  |
-| `first_name` | `string` |  |
-| `id` | `int` |  |
-| `last_name` | `string` |  |
-
-#### Example: List
-
-```php
-// list() returns an array of Legacy records (throws on error).
-$legacys = $client->Legacy()->list();
-```
-
-#### Example: Create
-
-```php
-$legacy = $client->Legacy()->create([
-    "avatar" => null, // string
-    "email" => null, // string
-    "first_name" => null, // string
-    "id" => null, // int
-    "last_name" => null, // string
-]);
-```
-
-
 ### LegacyMutation
 
 Create an instance: `$legacy_mutation = $client->LegacyMutation();`
@@ -970,15 +916,36 @@ Create an instance: `$legacy_mutation = $client->LegacyMutation();`
 
 | Method | Description |
 | --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `list(match)` | List entities matching the criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `update(data)` | Update an existing entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `avatar` | `string` |  |
 | `createdAt` | `string` |  |
+| `email` | `string` |  |
+| `first_name` | `string` |  |
 | `id` | `string` |  |
+| `last_name` | `string` |  |
 | `updatedAt` | `string` |  |
+
+#### Example: List
+
+```php
+// list() returns an array of LegacyMutation entities, one per record (throws on error).
+$legacy_mutations = $client->LegacyMutation()->list();
+```
+
+#### Example: Create
+
+```php
+$legacy_mutation = $client->LegacyMutation()->create([
+]);
+```
 
 
 ### LegacyUnknown
@@ -1014,7 +981,7 @@ $legacy_unknown = $client->LegacyUnknown()->load(["id" => 1]);
 #### Example: List
 
 ```php
-// list() returns an array of LegacyUnknown records (throws on error).
+// list() returns an array of LegacyUnknown entities, one per record (throws on error).
 $legacy_unknowns = $client->LegacyUnknown()->list();
 ```
 
@@ -1028,6 +995,7 @@ Create an instance: `$legacy_user = $client->LegacyUser();`
 | Method | Description |
 | --- | --- |
 | `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
 
 #### Fields
 
@@ -1069,7 +1037,6 @@ Create an instance: `$login = $client->Login();`
 $login = $client->Login()->create([
     "email" => null, // string
     "password" => null, // string
-    "token" => null, // string
 ]);
 ```
 
@@ -1099,7 +1066,6 @@ Create an instance: `$register = $client->Register();`
 $register = $client->Register()->create([
     "email" => null, // string
     "password" => null, // string
-    "token" => null, // string
 ]);
 ```
 

@@ -5,7 +5,7 @@
 The Python SDK for the HostedRest API — an entity-oriented client following Pythonic conventions.
 
 The SDK exposes the API as capitalised, semantic **Entities** — for example `client.AgentHealth()` — each
-carrying a small, uniform set of operations (`list`, `load`, `create`, `update`, `remove`, `patch`) instead of raw URL
+carrying a small, uniform set of operations (`list`, `load`, `create`, `update`, `patch`, `remove`) instead of raw URL
 paths and query strings. You work with named resources and verbs, which
 keeps the cognitive load low.
 
@@ -15,7 +15,7 @@ keeps the cognitive load low.
 
 ## Install
 This package is not yet published to PyPI. Install it from the GitHub
-release tag (`py/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/hosted-rest-sdk/releases)) or
+release tag (`py/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/hosted-rest-sdk/tags)) or
 from a source checkout:
 
 ```bash
@@ -26,7 +26,7 @@ pip install -e .
 ## Tutorial: your first API call
 
 This tutorial walks through creating a client, listing entities, and
-loading a specific record.
+loading a specific record. The client sends the API key in the `x-api-key` header.
 
 ### 1. Create a client
 
@@ -41,13 +41,13 @@ client = HostedRestSDK({
 
 ### 3. Load a collectionrecord
 
-CollectionRecord is nested under collection, so provide the `collection_id`.
+CollectionRecord is nested under slug, so provide the `slug`.
 `load()` returns the ENTITY — call data_get() for the record — and raises on error.
 
 ```python
 try:
-    collectionrecord = client.CollectionRecord().load({"collection_id": "example_collection_id", "id": "example_id"})
-    print(collectionrecord)
+    collectionrecord = client.CollectionRecord().load({"slug": "example_slug", "id": "example_id"})
+    print(collectionrecord.data_get())
 except Exception as err:
     print(f"load failed: {err}")
 ```
@@ -60,7 +60,7 @@ Entity operations raise on failure, so wrap them in `try` / `except`:
 ```python
 try:
     agenthealth = client.AgentHealth().load()
-    print(agenthealth)
+    print(agenthealth.data_get())
 except Exception as err:
     print(f"load failed: {err}")
 ```
@@ -126,10 +126,9 @@ Create a mock client for unit testing — no server required:
 ```python
 client = HostedRestSDK.test()
 
-# Entity ops return the ENTITY and raises on error;
-# call data_get() for the record.
+# Entity ops return the entity, and list one per record; they raise on error.
 agenthealth = client.AgentHealth().load()
-# agenthealth contains the mock response record
+# data_get() on an entity reads its mock response record
 ```
 
 ### Use a custom fetch function
@@ -219,7 +218,6 @@ Creates a test-mode client with mock transport. Both arguments may be `None`.
 | `Collection` | `(data) -> CollectionEntity` | Create a Collection entity instance. |
 | `CollectionRecord` | `(data) -> CollectionRecordEntity` | Create a CollectionRecord entity instance. |
 | `Custom` | `(data) -> CustomEntity` | Create a Custom entity instance. |
-| `Legacy` | `(data) -> LegacyEntity` | Create a Legacy entity instance. |
 | `LegacyMutation` | `(data) -> LegacyMutationEntity` | Create a LegacyMutation entity instance. |
 | `LegacyUnknown` | `(data) -> LegacyUnknownEntity` | Create a LegacyUnknown entity instance. |
 | `LegacyUser` | `(data) -> LegacyUserEntity` | Create a LegacyUser entity instance. |
@@ -232,11 +230,12 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria. Raises on error. |
-| `list` | `(reqmatch, ctrl) -> list` | List entities matching the criteria. Raises on error. |
-| `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
-| `update` | `(reqdata, ctrl) -> any` | Update an existing entity. Raises on error. |
-| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity. Raises on error. |
+| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria, and return it. Raises on error. |
+| `list` | `(reqmatch, ctrl) -> list` | List entities matching the criteria, one per record. Raises on error. |
+| `create` | `(reqdata, ctrl) -> any` | Create a new entity, and return it. Raises on error. |
+| `update` | `(reqdata, ctrl) -> any` | Update an existing entity, and return it. Raises on error. |
+| `patch` | `(reqdata, ctrl) -> any` | Change part of an existing entity, and return it. Raises on error. |
+| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity, and return it marked as deleted. Raises on error. |
 | `data_get` | `() -> dict` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> dict` | Get entity match criteria. |
@@ -246,9 +245,9 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data_get() for the record) (a `dict` for single-entity
-ops, a `list` for `list`) and raise on error. Wrap calls in
-`try`/`except` to handle failures.
+Entity operations return the entity, and `list` a `list` of entities, one
+per record; an entity's `data_get()` reads its record (a `dict`). They raise
+on error, so wrap calls in `try`/`except` to handle failures.
 
 The `direct()` escape hatch never raises — it returns a result `dict`
 you branch on via `result["ok"]`:
@@ -405,7 +404,7 @@ API path: `/api/collections`
 | `project_id` |  |
 | `updated_at` |  |
 
-Operations: Create, List, Load, Update.
+Operations: Create, List, Load, Remove, Update.
 
 API path: `/api/collections/{slug}/records`
 
@@ -419,31 +418,21 @@ Operations: Create, Load, Patch, Remove, Update.
 
 API path: `/api/custom/{path}`
 
-#### Legacy
-
-| Field | Description |
-| --- | --- |
-| `avatar` |  |
-| `email` |  |
-| `first_name` |  |
-| `id` |  |
-| `last_name` |  |
-
-Operations: Create, List, Remove.
-
-API path: `/api/users`
-
 #### LegacyMutation
 
 | Field | Description |
 | --- | --- |
+| `avatar` |  |
 | `createdAt` |  |
+| `email` |  |
+| `first_name` |  |
 | `id` |  |
+| `last_name` |  |
 | `updatedAt` |  |
 
-Operations: Patch, Update.
+Operations: Create, List, Patch, Update.
 
-API path: `/api/users/{id}`
+API path: `/api/users`
 
 #### LegacyUnknown
 
@@ -469,7 +458,7 @@ API path: `/api/unknown`
 | `id` |  |
 | `support` |  |
 
-Operations: Load.
+Operations: Load, Remove.
 
 API path: `/api/users/{id}`
 
@@ -645,7 +634,6 @@ app_users = client.AppUser().list()
 ```python
 app_user = client.AppUser().create({
     "email": "example_email",  # str
-    "id": "example_id",  # str
 })
 ```
 
@@ -804,9 +792,7 @@ collections = client.Collection().list()
 
 ```python
 collection = client.Collection().create({
-    "id": "example_id",  # str
     "name": "example_name",  # str
-    "slug": "example_slug",  # str
 })
 ```
 
@@ -822,6 +808,7 @@ Create an instance: `collection_record = client.CollectionRecord()`
 | `create(data)` | Create a new entity with the given data. |
 | `list()` | List entities, optionally matching the given criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
 #### Fields
@@ -841,7 +828,7 @@ Create an instance: `collection_record = client.CollectionRecord()`
 #### Example: Load
 
 ```python
-collection_record = client.CollectionRecord().load({"id": "collection_record_id", "collection_id": "collection_id"})
+collection_record = client.CollectionRecord().load({"id": "collection_record_id", "slug": "slug"})
 ```
 
 #### Example: List
@@ -856,7 +843,6 @@ collection_records = client.CollectionRecord().list({"slug": "example"})
 collection_record = client.CollectionRecord().create({
     "slug": "example_slug",  # str
     "data": {},  # dict
-    "id": "example_id",  # str
 })
 ```
 
@@ -871,6 +857,7 @@ Create an instance: `custom = client.Custom()`
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -895,47 +882,6 @@ custom = client.Custom().create({
 ```
 
 
-### Legacy
-
-Create an instance: `legacy = client.Legacy()`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-| `list()` | List entities, optionally matching the given criteria. |
-| `remove(match)` | Remove the matching entity. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `avatar` | `str` |  |
-| `email` | `str` |  |
-| `first_name` | `str` |  |
-| `id` | `int` |  |
-| `last_name` | `str` |  |
-
-#### Example: List
-
-```python
-legacys = client.Legacy().list()
-```
-
-#### Example: Create
-
-```python
-legacy = client.Legacy().create({
-    "avatar": "example_avatar",  # str
-    "email": "example_email",  # str
-    "first_name": "example_first_name",  # str
-    "id": 1,  # int
-    "last_name": "example_last_name",  # str
-})
-```
-
-
 ### LegacyMutation
 
 Create an instance: `legacy_mutation = client.LegacyMutation()`
@@ -944,15 +890,35 @@ Create an instance: `legacy_mutation = client.LegacyMutation()`
 
 | Method | Description |
 | --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `list()` | List entities, optionally matching the given criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `update(data)` | Update an existing entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `avatar` | `str` |  |
 | `createdAt` | `str` |  |
+| `email` | `str` |  |
+| `first_name` | `str` |  |
 | `id` | `str` |  |
+| `last_name` | `str` |  |
 | `updatedAt` | `str` |  |
+
+#### Example: List
+
+```python
+legacy_mutations = client.LegacyMutation().list()
+```
+
+#### Example: Create
+
+```python
+legacy_mutation = client.LegacyMutation().create({
+})
+```
 
 
 ### LegacyUnknown
@@ -1000,6 +966,7 @@ Create an instance: `legacy_user = client.LegacyUser()`
 | Method | Description |
 | --- | --- |
 | `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
 
 #### Fields
 
@@ -1040,7 +1007,6 @@ Create an instance: `login = client.Login()`
 login = client.Login().create({
     "email": "example_email",  # str
     "password": "example_password",  # str
-    "token": "example_token",  # str
 })
 ```
 
@@ -1070,7 +1036,6 @@ Create an instance: `register = client.Register()`
 register = client.Register().create({
     "email": "example_email",  # str
     "password": "example_password",  # str
-    "token": "example_token",  # str
 })
 ```
 

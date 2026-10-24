@@ -54,6 +54,14 @@ const utility_1 = require("../../utility");
         const ent = testsdk.AppUserLogin();
         (0, node_assert_1.default)(null != ent);
     });
+    (0, node_test_1.test)('validate', async (t) => {
+        if (null == __1.config.feature?.validate) {
+            t.skip('feature not present in this SDK: validate');
+            return;
+        }
+        const client = __1.HostedRestSDK.test(undefined, { feature: { validate: { active: true } } });
+        await node_assert_1.default.rejects(client.AppUserLogin().create({ "email": 1 }), (err) => 'validate_failed' === err.code);
+    });
     (0, node_test_1.test)('basic', async (t) => {
         const live = 'TRUE' === process.env.HOSTED_REST_TEST_LIVE;
         for (const op of ['create']) {
@@ -62,7 +70,7 @@ const utility_1 = require("../../utility");
         }
         const setup = basicSetup();
         if (setup.live) {
-            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "email": { "a": true, "fo": "email", "h": "Email", "n": "email", "r": true, "t": "`$STRING`", "key$": "email", "index$": 0 }, "metadata": { "a": true, "h": "Metadata", "n": "metadata", "r": false, "t": "`$OBJECT`", "key$": "metadata", "index$": 1 }, "project_id": { "a": true, "h": "Project Id", "n": "project_id", "r": false, "t": "`$STRING`", "union": { "branches": 2, "count": 1, "depth": 0 }, "key$": "project_id", "index$": 2 } }, "name": "app_user_login", "op": { "create": { "input": "data", "name": "create", "points": [{ "a": true, "co": { "id": "POST /api/app-users/login", "source": "openapi3", "version": 2 }, "g": {}, "k": "http", "m": "POST", "o": "/api/app-users/login", "q": {}, "r": {}, "s": [{ "lit": "api" }, { "lit": "app-users" }, { "lit": "login" }], "t": { "req": "`reqdata`", "res": "`body.data`" }, "index$": 0 }], "key$": "create" } }, "relations": { "ancestors": [] }, "key$": "app_user_login", "name__orig": "app_user_login", "Name": "AppUserLogin", "name_": "app_user_login", "name-": "app-user-login", "NAME": "APP_USER_LOGIN", "index$": 4 }, { "active": true, "entity": "app_user_login", "key$": "BasicAppUserLoginFlow", "kind": "basic", "name": "BasicAppUserLoginFlow", "param": {}, "step": [{ "a": true, "d": {}, "i": { "ref": "app_user_login_ref01" }, "m": {}, "o": "create", "s": [], "v": [], "index$": 0 }] }, 'AppUserLogin', { "POST /api/app-users/login": { "protocol": "http", "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "properties": { "email": { "type": "string", "format": "email", "key$": "email" }, "project_id": { "oneOf": [{ "type": "string" }, { "type": "integer" }], "key$": "project_id" }, "metadata": { "type": "object", "additionalProperties": true, "key$": "metadata" } }, "required": ["email"], "additionalProperties": true, "x-ref": "#/components/schemas/AppUserLoginRequest", "index$": 1 } } } }, "parameters": [] } });
+            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "email": { "a": true, "fo": "email", "h": "Email", "n": "email", "r": true, "t": "`$STRING`", "key$": "email", "index$": 0 }, "metadata": { "a": true, "h": "Metadata", "n": "metadata", "r": false, "t": "`$OBJECT`", "key$": "metadata", "index$": 1 }, "project_id": { "a": true, "h": "Project Id", "n": "project_id", "r": false, "t": "`$STRING`", "union": { "branches": 2, "count": 1, "depth": 0 }, "key$": "project_id", "index$": 2 } }, "name": "app_user_login", "op": { "create": { "input": "data", "name": "create", "points": [{ "a": true, "bf": ["email", "metadata", "project_id"], "co": { "id": "POST /api/app-users/login", "source": "openapi3", "version": 2 }, "g": {}, "k": "http", "m": "POST", "o": "/api/app-users/login", "q": {}, "r": {}, "rs": { "kind": "json", "media": "application/json" }, "s": [{ "lit": "api" }, { "lit": "app-users" }, { "lit": "login" }], "t": { "req": "`reqdata`", "res": "`body.data`" }, "index$": 0 }], "key$": "create" } }, "relations": { "ancestors": [] }, "key$": "app_user_login", "name__orig": "app_user_login", "Name": "AppUserLogin", "name_": "app_user_login", "name-": "app-user-login", "NAME": "APP_USER_LOGIN", "index$": 4 }, { "active": true, "entity": "app_user_login", "key$": "BasicAppUserLoginFlow", "kind": "basic", "name": "BasicAppUserLoginFlow", "param": {}, "step": [{ "a": true, "d": {}, "i": { "ref": "app_user_login_ref01" }, "m": {}, "o": "create", "s": [], "v": [], "index$": 0 }] }, 'AppUserLogin', { "POST /api/app-users/login": { "protocol": "http", "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "properties": { "email": { "type": "string", "format": "email", "key$": "email" }, "project_id": { "oneOf": [{ "type": "string" }, { "type": "integer" }], "key$": "project_id" }, "metadata": { "type": "object", "additionalProperties": true, "key$": "metadata" } }, "required": ["email"], "additionalProperties": true, "x-ref": "#/components/schemas/AppUserLoginRequest", "index$": 1 } } } }, "parameters": [] } }, { strict: LIVE_STRICT, t });
         }
         const client = setup.client;
         const struct = setup.struct;
@@ -75,6 +83,11 @@ const utility_1 = require("../../utility");
         (0, node_assert_1.default)(null != app_user_login_ref01_data);
     });
 });
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true;
 function basicSetup(extra) {
     // TODO: fix test def options
     const options = {}; // null

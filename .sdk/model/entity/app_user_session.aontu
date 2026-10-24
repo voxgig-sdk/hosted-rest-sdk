@@ -17,6 +17,10 @@ main: kit: entity: app_user_session: {
           }
           m: "GET"
           o: "/api/app-users/me"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "api"
@@ -41,6 +45,10 @@ main: kit: entity: app_user_session: {
           }
           m: "GET"
           o: "/app/me"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "app"

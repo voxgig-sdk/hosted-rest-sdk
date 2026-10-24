@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { HostedRestSDK, BaseFeature, stdutil } from '../../..'
+import { HostedRestSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,17 +41,29 @@ describe('CustomEntity', async () => {
   })
 
 
+  test('validate', async (t) => {
+    if (null == (config as any).feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = HostedRestSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.Custom().load({"id":1} as any),
+      (err: any) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.HOSTED_REST_TEST_LIVE
-    for (const op of ['create', 'update', 'load', 'remove']) {
+    for (const op of ['update', 'load', 'remove']) {
       if (!live && maybeSkipControl(t, 'entityOp', 'custom.' + op, live)) return
     }
 
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"id":{"a":true,"h":"Id","n":"id","r":false,"t":"`$STRING`","key$":"id","index$":0}},"id":{"field":"id","name":"id"},"name":"custom","op":{"create":{"input":"data","name":"create","points":[{"a":true,"co":{"id":"POST /api/custom/{path}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"path","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"POST","o":"/api/custom/{path}","q":{"exist":["id"]},"r":{"param":{"path":"id"}},"s":[{"lit":"api"},{"lit":"custom"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"},"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /api/custom/{path}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"path","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"GET","o":"/api/custom/{path}","q":{"exist":["id"]},"r":{"param":{"path":"id"}},"s":[{"lit":"api"},{"lit":"custom"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"},"patch":{"input":"data","name":"patch","points":[{"a":true,"co":{"id":"PATCH /api/custom/{path}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"path","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"PATCH","o":"/api/custom/{path}","q":{"exist":["id"]},"r":{"param":{"path":"id"}},"s":[{"lit":"api"},{"lit":"custom"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"patch"},"remove":{"input":"data","name":"remove","points":[{"a":true,"co":{"id":"DELETE /api/custom/{path}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"path","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"DELETE","o":"/api/custom/{path}","q":{"exist":["id"]},"r":{"param":{"path":"id"}},"s":[{"lit":"api"},{"lit":"custom"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"remove"},"update":{"input":"data","name":"update","points":[{"a":true,"co":{"id":"PUT /api/custom/{path}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"path","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"PUT","o":"/api/custom/{path}","q":{"exist":["id"]},"r":{"param":{"path":"id"}},"s":[{"lit":"api"},{"lit":"custom"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"update"}},"relations":{"ancestors":[]},"key$":"custom","name__orig":"custom","Name":"Custom","name_":"custom","name-":"custom","NAME":"CUSTOM","index$":11}, {"active":true,"entity":"custom","key$":"BasicCustomFlow","kind":"basic","name":"BasicCustomFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"custom_ref01"},"m":{"path":"path01"},"o":"create","s":[],"v":[],"index$":0},{"a":true,"d":{},"i":{"ref":"custom_ref01","srcdatavar":"custom_ref01_data","suffix":"_up0"},"m":{},"o":"update","s":[{"apply":"TextFieldMark","def":{"mark":"Mark01-custom_ref01"}}],"v":[],"index$":1},{"a":true,"d":{},"i":{"ref":"custom_ref01","srcdatavar":"custom_ref01_data","suffix":"_dt0"},"m":{"id":"custom01"},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-custom_ref01"}}],"index$":2},{"a":true,"d":{},"i":{"ref":"custom_ref01","suffix":"_rm0"},"m":{"id":"custom01"},"o":"remove","s":[],"v":[],"index$":3}]}, 'Custom', {"POST /api/custom/{path}":{"protocol":"http","requestBody":{"required":false,"content":{"application/json":{"schema":{"type":"object","additionalProperties":true,"index$":1}}}},"parameters":[{"name":"path","in":"path","description":"Custom endpoint path (supports nested segments).","required":true,"schema":{"type":"string"},"index$":0}]},"GET /api/custom/{path}":{"protocol":"http","parameters":[{"name":"path","in":"path","description":"Custom endpoint path (supports nested segments).","required":true,"schema":{"type":"string"},"index$":0}]},"PATCH /api/custom/{path}":{"protocol":"http","requestBody":{"required":false,"content":{"application/json":{"schema":{"type":"object","additionalProperties":true,"index$":1}}}},"parameters":[{"name":"path","in":"path","description":"Custom endpoint path (supports nested segments).","required":true,"schema":{"type":"string"},"index$":0}]},"DELETE /api/custom/{path}":{"protocol":"http","parameters":[{"name":"path","in":"path","description":"Custom endpoint path (supports nested segments).","required":true,"schema":{"type":"string"},"index$":0}]},"PUT /api/custom/{path}":{"protocol":"http","requestBody":{"required":false,"content":{"application/json":{"schema":{"type":"object","additionalProperties":true,"index$":1}}}},"parameters":[{"name":"path","in":"path","description":"Custom endpoint path (supports nested segments).","required":true,"schema":{"type":"string"},"index$":0}]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"id":{"a":true,"h":"Id","n":"id","r":false,"t":"`$STRING`","key$":"id","index$":0}},"id":{"field":"id","name":"id"},"name":"custom","op":{"create":{"input":"data","name":"create","points":[{"a":true,"bf":false,"co":{"id":"POST /api/custom/{path}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"path","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"POST","o":"/api/custom/{path}","q":{"exist":["id"]},"r":{"param":{"path":"id"}},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"api"},{"lit":"custom"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"},"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /api/custom/{path}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"path","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"GET","o":"/api/custom/{path}","q":{"exist":["id"]},"r":{"param":{"path":"id"}},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"api"},{"lit":"custom"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"},"patch":{"input":"data","name":"patch","points":[{"a":true,"bf":false,"co":{"id":"PATCH /api/custom/{path}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"path","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"PATCH","o":"/api/custom/{path}","q":{"exist":["id"]},"r":{"param":{"path":"id"}},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"api"},{"lit":"custom"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"patch"},"remove":{"input":"data","name":"remove","points":[{"a":true,"co":{"id":"DELETE /api/custom/{path}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"path","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"DELETE","o":"/api/custom/{path}","q":{"exist":["id"]},"r":{"param":{"path":"id"}},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"api"},{"lit":"custom"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"remove"},"update":{"input":"data","name":"update","points":[{"a":true,"bf":false,"co":{"id":"PUT /api/custom/{path}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"path","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"PUT","o":"/api/custom/{path}","q":{"exist":["id"]},"r":{"param":{"path":"id"}},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"api"},{"lit":"custom"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"update"}},"relations":{"ancestors":[]},"key$":"custom","name__orig":"custom","Name":"Custom","name_":"custom","name-":"custom","NAME":"CUSTOM","index$":11}, {"active":true,"entity":"custom","key$":"BasicCustomFlow","kind":"basic","name":"BasicCustomFlow","param":{},"step":[{"a":false,"d":{},"i":{"ref":"custom_ref01"},"m":{"path":"path01"},"o":"create","s":[],"v":[],"unreachable":true},{"a":true,"d":{},"i":{"ref":"custom_ref01","srcdatavar":"custom_ref01_data","suffix":"_up0"},"m":{},"o":"update","s":[{"apply":"TextFieldMark","def":{"mark":"Mark01-custom_ref01"}}],"v":[],"index$":0},{"a":true,"d":{},"i":{"ref":"custom_ref01","srcdatavar":"custom_ref01_data","suffix":"_dt0"},"m":{"id":"custom01"},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-custom_ref01"}}],"index$":1},{"a":true,"d":{},"i":{"ref":"custom_ref01","suffix":"_rm0"},"m":{"id":"custom01"},"o":"remove","s":[],"v":[],"index$":2}]}, 'Custom', {"POST /api/custom/{path}":{"protocol":"http","requestBody":{"required":false,"content":{"application/json":{"schema":{"type":"object","additionalProperties":true,"index$":1}}}},"parameters":[{"name":"path","in":"path","description":"Custom endpoint path (supports nested segments).","required":true,"schema":{"type":"string"},"index$":0}]},"GET /api/custom/{path}":{"protocol":"http","parameters":[{"name":"path","in":"path","description":"Custom endpoint path (supports nested segments).","required":true,"schema":{"type":"string"},"index$":0}]},"PATCH /api/custom/{path}":{"protocol":"http","requestBody":{"required":false,"content":{"application/json":{"schema":{"type":"object","additionalProperties":true,"index$":1}}}},"parameters":[{"name":"path","in":"path","description":"Custom endpoint path (supports nested segments).","required":true,"schema":{"type":"string"},"index$":0}]},"DELETE /api/custom/{path}":{"protocol":"http","parameters":[{"name":"path","in":"path","description":"Custom endpoint path (supports nested segments).","required":true,"schema":{"type":"string"},"index$":0}]},"PUT /api/custom/{path}":{"protocol":"http","requestBody":{"required":false,"content":{"application/json":{"schema":{"type":"object","additionalProperties":true,"index$":1}}}},"parameters":[{"name":"path","in":"path","description":"Custom endpoint path (supports nested segments).","required":true,"schema":{"type":"string"},"index$":0}]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -59,17 +71,10 @@ describe('CustomEntity', async () => {
     const isempty = struct.isempty
     const select = struct.select
 
-
-    // CREATE
-    const custom_ref01_ent = client.Custom()
-    let custom_ref01_data = setup.data.new.custom['custom_ref01']
-    custom_ref01_data['path'] = setup.idmap['path01']
-
-    custom_ref01_data = (await custom_ref01_ent.create(custom_ref01_data)).data()
-    assert(null != custom_ref01_data.id)
-
+    let custom_ref01_data = Object.values(setup.data.existing.custom)[0] as any
 
     // UPDATE
+    const custom_ref01_ent = client.Custom()
     const custom_ref01_data_up0: any = {}
     custom_ref01_data_up0.id = custom_ref01_data.id
 
@@ -84,15 +89,16 @@ describe('CustomEntity', async () => {
     assert(custom_ref01_data_dt0.id === custom_ref01_data.id)
 
 
-    // REMOVE
-    const custom_ref01_match_rm0: any = { id: custom_ref01_data.id }
-    await custom_ref01_ent.remove(custom_ref01_match_rm0)
-  
-
   })
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options
@@ -117,7 +123,7 @@ function basicSetup(extra?: any) {
   const transform = struct.transform
 
   let idmap = transform(
-    ['custom01','custom02','custom03','path01'],
+    ['custom01','custom02','custom03'],
     {
       '`$PACK`': ['', {
         '`$KEY`': '`$COPY`',

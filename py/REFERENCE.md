@@ -90,10 +90,6 @@ Create a new `CollectionRecordEntity` instance. Pass `None` for no initial data.
 
 Create a new `CustomEntity` instance. Pass `None` for no initial data.
 
-#### `Legacy(data=None)`
-
-Create a new `LegacyEntity` instance. Pass `None` for no initial data.
-
 #### `LegacyMutation(data=None)`
 
 Create a new `LegacyMutationEntity` instance. Pass `None` for no initial data.
@@ -164,9 +160,9 @@ agent_health = client.AgentHealth()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> AgentHealthEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.AgentHealth().load()
@@ -216,9 +212,9 @@ agent_sandbox = client.AgentSandbox()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> AgentSandboxEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.AgentSandbox().create({
@@ -227,9 +223,9 @@ result = client.AgentSandbox().create({
 })
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> AgentSandboxEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.AgentSandbox().load({"scenario": "scenario"})
@@ -287,19 +283,19 @@ agent_user = client.AgentUser()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[AgentUserEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.AgentUser().list()
 for agent_user in results:
-    print(agent_user)
+    print(agent_user.data_get())
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> AgentUserEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.AgentUser().load({"id": "agent_user_id"})
@@ -364,46 +360,45 @@ app_user = client.AppUser()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> AppUserEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.AppUser().create({
     "email": "example_email",  # str
-    "id": "example_id",  # str
 })
 ```
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[AppUserEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.AppUser().list()
 for app_user in results:
-    print(app_user)
+    print(app_user.data_get())
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> AppUserEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.AppUser().load({"id": "app_user_id"})
 ```
 
-#### `remove(reqmatch, ctrl=None) -> dict`
+#### `remove(reqmatch, ctrl=None) -> AppUserEntity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
 result = client.AppUser().remove({"id": "app_user_id"})
 ```
 
-#### `update(reqdata, ctrl=None) -> dict`
+#### `update(reqdata, ctrl=None) -> AppUserEntity`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```python
 result = client.AppUser().update({
@@ -457,9 +452,9 @@ app_user_login = client.AppUserLogin()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> AppUserLoginEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.AppUserLogin().create({
@@ -504,9 +499,9 @@ app_user_session = client.AppUserSession()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> AppUserSessionEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.AppUserSession().load()
@@ -555,9 +550,9 @@ app_user_total = client.AppUserTotal()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> AppUserTotalEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.AppUserTotal().load({"project_id": "project_id"})
@@ -606,9 +601,9 @@ app_user_verify = client.AppUserVerify()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> AppUserVerifyEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.AppUserVerify().create({
@@ -653,9 +648,9 @@ authentication = client.Authentication()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> AuthenticationEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Authentication().create({
@@ -727,47 +722,45 @@ collection = client.Collection()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> CollectionEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Collection().create({
-    "id": "example_id",  # str
     "name": "example_name",  # str
-    "slug": "example_slug",  # str
 })
 ```
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[CollectionEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Collection().list()
 for collection in results:
-    print(collection)
+    print(collection.data_get())
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> CollectionEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Collection().load({"id": "collection_id"})
 ```
 
-#### `remove(reqmatch, ctrl=None) -> dict`
+#### `remove(reqmatch, ctrl=None) -> CollectionEntity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
 result = client.Collection().remove({"id": "collection_id"})
 ```
 
-#### `update(reqdata, ctrl=None) -> dict`
+#### `update(reqdata, ctrl=None) -> CollectionEntity`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```python
 result = client.Collection().update({
@@ -827,44 +820,51 @@ collection_record = client.CollectionRecord()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> CollectionRecordEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.CollectionRecord().create({
     "slug": "example_slug",  # str
     "data": {},  # dict
-    "id": "example_id",  # str
 })
 ```
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[CollectionRecordEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.CollectionRecord().list({"slug": "example"})
 for collection_record in results:
-    print(collection_record)
+    print(collection_record.data_get())
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> CollectionRecordEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
-result = client.CollectionRecord().load({"id": "collection_record_id", "collection_id": "collection_id"})
+result = client.CollectionRecord().load({"id": "collection_record_id", "slug": "slug"})
 ```
 
-#### `update(reqdata, ctrl=None) -> dict`
+#### `remove(reqmatch, ctrl=None) -> CollectionRecordEntity`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
+
+```python
+result = client.CollectionRecord().remove({"id": "collection_record_id", "slug": "slug"})
+```
+
+#### `update(reqdata, ctrl=None) -> CollectionRecordEntity`
+
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```python
 result = client.CollectionRecord().update({
     "id": "collection_record_id",
-    "collection_id": "collection_id",
+    "slug": "slug",
     # Fields to update
 })
 ```
@@ -912,9 +912,9 @@ custom = client.Custom()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> CustomEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Custom().create({
@@ -922,25 +922,36 @@ result = client.Custom().create({
 })
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> CustomEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Custom().load({"id": "custom_id"})
 ```
 
-#### `remove(reqmatch, ctrl=None) -> dict`
+#### `patch(reqdata, ctrl=None) -> CustomEntity`
 
-Remove the entity matching the given criteria. Raises on error.
+Change part of an existing entity: only the fields given are sent. The data must include the entity `id`. Returns the patched entity and raises on error.
+
+```python
+result = client.Custom().patch({
+    "id": "custom_id",
+    # Only the fields to change
+})
+```
+
+#### `remove(reqmatch, ctrl=None) -> CustomEntity`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
 result = client.Custom().remove({"id": "custom_id"})
 ```
 
-#### `update(reqdata, ctrl=None) -> dict`
+#### `update(reqdata, ctrl=None) -> CustomEntity`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```python
 result = client.Custom().update({
@@ -978,85 +989,6 @@ Return the entity name.
 
 ---
 
-## LegacyEntity
-
-```python
-legacy = client.Legacy()
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `avatar` | `str` | Yes |  |
-| `email` | `str` | Yes |  |
-| `first_name` | `str` | Yes |  |
-| `id` | `int` | Yes |  |
-| `last_name` | `str` | Yes |  |
-
-### Operations
-
-#### `create(reqdata, ctrl=None) -> dict`
-
-Create a new entity with the given data. Returns the created entity data and raises on error.
-
-```python
-result = client.Legacy().create({
-    "avatar": "example_avatar",  # str
-    "email": "example_email",  # str
-    "first_name": "example_first_name",  # str
-    "id": 1,  # int
-    "last_name": "example_last_name",  # str
-})
-```
-
-#### `list(reqmatch=None, ctrl=None) -> list`
-
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
-
-```python
-results = client.Legacy().list()
-for legacy in results:
-    print(legacy)
-```
-
-#### `remove(reqmatch, ctrl=None) -> dict`
-
-Remove the entity matching the given criteria. Raises on error.
-
-```python
-result = client.Legacy().remove({"id": 1})
-```
-
-### Common Methods
-
-#### `data_get() -> dict`
-
-Get the entity data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get() -> dict`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `LegacyEntity` instance with the same options.
-
-#### `get_name() -> str`
-
-Return the entity name.
-
-
----
-
 ## LegacyMutationEntity
 
 ```python
@@ -1067,15 +999,61 @@ legacy_mutation = client.LegacyMutation()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `avatar` | `str` | Yes |  |
 | `createdAt` | `str` | No |  |
+| `email` | `str` | Yes |  |
+| `first_name` | `str` | Yes |  |
 | `id` | `str` | No |  |
+| `last_name` | `str` | Yes |  |
 | `updatedAt` | `str` | No |  |
+
+### Field Usage by Operation
+
+| Field | list | create | update | patch |
+| --- | --- | --- | --- | --- |
+| `avatar` | - | - | - | - |
+| `createdAt` | - | - | - | - |
+| `email` | - | - | - | - |
+| `first_name` | - | - | - | - |
+| `id` | Yes | - | - | - |
+| `last_name` | - | - | - | - |
+| `updatedAt` | - | - | - | - |
 
 ### Operations
 
-#### `update(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> LegacyMutationEntity`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
+
+```python
+result = client.LegacyMutation().create({
+})
+```
+
+#### `list(reqmatch=None, ctrl=None) -> list[LegacyMutationEntity]`
+
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
+
+```python
+results = client.LegacyMutation().list()
+for legacy_mutation in results:
+    print(legacy_mutation.data_get())
+```
+
+#### `patch(reqdata, ctrl=None) -> LegacyMutationEntity`
+
+Change part of an existing entity: only the fields given are sent. The data must include the entity `id`. Returns the patched entity and raises on error.
+
+```python
+result = client.LegacyMutation().patch({
+    "id": 1,
+    # Only the fields to change
+})
+```
+
+#### `update(reqdata, ctrl=None) -> LegacyMutationEntity`
+
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```python
 result = client.LegacyMutation().update({
@@ -1133,19 +1111,19 @@ legacy_unknown = client.LegacyUnknown()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[LegacyUnknownEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.LegacyUnknown().list()
 for legacy_unknown in results:
-    print(legacy_unknown)
+    print(legacy_unknown.data_get())
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> LegacyUnknownEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.LegacyUnknown().load({"id": 1})
@@ -1196,12 +1174,20 @@ legacy_user = client.LegacyUser()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> LegacyUserEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.LegacyUser().load({"id": 1})
+```
+
+#### `remove(reqmatch, ctrl=None) -> LegacyUserEntity`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
+
+```python
+result = client.LegacyUser().remove({"id": 1})
 ```
 
 ### Common Methods
@@ -1249,15 +1235,14 @@ login = client.Login()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> LoginEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Login().create({
     "email": "example_email",  # str
     "password": "example_password",  # str
-    "token": "example_token",  # str
 })
 ```
 
@@ -1307,15 +1292,14 @@ register = client.Register()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> RegisterEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Register().create({
     "email": "example_email",  # str
     "password": "example_password",  # str
-    "token": "example_token",  # str
 })
 ```
 
@@ -1505,6 +1489,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

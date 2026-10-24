@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { HostedRestSDK, BaseFeature, stdutil } from '../../..'
+import { HostedRestSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,6 +41,64 @@ describe('AgentUserEntity', async () => {
   })
 
 
+  class FailHook extends BaseFeature {
+    name = 'failhook'
+    version = '0.0.1'
+    active = true
+    unexpected = 0
+    init() { }
+    PreSpec() { throw new Error('agent_user hook failed') }
+    PreUnexpected() { this.unexpected++ }
+  }
+
+  test('stream-error', async () => {
+    const offline = { net: { offline: true } }
+    await assert.rejects(async () => {
+      for await (const _item of HostedRestSDK.test(offline).AgentUser().stream('list')) { }
+    }, /offline/)
+
+    for await (const _item of HostedRestSDK.test(offline).AgentUser()
+      .stream('list', undefined, { ctrl: { throw: false } })) { }
+
+    if (null != (config as any).feature?.rbac) {
+      const denied = HostedRestSDK.test(undefined, { feature: { rbac: { active: true, deny: true } } })
+      await assert.rejects(async () => {
+        for await (const _item of denied.AgentUser().stream('list')) { }
+      }, (err: any) => 'rbac_denied' === err.code)
+    }
+  })
+
+  test('stream-ctrl', async () => {
+    const explain: any = {}
+    const ctrl: any = { explain }
+    for await (const _item of HostedRestSDK.test().AgentUser().stream('list', undefined, { ctrl })) { }
+    assert.deepStrictEqual(Object.keys(ctrl), ['explain'])
+    assert(explain === ctrl.explain && 0 < Object.keys(explain).length)
+  })
+
+  test('unexpected', async () => {
+    const hook = new FailHook()
+    const client = new HostedRestSDK({ feature: { test: { active: true } }, extend: [hook] })
+    await assert.rejects(client.AgentUser().list(), /hook failed/)
+    assert(0 < hook.unexpected)
+
+    const fired = hook.unexpected
+    assert.strictEqual(await client.AgentUser().list(undefined, { throw: false }), undefined)
+    assert(fired < hook.unexpected)
+  })
+
+  test('validate', async (t) => {
+    if (null == (config as any).feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = HostedRestSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.AgentUser().list({"cursor":1} as any),
+      (err: any) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.HOSTED_REST_TEST_LIVE
@@ -51,7 +109,7 @@ describe('AgentUserEntity', async () => {
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"created_at":{"a":true,"fo":"date-time","h":"Created At","n":"created_at","r":true,"t":"`$STRING`","key$":"created_at","index$":0},"email":{"a":true,"fo":"email","h":"Email","n":"email","r":true,"t":"`$STRING`","key$":"email","index$":1},"full_name":{"a":true,"h":"Full Name","n":"full_name","r":true,"t":"`$STRING`","key$":"full_name","index$":2},"id":{"a":true,"h":"Id","n":"id","r":true,"t":"`$STRING`","key$":"id","index$":3},"locale":{"a":true,"h":"Locale","n":"locale","r":true,"t":"`$STRING`","key$":"locale","index$":4},"preferences":{"a":true,"h":"Preferences","n":"preferences","r":true,"t":"`$OBJECT`","key$":"preferences","index$":5},"profile":{"a":true,"h":"Profile","n":"profile","r":true,"t":"`$OBJECT`","key$":"profile","index$":6},"status":{"a":true,"h":"Status","n":"status","r":true,"t":"`$STRING`","key$":"status","index$":7},"timezone":{"a":true,"h":"Timezone","n":"timezone","r":true,"t":"`$STRING`","key$":"timezone","index$":8},"updated_at":{"a":true,"fo":"date-time","h":"Updated At","n":"updated_at","r":true,"t":"`$STRING`","key$":"updated_at","index$":9}},"id":{"field":"id","name":"id"},"name":"agent_user","op":{"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /agent/v1/users","source":"openapi3","version":2},"g":{"query":[{"a":true,"k":"query","n":"cursor","or":"cursor","r":false,"t":"`$STRING`","index$":0},{"a":true,"k":"query","n":"field","or":"fields","r":false,"t":"`$STRING`","index$":1},{"a":true,"ex":20,"k":"query","n":"limit","or":"limit","r":false,"t":"`$INTEGER`","index$":2},{"a":true,"ex":42,"k":"query","n":"seed","or":"seed","r":false,"t":"`$INTEGER`","index$":3}]},"k":"http","m":"GET","o":"/agent/v1/users","q":{"exist":["cursor","field","limit","seed"]},"r":{},"s":[{"lit":"agent"},{"lit":"v1"},{"lit":"users"}],"t":{"req":"`reqdata`","res":"`body.data`"},"index$":0}],"key$":"list"},"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /agent/v1/users/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$STRING`","index$":0}],"query":[{"a":true,"k":"query","n":"expand","or":"expand","r":false,"t":"`$STRING`","index$":0}]},"k":"http","m":"GET","o":"/agent/v1/users/{id}","q":{"exist":["expand","id"]},"r":{},"s":[{"lit":"agent"},{"lit":"v1"},{"lit":"users"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body.data`"},"index$":0}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"agent_user","name__orig":"agent_user","Name":"AgentUser","name_":"agent_user","name-":"agent-user","NAME":"AGENT_USER","index$":2}, {"active":true,"entity":"agent_user","key$":"BasicAgentUserFlow","kind":"basic","name":"BasicAgentUserFlow","param":{},"step":[{"a":true,"d":{},"i":{},"m":{},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"agent_user_ref01"}}],"index$":0},{"a":true,"d":{},"i":{"ref":"agent_user_ref01","srcdatavar":"agent_user_ref01_data","suffix":"_dt0"},"m":{"id":"agent_user01"},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-agent_user_ref01"}}],"index$":1}]}, 'AgentUser', {"GET /agent/v1/users":{"protocol":"http","parameters":[{"name":"cursor","in":"query","schema":{"type":"string"},"description":"Opaque cursor from previous response. Omit for first page.","index$":0},{"name":"limit","in":"query","schema":{"type":"integer","default":20,"maximum":100},"description":"Page size (silently clamped at 100).","index$":1},{"name":"fields","in":"query","schema":{"type":"string"},"description":"Comma-separated sparse fieldset (e.g. id,email,full_name).","index$":2},{"name":"seed","in":"query","schema":{"type":"integer","default":42},"description":"Deterministic fixture seed.","index$":3}]},"GET /agent/v1/users/{id}":{"protocol":"http","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string","pattern":"^usr_[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"},"description":"ULID with usr_ prefix.","index$":0},{"name":"expand","in":"query","schema":{"type":"string"},"description":"Comma-separated: addresses, activity, organizations.","index$":1}]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"created_at":{"a":true,"fo":"date-time","h":"Created At","n":"created_at","r":true,"t":"`$STRING`","key$":"created_at","index$":0},"email":{"a":true,"fo":"email","h":"Email","n":"email","r":true,"t":"`$STRING`","key$":"email","index$":1},"full_name":{"a":true,"h":"Full Name","n":"full_name","r":true,"t":"`$STRING`","key$":"full_name","index$":2},"id":{"a":true,"h":"Id","n":"id","r":true,"t":"`$STRING`","key$":"id","index$":3},"locale":{"a":true,"h":"Locale","n":"locale","r":true,"t":"`$STRING`","key$":"locale","index$":4},"preferences":{"a":true,"h":"Preferences","n":"preferences","r":true,"t":"`$OBJECT`","key$":"preferences","index$":5},"profile":{"a":true,"h":"Profile","n":"profile","r":true,"t":"`$OBJECT`","key$":"profile","index$":6},"status":{"a":true,"h":"Status","n":"status","r":true,"t":"`$STRING`","key$":"status","index$":7},"timezone":{"a":true,"h":"Timezone","n":"timezone","r":true,"t":"`$STRING`","key$":"timezone","index$":8},"updated_at":{"a":true,"fo":"date-time","h":"Updated At","n":"updated_at","r":true,"t":"`$STRING`","key$":"updated_at","index$":9}},"id":{"field":"id","name":"id"},"name":"agent_user","op":{"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /agent/v1/users","source":"openapi3","version":2},"g":{"query":[{"a":true,"k":"query","n":"cursor","or":"cursor","r":false,"t":"`$STRING`","index$":0},{"a":true,"k":"query","n":"field","or":"fields","r":false,"t":"`$STRING`","index$":1},{"a":true,"ex":20,"k":"query","n":"limit","or":"limit","r":false,"t":"`$INTEGER`","index$":2},{"a":true,"ex":42,"k":"query","n":"seed","or":"seed","r":false,"t":"`$INTEGER`","index$":3}]},"k":"http","m":"GET","o":"/agent/v1/users","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"agent"},{"lit":"v1"},{"lit":"users"}],"t":{"req":"`reqdata`","res":"`body.data`"},"index$":0}],"key$":"list"},"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /agent/v1/users/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$STRING`","index$":0}],"query":[{"a":true,"k":"query","n":"expand","or":"expand","r":false,"t":"`$STRING`","index$":0}]},"k":"http","m":"GET","o":"/agent/v1/users/{id}","q":{"exist":["id"]},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"agent"},{"lit":"v1"},{"lit":"users"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body.data`"},"index$":0}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"agent_user","name__orig":"agent_user","Name":"AgentUser","name_":"agent_user","name-":"agent-user","NAME":"AGENT_USER","index$":2}, {"active":true,"entity":"agent_user","key$":"BasicAgentUserFlow","kind":"basic","name":"BasicAgentUserFlow","param":{},"step":[{"a":true,"d":{},"i":{},"m":{},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"agent_user_ref01"}}],"index$":0},{"a":true,"d":{},"i":{"ref":"agent_user_ref01","srcdatavar":"agent_user_ref01_data","suffix":"_dt0"},"m":{"id":"agent_user01"},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-agent_user_ref01"}}],"index$":1}]}, 'AgentUser', {"GET /agent/v1/users":{"protocol":"http","parameters":[{"name":"cursor","in":"query","schema":{"type":"string"},"description":"Opaque cursor from previous response. Omit for first page.","index$":0},{"name":"limit","in":"query","schema":{"type":"integer","default":20,"maximum":100},"description":"Page size (silently clamped at 100).","index$":1},{"name":"fields","in":"query","schema":{"type":"string"},"description":"Comma-separated sparse fieldset (e.g. id,email,full_name).","index$":2},{"name":"seed","in":"query","schema":{"type":"integer","default":42},"description":"Deterministic fixture seed.","index$":3}]},"GET /agent/v1/users/{id}":{"protocol":"http","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string","pattern":"^usr_[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$"},"description":"ULID with usr_ prefix.","index$":0},{"name":"expand","in":"query","schema":{"type":"string"},"description":"Comma-separated: addresses, activity, organizations.","index$":1}]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -79,6 +137,12 @@ describe('AgentUserEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options

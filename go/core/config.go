@@ -71,6 +71,7 @@ func MakeConfig() map[string]any {
 				},
 				"optspec": map[string]any{
 					"clearTimer": "`$FUNCTION`",
+					"now": "`$FUNCTION`",
 					"setTimer": "`$FUNCTION`",
 				},
 				"strict": false,
@@ -99,7 +100,6 @@ func MakeConfig() map[string]any {
 				"collection": map[string]any{},
 				"collection_record": map[string]any{},
 				"custom": map[string]any{},
-				"legacy": map[string]any{},
 				"legacy_mutation": map[string]any{},
 				"legacy_unknown": map[string]any{},
 				"legacy_user": map[string]any{},
@@ -174,6 +174,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -235,6 +239,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -242,6 +250,52 @@ func MakeConfig() map[string]any {
 						"input": "data",
 						"name": "load",
 						"points": []any{
+							map[string]any{
+								"kind": "http",
+								"method": "GET",
+								"orig": "/agent/v1/scenarios/{scenario}",
+								"segments": []any{
+									map[string]any{
+										"lit": "agent",
+									},
+									map[string]any{
+										"lit": "v1",
+									},
+									map[string]any{
+										"lit": "scenarios",
+									},
+									map[string]any{
+										"var": "scenario",
+									},
+								},
+								"parts": []any{
+									"agent",
+									"v1",
+									"scenarios",
+									"{scenario}",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{
+									"params": []any{
+										map[string]any{
+											"name": "scenario",
+											"orig": "scenario",
+											"type": "`$STRING`",
+											"kind": "param",
+											"reqd": true,
+										},
+									},
+								},
+								"select": map[string]any{
+									"exist": []any{
+										"scenario",
+									},
+								},
+							},
 							map[string]any{
 								"kind": "http",
 								"method": "GET",
@@ -297,59 +351,10 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"cursor",
-										"limit",
-										"seed",
-										"status",
-									},
-								},
-							},
-							map[string]any{
-								"kind": "http",
-								"method": "GET",
-								"orig": "/agent/v1/scenarios/{scenario}",
-								"segments": []any{
-									map[string]any{
-										"lit": "agent",
-									},
-									map[string]any{
-										"lit": "v1",
-									},
-									map[string]any{
-										"lit": "scenarios",
-									},
-									map[string]any{
-										"var": "scenario",
-									},
-								},
-								"parts": []any{
-									"agent",
-									"v1",
-									"scenarios",
-									"{scenario}",
-								},
-								"rename": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
-								"args": map[string]any{
-									"params": []any{
-										map[string]any{
-											"name": "scenario",
-											"orig": "scenario",
-											"type": "`$STRING`",
-											"kind": "param",
-											"reqd": true,
-										},
-									},
-								},
-								"select": map[string]any{
-									"exist": []any{
-										"scenario",
-									},
+								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 							map[string]any{
@@ -379,6 +384,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -518,13 +527,10 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"cursor",
-										"field",
-										"limit",
-										"seed",
-									},
+								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -583,9 +589,12 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{
 									"exist": []any{
-										"expand",
 										"id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -698,6 +707,10 @@ func MakeConfig() map[string]any {
 										"id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 							map[string]any{
 								"kind": "http",
@@ -722,6 +735,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -786,15 +803,18 @@ func MakeConfig() map[string]any {
 											"orig": "statuses",
 											"type": "`$STRING`",
 											"kind": "query",
+											"field": true,
 										},
 									},
 								},
 								"select": map[string]any{
 									"exist": []any{
 										"project_id",
-										"status",
-										"x_reqres_env",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 							map[string]any{
@@ -836,11 +856,10 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"limit",
-										"x_reqres_env",
-									},
+								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -890,6 +909,10 @@ func MakeConfig() map[string]any {
 										"id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -897,69 +920,6 @@ func MakeConfig() map[string]any {
 						"input": "data",
 						"name": "remove",
 						"points": []any{
-							map[string]any{
-								"kind": "http",
-								"method": "DELETE",
-								"orig": "/app/collections/{slug}/records/{recordId}",
-								"segments": []any{
-									map[string]any{
-										"lit": "app",
-									},
-									map[string]any{
-										"lit": "collections",
-									},
-									map[string]any{
-										"var": "collection_id",
-									},
-									map[string]any{
-										"lit": "records",
-									},
-									map[string]any{
-										"var": "record_id",
-									},
-								},
-								"parts": []any{
-									"app",
-									"collections",
-									"{collection_id}",
-									"records",
-									"{record_id}",
-								},
-								"rename": map[string]any{
-									"param": map[string]any{
-										"recordId": "record_id",
-										"slug": "collection_id",
-									},
-								},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
-								"args": map[string]any{
-									"params": []any{
-										map[string]any{
-											"name": "collection_id",
-											"orig": "slug",
-											"type": "`$STRING`",
-											"kind": "param",
-											"reqd": true,
-										},
-										map[string]any{
-											"name": "record_id",
-											"orig": "recordId",
-											"type": "`$STRING`",
-											"kind": "param",
-											"reqd": true,
-										},
-									},
-								},
-								"select": map[string]any{
-									"exist": []any{
-										"collection_id",
-										"record_id",
-									},
-								},
-							},
 							map[string]any{
 								"kind": "http",
 								"method": "DELETE",
@@ -1000,6 +960,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1049,16 +1013,16 @@ func MakeConfig() map[string]any {
 										"id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
 				},
 				"relations": map[string]any{
-					"ancestors": []any{
-						[]any{
-							"$.main.kit.entity.collection",
-						},
-					},
+					"ancestors": []any{},
 				},
 			},
 			"app_user_login": map[string]any{
@@ -1114,6 +1078,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -1157,6 +1125,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 							map[string]any{
 								"kind": "http",
@@ -1181,6 +1153,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -1263,8 +1239,11 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{
 									"exist": []any{
 										"project_id",
-										"x_reqres_env",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1316,6 +1295,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -1355,6 +1338,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -1470,10 +1457,10 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"x_reqres_env",
-									},
+								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1513,10 +1500,10 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"x_reqres_env",
-									},
+								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 							map[string]any{
@@ -1542,6 +1529,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -1600,8 +1591,11 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{
 									"exist": []any{
 										"id",
-										"x_reqres_env",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 							map[string]any{
@@ -1649,6 +1643,10 @@ func MakeConfig() map[string]any {
 										"id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -1656,78 +1654,6 @@ func MakeConfig() map[string]any {
 						"input": "data",
 						"name": "remove",
 						"points": []any{
-							map[string]any{
-								"kind": "http",
-								"method": "DELETE",
-								"orig": "/api/collections/{slug}/records/{recordId}",
-								"segments": []any{
-									map[string]any{
-										"lit": "api",
-									},
-									map[string]any{
-										"lit": "collections",
-									},
-									map[string]any{
-										"var": "collection_id",
-									},
-									map[string]any{
-										"lit": "records",
-									},
-									map[string]any{
-										"var": "record_id",
-									},
-								},
-								"parts": []any{
-									"api",
-									"collections",
-									"{collection_id}",
-									"records",
-									"{record_id}",
-								},
-								"rename": map[string]any{
-									"param": map[string]any{
-										"recordId": "record_id",
-										"slug": "collection_id",
-									},
-								},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
-								"args": map[string]any{
-									"header": []any{
-										map[string]any{
-											"name": "x_reqres_env",
-											"orig": "X-Reqres-Env",
-											"type": "`$STRING`",
-											"kind": "header",
-										},
-									},
-									"params": []any{
-										map[string]any{
-											"name": "collection_id",
-											"orig": "slug",
-											"type": "`$STRING`",
-											"kind": "param",
-											"reqd": true,
-										},
-										map[string]any{
-											"name": "record_id",
-											"orig": "recordId",
-											"type": "`$STRING`",
-											"kind": "param",
-											"reqd": true,
-										},
-									},
-								},
-								"select": map[string]any{
-									"exist": []any{
-										"collection_id",
-										"record_id",
-										"x_reqres_env",
-									},
-								},
-							},
 							map[string]any{
 								"kind": "http",
 								"method": "DELETE",
@@ -1779,7 +1705,6 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{
 									"exist": []any{
 										"id",
-										"x_reqres_env",
 									},
 								},
 							},
@@ -1840,8 +1765,11 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{
 									"exist": []any{
 										"id",
-										"x_reqres_env",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1965,8 +1893,11 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{
 									"exist": []any{
 										"slug",
-										"x_reqres_env",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 							map[string]any{
@@ -2013,6 +1944,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"slug",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -2121,17 +2056,12 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{
 									"exist": []any{
-										"created_after",
-										"created_before",
-										"data_contain",
-										"include_deleted",
-										"limit",
-										"order",
-										"page",
-										"search",
 										"slug",
-										"x_reqres_env",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 							map[string]any{
@@ -2179,6 +2109,10 @@ func MakeConfig() map[string]any {
 										"slug",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -2198,7 +2132,7 @@ func MakeConfig() map[string]any {
 										"lit": "collections",
 									},
 									map[string]any{
-										"var": "collection_id",
+										"var": "slug",
 									},
 									map[string]any{
 										"lit": "records",
@@ -2210,14 +2144,13 @@ func MakeConfig() map[string]any {
 								"parts": []any{
 									"api",
 									"collections",
-									"{collection_id}",
+									"{slug}",
 									"records",
 									"{id}",
 								},
 								"rename": map[string]any{
 									"param": map[string]any{
 										"recordId": "id",
-										"slug": "collection_id",
 									},
 								},
 								"transform": map[string]any{
@@ -2235,15 +2168,15 @@ func MakeConfig() map[string]any {
 									},
 									"params": []any{
 										map[string]any{
-											"name": "collection_id",
-											"orig": "slug",
+											"name": "id",
+											"orig": "recordId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
 										},
 										map[string]any{
-											"name": "id",
-											"orig": "recordId",
+											"name": "slug",
+											"orig": "slug",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -2252,10 +2185,13 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{
 									"exist": []any{
-										"collection_id",
 										"id",
-										"x_reqres_env",
+										"slug",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 							map[string]any{
@@ -2270,7 +2206,7 @@ func MakeConfig() map[string]any {
 										"lit": "collections",
 									},
 									map[string]any{
-										"var": "collection_id",
+										"var": "slug",
 									},
 									map[string]any{
 										"lit": "records",
@@ -2282,14 +2218,13 @@ func MakeConfig() map[string]any {
 								"parts": []any{
 									"app",
 									"collections",
-									"{collection_id}",
+									"{slug}",
 									"records",
 									"{id}",
 								},
 								"rename": map[string]any{
 									"param": map[string]any{
 										"recordId": "id",
-										"slug": "collection_id",
 									},
 								},
 								"transform": map[string]any{
@@ -2299,15 +2234,15 @@ func MakeConfig() map[string]any {
 								"args": map[string]any{
 									"params": []any{
 										map[string]any{
-											"name": "collection_id",
-											"orig": "slug",
+											"name": "id",
+											"orig": "recordId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
 										},
 										map[string]any{
-											"name": "id",
-											"orig": "recordId",
+											"name": "slug",
+											"orig": "slug",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -2316,8 +2251,150 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{
 									"exist": []any{
-										"collection_id",
 										"id",
+										"slug",
+									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
+							},
+						},
+					},
+					"remove": map[string]any{
+						"input": "data",
+						"name": "remove",
+						"points": []any{
+							map[string]any{
+								"kind": "http",
+								"method": "DELETE",
+								"orig": "/api/collections/{slug}/records/{recordId}",
+								"segments": []any{
+									map[string]any{
+										"lit": "api",
+									},
+									map[string]any{
+										"lit": "collections",
+									},
+									map[string]any{
+										"var": "slug",
+									},
+									map[string]any{
+										"lit": "records",
+									},
+									map[string]any{
+										"var": "id",
+									},
+								},
+								"parts": []any{
+									"api",
+									"collections",
+									"{slug}",
+									"records",
+									"{id}",
+								},
+								"rename": map[string]any{
+									"param": map[string]any{
+										"recordId": "id",
+									},
+								},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{
+									"header": []any{
+										map[string]any{
+											"name": "x_reqres_env",
+											"orig": "X-Reqres-Env",
+											"type": "`$STRING`",
+											"kind": "header",
+										},
+									},
+									"params": []any{
+										map[string]any{
+											"name": "id",
+											"orig": "recordId",
+											"type": "`$STRING`",
+											"kind": "param",
+											"reqd": true,
+										},
+										map[string]any{
+											"name": "slug",
+											"orig": "slug",
+											"type": "`$STRING`",
+											"kind": "param",
+											"reqd": true,
+										},
+									},
+								},
+								"select": map[string]any{
+									"exist": []any{
+										"id",
+										"slug",
+									},
+								},
+							},
+							map[string]any{
+								"kind": "http",
+								"method": "DELETE",
+								"orig": "/app/collections/{slug}/records/{recordId}",
+								"segments": []any{
+									map[string]any{
+										"lit": "app",
+									},
+									map[string]any{
+										"lit": "collections",
+									},
+									map[string]any{
+										"var": "slug",
+									},
+									map[string]any{
+										"lit": "records",
+									},
+									map[string]any{
+										"var": "id",
+									},
+								},
+								"parts": []any{
+									"app",
+									"collections",
+									"{slug}",
+									"records",
+									"{id}",
+								},
+								"rename": map[string]any{
+									"param": map[string]any{
+										"recordId": "id",
+									},
+								},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{
+									"params": []any{
+										map[string]any{
+											"name": "id",
+											"orig": "recordId",
+											"type": "`$STRING`",
+											"kind": "param",
+											"reqd": true,
+										},
+										map[string]any{
+											"name": "slug",
+											"orig": "slug",
+											"type": "`$STRING`",
+											"kind": "param",
+											"reqd": true,
+										},
+									},
+								},
+								"select": map[string]any{
+									"exist": []any{
+										"id",
+										"slug",
 									},
 								},
 							},
@@ -2339,7 +2416,7 @@ func MakeConfig() map[string]any {
 										"lit": "collections",
 									},
 									map[string]any{
-										"var": "collection_id",
+										"var": "slug",
 									},
 									map[string]any{
 										"lit": "records",
@@ -2351,14 +2428,13 @@ func MakeConfig() map[string]any {
 								"parts": []any{
 									"api",
 									"collections",
-									"{collection_id}",
+									"{slug}",
 									"records",
 									"{id}",
 								},
 								"rename": map[string]any{
 									"param": map[string]any{
 										"recordId": "id",
-										"slug": "collection_id",
 									},
 								},
 								"transform": map[string]any{
@@ -2376,15 +2452,15 @@ func MakeConfig() map[string]any {
 									},
 									"params": []any{
 										map[string]any{
-											"name": "collection_id",
-											"orig": "slug",
+											"name": "id",
+											"orig": "recordId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
 										},
 										map[string]any{
-											"name": "id",
-											"orig": "recordId",
+											"name": "slug",
+											"orig": "slug",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -2393,10 +2469,13 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{
 									"exist": []any{
-										"collection_id",
 										"id",
-										"x_reqres_env",
+										"slug",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 							map[string]any{
@@ -2411,7 +2490,7 @@ func MakeConfig() map[string]any {
 										"lit": "collections",
 									},
 									map[string]any{
-										"var": "collection_id",
+										"var": "slug",
 									},
 									map[string]any{
 										"lit": "records",
@@ -2423,14 +2502,13 @@ func MakeConfig() map[string]any {
 								"parts": []any{
 									"app",
 									"collections",
-									"{collection_id}",
+									"{slug}",
 									"records",
 									"{id}",
 								},
 								"rename": map[string]any{
 									"param": map[string]any{
 										"recordId": "id",
-										"slug": "collection_id",
 									},
 								},
 								"transform": map[string]any{
@@ -2440,15 +2518,15 @@ func MakeConfig() map[string]any {
 								"args": map[string]any{
 									"params": []any{
 										map[string]any{
-											"name": "collection_id",
-											"orig": "slug",
+											"name": "id",
+											"orig": "recordId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
 										},
 										map[string]any{
-											"name": "id",
-											"orig": "recordId",
+											"name": "slug",
+											"orig": "slug",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -2457,9 +2535,13 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{
 									"exist": []any{
-										"collection_id",
 										"id",
+										"slug",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -2536,6 +2618,10 @@ func MakeConfig() map[string]any {
 										"id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -2588,6 +2674,10 @@ func MakeConfig() map[string]any {
 										"id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -2639,6 +2729,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -2692,6 +2786,10 @@ func MakeConfig() map[string]any {
 										"id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -2744,6 +2842,10 @@ func MakeConfig() map[string]any {
 										"id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -2752,13 +2854,19 @@ func MakeConfig() map[string]any {
 					"ancestors": []any{},
 				},
 			},
-			"legacy": map[string]any{
+			"legacy_mutation": map[string]any{
 				"fields": []any{
 					map[string]any{
 						"name": "avatar",
 						"title": "Avatar",
 						"type": "`$STRING`",
 						"req": true,
+					},
+					map[string]any{
+						"name": "createdAt",
+						"title": "Created At",
+						"type": "`$STRING`",
+						"format": "date-time",
 					},
 					map[string]any{
 						"name": "email",
@@ -2776,8 +2884,13 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "id",
 						"title": "Id",
-						"type": "`$INTEGER`",
-						"req": true,
+						"type": "`$STRING`",
+						"op": map[string]any{
+							"list": map[string]any{
+								"req": true,
+								"type": "`$INTEGER`",
+							},
+						},
 					},
 					map[string]any{
 						"name": "last_name",
@@ -2785,12 +2898,18 @@ func MakeConfig() map[string]any {
 						"type": "`$STRING`",
 						"req": true,
 					},
+					map[string]any{
+						"name": "updatedAt",
+						"title": "Updated At",
+						"type": "`$STRING`",
+						"format": "date-time",
+					},
 				},
 				"id": map[string]any{
 					"field": "id",
 					"name": "id",
 				},
-				"name": "legacy",
+				"name": "legacy_mutation",
 				"op": map[string]any{
 					"create": map[string]any{
 						"input": "data",
@@ -2819,6 +2938,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -2864,94 +2987,14 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"page",
-										"per_page",
-									},
+								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
 					},
-					"remove": map[string]any{
-						"input": "data",
-						"name": "remove",
-						"points": []any{
-							map[string]any{
-								"kind": "http",
-								"method": "DELETE",
-								"orig": "/api/users/{id}",
-								"segments": []any{
-									map[string]any{
-										"lit": "api",
-									},
-									map[string]any{
-										"lit": "users",
-									},
-									map[string]any{
-										"var": "id",
-									},
-								},
-								"parts": []any{
-									"api",
-									"users",
-									"{id}",
-								},
-								"rename": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
-								"args": map[string]any{
-									"params": []any{
-										map[string]any{
-											"name": "id",
-											"orig": "id",
-											"type": "`$INTEGER`",
-											"kind": "param",
-											"reqd": true,
-										},
-									},
-								},
-								"select": map[string]any{
-									"exist": []any{
-										"id",
-									},
-								},
-							},
-						},
-					},
-				},
-				"relations": map[string]any{
-					"ancestors": []any{},
-				},
-			},
-			"legacy_mutation": map[string]any{
-				"fields": []any{
-					map[string]any{
-						"name": "createdAt",
-						"title": "Created At",
-						"type": "`$STRING`",
-						"format": "date-time",
-					},
-					map[string]any{
-						"name": "id",
-						"title": "Id",
-						"type": "`$STRING`",
-					},
-					map[string]any{
-						"name": "updatedAt",
-						"title": "Updated At",
-						"type": "`$STRING`",
-						"format": "date-time",
-					},
-				},
-				"id": map[string]any{
-					"field": "id",
-					"name": "id",
-				},
-				"name": "legacy_mutation",
-				"op": map[string]any{
 					"patch": map[string]any{
 						"input": "data",
 						"name": "patch",
@@ -2996,6 +3039,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -3044,6 +3091,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -3145,11 +3196,10 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"page",
-										"per_page",
-									},
+								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -3199,6 +3249,10 @@ func MakeConfig() map[string]any {
 										"id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -3239,6 +3293,58 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"kind": "http",
 								"method": "GET",
+								"orig": "/api/users/{id}",
+								"segments": []any{
+									map[string]any{
+										"lit": "api",
+									},
+									map[string]any{
+										"lit": "users",
+									},
+									map[string]any{
+										"var": "id",
+									},
+								},
+								"parts": []any{
+									"api",
+									"users",
+									"{id}",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{
+									"params": []any{
+										map[string]any{
+											"name": "id",
+											"orig": "id",
+											"type": "`$INTEGER`",
+											"kind": "param",
+											"reqd": true,
+										},
+									},
+								},
+								"select": map[string]any{
+									"exist": []any{
+										"id",
+									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
+							},
+						},
+					},
+					"remove": map[string]any{
+						"input": "data",
+						"name": "remove",
+						"points": []any{
+							map[string]any{
+								"kind": "http",
+								"method": "DELETE",
 								"orig": "/api/users/{id}",
 								"segments": []any{
 									map[string]any{
@@ -3336,6 +3442,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -3404,6 +3514,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},

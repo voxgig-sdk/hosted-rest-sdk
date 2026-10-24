@@ -4,7 +4,7 @@
 
 The Ruby SDK for the HostedRest API — an entity-oriented client using idiomatic Ruby conventions.
 
-The SDK exposes the API as capitalised, semantic **Entities** — for example `client.AgentHealth` — with named operations (`list`/`load`/`create`/`update`/`remove`/`patch`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
+The SDK exposes the API as capitalised, semantic **Entities** — for example `client.AgentHealth` — with named operations (`list`/`load`/`create`/`update`/`patch`/`remove`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
 
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
@@ -12,7 +12,7 @@ The SDK exposes the API as capitalised, semantic **Entities** — for example `c
 
 ## Install
 This package is not yet published to RubyGems. Install it from the
-GitHub release tag (`rb/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/hosted-rest-sdk/releases)), or
+GitHub release tag (`rb/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/hosted-rest-sdk/tags)), or
 from a clone:
 
 ```bash
@@ -29,7 +29,7 @@ gem "voxgig-sdk-hosted-rest-sdk", path: "./hosted-rest-sdk/rb"
 ## Tutorial: your first API call
 
 This tutorial walks through creating a client, listing entities, and
-loading a specific record.
+loading a specific record. The client sends the API key in the `x-api-key` header.
 
 ### 1. Create a client
 
@@ -43,13 +43,13 @@ client = HostedRestSDK.new({
 
 ### 3. Load a collectionrecord
 
-CollectionRecord is nested under collection, so provide the `collection_id`.
+CollectionRecord is nested under slug, so provide the `slug`.
 
 ```ruby
 begin
   # load returns the ENTITY — call data_get for the CollectionRecord record (raises on error).
-  collectionrecord = client.CollectionRecord.load({ "collection_id" => "example_collection_id", "id" => "example_id" })
-  puts collectionrecord
+  collectionrecord = client.CollectionRecord.load({ "slug" => "example_slug", "id" => "example_id" })
+  puts collectionrecord.data_get
 rescue => err
   warn "load failed: #{err}"
 end
@@ -131,9 +131,9 @@ Create a mock client for unit testing — no server required:
 client = HostedRestSDK.test
 
 # Entity ops return the ENTITY (raises on error);
-# call data_get for the mock record.
+# data_get reads its mock record.
 agenthealth = client.AgentHealth.load()
-puts agenthealth
+puts agenthealth.data_get
 ```
 
 ### Use a custom fetch function
@@ -223,7 +223,6 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `Collection` | `(data) -> CollectionEntity` | Create a Collection entity instance. |
 | `CollectionRecord` | `(data) -> CollectionRecordEntity` | Create a CollectionRecord entity instance. |
 | `Custom` | `(data) -> CustomEntity` | Create a Custom entity instance. |
-| `Legacy` | `(data) -> LegacyEntity` | Create a Legacy entity instance. |
 | `LegacyMutation` | `(data) -> LegacyMutationEntity` | Create a LegacyMutation entity instance. |
 | `LegacyUnknown` | `(data) -> LegacyUnknownEntity` | Create a LegacyUnknown entity instance. |
 | `LegacyUser` | `(data) -> LegacyUserEntity` | Create a LegacyUser entity instance. |
@@ -236,11 +235,12 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria. Raises on error. |
-| `list` | `(reqmatch = nil, ctrl) -> Array` | List entities matching the criteria (call with no argument to list all). Raises on error. |
-| `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
-| `update` | `(reqdata, ctrl) -> any` | Update an existing entity. Raises on error. |
-| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity. Raises on error. |
+| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria, and return it. Raises on error. |
+| `list` | `(reqmatch = nil, ctrl) -> Array` | List entities matching the criteria (call with no argument to list all), one per record. Raises on error. |
+| `create` | `(reqdata, ctrl) -> any` | Create a new entity, and return it. Raises on error. |
+| `update` | `(reqdata, ctrl) -> any` | Update an existing entity, and return it. Raises on error. |
+| `patch` | `(reqdata, ctrl) -> any` | Change part of an existing entity, and return it. Raises on error. |
+| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity, and return it marked as deleted. Raises on error. |
 | `data_get` | `() -> Hash` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> Hash` | Get entity match criteria. |
@@ -250,9 +250,10 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the result data directly. On failure they
-raise a `HostedRestError` (a `StandardError` subclass), so wrap
-calls in `begin`/`rescue` where you need to handle errors.
+Entity operations return the entity, and `list` an `Array` of entities, one
+per record; an entity's `data_get` reads its record. On failure they raise a
+`HostedRestError` (a `StandardError` subclass), so wrap calls in
+`begin`/`rescue` where you need to handle errors.
 
 The `direct` escape hatch is the exception: it never raises and instead
 returns a result `Hash` with these keys:
@@ -408,7 +409,7 @@ API path: `/api/collections`
 | `project_id` |  |
 | `updated_at` |  |
 
-Operations: Create, List, Load, Update.
+Operations: Create, List, Load, Remove, Update.
 
 API path: `/api/collections/{slug}/records`
 
@@ -422,31 +423,21 @@ Operations: Create, Load, Patch, Remove, Update.
 
 API path: `/api/custom/{path}`
 
-#### Legacy
-
-| Field | Description |
-| --- | --- |
-| `avatar` |  |
-| `email` |  |
-| `first_name` |  |
-| `id` |  |
-| `last_name` |  |
-
-Operations: Create, List, Remove.
-
-API path: `/api/users`
-
 #### LegacyMutation
 
 | Field | Description |
 | --- | --- |
+| `avatar` |  |
 | `createdAt` |  |
+| `email` |  |
+| `first_name` |  |
 | `id` |  |
+| `last_name` |  |
 | `updatedAt` |  |
 
-Operations: Patch, Update.
+Operations: Create, List, Patch, Update.
 
-API path: `/api/users/{id}`
+API path: `/api/users`
 
 #### LegacyUnknown
 
@@ -472,7 +463,7 @@ API path: `/api/unknown`
 | `id` |  |
 | `support` |  |
 
-Operations: Load.
+Operations: Load, Remove.
 
 API path: `/api/users/{id}`
 
@@ -605,8 +596,9 @@ agent_user = client.AgentUser.load({ "id" => "agent_user_id" })
 #### Example: List
 
 ```ruby
-# list returns an Array of AgentUser records (raises on error).
+# list returns an Array of AgentUser entities, one per record (raises on error).
 agent_users = client.AgentUser.list
+agent_users.each { |item| puts item.data_get }
 ```
 
 
@@ -645,8 +637,9 @@ app_user = client.AppUser.load({ "id" => "app_user_id" })
 #### Example: List
 
 ```ruby
-# list returns an Array of AppUser records (raises on error).
+# list returns an Array of AppUser entities, one per record (raises on error).
 app_users = client.AppUser.list
+app_users.each { |item| puts item.data_get }
 ```
 
 #### Example: Create
@@ -654,7 +647,6 @@ app_users = client.AppUser.list
 ```ruby
 app_user = client.AppUser.create({
   "email" => "example_email", # String
-  "id" => "example_id", # String
 })
 ```
 
@@ -809,17 +801,16 @@ collection = client.Collection.load({ "id" => "collection_id" })
 #### Example: List
 
 ```ruby
-# list returns an Array of Collection records (raises on error).
+# list returns an Array of Collection entities, one per record (raises on error).
 collections = client.Collection.list
+collections.each { |item| puts item.data_get }
 ```
 
 #### Example: Create
 
 ```ruby
 collection = client.Collection.create({
-  "id" => "example_id", # String
   "name" => "example_name", # String
-  "slug" => "example_slug", # String
 })
 ```
 
@@ -835,6 +826,7 @@ Create an instance: `collection_record = client.CollectionRecord`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
 #### Fields
@@ -855,14 +847,15 @@ Create an instance: `collection_record = client.CollectionRecord`
 
 ```ruby
 # load returns the ENTITY — call data_get for the CollectionRecord record (raises on error).
-collection_record = client.CollectionRecord.load({ "id" => "collection_record_id", "collection_id" => "collection_id" })
+collection_record = client.CollectionRecord.load({ "id" => "collection_record_id", "slug" => "slug" })
 ```
 
 #### Example: List
 
 ```ruby
-# list returns an Array of CollectionRecord records (raises on error).
-collection_records = client.CollectionRecord.list
+# list returns an Array of CollectionRecord entities, one per record (raises on error).
+collection_records = client.CollectionRecord.list({ "slug" => "example" })
+collection_records.each { |item| puts item.data_get }
 ```
 
 #### Example: Create
@@ -871,7 +864,6 @@ collection_records = client.CollectionRecord.list
 collection_record = client.CollectionRecord.create({
   "slug" => "example_slug", # String
   "data" => {}, # Hash
-  "id" => "example_id", # String
 })
 ```
 
@@ -886,6 +878,7 @@ Create an instance: `custom = client.Custom`
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -911,48 +904,6 @@ custom = client.Custom.create({
 ```
 
 
-### Legacy
-
-Create an instance: `legacy = client.Legacy`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-| `list(match)` | List entities matching the criteria. |
-| `remove(match)` | Remove the matching entity. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `avatar` | `String` |  |
-| `email` | `String` |  |
-| `first_name` | `String` |  |
-| `id` | `Integer` |  |
-| `last_name` | `String` |  |
-
-#### Example: List
-
-```ruby
-# list returns an Array of Legacy records (raises on error).
-legacys = client.Legacy.list
-```
-
-#### Example: Create
-
-```ruby
-legacy = client.Legacy.create({
-  "avatar" => "example_avatar", # String
-  "email" => "example_email", # String
-  "first_name" => "example_first_name", # String
-  "id" => 1, # Integer
-  "last_name" => "example_last_name", # String
-})
-```
-
-
 ### LegacyMutation
 
 Create an instance: `legacy_mutation = client.LegacyMutation`
@@ -961,15 +912,37 @@ Create an instance: `legacy_mutation = client.LegacyMutation`
 
 | Method | Description |
 | --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `list(match)` | List entities matching the criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `update(data)` | Update an existing entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `avatar` | `String` |  |
 | `createdAt` | `String` |  |
+| `email` | `String` |  |
+| `first_name` | `String` |  |
 | `id` | `String` |  |
+| `last_name` | `String` |  |
 | `updatedAt` | `String` |  |
+
+#### Example: List
+
+```ruby
+# list returns an Array of LegacyMutation entities, one per record (raises on error).
+legacy_mutations = client.LegacyMutation.list
+legacy_mutations.each { |item| puts item.data_get }
+```
+
+#### Example: Create
+
+```ruby
+legacy_mutation = client.LegacyMutation.create({
+})
+```
 
 
 ### LegacyUnknown
@@ -1005,8 +978,9 @@ legacy_unknown = client.LegacyUnknown.load({ "id" => 1 })
 #### Example: List
 
 ```ruby
-# list returns an Array of LegacyUnknown records (raises on error).
+# list returns an Array of LegacyUnknown entities, one per record (raises on error).
 legacy_unknowns = client.LegacyUnknown.list
+legacy_unknowns.each { |item| puts item.data_get }
 ```
 
 
@@ -1019,6 +993,7 @@ Create an instance: `legacy_user = client.LegacyUser`
 | Method | Description |
 | --- | --- |
 | `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
 
 #### Fields
 
@@ -1060,7 +1035,6 @@ Create an instance: `login = client.Login`
 login = client.Login.create({
   "email" => "example_email", # String
   "password" => "example_password", # String
-  "token" => "example_token", # String
 })
 ```
 
@@ -1090,7 +1064,6 @@ Create an instance: `register = client.Register`
 register = client.Register.create({
   "email" => "example_email", # String
   "password" => "example_password", # String
-  "token" => "example_token", # String
 })
 ```
 

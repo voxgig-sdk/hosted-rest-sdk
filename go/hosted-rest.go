@@ -14,6 +14,7 @@ type Utility = core.Utility
 type Feature = core.Feature
 type Entity = core.Entity
 type HostedRestEntity = core.HostedRestEntity
+type StreamItem = core.StreamItem
 type FetcherFunc = core.FetcherFunc
 type Spec = core.Spec
 type Result = core.Result
@@ -76,9 +77,6 @@ func init() {
 	}
 	core.NewCustomEntityFunc = func(client *core.HostedRestSDK, entopts map[string]any) core.HostedRestEntity {
 		return entity.NewCustomEntity(client, entopts)
-	}
-	core.NewLegacyEntityFunc = func(client *core.HostedRestSDK, entopts map[string]any) core.HostedRestEntity {
-		return entity.NewLegacyEntity(client, entopts)
 	}
 	core.NewLegacyMutationEntityFunc = func(client *core.HostedRestSDK, entopts map[string]any) core.HostedRestEntity {
 		return entity.NewLegacyMutationEntity(client, entopts)

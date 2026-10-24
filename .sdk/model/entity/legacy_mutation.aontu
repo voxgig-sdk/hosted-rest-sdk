@@ -5,6 +5,12 @@ main: kit: entity: legacy_mutation: {
   alias: field: {}
 
   fields: {
+    avatar: {
+      h: "Avatar"
+      n: "avatar"
+      r: true
+      t: "`$STRING`"
+    }
     createdAt: {
       fo: "date-time"
       h: "Created At"
@@ -12,10 +18,35 @@ main: kit: entity: legacy_mutation: {
       r: false
       t: "`$STRING`"
     }
+    email: {
+      fo: "email"
+      h: "Email"
+      n: "email"
+      r: true
+      t: "`$STRING`"
+    }
+    first_name: {
+      h: "First Name"
+      n: "first_name"
+      r: true
+      t: "`$STRING`"
+    }
     id: {
       h: "Id"
       n: "id"
+      op: {
+        list: {
+          req: true
+          type: "`$INTEGER`"
+        }
+      }
       r: false
+      t: "`$STRING`"
+    }
+    last_name: {
+      h: "Last Name"
+      n: "last_name"
+      r: true
       t: "`$STRING`"
     }
     updatedAt: {
@@ -34,10 +65,91 @@ main: kit: entity: legacy_mutation: {
 
   name: "legacy_mutation"
   op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          bf: false
+          co: {
+            id: "POST /api/users"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/api/users"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "users"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /api/users"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                ex: 1
+                k: "query"
+                n: "page"
+                or: "page"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                k: "query"
+                n: "per_page"
+                or: "per_page"
+                r: false
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/users"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "users"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
     patch: {
       name: "patch"
       points: [
         {
+          bf: false
           co: {
             id: "PATCH /api/users/{id}"
             source: "openapi3"
@@ -61,6 +173,10 @@ main: kit: entity: legacy_mutation: {
               "id"
             ]
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "api"
@@ -83,6 +199,7 @@ main: kit: entity: legacy_mutation: {
       name: "update"
       points: [
         {
+          bf: false
           co: {
             id: "PUT /api/users/{id}"
             source: "openapi3"
@@ -105,6 +222,10 @@ main: kit: entity: legacy_mutation: {
             exist: [
               "id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

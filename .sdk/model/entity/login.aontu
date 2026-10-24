@@ -32,6 +32,10 @@ main: kit: entity: login: {
       name: "create"
       points: [
         {
+          bf: [
+            "email"
+            "password"
+          ]
           co: {
             id: "POST /api/login"
             source: "openapi3"
@@ -39,6 +43,10 @@ main: kit: entity: login: {
           }
           m: "POST"
           o: "/api/login"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "api"

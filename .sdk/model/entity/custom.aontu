@@ -24,6 +24,7 @@ main: kit: entity: custom: {
       name: "create"
       points: [
         {
+          bf: false
           co: {
             id: "POST /api/custom/{path}"
             source: "openapi3"
@@ -51,6 +52,10 @@ main: kit: entity: custom: {
             param: {
               path: "id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -102,6 +107,10 @@ main: kit: entity: custom: {
               path: "id"
             }
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "api"
@@ -124,6 +133,7 @@ main: kit: entity: custom: {
       name: "patch"
       points: [
         {
+          bf: false
           co: {
             id: "PATCH /api/custom/{path}"
             source: "openapi3"
@@ -151,6 +161,10 @@ main: kit: entity: custom: {
             param: {
               path: "id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -202,6 +216,10 @@ main: kit: entity: custom: {
               path: "id"
             }
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "api"
@@ -224,6 +242,7 @@ main: kit: entity: custom: {
       name: "update"
       points: [
         {
+          bf: false
           co: {
             id: "PUT /api/custom/{path}"
             source: "openapi3"
@@ -251,6 +270,10 @@ main: kit: entity: custom: {
             param: {
               path: "id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

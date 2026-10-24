@@ -8,9 +8,7 @@
         "last_login_at": "s3f",
         "metadata": {},
         "status": "s41",
-        "project_id": "PROJECT01",
-        "collection_id": "COLLECTION01",
-        "record_id": "RECORD01"
+        "project_id": "PROJECT01"
       },
       "APP_USER01": {
         "created_at": "s78",
@@ -19,9 +17,7 @@
         "last_login_at": "s7b",
         "metadata": {},
         "status": "s7d",
-        "project_id": "PROJECT01",
-        "collection_id": "COLLECTION01",
-        "record_id": "RECORD01"
+        "project_id": "PROJECT01"
       },
       "APP_USER02": {
         "created_at": "sb4",
@@ -30,9 +26,7 @@
         "last_login_at": "sb7",
         "metadata": {},
         "status": "sb9",
-        "project_id": "PROJECT01",
-        "collection_id": "COLLECTION01",
-        "record_id": "RECORD01"
+        "project_id": "PROJECT01"
       }
     }
   },
@@ -69,11 +63,6 @@
       "source": "openapi3"
     },
     "GET /api/app-users/{id}": {
-      "provenance": "operation-contract",
-      "version": 2,
-      "source": "openapi3"
-    },
-    "DELETE /app/collections/{slug}/records/{recordId}": {
       "provenance": "operation-contract",
       "version": 2,
       "source": "openapi3"

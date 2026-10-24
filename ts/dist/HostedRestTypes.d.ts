@@ -60,20 +60,14 @@ export interface AppUserListMatch {
     limit?: number;
 }
 export interface AppUserCreateData {
-    created_at?: string;
     email: string;
-    id: string;
-    last_login_at?: string;
     metadata?: Record<string, any>;
-    status?: string;
     $action?: string;
     [action: string]: any;
 }
 export interface AppUserUpdateData {
     id: string;
-    created_at?: string;
     email?: string;
-    last_login_at?: string;
     metadata?: Record<string, any>;
     status?: string;
 }
@@ -136,25 +130,17 @@ export interface CollectionListMatch {
     visibility?: string;
 }
 export interface CollectionCreateData {
-    created_at?: string;
-    id: string;
     name: string;
     project_id?: string;
     schema?: Record<string, any>;
-    slug: string;
-    updated_at?: string;
-    user_id?: string;
+    slug?: string;
     visibility?: string;
 }
 export interface CollectionUpdateData {
     id: string;
-    created_at?: string;
     name?: string;
-    project_id?: string;
     schema?: Record<string, any>;
     slug?: string;
-    updated_at?: string;
-    user_id?: string;
     visibility?: string;
 }
 export interface CollectionRemoveMatch {
@@ -172,8 +158,8 @@ export interface CollectionRecord {
     updated_at?: string;
 }
 export interface CollectionRecordLoadMatch {
-    collection_id: string;
     id: string;
+    slug: string;
 }
 export interface CollectionRecordListMatch {
     slug: string;
@@ -188,26 +174,16 @@ export interface CollectionRecordListMatch {
 }
 export interface CollectionRecordCreateData {
     slug: string;
-    app_user_id?: string;
-    collection_id?: string;
-    created_at?: string;
-    created_by?: string;
     data: Record<string, any>;
-    deleted_at?: string;
-    id: string;
-    project_id?: string;
-    updated_at?: string;
 }
 export interface CollectionRecordUpdateData {
-    collection_id: string;
     id: string;
-    app_user_id?: string;
-    created_at?: string;
-    created_by?: string;
+    slug: string;
     data?: Record<string, any>;
-    deleted_at?: string;
-    project_id?: string;
-    updated_at?: string;
+}
+export interface CollectionRecordRemoveMatch {
+    id: string;
+    slug: string;
 }
 export interface Custom {
     id?: string;
@@ -221,39 +197,32 @@ export interface CustomCreateData {
 export interface CustomUpdateData {
     id: string;
 }
+export interface CustomPatchData {
+    id: string;
+}
 export interface CustomRemoveMatch {
     id: string;
 }
-export interface Legacy {
+export interface LegacyMutation {
     avatar: string;
+    createdAt?: string;
     email: string;
     first_name: string;
-    id: number;
+    id?: string;
     last_name: string;
+    updatedAt?: string;
 }
-export interface LegacyListMatch {
+export interface LegacyMutationListMatch {
     page?: number;
     per_page?: number;
 }
-export interface LegacyCreateData {
-    avatar: string;
-    email: string;
-    first_name: string;
-    id: number;
-    last_name: string;
-}
-export interface LegacyRemoveMatch {
-    id: number;
-}
-export interface LegacyMutation {
-    createdAt?: string;
-    id?: string;
-    updatedAt?: string;
+export interface LegacyMutationCreateData {
 }
 export interface LegacyMutationUpdateData {
     id: number;
-    createdAt?: string;
-    updatedAt?: string;
+}
+export interface LegacyMutationPatchData {
+    id: number;
 }
 export interface LegacyUnknown {
     color: string;
@@ -279,6 +248,9 @@ export interface LegacyUser {
 export interface LegacyUserLoadMatch {
     id: number;
 }
+export interface LegacyUserRemoveMatch {
+    id: number;
+}
 export interface Login {
     email: string;
     password: string;
@@ -287,7 +259,6 @@ export interface Login {
 export interface LoginCreateData {
     email: string;
     password: string;
-    token: string;
 }
 export interface Register {
     email: string;
@@ -297,7 +268,5 @@ export interface Register {
 }
 export interface RegisterCreateData {
     email: string;
-    id?: number;
     password: string;
-    token: string;
 }

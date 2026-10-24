@@ -36,8 +36,6 @@ var NewCollectionRecordEntityFunc func(client *HostedRestSDK, entopts map[string
 
 var NewCustomEntityFunc func(client *HostedRestSDK, entopts map[string]any) HostedRestEntity
 
-var NewLegacyEntityFunc func(client *HostedRestSDK, entopts map[string]any) HostedRestEntity
-
 var NewLegacyMutationEntityFunc func(client *HostedRestSDK, entopts map[string]any) HostedRestEntity
 
 var NewLegacyUnknownEntityFunc func(client *HostedRestSDK, entopts map[string]any) HostedRestEntity

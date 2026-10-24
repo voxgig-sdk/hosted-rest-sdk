@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { HostedRestSDK, BaseFeature, stdutil } from '../../..'
+import { HostedRestSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,6 +41,64 @@ describe('LegacyUnknownEntity', async () => {
   })
 
 
+  class FailHook extends BaseFeature {
+    name = 'failhook'
+    version = '0.0.1'
+    active = true
+    unexpected = 0
+    init() { }
+    PreSpec() { throw new Error('legacy_unknown hook failed') }
+    PreUnexpected() { this.unexpected++ }
+  }
+
+  test('stream-error', async () => {
+    const offline = { net: { offline: true } }
+    await assert.rejects(async () => {
+      for await (const _item of HostedRestSDK.test(offline).LegacyUnknown().stream('list')) { }
+    }, /offline/)
+
+    for await (const _item of HostedRestSDK.test(offline).LegacyUnknown()
+      .stream('list', undefined, { ctrl: { throw: false } })) { }
+
+    if (null != (config as any).feature?.rbac) {
+      const denied = HostedRestSDK.test(undefined, { feature: { rbac: { active: true, deny: true } } })
+      await assert.rejects(async () => {
+        for await (const _item of denied.LegacyUnknown().stream('list')) { }
+      }, (err: any) => 'rbac_denied' === err.code)
+    }
+  })
+
+  test('stream-ctrl', async () => {
+    const explain: any = {}
+    const ctrl: any = { explain }
+    for await (const _item of HostedRestSDK.test().LegacyUnknown().stream('list', undefined, { ctrl })) { }
+    assert.deepStrictEqual(Object.keys(ctrl), ['explain'])
+    assert(explain === ctrl.explain && 0 < Object.keys(explain).length)
+  })
+
+  test('unexpected', async () => {
+    const hook = new FailHook()
+    const client = new HostedRestSDK({ feature: { test: { active: true } }, extend: [hook] })
+    await assert.rejects(client.LegacyUnknown().list(), /hook failed/)
+    assert(0 < hook.unexpected)
+
+    const fired = hook.unexpected
+    assert.strictEqual(await client.LegacyUnknown().list(undefined, { throw: false }), undefined)
+    assert(fired < hook.unexpected)
+  })
+
+  test('validate', async (t) => {
+    if (null == (config as any).feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = HostedRestSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.LegacyUnknown().list({"page":"x"} as any),
+      (err: any) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.HOSTED_REST_TEST_LIVE
@@ -51,7 +109,7 @@ describe('LegacyUnknownEntity', async () => {
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"color":{"a":true,"h":"Color","n":"color","r":true,"t":"`$STRING`","key$":"color","index$":0},"data":{"a":true,"h":"Data","n":"data","r":true,"t":"`$OBJECT`","key$":"data","index$":1},"id":{"a":true,"h":"Id","n":"id","r":true,"t":"`$INTEGER`","key$":"id","index$":2},"name":{"a":true,"h":"Name","n":"name","r":true,"t":"`$STRING`","key$":"name","index$":3},"pantone_value":{"a":true,"h":"Pantone Value","n":"pantone_value","r":true,"t":"`$STRING`","key$":"pantone_value","index$":4},"support":{"a":true,"h":"Support","n":"support","r":false,"t":"`$OBJECT`","key$":"support","index$":5},"year":{"a":true,"h":"Year","n":"year","r":true,"t":"`$INTEGER`","key$":"year","index$":6}},"id":{"field":"id","name":"id"},"name":"legacy_unknown","op":{"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /api/unknown","source":"openapi3","version":2},"g":{"query":[{"a":true,"ex":1,"k":"query","n":"page","or":"page","r":false,"t":"`$INTEGER`","index$":0},{"a":true,"k":"query","n":"per_page","or":"per_page","r":false,"t":"`$INTEGER`","index$":1}]},"k":"http","m":"GET","o":"/api/unknown","q":{"exist":["page","per_page"]},"r":{},"s":[{"lit":"api"},{"lit":"unknown"}],"t":{"req":"`reqdata`","res":"`body.data`"},"index$":0}],"key$":"list"},"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /api/unknown/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"GET","o":"/api/unknown/{id}","q":{"exist":["id"]},"r":{},"s":[{"lit":"api"},{"lit":"unknown"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"legacy_unknown","name__orig":"legacy_unknown","Name":"LegacyUnknown","name_":"legacy_unknown","name-":"legacy-unknown","NAME":"LEGACY_UNKNOWN","index$":14}, {"active":true,"entity":"legacy_unknown","key$":"BasicLegacyUnknownFlow","kind":"basic","name":"BasicLegacyUnknownFlow","param":{},"step":[{"a":true,"d":{},"i":{},"m":{},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"legacy_unknown_ref01"}}],"index$":0},{"a":true,"d":{},"i":{"ref":"legacy_unknown_ref01","srcdatavar":"legacy_unknown_ref01_data","suffix":"_dt0"},"m":{"id":"legacy_unknown01"},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-legacy_unknown_ref01"}}],"index$":1}]}, 'LegacyUnknown', {"GET /api/unknown":{"protocol":"http","parameters":[{"name":"page","in":"query","description":"Page number for pagination.","required":false,"schema":{"type":"integer","minimum":1,"default":1},"index$":0},{"name":"per_page","in":"query","description":"Number of items per page.","required":false,"schema":{"type":"integer","minimum":1,"maximum":100},"index$":1}]},"GET /api/unknown/{id}":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"Resource id.","required":true,"schema":{"type":"integer","minimum":1},"index$":0}]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"color":{"a":true,"h":"Color","n":"color","r":true,"t":"`$STRING`","key$":"color","index$":0},"data":{"a":true,"h":"Data","n":"data","r":true,"t":"`$OBJECT`","key$":"data","index$":1},"id":{"a":true,"h":"Id","n":"id","r":true,"t":"`$INTEGER`","key$":"id","index$":2},"name":{"a":true,"h":"Name","n":"name","r":true,"t":"`$STRING`","key$":"name","index$":3},"pantone_value":{"a":true,"h":"Pantone Value","n":"pantone_value","r":true,"t":"`$STRING`","key$":"pantone_value","index$":4},"support":{"a":true,"h":"Support","n":"support","r":false,"t":"`$OBJECT`","key$":"support","index$":5},"year":{"a":true,"h":"Year","n":"year","r":true,"t":"`$INTEGER`","key$":"year","index$":6}},"id":{"field":"id","name":"id"},"name":"legacy_unknown","op":{"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /api/unknown","source":"openapi3","version":2},"g":{"query":[{"a":true,"ex":1,"k":"query","n":"page","or":"page","r":false,"t":"`$INTEGER`","index$":0},{"a":true,"k":"query","n":"per_page","or":"per_page","r":false,"t":"`$INTEGER`","index$":1}]},"k":"http","m":"GET","o":"/api/unknown","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"api"},{"lit":"unknown"}],"t":{"req":"`reqdata`","res":"`body.data`"},"index$":0}],"key$":"list"},"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /api/unknown/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$INTEGER`","index$":0}]},"k":"http","m":"GET","o":"/api/unknown/{id}","q":{"exist":["id"]},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"api"},{"lit":"unknown"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"legacy_unknown","name__orig":"legacy_unknown","Name":"LegacyUnknown","name_":"legacy_unknown","name-":"legacy-unknown","NAME":"LEGACY_UNKNOWN","index$":13}, {"active":true,"entity":"legacy_unknown","key$":"BasicLegacyUnknownFlow","kind":"basic","name":"BasicLegacyUnknownFlow","param":{},"step":[{"a":true,"d":{},"i":{},"m":{},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"legacy_unknown_ref01"}}],"index$":0},{"a":true,"d":{},"i":{"ref":"legacy_unknown_ref01","srcdatavar":"legacy_unknown_ref01_data","suffix":"_dt0"},"m":{"id":"legacy_unknown01"},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-legacy_unknown_ref01"}}],"index$":1}]}, 'LegacyUnknown', {"GET /api/unknown":{"protocol":"http","parameters":[{"name":"page","in":"query","description":"Page number for pagination.","required":false,"schema":{"type":"integer","minimum":1,"default":1},"index$":0},{"name":"per_page","in":"query","description":"Number of items per page.","required":false,"schema":{"type":"integer","minimum":1,"maximum":100},"index$":1}]},"GET /api/unknown/{id}":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"Resource id.","required":true,"schema":{"type":"integer","minimum":1},"index$":0}]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -79,6 +137,12 @@ describe('LegacyUnknownEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options

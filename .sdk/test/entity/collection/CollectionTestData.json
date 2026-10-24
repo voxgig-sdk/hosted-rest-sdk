@@ -10,9 +10,7 @@
         "slug": "s5f",
         "updated_at": "s60",
         "user_id": "USER01",
-        "visibility": "s62",
-        "collection_id": "COLLECTION01",
-        "record_id": "RECORD01"
+        "visibility": "s62"
       },
       "COLLECTION01": {
         "created_at": "sb4",
@@ -23,9 +21,7 @@
         "slug": "sb9",
         "updated_at": "sba",
         "user_id": "USER01",
-        "visibility": "sbc",
-        "collection_id": "COLLECTION01",
-        "record_id": "RECORD01"
+        "visibility": "sbc"
       },
       "COLLECTION02": {
         "created_at": "s10e",
@@ -36,9 +32,7 @@
         "slug": "s113",
         "updated_at": "s114",
         "user_id": "USER01",
-        "visibility": "s116",
-        "collection_id": "COLLECTION01",
-        "record_id": "RECORD01"
+        "visibility": "s116"
       }
     }
   },
@@ -78,11 +72,6 @@
       "source": "openapi3"
     },
     "GET /app/collections/{slug}": {
-      "provenance": "operation-contract",
-      "version": 2,
-      "source": "openapi3"
-    },
-    "DELETE /api/collections/{slug}/records/{recordId}": {
       "provenance": "operation-contract",
       "version": 2,
       "source": "openapi3"

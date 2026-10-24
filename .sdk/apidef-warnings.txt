@@ -1,0 +1,115 @@
+{
+  point: "warning"
+  note: "Points GET /agent/v1/orders and GET /agent/v1/scenarios on entity=agent_sandbox op=load have the same selector (exist: none), so only GET /agent/v1/orders is ever chosen. An action or another entity in guide.aontu tells them apart."
+  entity: "agent_sandbox"
+  op: "load"
+  points: [
+    "GET /agent/v1/orders"
+    "GET /agent/v1/scenarios"
+  ]
+
+}
+
+
+{
+  point: "warning"
+  note: "Points GET /api/app-users/me and GET /app/me on entity=app_user_session op=load have the same selector (exist: none), so only GET /api/app-users/me is ever chosen. An action or another entity in guide.aontu tells them apart."
+  entity: "app_user_session"
+  op: "load"
+  points: [
+    "GET /api/app-users/me"
+    "GET /app/me"
+  ]
+
+}
+
+
+{
+  point: "warning"
+  note: "Points GET /api/collections and GET /app/collections on entity=collection op=list have the same selector (exist: none), so only GET /api/collections is ever chosen. An action or another entity in guide.aontu tells them apart."
+  entity: "collection"
+  op: "list"
+  points: [
+    "GET /api/collections"
+    "GET /app/collections"
+  ]
+
+}
+
+
+{
+  point: "warning"
+  note: "Points GET /api/collections/{slug} and GET /app/collections/{slug} on entity=collection op=load have the same selector (exist: id), so only GET /api/collections/{slug} is ever chosen. An action or another entity in guide.aontu tells them apart."
+  entity: "collection"
+  op: "load"
+  points: [
+    "GET /api/collections/{slug}"
+    "GET /app/collections/{slug}"
+  ]
+
+}
+
+
+{
+  point: "warning"
+  note: "Points POST /api/collections/{slug}/records and POST /app/collections/{slug}/records on entity=collection_record op=create have the same selector (exist: slug), so only POST /api/collections/{slug}/records is ever chosen. An action or another entity in guide.aontu tells them apart."
+  entity: "collection_record"
+  op: "create"
+  points: [
+    "POST /api/collections/{slug}/records"
+    "POST /app/collections/{slug}/records"
+  ]
+
+}
+
+
+{
+  point: "warning"
+  note: "Points GET /api/collections/{slug}/records and GET /app/collections/{slug}/records on entity=collection_record op=list have the same selector (exist: slug), so only GET /api/collections/{slug}/records is ever chosen. An action or another entity in guide.aontu tells them apart."
+  entity: "collection_record"
+  op: "list"
+  points: [
+    "GET /api/collections/{slug}/records"
+    "GET /app/collections/{slug}/records"
+  ]
+
+}
+
+
+{
+  point: "warning"
+  note: "Points GET /api/collections/{slug}/records/{recordId} and GET /app/collections/{slug}/records/{recordId} on entity=collection_record op=load have the same selector (exist: id,slug), so only GET /api/collections/{slug}/records/{recordId} is ever chosen. An action or another entity in guide.aontu tells them apart."
+  entity: "collection_record"
+  op: "load"
+  points: [
+    "GET /api/collections/{slug}/records/{recordId}"
+    "GET /app/collections/{slug}/records/{recordId}"
+  ]
+
+}
+
+
+{
+  point: "warning"
+  note: "Points DELETE /api/collections/{slug}/records/{recordId} and DELETE /app/collections/{slug}/records/{recordId} on entity=collection_record op=remove have the same selector (exist: id,slug), so only DELETE /api/collections/{slug}/records/{recordId} is ever chosen. An action or another entity in guide.aontu tells them apart."
+  entity: "collection_record"
+  op: "remove"
+  points: [
+    "DELETE /api/collections/{slug}/records/{recordId}"
+    "DELETE /app/collections/{slug}/records/{recordId}"
+  ]
+
+}
+
+
+{
+  point: "warning"
+  note: "Points PUT /api/collections/{slug}/records/{recordId} and PUT /app/collections/{slug}/records/{recordId} on entity=collection_record op=update have the same selector (exist: id,slug), so only PUT /api/collections/{slug}/records/{recordId} is ever chosen. An action or another entity in guide.aontu tells them apart."
+  entity: "collection_record"
+  op: "update"
+  points: [
+    "PUT /api/collections/{slug}/records/{recordId}"
+    "PUT /app/collections/{slug}/records/{recordId}"
+  ]
+
+}

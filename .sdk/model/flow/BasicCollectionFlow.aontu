@@ -11,10 +11,6 @@ main: kit: flow: BasicCollectionFlow:
         ref: "collection_ref01"
       }
 
-      m: {
-        collection_id: "collection01"
-      }
-
       o: "create"
     }
 

@@ -12,7 +12,6 @@ main: kit: flow: BasicCollectionRecordFlow:
       }
 
       m: {
-        collection_id: "collection01",
         slug: "slug01"
       }
 
@@ -37,7 +36,7 @@ main: kit: flow: BasicCollectionRecordFlow:
 
     {
       d: {
-        collection_id: "collection01"
+        slug: "slug01"
       }
 
       i: {
@@ -66,8 +65,8 @@ main: kit: flow: BasicCollectionRecordFlow:
       }
 
       m: {
-        collection_id: "collection01",
-        id: "collection_record01"
+        id: "collection_record01",
+        slug: "slug01"
       }
 
       o: "load",
@@ -76,6 +75,40 @@ main: kit: flow: BasicCollectionRecordFlow:
           apply: "TextFieldMark",
           def: {
             mark: "Mark01-collection_record_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      i: {
+        ref: "collection_record_ref01",
+        suffix: "_rm0"
+      }
+
+      m: {
+        id: "collection_record01",
+        slug: "slug01"
+      }
+
+      o: "remove"
+    }
+
+    {
+      i: {
+        suffix: "_rt0"
+      }
+
+      m: {
+        slug: "slug01"
+      }
+
+      o: "list",
+      v: [
+        {
+          apply: "ItemNotExists",
+          def: {
+            ref: "collection_record_ref01"
           }
         }
       ]

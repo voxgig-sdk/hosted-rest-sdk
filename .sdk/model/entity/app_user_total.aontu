@@ -49,13 +49,16 @@ main: kit: entity: app_user_total: {
           q: {
             exist: [
               "project_id"
-              "x_reqres_env"
             ]
           }
           r: {
             param: {
               projectId: "project_id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

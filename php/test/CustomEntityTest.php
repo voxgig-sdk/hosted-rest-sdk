@@ -11,6 +11,12 @@ use Voxgig\Struct\Struct as Vs;
 
 class CustomEntityTest extends TestCase
 {
+    // main.kit.test.live.strict is true (the default is true): a live
+    // request that fails, or a live test missing an input it needs,
+    // fails the test.
+    // An account with no record for a test to read skips it either way.
+    private const LIVE_STRICT = true;
+
     public function test_create_instance(): void
     {
         $testsdk = HostedRestSDK::test(null, null);
@@ -18,38 +24,49 @@ class CustomEntityTest extends TestCase
         $this->assertNotNull($ent);
     }
 
+    public function test_validate(): void
+    {
+        $cfg = HostedRestConfig::shared_config();
+        if (!isset($cfg["feature"]["validate"])) {
+            $this->markTestSkipped('feature not present in this SDK: validate');
+        }
+        $client = HostedRestSDK::test(null, ["feature" => ["validate" => ["active" => true]]]);
+        $err = null;
+        try {
+            $client->Custom(null)->load(["id" => 1], null);
+        } catch (\Throwable $e) {
+            $err = $e;
+        }
+        $this->assertSame('validate_failed', $err->sdk_code ?? null);
+    }
+
     public function test_basic_flow(): void
     {
         $setup = custom_basic_setup(null);
         // Per-op sdk-test-control.json skip.
         $_live = !empty($setup["live"]);
-        foreach (["create", "update", "load", "remove"] as $_op) {
+        foreach (["update", "load", "remove"] as $_op) {
             [$_shouldSkip, $_reason] = Runner::is_control_skipped("entityOp", "custom." . $_op, $_live ? "live" : "unit");
             if ($_shouldSkip) {
                 $this->markTestSkipped($_reason ?? "skipped via sdk-test-control.json");
                 return;
             }
         }
-        // The basic flow consumes synthetic IDs from the fixture. In live mode
-        // without an *_ENTID env override, those IDs hit the live API and 4xx.
-        if (!empty($setup["synthetic_only"])) {
-            $this->markTestSkipped("live entity test uses synthetic IDs from fixture — set HOSTED_REST_TEST_CUSTOM_ENTID JSON to run live");
-            return;
+        if (!empty($setup["live"])) {
+            Runner::live_miss(self::LIVE_STRICT, "Live entity test blocked: " . "the flow updates a custom record it did not create");
         }
         $client = $setup["client"];
 
-        // CREATE
-        $custom_ref01_ent = $client->Custom(null);
-        $custom_ref01_data = Helpers::to_map(Vs::getprop(
-            Vs::getpath($setup["data"], "new.custom"), "custom_ref01"));
-        $custom_ref01_data["path"] = $setup["idmap"]["path01"];
-
-        $custom_ref01_data_result = $custom_ref01_ent->create($custom_ref01_data, null);
-        $custom_ref01_data = Helpers::to_map(is_object($custom_ref01_data_result) && method_exists($custom_ref01_data_result, 'data_get') ? $custom_ref01_data_result->data_get() : $custom_ref01_data_result);
-        $this->assertNotNull($custom_ref01_data);
-        $this->assertNotNull($custom_ref01_data["id"]);
+        // Bootstrap entity data from existing test data.
+        $custom_ref01_data_raw = Vs::items(Helpers::to_map(
+            Vs::getpath($setup["data"], "existing.custom")));
+        $custom_ref01_data = null;
+        if (count($custom_ref01_data_raw) > 0) {
+            $custom_ref01_data = Helpers::to_map($custom_ref01_data_raw[0][1]);
+        }
 
         // UPDATE
+        $custom_ref01_ent = $client->Custom(null);
         $custom_ref01_data_up0_up = [
             "id" => $custom_ref01_data["id"],
         ];
@@ -67,12 +84,6 @@ class CustomEntityTest extends TestCase
         $custom_ref01_data_dt0_load_result = Helpers::to_map(is_object($custom_ref01_data_dt0_loaded) && method_exists($custom_ref01_data_dt0_loaded, 'data_get') ? $custom_ref01_data_dt0_loaded->data_get() : $custom_ref01_data_dt0_loaded);
         $this->assertNotNull($custom_ref01_data_dt0_load_result);
         $this->assertEquals($custom_ref01_data_dt0_load_result["id"], $custom_ref01_data["id"]);
-
-        // REMOVE
-        $custom_ref01_match_rm0 = [
-            "id" => $custom_ref01_data["id"],
-        ];
-        $custom_ref01_ent->remove($custom_ref01_match_rm0, null);
 
     }
 }
@@ -92,13 +103,12 @@ function custom_basic_setup($extra)
 
     // Generate idmap.
     $idmap = [];
-    foreach (["custom01", "custom02", "custom03", "path01"] as $k) {
+    foreach (["custom01", "custom02", "custom03"] as $k) {
         $idmap[$k] = strtoupper($k);
     }
 
-    // Detect ENTID env override before envOverride consumes it. When live
-    // mode is on without a real override, the basic test runs against synthetic
-    // IDs from the fixture and 4xx's. Surface this so the test can skip.
+    // Whether *_ENTID supplied the idmap, read before env_override consumes
+    // it: without it, the ids a live flow binds are the fixture's synthetic ones.
     $entid_env_raw = getenv("HOSTED_REST_TEST_CUSTOM_ENTID");
     $idmap_overridden = $entid_env_raw !== false && str_starts_with(trim($entid_env_raw), "{");
 

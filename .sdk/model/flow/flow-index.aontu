@@ -12,7 +12,6 @@
 @"./BasicCollectionFlow.aontu"
 @"./BasicCollectionRecordFlow.aontu"
 @"./BasicCustomFlow.aontu"
-@"./BasicLegacyFlow.aontu"
 @"./BasicLegacyMutationFlow.aontu"
 @"./BasicLegacyUnknownFlow.aontu"
 @"./BasicLegacyUserFlow.aontu"

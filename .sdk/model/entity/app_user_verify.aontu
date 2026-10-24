@@ -19,6 +19,9 @@ main: kit: entity: app_user_verify: {
       name: "create"
       points: [
         {
+          bf: [
+            "token"
+          ]
           co: {
             id: "POST /api/app-users/verify"
             source: "openapi3"
@@ -26,6 +29,10 @@ main: kit: entity: app_user_verify: {
           }
           m: "POST"
           o: "/api/app-users/verify"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "api"

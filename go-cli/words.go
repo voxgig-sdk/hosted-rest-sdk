@@ -101,8 +101,6 @@ func entityFor(client *sdk.HostedRestSDK, name string) (sdk.HostedRestEntity, er
 		return client.CollectionRecord(nil), nil
 	case "custom":
 		return client.Custom(nil), nil
-	case "legacy":
-		return client.Legacy(nil), nil
 	case "legacy_mutation":
 		return client.LegacyMutation(nil), nil
 	case "legacy_unknown":

@@ -221,30 +221,14 @@ AppUserListMatch = Struct.new(
 
 # Request payload for AppUser#create.
 #
-# @!attribute [rw] created_at
-#   @return [String, nil]
-#
 # @!attribute [rw] email
 #   @return [String]
 #
-# @!attribute [rw] id
-#   @return [String]
-#
-# @!attribute [rw] last_login_at
-#   @return [String, nil]
-#
 # @!attribute [rw] metadata
 #   @return [Hash, nil]
-#
-# @!attribute [rw] status
-#   @return [String, nil]
 AppUserCreateData = Struct.new(
-  :created_at,
   :email,
-  :id,
-  :last_login_at,
   :metadata,
-  :status,
   keyword_init: true
 )
 
@@ -253,13 +237,7 @@ AppUserCreateData = Struct.new(
 # @!attribute [rw] id
 #   @return [String]
 #
-# @!attribute [rw] created_at
-#   @return [String, nil]
-#
 # @!attribute [rw] email
-#   @return [String, nil]
-#
-# @!attribute [rw] last_login_at
 #   @return [String, nil]
 #
 # @!attribute [rw] metadata
@@ -269,9 +247,7 @@ AppUserCreateData = Struct.new(
 #   @return [String, nil]
 AppUserUpdateData = Struct.new(
   :id,
-  :created_at,
   :email,
-  :last_login_at,
   :metadata,
   :status,
   keyword_init: true
@@ -465,12 +441,6 @@ CollectionListMatch = Struct.new(
 
 # Request payload for Collection#create.
 #
-# @!attribute [rw] created_at
-#   @return [String, nil]
-#
-# @!attribute [rw] id
-#   @return [String]
-#
 # @!attribute [rw] name
 #   @return [String]
 #
@@ -481,25 +451,15 @@ CollectionListMatch = Struct.new(
 #   @return [Hash, nil]
 #
 # @!attribute [rw] slug
-#   @return [String]
-#
-# @!attribute [rw] updated_at
-#   @return [String, nil]
-#
-# @!attribute [rw] user_id
 #   @return [String, nil]
 #
 # @!attribute [rw] visibility
 #   @return [String, nil]
 CollectionCreateData = Struct.new(
-  :created_at,
-  :id,
   :name,
   :project_id,
   :schema,
   :slug,
-  :updated_at,
-  :user_id,
   :visibility,
   keyword_init: true
 )
@@ -509,13 +469,7 @@ CollectionCreateData = Struct.new(
 # @!attribute [rw] id
 #   @return [String]
 #
-# @!attribute [rw] created_at
-#   @return [String, nil]
-#
 # @!attribute [rw] name
-#   @return [String, nil]
-#
-# @!attribute [rw] project_id
 #   @return [String, nil]
 #
 # @!attribute [rw] schema
@@ -524,23 +478,13 @@ CollectionCreateData = Struct.new(
 # @!attribute [rw] slug
 #   @return [String, nil]
 #
-# @!attribute [rw] updated_at
-#   @return [String, nil]
-#
-# @!attribute [rw] user_id
-#   @return [String, nil]
-#
 # @!attribute [rw] visibility
 #   @return [String, nil]
 CollectionUpdateData = Struct.new(
   :id,
-  :created_at,
   :name,
-  :project_id,
   :schema,
   :slug,
-  :updated_at,
-  :user_id,
   :visibility,
   keyword_init: true
 )
@@ -597,14 +541,14 @@ CollectionRecord = Struct.new(
 
 # Request payload for CollectionRecord#load.
 #
-# @!attribute [rw] collection_id
-#   @return [String]
-#
 # @!attribute [rw] id
 #   @return [String]
+#
+# @!attribute [rw] slug
+#   @return [String]
 CollectionRecordLoadMatch = Struct.new(
-  :collection_id,
   :id,
+  :slug,
   keyword_init: true
 )
 
@@ -654,84 +598,41 @@ CollectionRecordListMatch = Struct.new(
 # @!attribute [rw] slug
 #   @return [String]
 #
-# @!attribute [rw] app_user_id
-#   @return [String, nil]
-#
-# @!attribute [rw] collection_id
-#   @return [String, nil]
-#
-# @!attribute [rw] created_at
-#   @return [String, nil]
-#
-# @!attribute [rw] created_by
-#   @return [String, nil]
-#
 # @!attribute [rw] data
 #   @return [Hash]
-#
-# @!attribute [rw] deleted_at
-#   @return [String, nil]
-#
-# @!attribute [rw] id
-#   @return [String]
-#
-# @!attribute [rw] project_id
-#   @return [String, nil]
-#
-# @!attribute [rw] updated_at
-#   @return [String, nil]
 CollectionRecordCreateData = Struct.new(
   :slug,
-  :app_user_id,
-  :collection_id,
-  :created_at,
-  :created_by,
   :data,
-  :deleted_at,
-  :id,
-  :project_id,
-  :updated_at,
   keyword_init: true
 )
 
 # Request payload for CollectionRecord#update.
 #
-# @!attribute [rw] collection_id
+# @!attribute [rw] id
 #   @return [String]
+#
+# @!attribute [rw] slug
+#   @return [String]
+#
+# @!attribute [rw] data
+#   @return [Hash, nil]
+CollectionRecordUpdateData = Struct.new(
+  :id,
+  :slug,
+  :data,
+  keyword_init: true
+)
+
+# Request payload for CollectionRecord#remove.
 #
 # @!attribute [rw] id
 #   @return [String]
 #
-# @!attribute [rw] app_user_id
-#   @return [String, nil]
-#
-# @!attribute [rw] created_at
-#   @return [String, nil]
-#
-# @!attribute [rw] created_by
-#   @return [String, nil]
-#
-# @!attribute [rw] data
-#   @return [Hash, nil]
-#
-# @!attribute [rw] deleted_at
-#   @return [String, nil]
-#
-# @!attribute [rw] project_id
-#   @return [String, nil]
-#
-# @!attribute [rw] updated_at
-#   @return [String, nil]
-CollectionRecordUpdateData = Struct.new(
-  :collection_id,
+# @!attribute [rw] slug
+#   @return [String]
+CollectionRecordRemoveMatch = Struct.new(
   :id,
-  :app_user_id,
-  :created_at,
-  :created_by,
-  :data,
-  :deleted_at,
-  :project_id,
-  :updated_at,
+  :slug,
   keyword_init: true
 )
 
@@ -771,6 +672,15 @@ CustomUpdateData = Struct.new(
   keyword_init: true
 )
 
+# Request payload for Custom#patch.
+#
+# @!attribute [rw] id
+#   @return [String]
+CustomPatchData = Struct.new(
+  :id,
+  keyword_init: true
+)
+
 # Request payload for Custom#remove.
 #
 # @!attribute [rw] id
@@ -780,10 +690,13 @@ CustomRemoveMatch = Struct.new(
   keyword_init: true
 )
 
-# Legacy entity data model.
+# LegacyMutation entity data model.
 #
 # @!attribute [rw] avatar
 #   @return [String]
+#
+# @!attribute [rw] createdAt
+#   @return [String, nil]
 #
 # @!attribute [rw] email
 #   @return [String]
@@ -792,97 +705,56 @@ CustomRemoveMatch = Struct.new(
 #   @return [String]
 #
 # @!attribute [rw] id
-#   @return [Integer]
+#   @return [String, nil]
 #
 # @!attribute [rw] last_name
 #   @return [String]
-Legacy = Struct.new(
+#
+# @!attribute [rw] updatedAt
+#   @return [String, nil]
+LegacyMutation = Struct.new(
   :avatar,
+  :createdAt,
   :email,
   :first_name,
   :id,
   :last_name,
+  :updatedAt,
   keyword_init: true
 )
 
-# Request payload for Legacy#list.
+# Request payload for LegacyMutation#list.
 #
 # @!attribute [rw] page
 #   @return [Integer, nil]
 #
 # @!attribute [rw] per_page
 #   @return [Integer, nil]
-LegacyListMatch = Struct.new(
+LegacyMutationListMatch = Struct.new(
   :page,
   :per_page,
   keyword_init: true
 )
 
-# Request payload for Legacy#create.
-#
-# @!attribute [rw] avatar
-#   @return [String]
-#
-# @!attribute [rw] email
-#   @return [String]
-#
-# @!attribute [rw] first_name
-#   @return [String]
-#
-# @!attribute [rw] id
-#   @return [Integer]
-#
-# @!attribute [rw] last_name
-#   @return [String]
-LegacyCreateData = Struct.new(
-  :avatar,
-  :email,
-  :first_name,
-  :id,
-  :last_name,
-  keyword_init: true
-)
-
-# Request payload for Legacy#remove.
-#
-# @!attribute [rw] id
-#   @return [Integer]
-LegacyRemoveMatch = Struct.new(
-  :id,
-  keyword_init: true
-)
-
-# LegacyMutation entity data model.
-#
-# @!attribute [rw] createdAt
-#   @return [String, nil]
-#
-# @!attribute [rw] id
-#   @return [String, nil]
-#
-# @!attribute [rw] updatedAt
-#   @return [String, nil]
-LegacyMutation = Struct.new(
-  :createdAt,
-  :id,
-  :updatedAt,
-  keyword_init: true
-)
+# Request payload for LegacyMutation#create.
+class LegacyMutationCreateData
+end
 
 # Request payload for LegacyMutation#update.
 #
 # @!attribute [rw] id
 #   @return [Integer]
-#
-# @!attribute [rw] createdAt
-#   @return [String, nil]
-#
-# @!attribute [rw] updatedAt
-#   @return [String, nil]
 LegacyMutationUpdateData = Struct.new(
   :id,
-  :createdAt,
-  :updatedAt,
+  keyword_init: true
+)
+
+# Request payload for LegacyMutation#patch.
+#
+# @!attribute [rw] id
+#   @return [Integer]
+LegacyMutationPatchData = Struct.new(
+  :id,
   keyword_init: true
 )
 
@@ -967,6 +839,15 @@ LegacyUserLoadMatch = Struct.new(
   keyword_init: true
 )
 
+# Request payload for LegacyUser#remove.
+#
+# @!attribute [rw] id
+#   @return [Integer]
+LegacyUserRemoveMatch = Struct.new(
+  :id,
+  keyword_init: true
+)
+
 # Login entity data model.
 #
 # @!attribute [rw] email
@@ -991,13 +872,9 @@ Login = Struct.new(
 #
 # @!attribute [rw] password
 #   @return [String]
-#
-# @!attribute [rw] token
-#   @return [String]
 LoginCreateData = Struct.new(
   :email,
   :password,
-  :token,
   keyword_init: true
 )
 
@@ -1027,19 +904,11 @@ Register = Struct.new(
 # @!attribute [rw] email
 #   @return [String]
 #
-# @!attribute [rw] id
-#   @return [Integer, nil]
-#
 # @!attribute [rw] password
-#   @return [String]
-#
-# @!attribute [rw] token
 #   @return [String]
 RegisterCreateData = Struct.new(
   :email,
-  :id,
   :password,
-  :token,
   keyword_init: true
 )
 

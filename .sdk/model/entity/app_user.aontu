@@ -63,6 +63,7 @@ main: kit: entity: app_user: {
       name: "create"
       points: [
         {
+          bf: false
           co: {
             id: "POST /api/app-users/{id}/sessions/simulate"
             source: "openapi3"
@@ -87,6 +88,10 @@ main: kit: entity: app_user: {
               "id"
             ]
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "api"
@@ -110,6 +115,10 @@ main: kit: entity: app_user: {
           }
         }
         {
+          bf: [
+            "email"
+            "metadata"
+          ]
           co: {
             id: "POST /api/app-users"
             source: "openapi3"
@@ -117,6 +126,10 @@ main: kit: entity: app_user: {
           }
           m: "POST"
           o: "/api/app-users"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "api"
@@ -175,14 +188,16 @@ main: kit: entity: app_user: {
           q: {
             exist: [
               "project_id"
-              "status"
-              "x_reqres_env"
             ]
           }
           r: {
             param: {
               projectId: "project_id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -231,11 +246,9 @@ main: kit: entity: app_user: {
           }
           m: "GET"
           o: "/api/app-users"
-          q: {
-            exist: [
-              "limit"
-              "x_reqres_env"
-            ]
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -279,6 +292,10 @@ main: kit: entity: app_user: {
               "id"
             ]
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "api"
@@ -300,66 +317,6 @@ main: kit: entity: app_user: {
     remove: {
       name: "remove"
       points: [
-        {
-          co: {
-            id: "DELETE /app/collections/{slug}/records/{recordId}"
-            source: "openapi3"
-            version: 2
-          }
-          g: {
-            params: [
-              {
-                k: "param"
-                n: "collection_id"
-                or: "slug"
-                r: true
-                t: "`$STRING`"
-              }
-              {
-                k: "param"
-                n: "record_id"
-                or: "recordId"
-                r: true
-                t: "`$STRING`"
-              }
-            ]
-          }
-          m: "DELETE"
-          o: "/app/collections/{slug}/records/{recordId}"
-          q: {
-            exist: [
-              "collection_id"
-              "record_id"
-            ]
-          }
-          r: {
-            param: {
-              recordId: "record_id"
-              slug: "collection_id"
-            }
-          }
-          s: [
-            {
-              lit: "app"
-            }
-            {
-              lit: "collections"
-            }
-            {
-              var: "collection_id"
-            }
-            {
-              lit: "records"
-            }
-            {
-              var: "record_id"
-            }
-          ]
-          t: {
-            req: "`reqdata`"
-            res: "`body`"
-          }
-        }
         {
           co: {
             id: "DELETE /api/app-users/{id}"
@@ -384,6 +341,10 @@ main: kit: entity: app_user: {
               "id"
             ]
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "api"
@@ -406,6 +367,11 @@ main: kit: entity: app_user: {
       name: "update"
       points: [
         {
+          bf: [
+            "email"
+            "metadata"
+            "status"
+          ]
           co: {
             id: "PUT /api/app-users/{id}"
             source: "openapi3"
@@ -429,6 +395,10 @@ main: kit: entity: app_user: {
               "id"
             ]
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "api"
@@ -450,8 +420,5 @@ main: kit: entity: app_user: {
   }
 
 
-  relations: ancestors: [
-    [path("$.main.kit.entity.collection")]
-  ]
 
 }

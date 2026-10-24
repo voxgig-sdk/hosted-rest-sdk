@@ -96,14 +96,10 @@ class AppUserListMatch(TypedDict, total=False):
 
 class AppUserCreateDataRequired(TypedDict):
     email: str
-    id: str
 
 
 class AppUserCreateData(AppUserCreateDataRequired, total=False):
-    created_at: str
-    last_login_at: str
     metadata: dict
-    status: str
 
 
 class AppUserUpdateDataRequired(TypedDict):
@@ -111,9 +107,7 @@ class AppUserUpdateDataRequired(TypedDict):
 
 
 class AppUserUpdateData(AppUserUpdateDataRequired, total=False):
-    created_at: str
     email: str
-    last_login_at: str
     metadata: dict
     status: str
 
@@ -204,17 +198,13 @@ class CollectionListMatch(TypedDict, total=False):
 
 
 class CollectionCreateDataRequired(TypedDict):
-    id: str
     name: str
-    slug: str
 
 
 class CollectionCreateData(CollectionCreateDataRequired, total=False):
-    created_at: str
     project_id: str
     schema: dict
-    updated_at: str
-    user_id: str
+    slug: str
     visibility: str
 
 
@@ -223,13 +213,9 @@ class CollectionUpdateDataRequired(TypedDict):
 
 
 class CollectionUpdateData(CollectionUpdateDataRequired, total=False):
-    created_at: str
     name: str
-    project_id: str
     schema: dict
     slug: str
-    updated_at: str
-    user_id: str
     visibility: str
 
 
@@ -253,8 +239,8 @@ class CollectionRecord(CollectionRecordRequired, total=False):
 
 
 class CollectionRecordLoadMatch(TypedDict):
-    collection_id: str
     id: str
+    slug: str
 
 
 class CollectionRecordListMatchRequired(TypedDict):
@@ -272,35 +258,23 @@ class CollectionRecordListMatch(CollectionRecordListMatchRequired, total=False):
     search: str
 
 
-class CollectionRecordCreateDataRequired(TypedDict):
+class CollectionRecordCreateData(TypedDict):
     slug: str
     data: dict
-    id: str
-
-
-class CollectionRecordCreateData(CollectionRecordCreateDataRequired, total=False):
-    app_user_id: str
-    collection_id: str
-    created_at: str
-    created_by: str
-    deleted_at: str
-    project_id: str
-    updated_at: str
 
 
 class CollectionRecordUpdateDataRequired(TypedDict):
-    collection_id: str
     id: str
+    slug: str
 
 
 class CollectionRecordUpdateData(CollectionRecordUpdateDataRequired, total=False):
-    app_user_id: str
-    created_at: str
-    created_by: str
     data: dict
-    deleted_at: str
-    project_id: str
-    updated_at: str
+
+
+class CollectionRecordRemoveMatch(TypedDict):
+    id: str
+    slug: str
 
 
 class Custom(TypedDict, total=False):
@@ -319,48 +293,42 @@ class CustomUpdateData(TypedDict):
     id: str
 
 
+class CustomPatchData(TypedDict):
+    id: str
+
+
 class CustomRemoveMatch(TypedDict):
     id: str
 
 
-class Legacy(TypedDict):
+class LegacyMutationRequired(TypedDict):
     avatar: str
     email: str
     first_name: str
-    id: int
     last_name: str
 
 
-class LegacyListMatch(TypedDict, total=False):
-    page: int
-    per_page: int
-
-
-class LegacyCreateData(TypedDict):
-    avatar: str
-    email: str
-    first_name: str
-    id: int
-    last_name: str
-
-
-class LegacyRemoveMatch(TypedDict):
-    id: int
-
-
-class LegacyMutation(TypedDict, total=False):
+class LegacyMutation(LegacyMutationRequired, total=False):
     createdAt: str
     id: str
     updatedAt: str
 
 
-class LegacyMutationUpdateDataRequired(TypedDict):
+class LegacyMutationListMatch(TypedDict, total=False):
+    page: int
+    per_page: int
+
+
+class LegacyMutationCreateData(TypedDict):
+    pass
+
+
+class LegacyMutationUpdateData(TypedDict):
     id: int
 
 
-class LegacyMutationUpdateData(LegacyMutationUpdateDataRequired, total=False):
-    createdAt: str
-    updatedAt: str
+class LegacyMutationPatchData(TypedDict):
+    id: int
 
 
 class LegacyUnknownRequired(TypedDict):
@@ -398,6 +366,10 @@ class LegacyUserLoadMatch(TypedDict):
     id: int
 
 
+class LegacyUserRemoveMatch(TypedDict):
+    id: int
+
+
 class Login(TypedDict):
     email: str
     password: str
@@ -407,7 +379,6 @@ class Login(TypedDict):
 class LoginCreateData(TypedDict):
     email: str
     password: str
-    token: str
 
 
 class RegisterRequired(TypedDict):
@@ -420,11 +391,6 @@ class Register(RegisterRequired, total=False):
     id: int
 
 
-class RegisterCreateDataRequired(TypedDict):
+class RegisterCreateData(TypedDict):
     email: str
     password: str
-    token: str
-
-
-class RegisterCreateData(RegisterCreateDataRequired, total=False):
-    id: int

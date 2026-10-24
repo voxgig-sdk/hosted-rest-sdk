@@ -122,13 +122,9 @@ main: kit: entity: agent_user: {
           }
           m: "GET"
           o: "/agent/v1/users"
-          q: {
-            exist: [
-              "cursor"
-              "field"
-              "limit"
-              "seed"
-            ]
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -181,9 +177,12 @@ main: kit: entity: agent_user: {
           o: "/agent/v1/users/{id}"
           q: {
             exist: [
-              "expand"
               "id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

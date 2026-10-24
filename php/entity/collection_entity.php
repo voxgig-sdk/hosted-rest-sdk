@@ -14,7 +14,7 @@ class CollectionEntity
     private $_client;
     private $_utility;
     private array $_entopts;
-    private array $_data;
+    private mixed $_data;
     private array $_match;
     private $_entctx;
     private bool $_deleted = false;
@@ -98,8 +98,9 @@ class CollectionEntity
      */
     public function data_set($args): void
     {
-        if ($args) {
-            $this->_data = HostedRestHelpers::to_map(Struct::clone($args)) ?? [];
+        if ($args !== null) {
+            $data = Struct::clone($args);
+            $this->_data = $data instanceof \stdClass ? (array)$data : $data;
             ($this->_utility->feature_hook)($this->_entctx, "SetData");
         }
     }
@@ -191,49 +192,13 @@ class CollectionEntity
         // The pipeline runs as the caller iterates, so its errors leave
         // through the same catch path as an operation's.
         try {
-            ($utility->feature_hook)($ctx, "PrePoint");
-            [$point, $err] = ($utility->make_point)($ctx);
-            $ctx->out["point"] = $point;
-            if ($err) {
-                return;
-            }
-
-            ($utility->feature_hook)($ctx, "PreSpec");
-            [$spec, $err] = ($utility->make_spec)($ctx);
-            $ctx->out["spec"] = $spec;
-            if ($err) {
-                return;
-            }
-
-            ($utility->feature_hook)($ctx, "PreRequest");
-            [$resp, $err] = ($utility->make_request)($ctx);
-            $ctx->out["request"] = $resp;
-            if ($err) {
-                return;
-            }
-
-            ($utility->feature_hook)($ctx, "PreResponse");
-            [$resp2, $err] = ($utility->make_response)($ctx);
-            $ctx->out["response"] = $resp2;
-            if ($err) {
-                return;
-            }
-
-            ($utility->feature_hook)($ctx, "PreResult");
-            [$result, $err] = ($utility->make_result)($ctx);
-            $ctx->out["result"] = $result;
-            if ($err) {
-                return;
-            }
-
-            ($utility->feature_hook)($ctx, "PreDone");
-
+            $failed = $this->_stream_steps($ctx);
             $result = $ctx->result;
 
             // Inbound: prefer the streaming feature's incremental generator;
             // else fall back to the materialised items so stream always yields.
-            $streamfn = ($result !== null && isset($result->stream) && is_callable($result->stream))
-                ? $result->stream : null;
+            $streamfn = ($failed === null && $result !== null && isset($result->stream)
+                && is_callable($result->stream)) ? $result->stream : null;
             if ($streamfn !== null) {
                 // done() does not run on this path, so its record is cleaned here.
                 ($utility->clean_explain)($ctx);
@@ -246,7 +211,10 @@ class CollectionEntity
                 return;
             }
 
-            $data = ($utility->done)($ctx);
+            // A failed step leaves through make_error, as an operation's does.
+            $data = $failed === null
+                ? ($utility->done)($ctx)
+                : ($utility->make_error)($ctx, $failed);
             if (is_array($data) && array_is_list($data)) {
                 $items = $data;
             } elseif ($data === null) {
@@ -261,8 +229,64 @@ class CollectionEntity
                 yield $item;
             }
         } catch (\Throwable $err) {
-            throw $this->_unexpected($ctx, $err);
+            // What a hook throws here must not escape the cleaning below.
+            try {
+                if (!$ctx->unexpected_fired) {
+                    ($utility->feature_hook)($ctx, "PreUnexpected");
+                }
+            } catch (\Throwable $hookerr) {
+                $err = $hookerr;
+            }
+            $err = $this->_unexpected($ctx, $err);
+            if ($err !== null) {
+                throw $err;
+            }
         }
+    }
+
+    // The steps an operation runs, with their hooks; the first that fails
+    // hands back its error.
+    private function _stream_steps($ctx): mixed
+    {
+        $utility = $this->_utility;
+
+        ($utility->feature_hook)($ctx, "PrePoint");
+        [$point, $err] = ($utility->make_point)($ctx);
+        $ctx->out["point"] = $point;
+        if ($err) {
+            return $err;
+        }
+
+        ($utility->feature_hook)($ctx, "PreSpec");
+        [$spec, $err] = ($utility->make_spec)($ctx);
+        $ctx->out["spec"] = $spec;
+        if ($err) {
+            return $err;
+        }
+
+        ($utility->feature_hook)($ctx, "PreRequest");
+        [$resp, $err] = ($utility->make_request)($ctx);
+        $ctx->out["request"] = $resp;
+        if ($err) {
+            return $err;
+        }
+
+        ($utility->feature_hook)($ctx, "PreResponse");
+        [$resp2, $err] = ($utility->make_response)($ctx);
+        $ctx->out["response"] = $resp2;
+        if ($err) {
+            return $err;
+        }
+
+        ($utility->feature_hook)($ctx, "PreResult");
+        [$result, $err] = ($utility->make_result)($ctx);
+        $ctx->out["result"] = $result;
+        if ($err) {
+            return $err;
+        }
+
+        ($utility->feature_hook)($ctx, "PreDone");
+        return null;
     }
 
     
@@ -272,8 +296,8 @@ class CollectionEntity
      * @param CollectionLoadMatch|array|null $reqmatch Match criteria (id/query
      *   fields) as an assoc-array; a typed CollectionLoadMatch names the shape.
      * @param mixed $ctrl Optional per-call control overrides.
-     * @return Collection|array The loaded Collection as an assoc-array at the
-     *   SDK boundary; throws HostedRestError on failure (item-5 convention).
+     * @return CollectionEntity The loaded Collection entity, whose data_get() reads
+     *   its record; throws HostedRestError on failure (item-5 convention).
      */
     public function load(?array $reqmatch = null, $ctrl = null): mixed
     {
@@ -307,8 +331,8 @@ class CollectionEntity
      * @param CollectionListMatch|array|null $reqmatch Match filter (any subset
      *   of Collection fields) as an assoc-array; CollectionListMatch names the shape.
      * @param mixed $ctrl Optional per-call control overrides.
-     * @return Collection[]|array A list of Collection items as assoc-arrays at
-     *   the SDK boundary; throws HostedRestError on failure (item-5 convention).
+     * @return CollectionEntity[] The Collection entities, one per record, each read
+     *   with data_get(); throws HostedRestError on failure (item-5 convention).
      */
     public function list(?array $reqmatch = null, $ctrl = null): mixed
     {
@@ -339,8 +363,8 @@ class CollectionEntity
      * @param CollectionCreateData|array|null $reqdata Body data as an assoc-array;
      *   a typed CollectionCreateData names the shape.
      * @param mixed $ctrl Optional per-call control overrides.
-     * @return Collection|array The created Collection as an assoc-array at the
-     *   SDK boundary; throws HostedRestError on failure (item-5 convention).
+     * @return CollectionEntity The created Collection entity, whose data_get() reads
+     *   its record; throws HostedRestError on failure (item-5 convention).
      */
     public function create(?array $reqdata = null, $ctrl = null): mixed
     {
@@ -371,8 +395,8 @@ class CollectionEntity
      * @param CollectionUpdateData|array|null $reqdata Body data as an assoc-array;
      *   a typed CollectionUpdateData names the shape.
      * @param mixed $ctrl Optional per-call control overrides.
-     * @return Collection|array The updated Collection as an assoc-array at the
-     *   SDK boundary; throws HostedRestError on failure (item-5 convention).
+     * @return CollectionEntity The updated Collection entity, whose data_get() reads
+     *   its record; throws HostedRestError on failure (item-5 convention).
      */
     public function update(?array $reqdata = null, $ctrl = null): mixed
     {
@@ -400,14 +424,16 @@ class CollectionEntity
 
 
     
+
+    
     /**
      * Remove an Collection matching the given criteria.
      *
      * @param CollectionRemoveMatch|array|null $reqmatch Match criteria (id/query
      *   fields) as an assoc-array; CollectionRemoveMatch names the shape.
      * @param mixed $ctrl Optional per-call control overrides.
-     * @return Collection|array The removed Collection as an assoc-array at the
-     *   SDK boundary; throws HostedRestError on failure (item-5 convention).
+     * @return CollectionEntity The removed Collection entity, marked as deleted; throws
+     *   HostedRestError on failure (item-5 convention).
      */
     public function remove(?array $reqmatch = null, $ctrl = null): mixed
     {
@@ -436,19 +462,35 @@ class CollectionEntity
 
     private function _run_op($ctx, callable $post_done): mixed
     {
+        $utility = $this->_utility;
+
         try {
             return $this->_run_steps($ctx, $post_done);
         } catch (\Throwable $err) {
-            throw $this->_unexpected($ctx, $err);
+            // What a hook throws here must not escape the cleaning below.
+            try {
+                // Once per operation: make_error fires it for its own error.
+                if (!$ctx->unexpected_fired) {
+                    ($utility->feature_hook)($ctx, "PreUnexpected");                }
+            } catch (\Throwable $hookerr) {
+                $err = $hookerr;
+            }
+            $err = $this->_unexpected($ctx, $err);
+            if ($err !== null) {
+                throw $err;
+            }
+            return null;
         }
     }
 
-    // A hook, fetcher or parser threw: make_error never saw it.
-    private function _unexpected($ctx, \Throwable $err): \Throwable
+    // A hook, fetcher or parser threw: make_error never saw it. Null when
+    // the caller switched throwing off.
+    private function _unexpected($ctx, \Throwable $err): ?\Throwable
     {
         $ctx->ctrl->err = $err;
         ($this->_utility->clean_explain)($ctx);
-        return ($this->_utility->clean)($ctx, $err);
+        $cleaned = ($this->_utility->clean)($ctx, $err);
+        return $ctx->ctrl->throw_err === false ? null : $cleaned;
     }
 
     private function _run_steps($ctx, callable $post_done): mixed

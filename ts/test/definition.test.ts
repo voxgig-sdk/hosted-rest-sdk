@@ -17,23 +17,28 @@ const PLAN: any[] = [
     "args": [],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [],
     "status": 200,
     "sample": {
       "data": {
+        "status": "healthy",
+        "version": "x",
+        "uptime_seconds": 1,
+        "rate_limit_status": {
+          "tier": "x",
+          "remaining_today": 1,
+          "limit_today": 1,
+          "reset_at": "2026-01-01T00:00:00Z"
+        },
         "deprecations": [
           {}
-        ],
-        "rate_limit_status": {
-          "limit_today": 1,
-          "remaining_today": 1,
-          "reset_at": "2026-01-01T00:00:00Z",
-          "tier": "x"
-        },
-        "status": "healthy",
-        "uptime_seconds": 1,
-        "version": "x"
+        ]
       }
     },
     "idField": "id"
@@ -47,32 +52,12 @@ const PLAN: any[] = [
     "args": [],
     "select": {},
     "headers": [],
-    "query": [],
-    "auth": [],
-    "status": 200,
-    "sample": null,
-    "idField": "id"
-  },
-  {
-    "entity": "agent_sandbox",
-    "accessor": "AgentSandbox",
-    "op": "load",
-    "method": "GET",
-    "path": "/agent/v1/orders",
-    "args": [],
-    "select": {
-      "cursor": "v1",
-      "limit": "v1",
-      "seed": "v1",
-      "status": "v1"
-    },
-    "headers": [],
-    "query": [
-      "cursor",
-      "limit",
-      "status",
-      "seed"
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
     ],
+    "query": [],
+    "queryArgs": [],
     "auth": [],
     "status": 200,
     "sample": null,
@@ -93,22 +78,9 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
     "query": [],
-    "auth": [],
-    "status": 200,
-    "sample": null,
-    "idField": "id"
-  },
-  {
-    "entity": "agent_sandbox",
-    "accessor": "AgentSandbox",
-    "op": "load",
-    "method": "GET",
-    "path": "/agent/v1/scenarios",
-    "args": [],
-    "select": {},
-    "headers": [],
-    "query": [],
+    "queryArgs": [],
     "auth": [],
     "status": 200,
     "sample": null,
@@ -124,52 +96,74 @@ const PLAN: any[] = [
     "select": {
       "cursor": "v1",
       "field": "v1",
-      "limit": "v1",
-      "seed": "v1"
+      "limit": 20,
+      "seed": 42
     },
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [
       "cursor",
       "limit",
       "fields",
       "seed"
     ],
+    "queryArgs": [
+      {
+        "name": "cursor",
+        "wire": "cursor"
+      },
+      {
+        "name": "field",
+        "wire": "fields"
+      },
+      {
+        "name": "limit",
+        "wire": "limit"
+      },
+      {
+        "name": "seed",
+        "wire": "seed"
+      }
+    ],
     "auth": [],
     "status": 200,
     "sample": {
       "data": [
         {
-          "created_at": "2026-01-01T00:00:00Z",
+          "id": "x",
           "email": "x",
           "full_name": "x",
-          "id": "x",
           "locale": "x",
-          "preferences": {},
+          "created_at": "2026-01-01T00:00:00Z",
+          "updated_at": "2026-01-01T00:00:00Z",
+          "timezone": "x",
           "profile": {
             "avatar_url": "x",
             "bio": "x",
             "company": {
+              "name": "x",
               "department": "x",
-              "employee_id": "x",
-              "name": "x"
+              "employee_id": "x"
             },
             "social": {
+              "twitter": "x",
               "github": "x",
-              "linkedin": "x",
-              "twitter": "x"
+              "linkedin": "x"
             }
           },
-          "status": "active",
-          "timezone": "x",
-          "updated_at": "2026-01-01T00:00:00Z"
+          "preferences": {},
+          "status": "active"
         }
       ],
       "meta": {
-        "has_more": true,
         "limit": 1,
+        "returned": 1,
         "next_cursor": "x",
         "prev_cursor": "x",
-        "returned": 1,
+        "has_more": true,
         "total_estimate": 1
       }
     },
@@ -192,8 +186,18 @@ const PLAN: any[] = [
       "expand": "v1"
     },
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [
       "expand"
+    ],
+    "queryArgs": [
+      {
+        "name": "expand",
+        "wire": "expand"
+      }
     ],
     "auth": [],
     "status": 200,
@@ -210,14 +214,14 @@ const PLAN: any[] = [
           "avatar_url": "x",
           "bio": "x",
           "company": {
+            "name": "x",
             "department": "x",
-            "employee_id": "x",
-            "name": "x"
+            "employee_id": "x"
           },
           "social": {
+            "twitter": "x",
             "github": "x",
-            "linkedin": "x",
-            "twitter": "x"
+            "linkedin": "x"
           }
         },
         "preferences": {},
@@ -242,7 +246,12 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -264,7 +273,12 @@ const PLAN: any[] = [
     "args": [],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -309,8 +323,18 @@ const PLAN: any[] = [
         "value": "h1"
       }
     ],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [
       "statuses"
+    ],
+    "queryArgs": [
+      {
+        "name": "status",
+        "wire": "statuses"
+      }
     ],
     "auth": [
       [
@@ -324,12 +348,12 @@ const PLAN: any[] = [
     "sample": {
       "data": [
         {
-          "created_at": "2026-01-01T00:00:00Z",
-          "email": "x",
           "id": "x",
+          "email": "x",
+          "status": "x",
           "last_login_at": "2026-01-01T00:00:00Z",
-          "metadata": {},
-          "status": "x"
+          "created_at": "2026-01-01T00:00:00Z",
+          "metadata": {}
         }
       ]
     },
@@ -352,8 +376,18 @@ const PLAN: any[] = [
         "value": "h1"
       }
     ],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [
       "limit"
+    ],
+    "queryArgs": [
+      {
+        "name": "limit",
+        "wire": "limit"
+      }
     ],
     "auth": [
       [
@@ -367,12 +401,12 @@ const PLAN: any[] = [
     "sample": {
       "data": [
         {
-          "created_at": "2026-01-01T00:00:00Z",
-          "email": "x",
           "id": "x",
+          "email": "x",
+          "status": "x",
           "last_login_at": "2026-01-01T00:00:00Z",
-          "metadata": {},
-          "status": "x"
+          "created_at": "2026-01-01T00:00:00Z",
+          "metadata": {}
         }
       ]
     },
@@ -393,7 +427,12 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -420,32 +459,6 @@ const PLAN: any[] = [
     "accessor": "AppUser",
     "op": "remove",
     "method": "DELETE",
-    "path": "/app/collections/{slug}/records/{recordId}",
-    "args": [
-      {
-        "name": "collection_id",
-        "wire": "slug",
-        "value": "p1"
-      },
-      {
-        "name": "record_id",
-        "wire": "recordId",
-        "value": "p2"
-      }
-    ],
-    "select": {},
-    "headers": [],
-    "query": [],
-    "auth": null,
-    "status": 204,
-    "sample": null,
-    "idField": "id"
-  },
-  {
-    "entity": "app_user",
-    "accessor": "AppUser",
-    "op": "remove",
-    "method": "DELETE",
     "path": "/api/app-users/{id}",
     "args": [
       {
@@ -456,7 +469,12 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -484,7 +502,12 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -515,7 +538,12 @@ const PLAN: any[] = [
     "args": [],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -551,7 +579,12 @@ const PLAN: any[] = [
         "value": "h1"
       }
     ],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -575,7 +608,12 @@ const PLAN: any[] = [
     "args": [],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -599,7 +637,12 @@ const PLAN: any[] = [
     "args": [],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -627,7 +670,12 @@ const PLAN: any[] = [
         "value": "h1"
       }
     ],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -655,195 +703,6 @@ const PLAN: any[] = [
   {
     "entity": "collection",
     "accessor": "Collection",
-    "op": "list",
-    "method": "GET",
-    "path": "/api/collections",
-    "args": [],
-    "select": {},
-    "headers": [
-      {
-        "name": "x_reqres_env",
-        "wire": "X-Reqres-Env",
-        "value": "h1"
-      }
-    ],
-    "query": [],
-    "auth": [
-      [
-        {
-          "in": "header",
-          "name": "x-api-key"
-        }
-      ]
-    ],
-    "status": 200,
-    "sample": {
-      "data": [
-        {
-          "created_at": "2026-01-01T00:00:00Z",
-          "id": "x",
-          "name": "x",
-          "project_id": "x",
-          "schema": {},
-          "slug": "x",
-          "updated_at": "2026-01-01T00:00:00Z",
-          "user_id": "x",
-          "visibility": "x"
-        }
-      ]
-    },
-    "idField": "id"
-  },
-  {
-    "entity": "collection",
-    "accessor": "Collection",
-    "op": "list",
-    "method": "GET",
-    "path": "/app/collections",
-    "args": [],
-    "select": {},
-    "headers": [],
-    "query": [],
-    "auth": null,
-    "status": 200,
-    "sample": {
-      "data": [
-        {
-          "created_at": "2026-01-01T00:00:00Z",
-          "id": "x",
-          "name": "x",
-          "project_id": "x",
-          "schema": {},
-          "slug": "x",
-          "updated_at": "2026-01-01T00:00:00Z",
-          "user_id": "x",
-          "visibility": "x"
-        }
-      ]
-    },
-    "idField": "id"
-  },
-  {
-    "entity": "collection",
-    "accessor": "Collection",
-    "op": "load",
-    "method": "GET",
-    "path": "/api/collections/{slug}",
-    "args": [
-      {
-        "name": "id",
-        "wire": "slug",
-        "value": "p1"
-      }
-    ],
-    "select": {},
-    "headers": [
-      {
-        "name": "x_reqres_env",
-        "wire": "X-Reqres-Env",
-        "value": "h1"
-      }
-    ],
-    "query": [],
-    "auth": [
-      [
-        {
-          "in": "header",
-          "name": "x-api-key"
-        }
-      ]
-    ],
-    "status": 200,
-    "sample": {
-      "data": {
-        "id": "x",
-        "project_id": "x",
-        "user_id": "x",
-        "name": "x",
-        "slug": "x",
-        "schema": {},
-        "visibility": "x",
-        "created_at": "2026-01-01T00:00:00Z",
-        "updated_at": "2026-01-01T00:00:00Z"
-      }
-    },
-    "idField": "id"
-  },
-  {
-    "entity": "collection",
-    "accessor": "Collection",
-    "op": "load",
-    "method": "GET",
-    "path": "/app/collections/{slug}",
-    "args": [
-      {
-        "name": "id",
-        "wire": "slug",
-        "value": "p1"
-      }
-    ],
-    "select": {},
-    "headers": [],
-    "query": [],
-    "auth": null,
-    "status": 200,
-    "sample": {
-      "data": {
-        "id": "x",
-        "project_id": "x",
-        "user_id": "x",
-        "name": "x",
-        "slug": "x",
-        "schema": {},
-        "visibility": "x",
-        "created_at": "2026-01-01T00:00:00Z",
-        "updated_at": "2026-01-01T00:00:00Z"
-      }
-    },
-    "idField": "id"
-  },
-  {
-    "entity": "collection",
-    "accessor": "Collection",
-    "op": "remove",
-    "method": "DELETE",
-    "path": "/api/collections/{slug}/records/{recordId}",
-    "args": [
-      {
-        "name": "collection_id",
-        "wire": "slug",
-        "value": "p1"
-      },
-      {
-        "name": "record_id",
-        "wire": "recordId",
-        "value": "p2"
-      }
-    ],
-    "select": {},
-    "headers": [
-      {
-        "name": "x_reqres_env",
-        "wire": "X-Reqres-Env",
-        "value": "h1"
-      }
-    ],
-    "query": [],
-    "auth": [
-      [
-        {
-          "in": "header",
-          "name": "x-api-key"
-        }
-      ]
-    ],
-    "status": 204,
-    "sample": null,
-    "idField": "id"
-  },
-  {
-    "entity": "collection",
-    "accessor": "Collection",
     "op": "remove",
     "method": "DELETE",
     "path": "/api/collections/{slug}",
@@ -862,7 +721,9 @@ const PLAN: any[] = [
         "value": "h1"
       }
     ],
+    "cookies": [],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -896,7 +757,12 @@ const PLAN: any[] = [
         "value": "h1"
       }
     ],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -922,376 +788,6 @@ const PLAN: any[] = [
     "idField": "id"
   },
   {
-    "entity": "collection_record",
-    "accessor": "CollectionRecord",
-    "op": "create",
-    "method": "POST",
-    "path": "/api/collections/{slug}/records",
-    "args": [
-      {
-        "name": "slug",
-        "wire": "slug",
-        "value": "p1"
-      }
-    ],
-    "select": {},
-    "headers": [
-      {
-        "name": "x_reqres_env",
-        "wire": "X-Reqres-Env",
-        "value": "h1"
-      }
-    ],
-    "query": [],
-    "auth": [
-      [
-        {
-          "in": "header",
-          "name": "x-api-key"
-        }
-      ]
-    ],
-    "status": 201,
-    "sample": {
-      "data": {
-        "id": "x",
-        "collection_id": "x",
-        "project_id": "x",
-        "app_user_id": "x",
-        "created_by": "x",
-        "created_at": "2026-01-01T00:00:00Z",
-        "updated_at": "2026-01-01T00:00:00Z",
-        "deleted_at": "2026-01-01T00:00:00Z",
-        "data": {}
-      }
-    },
-    "idField": "id"
-  },
-  {
-    "entity": "collection_record",
-    "accessor": "CollectionRecord",
-    "op": "create",
-    "method": "POST",
-    "path": "/app/collections/{slug}/records",
-    "args": [
-      {
-        "name": "slug",
-        "wire": "slug",
-        "value": "p1"
-      }
-    ],
-    "select": {},
-    "headers": [],
-    "query": [],
-    "auth": null,
-    "status": 201,
-    "sample": {
-      "data": {
-        "id": "x",
-        "collection_id": "x",
-        "project_id": "x",
-        "app_user_id": "x",
-        "created_by": "x",
-        "created_at": "2026-01-01T00:00:00Z",
-        "updated_at": "2026-01-01T00:00:00Z",
-        "deleted_at": "2026-01-01T00:00:00Z",
-        "data": {}
-      }
-    },
-    "idField": "id"
-  },
-  {
-    "entity": "collection_record",
-    "accessor": "CollectionRecord",
-    "op": "list",
-    "method": "GET",
-    "path": "/api/collections/{slug}/records",
-    "args": [
-      {
-        "name": "slug",
-        "wire": "slug",
-        "value": "p1"
-      }
-    ],
-    "select": {
-      "created_after": "v1",
-      "created_before": "v1",
-      "data_contain": "v1",
-      "include_deleted": "v1",
-      "limit": "v1",
-      "order": "v1",
-      "page": "v1",
-      "search": "v1"
-    },
-    "headers": [
-      {
-        "name": "x_reqres_env",
-        "wire": "X-Reqres-Env",
-        "value": "h1"
-      }
-    ],
-    "query": [
-      "page",
-      "limit",
-      "search",
-      "created_before",
-      "created_after",
-      "data_contains",
-      "order",
-      "include_deleted"
-    ],
-    "auth": [
-      [
-        {
-          "in": "header",
-          "name": "x-api-key"
-        }
-      ]
-    ],
-    "status": 200,
-    "sample": {
-      "data": [
-        {
-          "app_user_id": "x",
-          "collection_id": "x",
-          "created_at": "2026-01-01T00:00:00Z",
-          "created_by": "x",
-          "data": {},
-          "deleted_at": "2026-01-01T00:00:00Z",
-          "id": "x",
-          "project_id": "x",
-          "updated_at": "2026-01-01T00:00:00Z"
-        }
-      ],
-      "meta": {
-        "limit": 1,
-        "page": 1,
-        "pages": 1,
-        "total": 1
-      }
-    },
-    "idField": "id"
-  },
-  {
-    "entity": "collection_record",
-    "accessor": "CollectionRecord",
-    "op": "list",
-    "method": "GET",
-    "path": "/app/collections/{slug}/records",
-    "args": [
-      {
-        "name": "slug",
-        "wire": "slug",
-        "value": "p1"
-      }
-    ],
-    "select": {},
-    "headers": [],
-    "query": [],
-    "auth": null,
-    "status": 200,
-    "sample": {
-      "data": [
-        {
-          "app_user_id": "x",
-          "collection_id": "x",
-          "created_at": "2026-01-01T00:00:00Z",
-          "created_by": "x",
-          "data": {},
-          "deleted_at": "2026-01-01T00:00:00Z",
-          "id": "x",
-          "project_id": "x",
-          "updated_at": "2026-01-01T00:00:00Z"
-        }
-      ],
-      "meta": {
-        "limit": 1,
-        "page": 1,
-        "pages": 1,
-        "total": 1
-      }
-    },
-    "idField": "id"
-  },
-  {
-    "entity": "collection_record",
-    "accessor": "CollectionRecord",
-    "op": "load",
-    "method": "GET",
-    "path": "/api/collections/{slug}/records/{recordId}",
-    "args": [
-      {
-        "name": "collection_id",
-        "wire": "slug",
-        "value": "p1"
-      },
-      {
-        "name": "id",
-        "wire": "recordId",
-        "value": "p2"
-      }
-    ],
-    "select": {},
-    "headers": [
-      {
-        "name": "x_reqres_env",
-        "wire": "X-Reqres-Env",
-        "value": "h1"
-      }
-    ],
-    "query": [],
-    "auth": [
-      [
-        {
-          "in": "header",
-          "name": "x-api-key"
-        }
-      ]
-    ],
-    "status": 200,
-    "sample": {
-      "data": {
-        "id": "x",
-        "collection_id": "x",
-        "project_id": "x",
-        "app_user_id": "x",
-        "created_by": "x",
-        "created_at": "2026-01-01T00:00:00Z",
-        "updated_at": "2026-01-01T00:00:00Z",
-        "deleted_at": "2026-01-01T00:00:00Z",
-        "data": {}
-      }
-    },
-    "idField": "id"
-  },
-  {
-    "entity": "collection_record",
-    "accessor": "CollectionRecord",
-    "op": "load",
-    "method": "GET",
-    "path": "/app/collections/{slug}/records/{recordId}",
-    "args": [
-      {
-        "name": "collection_id",
-        "wire": "slug",
-        "value": "p1"
-      },
-      {
-        "name": "id",
-        "wire": "recordId",
-        "value": "p2"
-      }
-    ],
-    "select": {},
-    "headers": [],
-    "query": [],
-    "auth": null,
-    "status": 200,
-    "sample": {
-      "data": {
-        "id": "x",
-        "collection_id": "x",
-        "project_id": "x",
-        "app_user_id": "x",
-        "created_by": "x",
-        "created_at": "2026-01-01T00:00:00Z",
-        "updated_at": "2026-01-01T00:00:00Z",
-        "deleted_at": "2026-01-01T00:00:00Z",
-        "data": {}
-      }
-    },
-    "idField": "id"
-  },
-  {
-    "entity": "collection_record",
-    "accessor": "CollectionRecord",
-    "op": "update",
-    "method": "PUT",
-    "path": "/api/collections/{slug}/records/{recordId}",
-    "args": [
-      {
-        "name": "collection_id",
-        "wire": "slug",
-        "value": "p1"
-      },
-      {
-        "name": "id",
-        "wire": "recordId",
-        "value": "p2"
-      }
-    ],
-    "select": {},
-    "headers": [
-      {
-        "name": "x_reqres_env",
-        "wire": "X-Reqres-Env",
-        "value": "h1"
-      }
-    ],
-    "query": [],
-    "auth": [
-      [
-        {
-          "in": "header",
-          "name": "x-api-key"
-        }
-      ]
-    ],
-    "status": 200,
-    "sample": {
-      "data": {
-        "id": "x",
-        "collection_id": "x",
-        "project_id": "x",
-        "app_user_id": "x",
-        "created_by": "x",
-        "created_at": "2026-01-01T00:00:00Z",
-        "updated_at": "2026-01-01T00:00:00Z",
-        "deleted_at": "2026-01-01T00:00:00Z",
-        "data": {}
-      }
-    },
-    "idField": "id"
-  },
-  {
-    "entity": "collection_record",
-    "accessor": "CollectionRecord",
-    "op": "update",
-    "method": "PUT",
-    "path": "/app/collections/{slug}/records/{recordId}",
-    "args": [
-      {
-        "name": "collection_id",
-        "wire": "slug",
-        "value": "p1"
-      },
-      {
-        "name": "id",
-        "wire": "recordId",
-        "value": "p2"
-      }
-    ],
-    "select": {},
-    "headers": [],
-    "query": [],
-    "auth": null,
-    "status": 200,
-    "sample": {
-      "data": {
-        "id": "x",
-        "collection_id": "x",
-        "project_id": "x",
-        "app_user_id": "x",
-        "created_by": "x",
-        "created_at": "2026-01-01T00:00:00Z",
-        "updated_at": "2026-01-01T00:00:00Z",
-        "deleted_at": "2026-01-01T00:00:00Z",
-        "data": {}
-      }
-    },
-    "idField": "id"
-  },
-  {
     "entity": "custom",
     "accessor": "Custom",
     "op": "create",
@@ -1306,7 +802,12 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -1334,7 +835,45 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
+    "auth": [
+      [
+        {
+          "in": "header",
+          "name": "x-api-key"
+        }
+      ]
+    ],
+    "status": 200,
+    "sample": {},
+    "idField": "id"
+  },
+  {
+    "entity": "custom",
+    "accessor": "Custom",
+    "op": "patch",
+    "method": "PATCH",
+    "path": "/api/custom/{path}",
+    "args": [
+      {
+        "name": "id",
+        "wire": "path",
+        "value": "p1"
+      }
+    ],
+    "select": {},
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
+    "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -1362,7 +901,12 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -1390,7 +934,12 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -1404,15 +953,20 @@ const PLAN: any[] = [
     "idField": "id"
   },
   {
-    "entity": "legacy",
-    "accessor": "Legacy",
+    "entity": "legacy_mutation",
+    "accessor": "LegacyMutation",
     "op": "create",
     "method": "POST",
     "path": "/api/users",
     "args": [],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -1430,20 +984,34 @@ const PLAN: any[] = [
     "idField": "id"
   },
   {
-    "entity": "legacy",
-    "accessor": "Legacy",
+    "entity": "legacy_mutation",
+    "accessor": "LegacyMutation",
     "op": "list",
     "method": "GET",
     "path": "/api/users",
     "args": [],
     "select": {
-      "page": "v1",
+      "page": 1,
       "per_page": "v1"
     },
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [
       "page",
       "per_page"
+    ],
+    "queryArgs": [
+      {
+        "name": "page",
+        "wire": "page"
+      },
+      {
+        "name": "per_page",
+        "wire": "per_page"
+      }
     ],
     "auth": [
       [
@@ -1461,11 +1029,11 @@ const PLAN: any[] = [
       "total_pages": 1,
       "data": [
         {
-          "avatar": "x",
+          "id": 1,
           "email": "x",
           "first_name": "x",
-          "id": 1,
-          "last_name": "x"
+          "last_name": "x",
+          "avatar": "x"
         }
       ],
       "support": {}
@@ -1473,10 +1041,10 @@ const PLAN: any[] = [
     "idField": "id"
   },
   {
-    "entity": "legacy",
-    "accessor": "Legacy",
-    "op": "remove",
-    "method": "DELETE",
+    "entity": "legacy_mutation",
+    "accessor": "LegacyMutation",
+    "op": "patch",
+    "method": "PATCH",
     "path": "/api/users/{id}",
     "args": [
       {
@@ -1487,7 +1055,12 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -1496,8 +1069,12 @@ const PLAN: any[] = [
         }
       ]
     ],
-    "status": 204,
-    "sample": null,
+    "status": 200,
+    "sample": {
+      "id": "x",
+      "createdAt": "2026-01-01T00:00:00Z",
+      "updatedAt": "2026-01-01T00:00:00Z"
+    },
     "idField": "id"
   },
   {
@@ -1515,7 +1092,12 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -1540,13 +1122,27 @@ const PLAN: any[] = [
     "path": "/api/unknown",
     "args": [],
     "select": {
-      "page": "v1",
+      "page": 1,
       "per_page": "v1"
     },
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [
       "page",
       "per_page"
+    ],
+    "queryArgs": [
+      {
+        "name": "page",
+        "wire": "page"
+      },
+      {
+        "name": "per_page",
+        "wire": "per_page"
+      }
     ],
     "auth": [
       [
@@ -1564,11 +1160,11 @@ const PLAN: any[] = [
       "total_pages": 1,
       "data": [
         {
-          "color": "x",
           "id": 1,
           "name": "x",
-          "pantone_value": "x",
-          "year": 1
+          "year": 1,
+          "color": "x",
+          "pantone_value": "x"
         }
       ],
       "support": {}
@@ -1590,7 +1186,12 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -1627,7 +1228,12 @@ const PLAN: any[] = [
     ],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -1650,6 +1256,36 @@ const PLAN: any[] = [
     "idField": "id"
   },
   {
+    "entity": "legacy_user",
+    "accessor": "LegacyUser",
+    "op": "remove",
+    "method": "DELETE",
+    "path": "/api/users/{id}",
+    "args": [
+      {
+        "name": "id",
+        "wire": "id",
+        "value": "p1"
+      }
+    ],
+    "select": {},
+    "headers": [],
+    "cookies": [],
+    "query": [],
+    "queryArgs": [],
+    "auth": [
+      [
+        {
+          "in": "header",
+          "name": "x-api-key"
+        }
+      ]
+    ],
+    "status": 204,
+    "sample": null,
+    "idField": "id"
+  },
+  {
     "entity": "login",
     "accessor": "Login",
     "op": "create",
@@ -1658,7 +1294,12 @@ const PLAN: any[] = [
     "args": [],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {
@@ -1682,7 +1323,12 @@ const PLAN: any[] = [
     "args": [],
     "select": {},
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
+    "queryArgs": [],
     "auth": [
       [
         {

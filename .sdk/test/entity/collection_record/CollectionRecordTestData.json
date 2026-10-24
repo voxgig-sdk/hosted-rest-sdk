@@ -84,6 +84,16 @@
       "version": 2,
       "source": "openapi3"
     },
+    "DELETE /api/collections/{slug}/records/{recordId}": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "DELETE /app/collections/{slug}/records/{recordId}": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
     "PUT /api/collections/{slug}/records/{recordId}": {
       "provenance": "operation-contract",
       "version": 2,

@@ -2,31 +2,57 @@
   "existing": {
     "legacy_mutation": {
       "LEGACY_MUTATION00": {
-        "createdAt": "s1e",
+        "avatar": "s46",
+        "createdAt": "s47",
+        "email": "s48",
+        "first_name": "s49",
         "id": "LEGACY_MUTATION00",
-        "updatedAt": "s20"
+        "last_name": "s4b",
+        "updatedAt": "s4c"
       },
       "LEGACY_MUTATION01": {
-        "createdAt": "s3c",
+        "avatar": "s8c",
+        "createdAt": "s8d",
+        "email": "s8e",
+        "first_name": "s8f",
         "id": "LEGACY_MUTATION01",
-        "updatedAt": "s3e"
+        "last_name": "s91",
+        "updatedAt": "s92"
       },
       "LEGACY_MUTATION02": {
-        "createdAt": "s5a",
+        "avatar": "sd2",
+        "createdAt": "sd3",
+        "email": "sd4",
+        "first_name": "sd5",
         "id": "LEGACY_MUTATION02",
-        "updatedAt": "s5c"
+        "last_name": "sd7",
+        "updatedAt": "sd8"
       }
     }
   },
   "new": {
     "legacy_mutation": {
       "legacy_mutation_ref01": {
-        "createdAt": "s78",
-        "updatedAt": "s7a"
+        "avatar": "s118",
+        "createdAt": "s119",
+        "email": "s11a",
+        "first_name": "s11b",
+        "last_name": "s11d",
+        "updatedAt": "s11e"
       }
     }
   },
   "requests": {
+    "POST /api/users": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/users": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
     "PATCH /api/users/{id}": {
       "provenance": "operation-contract",
       "version": 2,

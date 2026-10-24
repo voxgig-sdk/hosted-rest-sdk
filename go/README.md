@@ -4,7 +4,7 @@
 
 The Golang SDK for the HostedRest API — an entity-oriented client using standard Go conventions. No generics required; data flows as `map[string]any`.
 
-It exposes the API as capitalised, semantic **Entities** — e.g. `client.AgentHealth(nil)` — each with the same small set of operations (`List`, `Load`, `Create`, `Update`, `Remove`, `Patch`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
+It exposes the API as capitalised, semantic **Entities** — e.g. `client.AgentHealth(nil)` — each with the same small set of operations (`List`, `Load`, `Create`, `Update`, `Patch`, `Remove`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
 
 > Also generated from this model: `go-cli`, `go-mcp`, `lua`, `php`, `py`, `rb`, `ts` — see
 > the [top-level README](../README.md).
@@ -16,7 +16,7 @@ go get github.com/voxgig-sdk/hosted-rest-sdk/go@latest
 ```
 
 The Go module proxy resolves the version from the `go/vX.Y.Z` GitHub
-release tag — see [Releases](https://github.com/voxgig-sdk/hosted-rest-sdk/releases) for the available versions.
+release tag — see [Tags](https://github.com/voxgig-sdk/hosted-rest-sdk/tags) for the available versions.
 
 To vendor from a local checkout instead, clone this repo alongside your
 project and add a `replace` directive pointing at the checked-out
@@ -30,14 +30,15 @@ go mod edit -replace github.com/voxgig-sdk/hosted-rest-sdk/go=../hosted-rest-sdk
 ## Tutorial: your first API call
 
 This tutorial walks through creating a client, listing entities, and
-loading a specific record.
+loading a specific record. The client sends the API key in the `x-api-key` header.
 
 ### Quickstart
 
 A complete program: create a client, then call the entity operations.
-Each operation returns `(value, error)` — the value is the data itself
-(there is no `{ok, data}` wrapper), so check `err` and use the value
-directly.
+Each operation returns `(value, error)` — the value is the entity, and for
+`List` a `[]any` of entities, one per record (there is no `{ok, data}`
+wrapper), so check `err` and read a record through the entity's
+`Data()`.
 
 ```go
 package main
@@ -53,12 +54,12 @@ func main() {
         "apikey": os.Getenv("HOSTED_REST_APIKEY"),
     })
 
-    // Load a single agentHealth — the value is the loaded record.
+    // Load a single agentHealth — the value is the entity; Data() reads its record.
     agentHealth, err := client.AgentHealth(nil).Load(nil, nil)
     if err != nil {
         panic(err)
     }
-    fmt.Println(agentHealth)
+    fmt.Println(agentHealth.(sdk.Entity).Data())
 }
 ```
 
@@ -144,7 +145,7 @@ agentHealth, err := client.AgentHealth(nil).Load(
 if err != nil {
     panic(err)
 }
-fmt.Println(agentHealth) // the returned mock data
+fmt.Println(agentHealth.(sdk.Entity).Data()) // the entity's mock record
 ```
 
 ### Use a custom fetch function
@@ -235,7 +236,6 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `Collection` | `(data map[string]any) HostedRestEntity` | Create a Collection entity instance. |
 | `CollectionRecord` | `(data map[string]any) HostedRestEntity` | Create a CollectionRecord entity instance. |
 | `Custom` | `(data map[string]any) HostedRestEntity` | Create a Custom entity instance. |
-| `Legacy` | `(data map[string]any) HostedRestEntity` | Create a Legacy entity instance. |
 | `LegacyMutation` | `(data map[string]any) HostedRestEntity` | Create a LegacyMutation entity instance. |
 | `LegacyUnknown` | `(data map[string]any) HostedRestEntity` | Create a LegacyUnknown entity instance. |
 | `LegacyUser` | `(data map[string]any) HostedRestEntity` | Create a LegacyUser entity instance. |
@@ -248,11 +248,12 @@ All entities implement the `HostedRestEntity` interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `Load` | `(reqmatch, ctrl map[string]any) (any, error)` | Load a single entity by match criteria. |
-| `List` | `(reqmatch, ctrl map[string]any) (any, error)` | List entities matching the criteria. |
-| `Create` | `(reqdata, ctrl map[string]any) (any, error)` | Create a new entity. |
-| `Update` | `(reqdata, ctrl map[string]any) (any, error)` | Update an existing entity. |
-| `Remove` | `(reqmatch, ctrl map[string]any) (any, error)` | Remove an entity. |
+| `Load` | `(reqmatch, ctrl map[string]any) (any, error)` | Load a single entity by match criteria, and return it. |
+| `List` | `(reqmatch, ctrl map[string]any) (any, error)` | List entities matching the criteria, one per record. |
+| `Create` | `(reqdata, ctrl map[string]any) (any, error)` | Create a new entity, and return it. |
+| `Update` | `(reqdata, ctrl map[string]any) (any, error)` | Update an existing entity, and return it. |
+| `Patch` | `(reqdata, ctrl map[string]any) (any, error)` | Change part of an existing entity, and return it. |
+| `Remove` | `(reqmatch, ctrl map[string]any) (any, error)` | Remove an entity, and return it marked as deleted. |
 | `Data` | `(args ...any) any` | Get or set entity data. |
 | `Match` | `(args ...any) any` | Get or set entity match criteria. |
 | `Make` | `() Entity` | Create a new instance with the same options. |
@@ -260,13 +261,13 @@ All entities implement the `HostedRestEntity` interface.
 
 ### Result shape
 
-Entity operations return `(value, error)`. The `value` is the
-operation's data **directly** — there is no wrapper:
+Entity operations return `(value, error)`. The `value` is the entity
+itself — there is no wrapper:
 
 | Operation | `value` |
 | --- | --- |
-| `Load` / `Create` / `Update` / `Remove` | the entity record (`map[string]any`) |
-| `List` | a `[]any` of entity records |
+| `Load` / `Create` / `Update` / `Patch` / `Remove` | the entity, whose `Data()` reads its record (`map[string]any`) |
+| `List` | a `[]any` of entities, one per record |
 
 Check `err` first, then use the value directly (or the typed
 `...Typed` variants, which return the entity's model struct and a typed
@@ -274,7 +275,7 @@ slice):
 
     agentHealth, err := client.AgentHealth(nil).Load(nil, nil)
     if err != nil { /* handle */ }
-    // agentHealth is the returned record
+    // agentHealth is the entity; agentHealth.(sdk.Entity).Data() reads its record
 
 Only `Direct()` returns a response envelope — a `map[string]any` with
 `"ok"`, `"status"`, `"headers"`, and `"data"` keys.
@@ -422,7 +423,7 @@ API path: `/api/collections`
 | `"project_id"` |  |
 | `"updated_at"` |  |
 
-Operations: Create, List, Load, Update.
+Operations: Create, List, Load, Remove, Update.
 
 API path: `/api/collections/{slug}/records`
 
@@ -436,31 +437,21 @@ Operations: Create, Load, Patch, Remove, Update.
 
 API path: `/api/custom/{path}`
 
-#### Legacy
-
-| Field | Description |
-| --- | --- |
-| `"avatar"` |  |
-| `"email"` |  |
-| `"first_name"` |  |
-| `"id"` |  |
-| `"last_name"` |  |
-
-Operations: Create, List, Remove.
-
-API path: `/api/users`
-
 #### LegacyMutation
 
 | Field | Description |
 | --- | --- |
+| `"avatar"` |  |
 | `"createdAt"` |  |
+| `"email"` |  |
+| `"first_name"` |  |
 | `"id"` |  |
+| `"last_name"` |  |
 | `"updatedAt"` |  |
 
-Operations: Patch, Update.
+Operations: Create, List, Patch, Update.
 
-API path: `/api/users/{id}`
+API path: `/api/users`
 
 #### LegacyUnknown
 
@@ -486,7 +477,7 @@ API path: `/api/unknown`
 | `"id"` |  |
 | `"support"` |  |
 
-Operations: Load.
+Operations: Load, Remove.
 
 API path: `/api/users/{id}`
 
@@ -547,7 +538,7 @@ agentHealth, err := client.AgentHealth(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(agentHealth) // the loaded record
+fmt.Println(agentHealth.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
@@ -576,7 +567,7 @@ agentSandbox, err := client.AgentSandbox(nil).Load(map[string]any{"scenario": "s
 if err != nil {
     panic(err)
 }
-fmt.Println(agentSandbox) // the loaded record
+fmt.Println(agentSandbox.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: Create
@@ -589,7 +580,7 @@ result, err := client.AgentSandbox(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -626,7 +617,7 @@ agentUser, err := client.AgentUser(nil).Load(map[string]any{"id": "agent_user_id
 if err != nil {
     panic(err)
 }
-fmt.Println(agentUser) // the loaded record
+fmt.Println(agentUser.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: List
@@ -636,7 +627,10 @@ agentUsers, err := client.AgentUser(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(agentUsers) // the array of records
+// A []any of entities, one per record.
+for _, item := range agentUsers.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -672,7 +666,7 @@ appUser, err := client.AppUser(nil).Load(map[string]any{"id": "app_user_id"}, ni
 if err != nil {
     panic(err)
 }
-fmt.Println(appUser) // the loaded record
+fmt.Println(appUser.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: List
@@ -682,7 +676,10 @@ appUsers, err := client.AppUser(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(appUsers) // the array of records
+// A []any of entities, one per record.
+for _, item := range appUsers.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 #### Example: Create
@@ -690,12 +687,11 @@ fmt.Println(appUsers) // the array of records
 ```go
 result, err := client.AppUser(nil).Create(map[string]any{
     "email": "example_email",
-    "id": "example_id",
 }, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -726,7 +722,7 @@ result, err := client.AppUserLogin(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -747,7 +743,7 @@ appUserSession, err := client.AppUserSession(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(appUserSession) // the loaded record
+fmt.Println(appUserSession.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
@@ -774,7 +770,7 @@ appUserTotal, err := client.AppUserTotal(nil).Load(map[string]any{"project_id": 
 if err != nil {
     panic(err)
 }
-fmt.Println(appUserTotal) // the loaded record
+fmt.Println(appUserTotal.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
@@ -803,7 +799,7 @@ result, err := client.AppUserVerify(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -825,7 +821,7 @@ result, err := client.Authentication(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -864,7 +860,7 @@ collection, err := client.Collection(nil).Load(map[string]any{"id": "collection_
 if err != nil {
     panic(err)
 }
-fmt.Println(collection) // the loaded record
+fmt.Println(collection.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: List
@@ -874,21 +870,22 @@ collections, err := client.Collection(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(collections) // the array of records
+// A []any of entities, one per record.
+for _, item := range collections.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 #### Example: Create
 
 ```go
 result, err := client.Collection(nil).Create(map[string]any{
-    "id": "example_id",
     "name": "example_name",
-    "slug": "example_slug",
 }, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -904,6 +901,7 @@ Create an instance: `collectionRecord := client.CollectionRecord(nil)`
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
 | `Create(data, ctrl)` | Create a new entity with the given data. |
 | `Update(data, ctrl)` | Update an existing entity. |
+| `Remove(match, ctrl)` | Remove the matching entity. |
 
 #### Fields
 
@@ -922,21 +920,24 @@ Create an instance: `collectionRecord := client.CollectionRecord(nil)`
 #### Example: Load
 
 ```go
-collectionRecord, err := client.CollectionRecord(nil).Load(map[string]any{"id": "collection_record_id", "collection_id": "collection_id"}, nil)
+collectionRecord, err := client.CollectionRecord(nil).Load(map[string]any{"id": "collection_record_id", "slug": "slug"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(collectionRecord) // the loaded record
+fmt.Println(collectionRecord.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: List
 
 ```go
-collectionRecords, err := client.CollectionRecord(nil).List(nil, nil)
+collectionRecords, err := client.CollectionRecord(nil).List(map[string]any{"slug": "example"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(collectionRecords) // the array of records
+// A []any of entities, one per record.
+for _, item := range collectionRecords.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 #### Example: Create
@@ -945,12 +946,11 @@ fmt.Println(collectionRecords) // the array of records
 result, err := client.CollectionRecord(nil).Create(map[string]any{
     "slug": "example_slug",
     "data": map[string]any{},
-    "id": "example_id",
 }, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -965,6 +965,7 @@ Create an instance: `custom := client.Custom(nil)`
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
 | `Create(data, ctrl)` | Create a new entity with the given data. |
 | `Update(data, ctrl)` | Update an existing entity. |
+| `Patch(data, ctrl)` | Change part of an existing entity. |
 | `Remove(match, ctrl)` | Remove the matching entity. |
 
 #### Fields
@@ -980,7 +981,7 @@ custom, err := client.Custom(nil).Load(map[string]any{"id": "custom_id"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(custom) // the loaded record
+fmt.Println(custom.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: Create
@@ -992,56 +993,7 @@ result, err := client.Custom(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
-```
-
-
-### Legacy
-
-Create an instance: `legacy := client.Legacy(nil)`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `List(match, ctrl)` | List entities matching the criteria. |
-| `Create(data, ctrl)` | Create a new entity with the given data. |
-| `Remove(match, ctrl)` | Remove the matching entity. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `avatar` | `string` |  |
-| `email` | `string` |  |
-| `first_name` | `string` |  |
-| `id` | `int` |  |
-| `last_name` | `string` |  |
-
-#### Example: List
-
-```go
-legacys, err := client.Legacy(nil).List(nil, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(legacys) // the array of records
-```
-
-#### Example: Create
-
-```go
-result, err := client.Legacy(nil).Create(map[string]any{
-    "avatar": "example_avatar",
-    "email": "example_email",
-    "first_name": "example_first_name",
-    "id": 1,
-    "last_name": "example_last_name",
-}, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -1053,15 +1005,46 @@ Create an instance: `legacyMutation := client.LegacyMutation(nil)`
 
 | Method | Description |
 | --- | --- |
+| `List(match, ctrl)` | List entities matching the criteria. |
+| `Create(data, ctrl)` | Create a new entity with the given data. |
 | `Update(data, ctrl)` | Update an existing entity. |
+| `Patch(data, ctrl)` | Change part of an existing entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `avatar` | `string` |  |
 | `createdAt` | `string` |  |
+| `email` | `string` |  |
+| `first_name` | `string` |  |
 | `id` | `string` |  |
+| `last_name` | `string` |  |
 | `updatedAt` | `string` |  |
+
+#### Example: List
+
+```go
+legacyMutations, err := client.LegacyMutation(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+// A []any of entities, one per record.
+for _, item := range legacyMutations.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
+```
+
+#### Example: Create
+
+```go
+result, err := client.LegacyMutation(nil).Create(map[string]any{
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
+```
 
 
 ### LegacyUnknown
@@ -1094,7 +1077,7 @@ legacyUnknown, err := client.LegacyUnknown(nil).Load(map[string]any{"id": 1}, ni
 if err != nil {
     panic(err)
 }
-fmt.Println(legacyUnknown) // the loaded record
+fmt.Println(legacyUnknown.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: List
@@ -1104,7 +1087,10 @@ legacyUnknowns, err := client.LegacyUnknown(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(legacyUnknowns) // the array of records
+// A []any of entities, one per record.
+for _, item := range legacyUnknowns.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -1117,6 +1103,7 @@ Create an instance: `legacyUser := client.LegacyUser(nil)`
 | Method | Description |
 | --- | --- |
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
+| `Remove(match, ctrl)` | Remove the matching entity. |
 
 #### Fields
 
@@ -1133,7 +1120,7 @@ legacyUser, err := client.LegacyUser(nil).Load(map[string]any{"id": 1}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(legacyUser) // the loaded record
+fmt.Println(legacyUser.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
@@ -1161,12 +1148,11 @@ Create an instance: `login := client.Login(nil)`
 result, err := client.Login(nil).Create(map[string]any{
     "email": "example_email",
     "password": "example_password",
-    "token": "example_token",
 }, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -1195,12 +1181,11 @@ Create an instance: `register := client.Register(nil)`
 result, err := client.Register(nil).Create(map[string]any{
     "email": "example_email",
     "password": "example_password",
-    "token": "example_token",
 }, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 ## Features
@@ -1337,7 +1322,9 @@ The Go SDK uses `map[string]any` throughout rather than typed structs.
 This mirrors the dynamic nature of the API and keeps the SDK
 flexible — no code generation is needed when the API schema changes.
 
-Use `core.ToMapAny()` to safely cast results and nested data.
+An operation returns the entity, and its `Data()` returns the record. Use
+`core.ToMapAny()` to safely cast that record, or data nested in it, to
+`map[string]any`: it returns `nil` for anything else, an entity included.
 
 ### Package structure
 

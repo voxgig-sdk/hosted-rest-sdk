@@ -4,7 +4,7 @@
 #   guide.aontu
 
 guide: {
-  metrics: count: entity: 18
+  metrics: count: entity: 17
   metrics: count: path: 32
   metrics: count: method: 52
 
@@ -64,11 +64,6 @@ guide: {
       op: list: method: *GET
       op: list: transform: res: *("`body.data`")|top
     }
-    path: "/app/collections/{slug}/records/{recordId}": {
-      rename: param: "recordId": *"record_id"
-      rename: param: "slug": *"collection_id"
-      op: remove: method: *DELETE
-    }
   }
 
   entity: app_user_login: {
@@ -124,11 +119,6 @@ guide: {
       op: update: method: *PUT
       op: update: transform: res: *("`body.data`")|top
     }
-    path: "/api/collections/{slug}/records/{recordId}": {
-      rename: param: "recordId": *"record_id"
-      rename: param: "slug": *"collection_id"
-      op: remove: method: *DELETE
-    }
     path: "/app/collections": {
       op: list: method: *GET
       op: list: transform: res: *("`body.data`")|top
@@ -149,9 +139,9 @@ guide: {
     }
     path: "/api/collections/{slug}/records/{recordId}": {
       rename: param: "recordId": *"id"
-      rename: param: "slug": *"collection_id"
       op: load: method: *GET
       op: load: transform: res: *("`body.data`")|top
+      op: remove: method: *DELETE
       op: update: method: *PUT
       op: update: transform: res: *("`body.data`")|top
     }
@@ -163,9 +153,9 @@ guide: {
     }
     path: "/app/collections/{slug}/records/{recordId}": {
       rename: param: "recordId": *"id"
-      rename: param: "slug": *"collection_id"
       op: load: method: *GET
       op: load: transform: res: *("`body.data`")|top
+      op: remove: method: *DELETE
       op: update: method: *PUT
       op: update: transform: res: *("`body.data`")|top
     }
@@ -182,18 +172,12 @@ guide: {
     }
   }
 
-  entity: legacy: {
+  entity: legacy_mutation: {
     path: "/api/users": {
       op: create: method: *POST
       op: list: method: *GET
       op: list: transform: res: *("`body.data`")|top
     }
-    path: "/api/users/{id}": {
-      op: remove: method: *DELETE
-    }
-  }
-
-  entity: legacy_mutation: {
     path: "/api/users/{id}": {
       op: patch: method: *PATCH
       op: update: method: *PUT
@@ -213,6 +197,7 @@ guide: {
   entity: legacy_user: {
     path: "/api/users/{id}": {
       op: load: method: *GET
+      op: remove: method: *DELETE
     }
   }
 

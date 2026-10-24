@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { HostedRestSDK, BaseFeature, stdutil } from '../../..'
+import { HostedRestSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,6 +41,8 @@ describe('AppUserSessionEntity', async () => {
   })
 
 
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.HOSTED_REST_TEST_LIVE
@@ -51,7 +53,7 @@ describe('AppUserSessionEntity', async () => {
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{},"name":"app_user_session","op":{"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /api/app-users/me","source":"openapi3","version":2},"g":{},"k":"http","m":"GET","o":"/api/app-users/me","q":{},"r":{},"s":[{"lit":"api"},{"lit":"app-users"},{"lit":"me"}],"t":{"req":"`reqdata`","res":"`body.data`"},"index$":0},{"a":true,"co":{"id":"GET /app/me","source":"openapi3","version":2},"g":{},"k":"http","m":"GET","o":"/app/me","q":{},"r":{},"s":[{"lit":"app"},{"lit":"me"}],"t":{"req":"`reqdata`","res":"`body.data`"},"index$":0}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"app_user_session","name__orig":"app_user_session","Name":"AppUserSession","name_":"app_user_session","name-":"app-user-session","NAME":"APP_USER_SESSION","index$":5}, {"active":true,"entity":"app_user_session","key$":"BasicAppUserSessionFlow","kind":"basic","name":"BasicAppUserSessionFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"app_user_session_ref01","srcdatavar":"app_user_session_ref01_data","suffix":"_dt0"},"m":{},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-app_user_session_ref01"}}],"index$":0}]}, 'AppUserSession', {"GET /api/app-users/me":{"protocol":"http","parameters":[]},"GET /app/me":{"protocol":"http","parameters":[]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{},"name":"app_user_session","op":{"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /api/app-users/me","source":"openapi3","version":2},"g":{},"k":"http","m":"GET","o":"/api/app-users/me","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"api"},{"lit":"app-users"},{"lit":"me"}],"t":{"req":"`reqdata`","res":"`body.data`"},"index$":0},{"a":true,"co":{"id":"GET /app/me","source":"openapi3","version":2},"g":{},"k":"http","m":"GET","o":"/app/me","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"app"},{"lit":"me"}],"t":{"req":"`reqdata`","res":"`body.data`"},"index$":1}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"app_user_session","name__orig":"app_user_session","Name":"AppUserSession","name_":"app_user_session","name-":"app-user-session","NAME":"APP_USER_SESSION","index$":5}, {"active":true,"entity":"app_user_session","key$":"BasicAppUserSessionFlow","kind":"basic","name":"BasicAppUserSessionFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"app_user_session_ref01","srcdatavar":"app_user_session_ref01_data","suffix":"_dt0"},"m":{},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-app_user_session_ref01"}}],"index$":0}]}, 'AppUserSession', {"GET /api/app-users/me":{"protocol":"http","parameters":[]},"GET /app/me":{"protocol":"http","parameters":[]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -72,6 +74,12 @@ describe('AppUserSessionEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options

@@ -50,6 +50,10 @@ main: kit: entity: agent_health: {
           }
           m: "GET"
           o: "/agent/v1/health"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "agent"

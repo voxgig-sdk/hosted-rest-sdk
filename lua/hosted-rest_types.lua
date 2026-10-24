@@ -68,18 +68,12 @@
 ---@field limit? number
 
 ---@class AppUserCreateData
----@field created_at? string
 ---@field email string
----@field id string
----@field last_login_at? string
 ---@field metadata? table
----@field status? string
 
 ---@class AppUserUpdateData
 ---@field id string
----@field created_at? string
 ---@field email? string
----@field last_login_at? string
 ---@field metadata? table
 ---@field status? string
 
@@ -142,25 +136,17 @@
 ---@field visibility? string
 
 ---@class CollectionCreateData
----@field created_at? string
----@field id string
 ---@field name string
 ---@field project_id? string
 ---@field schema? table
----@field slug string
----@field updated_at? string
----@field user_id? string
+---@field slug? string
 ---@field visibility? string
 
 ---@class CollectionUpdateData
 ---@field id string
----@field created_at? string
 ---@field name? string
----@field project_id? string
 ---@field schema? table
 ---@field slug? string
----@field updated_at? string
----@field user_id? string
 ---@field visibility? string
 
 ---@class CollectionRemoveMatch
@@ -178,8 +164,8 @@
 ---@field updated_at? string
 
 ---@class CollectionRecordLoadMatch
----@field collection_id string
 ---@field id string
+---@field slug string
 
 ---@class CollectionRecordListMatch
 ---@field slug string
@@ -194,26 +180,16 @@
 
 ---@class CollectionRecordCreateData
 ---@field slug string
----@field app_user_id? string
----@field collection_id? string
----@field created_at? string
----@field created_by? string
 ---@field data table
----@field deleted_at? string
----@field id string
----@field project_id? string
----@field updated_at? string
 
 ---@class CollectionRecordUpdateData
----@field collection_id string
 ---@field id string
----@field app_user_id? string
----@field created_at? string
----@field created_by? string
+---@field slug string
 ---@field data? table
----@field deleted_at? string
----@field project_id? string
----@field updated_at? string
+
+---@class CollectionRecordRemoveMatch
+---@field id string
+---@field slug string
 
 ---@class Custom
 ---@field id? string
@@ -227,39 +203,32 @@
 ---@class CustomUpdateData
 ---@field id string
 
+---@class CustomPatchData
+---@field id string
+
 ---@class CustomRemoveMatch
 ---@field id string
 
----@class Legacy
+---@class LegacyMutation
 ---@field avatar string
+---@field createdAt? string
 ---@field email string
 ---@field first_name string
----@field id number
+---@field id? string
 ---@field last_name string
+---@field updatedAt? string
 
----@class LegacyListMatch
+---@class LegacyMutationListMatch
 ---@field page? number
 ---@field per_page? number
 
----@class LegacyCreateData
----@field avatar string
----@field email string
----@field first_name string
----@field id number
----@field last_name string
-
----@class LegacyRemoveMatch
----@field id number
-
----@class LegacyMutation
----@field createdAt? string
----@field id? string
----@field updatedAt? string
+---@class LegacyMutationCreateData
 
 ---@class LegacyMutationUpdateData
 ---@field id number
----@field createdAt? string
----@field updatedAt? string
+
+---@class LegacyMutationPatchData
+---@field id number
 
 ---@class LegacyUnknown
 ---@field color string
@@ -285,6 +254,9 @@
 ---@class LegacyUserLoadMatch
 ---@field id number
 
+---@class LegacyUserRemoveMatch
+---@field id number
+
 ---@class Login
 ---@field email string
 ---@field password string
@@ -293,7 +265,6 @@
 ---@class LoginCreateData
 ---@field email string
 ---@field password string
----@field token string
 
 ---@class Register
 ---@field email string
@@ -303,9 +274,7 @@
 
 ---@class RegisterCreateData
 ---@field email string
----@field id? number
 ---@field password string
----@field token string
 
 local M = {}
 

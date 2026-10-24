@@ -1,12 +1,12 @@
 # ReqRes API
 
-OpenAPI specification for the ReqRes API. Covers legacy demo endpoints, collections, app-user auth flows, custom endpoints, and the Agent Sandbox (/agent/v1/*) for AI coding agents. All /api/* endpoints require x-api-key. All /app/* endpoints require Authorization: Bearer &lt;session_token&gt;. /agent/v1/* endpoints are open in v1 (IP-based rate limiting).
+OpenAPI specification for the ReqRes API. Covers legacy demo endpoints, collections, app-user auth flows, custom endpoints, and the Agent Sandbox (/agent/v1/*) for AI coding agents. All /api/* endpoints require x-api-key. All /app/* endpoints require Authorization: Bearer &lt;`session_token`&gt;. /agent/v1/* endpoints are open in v1 (IP-based rate limiting).
 
 ## Start here
 
 This guide introduces the API, the client libraries, and the companion tools in this repository. Start with the API capabilities, choose a client for your application, and use the linked reference when you need exact request and response details.
 
-The selected API surface contains 18 entities and 52 HTTP routes. There are 6 SDK targets and 2 companion tools.
+The selected API surface contains 17 entities and 52 HTTP routes. There are 6 SDK targets and 2 companion tools.
 
 An entity groups related API operations. An operation can have several routes with different inputs or authentication requirements. The SDK exposes the entity and its operations using the conventions of the selected language.
 
@@ -20,7 +20,7 @@ SDK operations: `load`.
 
 ### AgentSandbox
 
-Results: Session created or MFA challenge; Paginated order list; Slow / partial-content / empty-response / malformed-json scenarios; Partial content; Scenario list.
+Results: Session created or MFA challenge; Slow / partial-content / empty-response / malformed-json scenarios; Partial content; Paginated order list; Scenario list.
 
 SDK operations: `create`, `load`.
 
@@ -32,7 +32,7 @@ SDK operations: `list`, `load`.
 
 ### AppUser
 
-Results: Session simulated; App user created; App users list; App user; No content; App user deleted; App user updated.
+Results: Session simulated; App user created; App users list; App user; App user deleted; App user updated.
 
 SDK operations: `create`, `list`, `load`, `remove`, `update`.
 
@@ -74,9 +74,9 @@ SDK operations: `create`, `list`, `load`, `remove`, `update`.
 
 ### CollectionRecord
 
-Results: Record created; Record list; Records; Record; Record updated.
+Results: Record created; Record list; Records; Record; No content; Record updated.
 
-SDK operations: `create`, `list`, `load`, `update`.
+SDK operations: `create`, `list`, `load`, `remove`, `update`.
 
 ### Custom
 
@@ -84,17 +84,11 @@ Results: Custom response.
 
 SDK operations: `create`, `load`, `patch`, `remove`, `update`.
 
-### Legacy
-
-Results: User created; Successful response; No content.
-
-SDK operations: `create`, `list`, `remove`.
-
 ### LegacyMutation
 
-Results: User updated.
+Results: User created; Successful response; User updated.
 
-SDK operations: `patch`, `update`.
+SDK operations: `create`, `list`, `patch`, `update`.
 
 ### LegacyUnknown
 
@@ -104,9 +98,9 @@ SDK operations: `list`, `load`.
 
 ### LegacyUser
 
-Results: Successful response.
+Results: Successful response; No content.
 
-SDK operations: `load`.
+SDK operations: `load`, `remove`.
 
 ### Login
 
@@ -128,8 +122,8 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 | --- | --- | --- | --- |
 | AgentHealth | `load` | `GET /agent/v1/health` | See reference |
 | AgentSandbox | `create` | `POST /agent/v1/auth/login` | See reference |
-| AgentSandbox | `load` | `GET /agent/v1/orders` | See reference |
 | AgentSandbox | `load` | `GET /agent/v1/scenarios/{scenario}` | See reference |
+| AgentSandbox | `load` | `GET /agent/v1/orders` | See reference |
 | AgentSandbox | `load` | `GET /agent/v1/scenarios` | See reference |
 | AgentUser | `list` | `GET /agent/v1/users` | See reference |
 | AgentUser | `load` | `GET /agent/v1/users/{id}` | See reference |
@@ -138,7 +132,6 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 | AppUser | `list` | `GET /api/projects/{projectId}/app-users` | Required |
 | AppUser | `list` | `GET /api/app-users` | Required |
 | AppUser | `load` | `GET /api/app-users/{id}` | Required |
-| AppUser | `remove` | `DELETE /app/collections/{slug}/records/{recordId}` | Required |
 | AppUser | `remove` | `DELETE /api/app-users/{id}` | Required |
 | AppUser | `update` | `PUT /api/app-users/{id}` | Required |
 | AppUserLogin | `create` | `POST /api/app-users/login` | Required |
@@ -152,7 +145,6 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 | Collection | `list` | `GET /app/collections` | Required |
 | Collection | `load` | `GET /api/collections/{slug}` | Required |
 | Collection | `load` | `GET /app/collections/{slug}` | Required |
-| Collection | `remove` | `DELETE /api/collections/{slug}/records/{recordId}` | Required |
 | Collection | `remove` | `DELETE /api/collections/{slug}` | Required |
 | Collection | `update` | `PUT /api/collections/{slug}` | Required |
 | CollectionRecord | `create` | `POST /api/collections/{slug}/records` | Required |
@@ -161,6 +153,8 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 | CollectionRecord | `list` | `GET /app/collections/{slug}/records` | Required |
 | CollectionRecord | `load` | `GET /api/collections/{slug}/records/{recordId}` | Required |
 | CollectionRecord | `load` | `GET /app/collections/{slug}/records/{recordId}` | Required |
+| CollectionRecord | `remove` | `DELETE /api/collections/{slug}/records/{recordId}` | Required |
+| CollectionRecord | `remove` | `DELETE /app/collections/{slug}/records/{recordId}` | Required |
 | CollectionRecord | `update` | `PUT /api/collections/{slug}/records/{recordId}` | Required |
 | CollectionRecord | `update` | `PUT /app/collections/{slug}/records/{recordId}` | Required |
 | Custom | `create` | `POST /api/custom/{path}` | Required |
@@ -168,14 +162,14 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 | Custom | `patch` | `PATCH /api/custom/{path}` | Required |
 | Custom | `remove` | `DELETE /api/custom/{path}` | Required |
 | Custom | `update` | `PUT /api/custom/{path}` | Required |
-| Legacy | `create` | `POST /api/users` | Required |
-| Legacy | `list` | `GET /api/users` | Required |
-| Legacy | `remove` | `DELETE /api/users/{id}` | Required |
+| LegacyMutation | `create` | `POST /api/users` | Required |
+| LegacyMutation | `list` | `GET /api/users` | Required |
 | LegacyMutation | `patch` | `PATCH /api/users/{id}` | Required |
 | LegacyMutation | `update` | `PUT /api/users/{id}` | Required |
 | LegacyUnknown | `list` | `GET /api/unknown` | Required |
 | LegacyUnknown | `load` | `GET /api/unknown/{id}` | Required |
 | LegacyUser | `load` | `GET /api/users/{id}` | Required |
+| LegacyUser | `remove` | `DELETE /api/users/{id}` | Required |
 | Login | `create` | `POST /api/login` | Required |
 | Register | `create` | `POST /api/register` | Required |
 
@@ -228,7 +222,7 @@ Use the MCP server to expose supported API operations to an MCP client.
 
 Repository directory: `go-mcp/`. Not published. Build from the go-mcp directory.
 
-- `hosted-rest_list`: List records for an entity. Supported entities: `agent_user`, `app_user`, `collection`, `collection_record`, `legacy`, `legacy_unknown`.
+- `hosted-rest_list`: List records for an entity. Supported entities: `agent_user`, `app_user`, `collection`, `collection_record`, `legacy_mutation`, `legacy_unknown`.
 - `hosted-rest_load`: Load one record for an entity. Supported entities: `agent_health`, `agent_sandbox`, `agent_user`, `app_user`, `app_user_session`, `app_user_total`, `collection`, `collection_record`, `custom`, `legacy_unknown`, `legacy_user`.
 
 ## Operational features

@@ -75,6 +75,9 @@ main: kit: entity: collection_record: {
       name: "create"
       points: [
         {
+          bf: [
+            "data"
+          ]
           co: {
             id: "POST /api/collections/{slug}/records"
             source: "openapi3"
@@ -105,8 +108,11 @@ main: kit: entity: collection_record: {
           q: {
             exist: [
               "slug"
-              "x_reqres_env"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -128,6 +134,9 @@ main: kit: entity: collection_record: {
           }
         }
         {
+          bf: [
+            "data"
+          ]
           co: {
             id: "POST /app/collections/{slug}/records"
             source: "openapi3"
@@ -150,6 +159,10 @@ main: kit: entity: collection_record: {
             exist: [
               "slug"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -263,17 +276,12 @@ main: kit: entity: collection_record: {
           o: "/api/collections/{slug}/records"
           q: {
             exist: [
-              "created_after"
-              "created_before"
-              "data_contain"
-              "include_deleted"
-              "limit"
-              "order"
-              "page"
-              "search"
               "slug"
-              "x_reqres_env"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -318,6 +326,10 @@ main: kit: entity: collection_record: {
               "slug"
             ]
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "app"
@@ -361,15 +373,15 @@ main: kit: entity: collection_record: {
             params: [
               {
                 k: "param"
-                n: "collection_id"
-                or: "slug"
+                n: "id"
+                or: "recordId"
                 r: true
                 t: "`$STRING`"
               }
               {
                 k: "param"
-                n: "id"
-                or: "recordId"
+                n: "slug"
+                or: "slug"
                 r: true
                 t: "`$STRING`"
               }
@@ -379,16 +391,18 @@ main: kit: entity: collection_record: {
           o: "/api/collections/{slug}/records/{recordId}"
           q: {
             exist: [
-              "collection_id"
               "id"
-              "x_reqres_env"
+              "slug"
             ]
           }
           r: {
             param: {
               recordId: "id"
-              slug: "collection_id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -398,7 +412,7 @@ main: kit: entity: collection_record: {
               lit: "collections"
             }
             {
-              var: "collection_id"
+              var: "slug"
             }
             {
               lit: "records"
@@ -422,15 +436,15 @@ main: kit: entity: collection_record: {
             params: [
               {
                 k: "param"
-                n: "collection_id"
-                or: "slug"
+                n: "id"
+                or: "recordId"
                 r: true
                 t: "`$STRING`"
               }
               {
                 k: "param"
-                n: "id"
-                or: "recordId"
+                n: "slug"
+                or: "slug"
                 r: true
                 t: "`$STRING`"
               }
@@ -440,15 +454,18 @@ main: kit: entity: collection_record: {
           o: "/app/collections/{slug}/records/{recordId}"
           q: {
             exist: [
-              "collection_id"
               "id"
+              "slug"
             ]
           }
           r: {
             param: {
               recordId: "id"
-              slug: "collection_id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -458,7 +475,7 @@ main: kit: entity: collection_record: {
               lit: "collections"
             }
             {
-              var: "collection_id"
+              var: "slug"
             }
             {
               lit: "records"
@@ -474,10 +491,145 @@ main: kit: entity: collection_record: {
         }
       ]
     }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          co: {
+            id: "DELETE /api/collections/{slug}/records/{recordId}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "x_reqres_env"
+                or: "X-Reqres-Env"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "recordId"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "param"
+                n: "slug"
+                or: "slug"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "DELETE"
+          o: "/api/collections/{slug}/records/{recordId}"
+          q: {
+            exist: [
+              "id"
+              "slug"
+            ]
+          }
+          r: {
+            param: {
+              recordId: "id"
+            }
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "collections"
+            }
+            {
+              var: "slug"
+            }
+            {
+              lit: "records"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "DELETE /app/collections/{slug}/records/{recordId}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "recordId"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "param"
+                n: "slug"
+                or: "slug"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "DELETE"
+          o: "/app/collections/{slug}/records/{recordId}"
+          q: {
+            exist: [
+              "id"
+              "slug"
+            ]
+          }
+          r: {
+            param: {
+              recordId: "id"
+            }
+          }
+          s: [
+            {
+              lit: "app"
+            }
+            {
+              lit: "collections"
+            }
+            {
+              var: "slug"
+            }
+            {
+              lit: "records"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
     update: {
       name: "update"
       points: [
         {
+          bf: [
+            "data"
+          ]
           co: {
             id: "PUT /api/collections/{slug}/records/{recordId}"
             source: "openapi3"
@@ -496,15 +648,15 @@ main: kit: entity: collection_record: {
             params: [
               {
                 k: "param"
-                n: "collection_id"
-                or: "slug"
+                n: "id"
+                or: "recordId"
                 r: true
                 t: "`$STRING`"
               }
               {
                 k: "param"
-                n: "id"
-                or: "recordId"
+                n: "slug"
+                or: "slug"
                 r: true
                 t: "`$STRING`"
               }
@@ -514,16 +666,18 @@ main: kit: entity: collection_record: {
           o: "/api/collections/{slug}/records/{recordId}"
           q: {
             exist: [
-              "collection_id"
               "id"
-              "x_reqres_env"
+              "slug"
             ]
           }
           r: {
             param: {
               recordId: "id"
-              slug: "collection_id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -533,7 +687,7 @@ main: kit: entity: collection_record: {
               lit: "collections"
             }
             {
-              var: "collection_id"
+              var: "slug"
             }
             {
               lit: "records"
@@ -548,6 +702,9 @@ main: kit: entity: collection_record: {
           }
         }
         {
+          bf: [
+            "data"
+          ]
           co: {
             id: "PUT /app/collections/{slug}/records/{recordId}"
             source: "openapi3"
@@ -557,15 +714,15 @@ main: kit: entity: collection_record: {
             params: [
               {
                 k: "param"
-                n: "collection_id"
-                or: "slug"
+                n: "id"
+                or: "recordId"
                 r: true
                 t: "`$STRING`"
               }
               {
                 k: "param"
-                n: "id"
-                or: "recordId"
+                n: "slug"
+                or: "slug"
                 r: true
                 t: "`$STRING`"
               }
@@ -575,15 +732,18 @@ main: kit: entity: collection_record: {
           o: "/app/collections/{slug}/records/{recordId}"
           q: {
             exist: [
-              "collection_id"
               "id"
+              "slug"
             ]
           }
           r: {
             param: {
               recordId: "id"
-              slug: "collection_id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -593,7 +753,7 @@ main: kit: entity: collection_record: {
               lit: "collections"
             }
             {
-              var: "collection_id"
+              var: "slug"
             }
             {
               lit: "records"

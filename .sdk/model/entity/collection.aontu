@@ -90,6 +90,13 @@ main: kit: entity: collection: {
       name: "create"
       points: [
         {
+          bf: [
+            "name"
+            "project_id"
+            "schema"
+            "slug"
+            "visibility"
+          ]
           co: {
             id: "POST /api/collections"
             source: "openapi3"
@@ -108,10 +115,9 @@ main: kit: entity: collection: {
           }
           m: "POST"
           o: "/api/collections"
-          q: {
-            exist: [
-              "x_reqres_env"
-            ]
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -150,10 +156,9 @@ main: kit: entity: collection: {
           }
           m: "GET"
           o: "/api/collections"
-          q: {
-            exist: [
-              "x_reqres_env"
-            ]
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -176,6 +181,10 @@ main: kit: entity: collection: {
           }
           m: "GET"
           o: "/app/collections"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "app"
@@ -225,13 +234,16 @@ main: kit: entity: collection: {
           q: {
             exist: [
               "id"
-              "x_reqres_env"
             ]
           }
           r: {
             param: {
               slug: "id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -278,6 +290,10 @@ main: kit: entity: collection: {
               slug: "id"
             }
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "app"
@@ -299,76 +315,6 @@ main: kit: entity: collection: {
     remove: {
       name: "remove"
       points: [
-        {
-          co: {
-            id: "DELETE /api/collections/{slug}/records/{recordId}"
-            source: "openapi3"
-            version: 2
-          }
-          g: {
-            header: [
-              {
-                k: "header"
-                n: "x_reqres_env"
-                or: "X-Reqres-Env"
-                r: false
-                t: "`$STRING`"
-              }
-            ]
-            params: [
-              {
-                k: "param"
-                n: "collection_id"
-                or: "slug"
-                r: true
-                t: "`$STRING`"
-              }
-              {
-                k: "param"
-                n: "record_id"
-                or: "recordId"
-                r: true
-                t: "`$STRING`"
-              }
-            ]
-          }
-          m: "DELETE"
-          o: "/api/collections/{slug}/records/{recordId}"
-          q: {
-            exist: [
-              "collection_id"
-              "record_id"
-              "x_reqres_env"
-            ]
-          }
-          r: {
-            param: {
-              recordId: "record_id"
-              slug: "collection_id"
-            }
-          }
-          s: [
-            {
-              lit: "api"
-            }
-            {
-              lit: "collections"
-            }
-            {
-              var: "collection_id"
-            }
-            {
-              lit: "records"
-            }
-            {
-              var: "record_id"
-            }
-          ]
-          t: {
-            req: "`reqdata`"
-            res: "`body`"
-          }
-        }
         {
           co: {
             id: "DELETE /api/collections/{slug}"
@@ -400,7 +346,6 @@ main: kit: entity: collection: {
           q: {
             exist: [
               "id"
-              "x_reqres_env"
             ]
           }
           r: {
@@ -430,6 +375,12 @@ main: kit: entity: collection: {
       name: "update"
       points: [
         {
+          bf: [
+            "name"
+            "schema"
+            "slug"
+            "visibility"
+          ]
           co: {
             id: "PUT /api/collections/{slug}"
             source: "openapi3"
@@ -460,13 +411,16 @@ main: kit: entity: collection: {
           q: {
             exist: [
               "id"
-              "x_reqres_env"
             ]
           }
           r: {
             param: {
               slug: "id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

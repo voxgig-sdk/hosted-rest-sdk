@@ -74,20 +74,14 @@ type AppUserListMatch struct {
 
 // AppUserCreateData is the typed request payload for AppUser.CreateTyped.
 type AppUserCreateData struct {
-	CreatedAt *string `json:"created_at,omitempty"`
 	Email string `json:"email"`
-	Id string `json:"id"`
-	LastLoginAt *string `json:"last_login_at,omitempty"`
 	Metadata *map[string]any `json:"metadata,omitempty"`
-	Status *string `json:"status,omitempty"`
 }
 
 // AppUserUpdateData is the typed request payload for AppUser.UpdateTyped.
 type AppUserUpdateData struct {
 	Id string `json:"id"`
-	CreatedAt *string `json:"created_at,omitempty"`
 	Email *string `json:"email,omitempty"`
-	LastLoginAt *string `json:"last_login_at,omitempty"`
 	Metadata *map[string]any `json:"metadata,omitempty"`
 	Status *string `json:"status,omitempty"`
 }
@@ -166,27 +160,19 @@ type CollectionListMatch struct {
 
 // CollectionCreateData is the typed request payload for Collection.CreateTyped.
 type CollectionCreateData struct {
-	CreatedAt *string `json:"created_at,omitempty"`
-	Id string `json:"id"`
 	Name string `json:"name"`
 	ProjectId *string `json:"project_id,omitempty"`
 	Schema *map[string]any `json:"schema,omitempty"`
-	Slug string `json:"slug"`
-	UpdatedAt *string `json:"updated_at,omitempty"`
-	UserId *string `json:"user_id,omitempty"`
+	Slug *string `json:"slug,omitempty"`
 	Visibility *string `json:"visibility,omitempty"`
 }
 
 // CollectionUpdateData is the typed request payload for Collection.UpdateTyped.
 type CollectionUpdateData struct {
 	Id string `json:"id"`
-	CreatedAt *string `json:"created_at,omitempty"`
 	Name *string `json:"name,omitempty"`
-	ProjectId *string `json:"project_id,omitempty"`
 	Schema *map[string]any `json:"schema,omitempty"`
 	Slug *string `json:"slug,omitempty"`
-	UpdatedAt *string `json:"updated_at,omitempty"`
-	UserId *string `json:"user_id,omitempty"`
 	Visibility *string `json:"visibility,omitempty"`
 }
 
@@ -201,8 +187,8 @@ type CollectionRecord struct {
 
 // CollectionRecordLoadMatch is the typed request payload for CollectionRecord.LoadTyped.
 type CollectionRecordLoadMatch struct {
-	CollectionId string `json:"collection_id"`
 	Id string `json:"id"`
+	Slug string `json:"slug"`
 }
 
 // CollectionRecordListMatch is the typed request payload for CollectionRecord.ListTyped.
@@ -221,28 +207,20 @@ type CollectionRecordListMatch struct {
 // CollectionRecordCreateData is the typed request payload for CollectionRecord.CreateTyped.
 type CollectionRecordCreateData struct {
 	Slug string `json:"slug"`
-	AppUserId *string `json:"app_user_id,omitempty"`
-	CollectionId *string `json:"collection_id,omitempty"`
-	CreatedAt *string `json:"created_at,omitempty"`
-	CreatedBy *string `json:"created_by,omitempty"`
 	Data map[string]any `json:"data"`
-	DeletedAt *string `json:"deleted_at,omitempty"`
-	Id string `json:"id"`
-	ProjectId *string `json:"project_id,omitempty"`
-	UpdatedAt *string `json:"updated_at,omitempty"`
 }
 
 // CollectionRecordUpdateData is the typed request payload for CollectionRecord.UpdateTyped.
 type CollectionRecordUpdateData struct {
-	CollectionId string `json:"collection_id"`
 	Id string `json:"id"`
-	AppUserId *string `json:"app_user_id,omitempty"`
-	CreatedAt *string `json:"created_at,omitempty"`
-	CreatedBy *string `json:"created_by,omitempty"`
+	Slug string `json:"slug"`
 	Data *map[string]any `json:"data,omitempty"`
-	DeletedAt *string `json:"deleted_at,omitempty"`
-	ProjectId *string `json:"project_id,omitempty"`
-	UpdatedAt *string `json:"updated_at,omitempty"`
+}
+
+// CollectionRecordRemoveMatch is the typed request payload for CollectionRecord.RemoveTyped.
+type CollectionRecordRemoveMatch struct {
+	Id string `json:"id"`
+	Slug string `json:"slug"`
 }
 
 // Custom is the typed data model for the custom entity.
@@ -264,44 +242,38 @@ type CustomUpdateData struct {
 	Id string `json:"id"`
 }
 
-// CustomRemoveMatch is the typed request payload for Custom.RemoveTyped.
-type CustomRemoveMatch struct {
+// CustomPatchData is the typed request payload for Custom.PatchTyped.
+type CustomPatchData struct {
 	Id string `json:"id"`
 }
 
-// Legacy is the typed data model for the legacy entity.
-type Legacy struct {
-}
-
-// LegacyListMatch is the typed request payload for Legacy.ListTyped.
-type LegacyListMatch struct {
-	Page *int `json:"page,omitempty"`
-	PerPage *int `json:"per_page,omitempty"`
-}
-
-// LegacyCreateData is the typed request payload for Legacy.CreateTyped.
-type LegacyCreateData struct {
-	Avatar string `json:"avatar"`
-	Email string `json:"email"`
-	FirstName string `json:"first_name"`
-	Id int `json:"id"`
-	LastName string `json:"last_name"`
-}
-
-// LegacyRemoveMatch is the typed request payload for Legacy.RemoveTyped.
-type LegacyRemoveMatch struct {
-	Id int `json:"id"`
+// CustomRemoveMatch is the typed request payload for Custom.RemoveTyped.
+type CustomRemoveMatch struct {
+	Id string `json:"id"`
 }
 
 // LegacyMutation is the typed data model for the legacy_mutation entity.
 type LegacyMutation struct {
 }
 
+// LegacyMutationListMatch is the typed request payload for LegacyMutation.ListTyped.
+type LegacyMutationListMatch struct {
+	Page *int `json:"page,omitempty"`
+	PerPage *int `json:"per_page,omitempty"`
+}
+
+// LegacyMutationCreateData is the typed request payload for LegacyMutation.CreateTyped.
+type LegacyMutationCreateData struct {
+}
+
 // LegacyMutationUpdateData is the typed request payload for LegacyMutation.UpdateTyped.
 type LegacyMutationUpdateData struct {
 	Id int `json:"id"`
-	CreatedAt *string `json:"createdAt,omitempty"`
-	UpdatedAt *string `json:"updatedAt,omitempty"`
+}
+
+// LegacyMutationPatchData is the typed request payload for LegacyMutation.PatchTyped.
+type LegacyMutationPatchData struct {
+	Id int `json:"id"`
 }
 
 // LegacyUnknown is the typed data model for the legacy_unknown entity.
@@ -328,6 +300,11 @@ type LegacyUserLoadMatch struct {
 	Id int `json:"id"`
 }
 
+// LegacyUserRemoveMatch is the typed request payload for LegacyUser.RemoveTyped.
+type LegacyUserRemoveMatch struct {
+	Id int `json:"id"`
+}
+
 // Login is the typed data model for the login entity.
 type Login struct {
 }
@@ -336,7 +313,6 @@ type Login struct {
 type LoginCreateData struct {
 	Email string `json:"email"`
 	Password string `json:"password"`
-	Token string `json:"token"`
 }
 
 // Register is the typed data model for the register entity.
@@ -346,9 +322,7 @@ type Register struct {
 // RegisterCreateData is the typed request payload for Register.CreateTyped.
 type RegisterCreateData struct {
 	Email string `json:"email"`
-	Id *int `json:"id,omitempty"`
 	Password string `json:"password"`
-	Token string `json:"token"`
 }
 
 // asMap turns a typed request/data struct into the map[string]any the

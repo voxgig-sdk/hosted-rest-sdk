@@ -109,21 +109,15 @@ class AppUserListMatch
 /** Request payload for AppUser#create. */
 class AppUserCreateData
 {
-    public ?string $created_at = null;
     public string $email;
-    public string $id;
-    public ?string $last_login_at = null;
     public ?array $metadata = null;
-    public ?string $status = null;
 }
 
 /** Request payload for AppUser#update. */
 class AppUserUpdateData
 {
     public string $id;
-    public ?string $created_at = null;
     public ?string $email = null;
-    public ?string $last_login_at = null;
     public ?array $metadata = null;
     public ?string $status = null;
 }
@@ -231,14 +225,10 @@ class CollectionListMatch
 /** Request payload for Collection#create. */
 class CollectionCreateData
 {
-    public ?string $created_at = null;
-    public string $id;
     public string $name;
     public ?string $project_id = null;
     public ?array $schema = null;
-    public string $slug;
-    public ?string $updated_at = null;
-    public ?string $user_id = null;
+    public ?string $slug = null;
     public ?string $visibility = null;
 }
 
@@ -246,13 +236,9 @@ class CollectionCreateData
 class CollectionUpdateData
 {
     public string $id;
-    public ?string $created_at = null;
     public ?string $name = null;
-    public ?string $project_id = null;
     public ?array $schema = null;
     public ?string $slug = null;
-    public ?string $updated_at = null;
-    public ?string $user_id = null;
     public ?string $visibility = null;
 }
 
@@ -279,8 +265,8 @@ class CollectionRecord
 /** Request payload for CollectionRecord#load. */
 class CollectionRecordLoadMatch
 {
-    public string $collection_id;
     public string $id;
+    public string $slug;
 }
 
 /** Request payload for CollectionRecord#list. */
@@ -301,29 +287,22 @@ class CollectionRecordListMatch
 class CollectionRecordCreateData
 {
     public string $slug;
-    public ?string $app_user_id = null;
-    public ?string $collection_id = null;
-    public ?string $created_at = null;
-    public ?string $created_by = null;
     public array $data;
-    public ?string $deleted_at = null;
-    public string $id;
-    public ?string $project_id = null;
-    public ?string $updated_at = null;
 }
 
 /** Request payload for CollectionRecord#update. */
 class CollectionRecordUpdateData
 {
-    public string $collection_id;
     public string $id;
-    public ?string $app_user_id = null;
-    public ?string $created_at = null;
-    public ?string $created_by = null;
+    public string $slug;
     public ?array $data = null;
-    public ?string $deleted_at = null;
-    public ?string $project_id = null;
-    public ?string $updated_at = null;
+}
+
+/** Request payload for CollectionRecord#remove. */
+class CollectionRecordRemoveMatch
+{
+    public string $id;
+    public string $slug;
 }
 
 /** Custom entity data model. */
@@ -350,59 +329,52 @@ class CustomUpdateData
     public string $id;
 }
 
+/** Request payload for Custom#patch. */
+class CustomPatchData
+{
+    public string $id;
+}
+
 /** Request payload for Custom#remove. */
 class CustomRemoveMatch
 {
     public string $id;
 }
 
-/** Legacy entity data model. */
-class Legacy
+/** LegacyMutation entity data model. */
+class LegacyMutation
 {
     public string $avatar;
+    public ?string $createdAt = null;
     public string $email;
     public string $first_name;
-    public int $id;
+    public ?string $id = null;
     public string $last_name;
+    public ?string $updatedAt = null;
 }
 
-/** Request payload for Legacy#list. */
-class LegacyListMatch
+/** Request payload for LegacyMutation#list. */
+class LegacyMutationListMatch
 {
     public ?int $page = null;
     public ?int $per_page = null;
 }
 
-/** Request payload for Legacy#create. */
-class LegacyCreateData
+/** Request payload for LegacyMutation#create. */
+class LegacyMutationCreateData
 {
-    public string $avatar;
-    public string $email;
-    public string $first_name;
-    public int $id;
-    public string $last_name;
-}
-
-/** Request payload for Legacy#remove. */
-class LegacyRemoveMatch
-{
-    public int $id;
-}
-
-/** LegacyMutation entity data model. */
-class LegacyMutation
-{
-    public ?string $createdAt = null;
-    public ?string $id = null;
-    public ?string $updatedAt = null;
 }
 
 /** Request payload for LegacyMutation#update. */
 class LegacyMutationUpdateData
 {
     public int $id;
-    public ?string $createdAt = null;
-    public ?string $updatedAt = null;
+}
+
+/** Request payload for LegacyMutation#patch. */
+class LegacyMutationPatchData
+{
+    public int $id;
 }
 
 /** LegacyUnknown entity data model. */
@@ -444,6 +416,12 @@ class LegacyUserLoadMatch
     public int $id;
 }
 
+/** Request payload for LegacyUser#remove. */
+class LegacyUserRemoveMatch
+{
+    public int $id;
+}
+
 /** Login entity data model. */
 class Login
 {
@@ -457,7 +435,6 @@ class LoginCreateData
 {
     public string $email;
     public string $password;
-    public string $token;
 }
 
 /** Register entity data model. */
@@ -473,8 +450,6 @@ class Register
 class RegisterCreateData
 {
     public string $email;
-    public ?int $id = null;
     public string $password;
-    public string $token;
 }
 

@@ -15,6 +15,17 @@ main: {
         url: "https://opensource.org/licenses/MIT"
       }
       security: {
+        alternatives: [
+          [
+            {
+              in: "header"
+              name: "Authorization"
+              prefix: "Bearer"
+              scheme: "BearerAuth"
+              type: "http"
+            }
+          ]
+        ]
         in: "header"
         name: "x-api-key"
         prefix: ""

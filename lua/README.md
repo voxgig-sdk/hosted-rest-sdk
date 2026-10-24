@@ -4,7 +4,7 @@
 
 The Lua SDK for the HostedRest API — an entity-oriented client using Lua conventions.
 
-It exposes the API as capitalised, semantic **Entities** — e.g. `client:AgentHealth()` — each with the same small set of operations (`list`, `load`, `create`, `update`, `remove`, `patch`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
+It exposes the API as capitalised, semantic **Entities** — e.g. `client:AgentHealth()` — each with the same small set of operations (`list`, `load`, `create`, `update`, `patch`, `remove`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
 
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
@@ -12,7 +12,7 @@ It exposes the API as capitalised, semantic **Entities** — e.g. `client:AgentH
 
 ## Install
 This package is not yet published to LuaRocks. Install it from the
-GitHub release tag (`lua/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/hosted-rest-sdk/releases)),
+GitHub release tag (`lua/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/hosted-rest-sdk/tags)),
 or add the source directory to your `LUA_PATH`:
 
 ```bash
@@ -23,7 +23,7 @@ export LUA_PATH="path/to/lua/?.lua;path/to/lua/?/init.lua;;"
 ## Tutorial: your first API call
 
 This tutorial walks through creating a client, listing entities, and
-loading a specific record.
+loading a specific record. The client sends the API key in the `x-api-key` header.
 
 ### 1. Create a client
 
@@ -37,12 +37,15 @@ local client = sdk.new({
 
 ### 3. Load a collectionrecord
 
-CollectionRecord is nested under collection, so provide the `collection_id`.
+CollectionRecord is nested under slug, so provide the `slug`.
+
+`load` returns the entity; `data_get()` reads its record.
 
 ```lua
-local collectionrecord, err = client:CollectionRecord():load({ collection_id = "example_collection_id", id = "example_id" })
+local collectionrecord, err = client:CollectionRecord():load({ slug = "example_slug", id = "example_id" })
 if err then error(err) end
-print(collectionrecord)
+local rec = collectionrecord:data_get()
+print(rec["id"])
 ```
 
 
@@ -111,7 +114,7 @@ Create a mock client for unit testing — no server required:
 local client = sdk.test()
 
 local result, err = client:AgentHealth():load()
--- result is the returned data; err is set on failure
+-- result is the entity; data_get() reads its mock record; err is set on failure
 ```
 
 ### Use a custom fetch function
@@ -203,7 +206,6 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `Collection` | `(data) -> CollectionEntity` | Create a Collection entity instance. |
 | `CollectionRecord` | `(data) -> CollectionRecordEntity` | Create a CollectionRecord entity instance. |
 | `Custom` | `(data) -> CustomEntity` | Create a Custom entity instance. |
-| `Legacy` | `(data) -> LegacyEntity` | Create a Legacy entity instance. |
 | `LegacyMutation` | `(data) -> LegacyMutationEntity` | Create a LegacyMutation entity instance. |
 | `LegacyUnknown` | `(data) -> LegacyUnknownEntity` | Create a LegacyUnknown entity instance. |
 | `LegacyUser` | `(data) -> LegacyUserEntity` | Create a LegacyUser entity instance. |
@@ -216,11 +218,12 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> any, err` | Load a single entity by match criteria. |
-| `list` | `(reqmatch, ctrl) -> any, err` | List entities matching the criteria. |
-| `create` | `(reqdata, ctrl) -> any, err` | Create a new entity. |
-| `update` | `(reqdata, ctrl) -> any, err` | Update an existing entity. |
-| `remove` | `(reqmatch, ctrl) -> any, err` | Remove an entity. |
+| `load` | `(reqmatch, ctrl) -> any, err` | Load a single entity by match criteria, and return it. |
+| `list` | `(reqmatch, ctrl) -> any, err` | List entities matching the criteria, one per record. |
+| `create` | `(reqdata, ctrl) -> any, err` | Create a new entity, and return it. |
+| `update` | `(reqdata, ctrl) -> any, err` | Update an existing entity, and return it. |
+| `patch` | `(reqdata, ctrl) -> any, err` | Change part of an existing entity, and return it. |
+| `remove` | `(reqmatch, ctrl) -> any, err` | Remove an entity, and return it marked as deleted. |
 | `data_get` | `() -> table` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> table` | Get entity match criteria. |
@@ -230,19 +233,19 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return `(value, err)`. The `value` is the operation's
-data **directly** — there is no wrapper:
+Entity operations return `(value, err)`. The `value` is the entity
+itself — there is no wrapper:
 
 | Operation | `value` |
 | --- | --- |
-| `load` / `create` / `update` / `remove` | the entity record (a `table`) |
-| `list` | an array (`table`) of entity records |
+| `load` / `create` / `update` / `patch` / `remove` | the entity, whose `data_get()` reads its record (a `table`) |
+| `list` | an array (`table`) of entities, one per record |
 
 Check `err` first (it is non-`nil` on failure), then use `value`:
 
     local agent_health, err = client:AgentHealth():load()
     if err then error(err) end
-    -- agent_health is the loaded record
+    -- agent_health is the loaded entity
 
 Only `direct()` returns a response envelope — a `table` with `ok`,
 `status`, `headers`, and `data` keys.
@@ -390,7 +393,7 @@ API path: `/api/collections`
 | `project_id` |  |
 | `updated_at` |  |
 
-Operations: Create, List, Load, Update.
+Operations: Create, List, Load, Remove, Update.
 
 API path: `/api/collections/{slug}/records`
 
@@ -404,31 +407,21 @@ Operations: Create, Load, Patch, Remove, Update.
 
 API path: `/api/custom/{path}`
 
-#### Legacy
-
-| Field | Description |
-| --- | --- |
-| `avatar` |  |
-| `email` |  |
-| `first_name` |  |
-| `id` |  |
-| `last_name` |  |
-
-Operations: Create, List, Remove.
-
-API path: `/api/users`
-
 #### LegacyMutation
 
 | Field | Description |
 | --- | --- |
+| `avatar` |  |
 | `createdAt` |  |
+| `email` |  |
+| `first_name` |  |
 | `id` |  |
+| `last_name` |  |
 | `updatedAt` |  |
 
-Operations: Patch, Update.
+Operations: Create, List, Patch, Update.
 
-API path: `/api/users/{id}`
+API path: `/api/users`
 
 #### LegacyUnknown
 
@@ -454,7 +447,7 @@ API path: `/api/unknown`
 | `id` |  |
 | `support` |  |
 
-Operations: Load.
+Operations: Load, Remove.
 
 API path: `/api/users/{id}`
 
@@ -630,7 +623,6 @@ local app_users, err = client:AppUser():list()
 ```lua
 local app_user, err = client:AppUser():create({
   email = "example_email", -- string
-  id = "example_id", -- string
 })
 ```
 
@@ -789,9 +781,7 @@ local collections, err = client:Collection():list()
 
 ```lua
 local collection, err = client:Collection():create({
-  id = "example_id", -- string
   name = "example_name", -- string
-  slug = "example_slug", -- string
 })
 ```
 
@@ -807,6 +797,7 @@ Create an instance: `local collection_record = client:CollectionRecord(nil)`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
 #### Fields
@@ -826,13 +817,13 @@ Create an instance: `local collection_record = client:CollectionRecord(nil)`
 #### Example: Load
 
 ```lua
-local collection_record, err = client:CollectionRecord():load({ id = "collection_record_id", collection_id = "collection_id" })
+local collection_record, err = client:CollectionRecord():load({ id = "collection_record_id", slug = "slug" })
 ```
 
 #### Example: List
 
 ```lua
-local collection_records, err = client:CollectionRecord():list()
+local collection_records, err = client:CollectionRecord():list({ slug = "example" })
 ```
 
 #### Example: Create
@@ -841,7 +832,6 @@ local collection_records, err = client:CollectionRecord():list()
 local collection_record, err = client:CollectionRecord():create({
   slug = "example_slug", -- string
   data = {}, -- table
-  id = "example_id", -- string
 })
 ```
 
@@ -856,6 +846,7 @@ Create an instance: `local custom = client:Custom(nil)`
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -880,47 +871,6 @@ local custom, err = client:Custom():create({
 ```
 
 
-### Legacy
-
-Create an instance: `local legacy = client:Legacy(nil)`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-| `list(match)` | List entities matching the criteria. |
-| `remove(match)` | Remove the matching entity. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `avatar` | `string` |  |
-| `email` | `string` |  |
-| `first_name` | `string` |  |
-| `id` | `number` |  |
-| `last_name` | `string` |  |
-
-#### Example: List
-
-```lua
-local legacys, err = client:Legacy():list()
-```
-
-#### Example: Create
-
-```lua
-local legacy, err = client:Legacy():create({
-  avatar = "example_avatar", -- string
-  email = "example_email", -- string
-  first_name = "example_first_name", -- string
-  id = 1, -- number
-  last_name = "example_last_name", -- string
-})
-```
-
-
 ### LegacyMutation
 
 Create an instance: `local legacy_mutation = client:LegacyMutation(nil)`
@@ -929,15 +879,35 @@ Create an instance: `local legacy_mutation = client:LegacyMutation(nil)`
 
 | Method | Description |
 | --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `list(match)` | List entities matching the criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `update(data)` | Update an existing entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `avatar` | `string` |  |
 | `createdAt` | `string` |  |
+| `email` | `string` |  |
+| `first_name` | `string` |  |
 | `id` | `string` |  |
+| `last_name` | `string` |  |
 | `updatedAt` | `string` |  |
+
+#### Example: List
+
+```lua
+local legacy_mutations, err = client:LegacyMutation():list()
+```
+
+#### Example: Create
+
+```lua
+local legacy_mutation, err = client:LegacyMutation():create({
+})
+```
 
 
 ### LegacyUnknown
@@ -985,6 +955,7 @@ Create an instance: `local legacy_user = client:LegacyUser(nil)`
 | Method | Description |
 | --- | --- |
 | `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
 
 #### Fields
 
@@ -1025,7 +996,6 @@ Create an instance: `local login = client:Login(nil)`
 local login, err = client:Login():create({
   email = "example_email", -- string
   password = "example_password", -- string
-  token = "example_token", -- string
 })
 ```
 
@@ -1055,7 +1025,6 @@ Create an instance: `local register = client:Register(nil)`
 local register, err = client:Register():create({
   email = "example_email", -- string
   password = "example_password", -- string
-  token = "example_token", -- string
 })
 ```
 

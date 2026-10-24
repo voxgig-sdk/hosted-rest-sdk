@@ -43,6 +43,10 @@ main: kit: entity: register: {
       name: "create"
       points: [
         {
+          bf: [
+            "email"
+            "password"
+          ]
           co: {
             id: "POST /api/register"
             source: "openapi3"
@@ -50,6 +54,10 @@ main: kit: entity: register: {
           }
           m: "POST"
           o: "/api/register"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "api"

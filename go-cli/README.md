@@ -21,6 +21,7 @@ export HOSTED_REST_APIKEY=sk_live_xxx
 # 4. Each command line is ONE boru expression, run against the API:
 ./hosted-rest-cli load 1 agent_health            # {id:1} shorthand
 ./hosted-rest-cli load '{id:1}' agent_health       # explicit match map
+./hosted-rest-cli list agent_user
 
 # 5. Override the API base URL for a single call
 HOSTED_REST_BASE=https://api.example.com ./hosted-rest-cli load 1 agent_health
@@ -107,7 +108,7 @@ make build-all   # linux/darwin/windows x amd64/arm64, under dist/<os>-<arch>/
 ### Discover the available entities
 
 `/help` in the REPL prints the full entity list, or see [Entities](#entities)
-below — this SDK exposes 18 entities.
+below — this SDK exposes 17 entities.
 
 ## Reference
 
@@ -162,9 +163,9 @@ Meta-commands use the `/` prefix (everything else on a line is evaluated as boru
 
 ### Entities
 
-The 18 entities this SDK exposes (any is valid as `<entity>`):
+The 17 entities this SDK exposes (any is valid as `<entity>`):
 
-agent_health agent_sandbox agent_user app_user app_user_login app_user_session app_user_total app_user_verify authentication collection collection_record custom legacy legacy_mutation legacy_unknown legacy_user login register
+agent_health agent_sandbox agent_user app_user app_user_login app_user_session app_user_total app_user_verify authentication collection collection_record custom legacy_mutation legacy_unknown legacy_user login register
 
 ## Explanation
 

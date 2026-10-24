@@ -10,7 +10,6 @@ import { AuthenticationEntity } from './entity/AuthenticationEntity';
 import { CollectionEntity } from './entity/CollectionEntity';
 import { CollectionRecordEntity } from './entity/CollectionRecordEntity';
 import { CustomEntity } from './entity/CustomEntity';
-import { LegacyEntity } from './entity/LegacyEntity';
 import { LegacyMutationEntity } from './entity/LegacyMutationEntity';
 import { LegacyUnknownEntity } from './entity/LegacyUnknownEntity';
 import { LegacyUserEntity } from './entity/LegacyUserEntity';
@@ -24,6 +23,19 @@ import { HostedRestEntityBase } from './HostedRestEntityBase';
 import { Utility } from './utility/Utility';
 import { BaseFeature } from './feature/base/BaseFeature';
 declare const stdutil: Utility;
+type DirectResult = {
+    ok: false;
+    err: any;
+    status?: undefined;
+    headers?: undefined;
+    data?: undefined;
+} | {
+    ok: boolean;
+    status: number;
+    headers: any;
+    data: any;
+    err?: any;
+};
 declare class HostedRestSDK {
     _mode: string;
     _options: any;
@@ -34,32 +46,8 @@ declare class HostedRestSDK {
     options(): any;
     utility(): any;
     prepare(fetchargs?: any): Promise<any>;
-    direct(fetchargs?: any): Promise<Error | {
-        ok: boolean;
-        err: any;
-        status?: undefined;
-        headers?: undefined;
-        data?: undefined;
-    } | {
-        ok: boolean;
-        status: number;
-        headers: any;
-        data: any;
-        err?: undefined;
-    }>;
-    _rawRequest(fetchargs?: any): Promise<Error | {
-        ok: boolean;
-        err: any;
-        status?: undefined;
-        headers?: undefined;
-        data?: undefined;
-    } | {
-        ok: boolean;
-        status: number;
-        headers: any;
-        data: any;
-        err?: undefined;
-    }>;
+    direct(fetchargs?: any): Promise<DirectResult>;
+    _rawRequest(fetchargs?: any): Promise<DirectResult>;
     graphql(query: string, variables?: any, ctrl?: any): Promise<any>;
     AgentHealth(entopts?: Record<string, any>): AgentHealthEntity;
     AgentSandbox(entopts?: Record<string, any>): AgentSandboxEntity;
@@ -73,7 +61,6 @@ declare class HostedRestSDK {
     Collection(entopts?: Record<string, any>): CollectionEntity;
     CollectionRecord(entopts?: Record<string, any>): CollectionRecordEntity;
     Custom(entopts?: Record<string, any>): CustomEntity;
-    Legacy(entopts?: Record<string, any>): LegacyEntity;
     LegacyMutation(entopts?: Record<string, any>): LegacyMutationEntity;
     LegacyUnknown(entopts?: Record<string, any>): LegacyUnknownEntity;
     LegacyUser(entopts?: Record<string, any>): LegacyUserEntity;
@@ -89,3 +76,4 @@ declare class HostedRestSDK {
 }
 declare const SDK: typeof HostedRestSDK;
 export { stdutil, config, BaseFeature, HostedRestEntityBase, HostedRestSDK, SDK, };
+export type { DirectResult };

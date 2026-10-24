@@ -5,7 +5,7 @@
 The TypeScript SDK for the HostedRest API — a type-safe, entity-oriented client with full async/await support.
 
 The API is exposed as capitalised, semantic **Entities** — e.g.
-`client.AgentHealth()` — each with a small set of operations (`list`, `load`, `create`, `update`, `remove`, `patch`)
+`client.AgentHealth()` — each with a small set of operations (`list`, `load`, `create`, `update`, `patch`, `remove`)
 instead of raw URL paths and query parameters. This keeps the surface
 predictable and low-friction for both humans and AI agents.
 
@@ -15,7 +15,7 @@ predictable and low-friction for both humans and AI agents.
 
 ## Install
 This package is not yet published to npm. Install it from the GitHub
-release tag (`ts/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/hosted-rest-sdk/releases)), or from a
+release tag (`ts/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/hosted-rest-sdk/tags)), or from a
 clone, which carries the compiled `dist/`:
 
 ```bash
@@ -27,7 +27,7 @@ npm install ./hosted-rest-sdk/ts
 ## Tutorial: your first API call
 
 This tutorial walks through creating a client, listing entities, and
-loading a specific record.
+loading a specific record. The client sends the API key in the `x-api-key` header.
 
 ### 1. Create a client
 
@@ -41,16 +41,16 @@ const client = new HostedRestSDK({
 
 ### 3. Load a collectionrecord
 
-CollectionRecord is nested under collection, so provide the `collection_id`.
-`load()` returns the entity directly and throws on failure:
+CollectionRecord is nested under slug, so provide the `slug`.
+`load()` returns the entity and throws on failure; `.data()` reads its record:
 
 ```ts
 try {
   const collectionrecord = await client.CollectionRecord().load({
-    collection_id: 'example_collection_id',
+    slug: 'example_slug',
     id: 'example_id',
   })
-  console.log(collectionrecord)
+  console.log(collectionrecord.data())
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -64,14 +64,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const agenthealth = await client.AgentHealth().load()
-  console.log(agenthealth)
+  console.log(agenthealth.data())
 } catch (err) {
   console.error('load failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -80,8 +81,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -99,9 +100,6 @@ const result = await client.direct({
   params: { id: 'example' },
 })
 
-if (result instanceof Error) {
-  throw result
-}
 if (result.ok) {
   console.log(result.status)  // 200
   console.log(result.data)    // response body
@@ -131,9 +129,8 @@ Create a mock client for unit testing — no server required:
 const client = HostedRestSDK.test()
 
 const agenthealth = await client.AgentHealth().load()
-// agenthealth is the entity, populated with mock response data
-// — call agenthealth.data() for the record itself
-console.log(agenthealth)
+// agenthealth is the AgentHealth entity; .data() reads its mock record
+console.log(agenthealth.data())
 ```
 
 You can also use the instance method:
@@ -247,7 +244,6 @@ new HostedRestSDK(options?: {
 | `Collection(data?)` | `CollectionEntity` | Create a Collection entity instance. |
 | `CollectionRecord(data?)` | `CollectionRecordEntity` | Create a CollectionRecord entity instance. |
 | `Custom(data?)` | `CustomEntity` | Create a Custom entity instance. |
-| `Legacy(data?)` | `LegacyEntity` | Create a Legacy entity instance. |
 | `LegacyMutation(data?)` | `LegacyMutationEntity` | Create a LegacyMutation entity instance. |
 | `LegacyUnknown(data?)` | `LegacyUnknownEntity` | Create a LegacyUnknown entity instance. |
 | `LegacyUser(data?)` | `LegacyUserEntity` | Create a LegacyUser entity instance. |
@@ -269,11 +265,12 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria. |
-| `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria. |
-| `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity. |
-| `update` | `update(reqdata?, ctrl?): Promise<Entity>` | Update an existing entity. |
-| `remove` | `remove(reqmatch?, ctrl?): Promise<void>` | Remove an entity. |
+| `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria, and return it. |
+| `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria, one per record. |
+| `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity, and return it. |
+| `update` | `update(reqdata?, ctrl?): Promise<Entity>` | Update an existing entity, and return it. |
+| `patch` | `patch(reqdata?, ctrl?): Promise<Entity>` | Change part of an existing entity, and return it. |
+| `remove` | `remove(reqmatch?, ctrl?): Promise<Entity>` | Remove an entity, and return it marked as deleted. |
 | `data` | `data(data?: Partial<Entity>): Entity` | Get or set entity data. |
 | `match` | `match(match?: Partial<Entity>): Partial<Entity>` | Get or set entity match criteria. |
 | `make` | `make(): Entity` | Create a new instance with the same options. |
@@ -282,13 +279,13 @@ All entities share the same interface.
 
 #### Return values
 
-Entity operations resolve to the entity data directly — there is no
-result envelope:
+Entity operations resolve to the entity itself — there is no result
+envelope, and an entity's `data()` reads its record:
 
-- `load`, `create` and `update` resolve to a single entity object.
+- `load`, `create`, `update` and `patch` resolve to a single entity object.
 - `list` resolves to an **array** of entity objects (iterate it directly;
   there is no `.data` and no `.ok`).
-- `remove` resolves to `void`.
+- `remove` resolves to the entity, marked as deleted.
 
 On a failed request these methods **throw**, so wrap calls in
 `try`/`catch` to handle errors. Only `direct()` returns the result
@@ -465,7 +462,7 @@ API path: `/api/collections`
 | `project_id` |  |
 | `updated_at` |  |
 
-Operations: create, list, load, update.
+Operations: create, list, load, remove, update.
 
 API path: `/api/collections/{slug}/records`
 
@@ -479,31 +476,21 @@ Operations: create, load, patch, remove, update.
 
 API path: `/api/custom/{path}`
 
-#### Legacy
-
-| Field | Description |
-| --- | --- |
-| `avatar` |  |
-| `email` |  |
-| `first_name` |  |
-| `id` |  |
-| `last_name` |  |
-
-Operations: create, list, remove.
-
-API path: `/api/users`
-
 #### LegacyMutation
 
 | Field | Description |
 | --- | --- |
+| `avatar` |  |
 | `createdAt` |  |
+| `email` |  |
+| `first_name` |  |
 | `id` |  |
+| `last_name` |  |
 | `updatedAt` |  |
 
-Operations: patch, update.
+Operations: create, list, patch, update.
 
-API path: `/api/users/{id}`
+API path: `/api/users`
 
 #### LegacyUnknown
 
@@ -529,7 +516,7 @@ API path: `/api/unknown`
 | `id` |  |
 | `support` |  |
 
-Operations: load.
+Operations: load, remove.
 
 API path: `/api/users/{id}`
 
@@ -705,7 +692,6 @@ const app_users = await client.AppUser().list()
 ```ts
 const app_user = await client.AppUser().create({
   email: 'example_email',
-  id: 'example_id',
 })
 ```
 
@@ -864,9 +850,7 @@ const collections = await client.Collection().list()
 
 ```ts
 const collection = await client.Collection().create({
-  id: 'example_id',
   name: 'example_name',
-  slug: 'example_slug',
 })
 ```
 
@@ -882,6 +866,7 @@ Create an instance: `const collection_record = client.CollectionRecord()`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
 #### Fields
@@ -901,7 +886,7 @@ Create an instance: `const collection_record = client.CollectionRecord()`
 #### Example: Load
 
 ```ts
-const collection_record = await client.CollectionRecord().load({ id: 'collection_record_id', collection_id: 'collection_id' })
+const collection_record = await client.CollectionRecord().load({ id: 'collection_record_id', slug: 'slug' })
 ```
 
 #### Example: List
@@ -916,7 +901,6 @@ const collection_records = await client.CollectionRecord().list({ slug: "example
 const collection_record = await client.CollectionRecord().create({
   slug: 'example_slug',
   data: {},
-  id: 'example_id',
 })
 ```
 
@@ -931,6 +915,7 @@ Create an instance: `const custom = client.Custom()`
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
 | `load(match)` | Load a single entity by match criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
@@ -955,47 +940,6 @@ const custom = await client.Custom().create({
 ```
 
 
-### Legacy
-
-Create an instance: `const legacy = client.Legacy()`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-| `list(match)` | List entities matching the criteria. |
-| `remove(match)` | Remove the matching entity. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `avatar` | `string` |  |
-| `email` | `string` |  |
-| `first_name` | `string` |  |
-| `id` | `number` |  |
-| `last_name` | `string` |  |
-
-#### Example: List
-
-```ts
-const legacys = await client.Legacy().list()
-```
-
-#### Example: Create
-
-```ts
-const legacy = await client.Legacy().create({
-  avatar: 'example_avatar',
-  email: 'example_email',
-  first_name: 'example_first_name',
-  id: 1,
-  last_name: 'example_last_name',
-})
-```
-
-
 ### LegacyMutation
 
 Create an instance: `const legacy_mutation = client.LegacyMutation()`
@@ -1004,15 +948,35 @@ Create an instance: `const legacy_mutation = client.LegacyMutation()`
 
 | Method | Description |
 | --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `list(match)` | List entities matching the criteria. |
+| `patch(data)` | Change part of an existing entity. |
 | `update(data)` | Update an existing entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `avatar` | `string` |  |
 | `createdAt` | `string` |  |
+| `email` | `string` |  |
+| `first_name` | `string` |  |
 | `id` | `string` |  |
+| `last_name` | `string` |  |
 | `updatedAt` | `string` |  |
+
+#### Example: List
+
+```ts
+const legacy_mutations = await client.LegacyMutation().list()
+```
+
+#### Example: Create
+
+```ts
+const legacy_mutation = await client.LegacyMutation().create({
+})
+```
 
 
 ### LegacyUnknown
@@ -1060,6 +1024,7 @@ Create an instance: `const legacy_user = client.LegacyUser()`
 | Method | Description |
 | --- | --- |
 | `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
 
 #### Fields
 
@@ -1100,7 +1065,6 @@ Create an instance: `const login = client.Login()`
 const login = await client.Login().create({
   email: 'example_email',
   password: 'example_password',
-  token: 'example_token',
 })
 ```
 
@@ -1130,7 +1094,6 @@ Create an instance: `const register = client.Register()`
 const register = await client.Register().create({
   email: 'example_email',
   password: 'example_password',
-  token: 'example_token',
 })
 ```
 

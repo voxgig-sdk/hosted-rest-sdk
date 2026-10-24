@@ -93,6 +93,7 @@ class HostedRestConfig
           ],
           'optspec' => [
             'clearTimer' => '`$FUNCTION`',
+            'now' => '`$FUNCTION`',
             'setTimer' => '`$FUNCTION`',
           ],
           'strict' => false,
@@ -121,7 +122,6 @@ class HostedRestConfig
                     "collection" => [],
                     "collection_record" => [],
                     "custom" => [],
-                    "legacy" => [],
                     "legacy_mutation" => [],
                     "legacy_unknown" => [],
                     "legacy_user" => [],
@@ -196,6 +196,10 @@ class HostedRestConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -257,6 +261,10 @@ class HostedRestConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -264,6 +272,52 @@ class HostedRestConfig
               'input' => 'data',
               'name' => 'load',
               'points' => [
+                [
+                  'kind' => 'http',
+                  'method' => 'GET',
+                  'orig' => '/agent/v1/scenarios/{scenario}',
+                  'segments' => [
+                    [
+                      'lit' => 'agent',
+                    ],
+                    [
+                      'lit' => 'v1',
+                    ],
+                    [
+                      'lit' => 'scenarios',
+                    ],
+                    [
+                      'var' => 'scenario',
+                    ],
+                  ],
+                  'parts' => [
+                    'agent',
+                    'v1',
+                    'scenarios',
+                    '{scenario}',
+                  ],
+                  'rename' => [],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body`',
+                  ],
+                  'args' => [
+                    'params' => [
+                      [
+                        'name' => 'scenario',
+                        'orig' => 'scenario',
+                        'type' => '`$STRING`',
+                        'kind' => 'param',
+                        'reqd' => true,
+                      ],
+                    ],
+                  ],
+                  'select' => [
+                    'exist' => [
+                      'scenario',
+                    ],
+                  ],
+                ],
                 [
                   'kind' => 'http',
                   'method' => 'GET',
@@ -319,59 +373,10 @@ class HostedRestConfig
                       ],
                     ],
                   ],
-                  'select' => [
-                    'exist' => [
-                      'cursor',
-                      'limit',
-                      'seed',
-                      'status',
-                    ],
-                  ],
-                ],
-                [
-                  'kind' => 'http',
-                  'method' => 'GET',
-                  'orig' => '/agent/v1/scenarios/{scenario}',
-                  'segments' => [
-                    [
-                      'lit' => 'agent',
-                    ],
-                    [
-                      'lit' => 'v1',
-                    ],
-                    [
-                      'lit' => 'scenarios',
-                    ],
-                    [
-                      'var' => 'scenario',
-                    ],
-                  ],
-                  'parts' => [
-                    'agent',
-                    'v1',
-                    'scenarios',
-                    '{scenario}',
-                  ],
-                  'rename' => [],
-                  'transform' => [
-                    'req' => '`reqdata`',
-                    'res' => '`body`',
-                  ],
-                  'args' => [
-                    'params' => [
-                      [
-                        'name' => 'scenario',
-                        'orig' => 'scenario',
-                        'type' => '`$STRING`',
-                        'kind' => 'param',
-                        'reqd' => true,
-                      ],
-                    ],
-                  ],
-                  'select' => [
-                    'exist' => [
-                      'scenario',
-                    ],
+                  'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
                 [
@@ -401,6 +406,10 @@ class HostedRestConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -540,13 +549,10 @@ class HostedRestConfig
                       ],
                     ],
                   ],
-                  'select' => [
-                    'exist' => [
-                      'cursor',
-                      'field',
-                      'limit',
-                      'seed',
-                    ],
+                  'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -605,9 +611,12 @@ class HostedRestConfig
                   ],
                   'select' => [
                     'exist' => [
-                      'expand',
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -720,6 +729,10 @@ class HostedRestConfig
                       'id',
                     ],
                   ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
                 [
                   'kind' => 'http',
@@ -744,6 +757,10 @@ class HostedRestConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -808,15 +825,18 @@ class HostedRestConfig
                         'orig' => 'statuses',
                         'type' => '`$STRING`',
                         'kind' => 'query',
+                        'field' => true,
                       ],
                     ],
                   ],
                   'select' => [
                     'exist' => [
                       'project_id',
-                      'status',
-                      'x_reqres_env',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
                 [
@@ -858,11 +878,10 @@ class HostedRestConfig
                       ],
                     ],
                   ],
-                  'select' => [
-                    'exist' => [
-                      'limit',
-                      'x_reqres_env',
-                    ],
+                  'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -912,6 +931,10 @@ class HostedRestConfig
                       'id',
                     ],
                   ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -919,69 +942,6 @@ class HostedRestConfig
               'input' => 'data',
               'name' => 'remove',
               'points' => [
-                [
-                  'kind' => 'http',
-                  'method' => 'DELETE',
-                  'orig' => '/app/collections/{slug}/records/{recordId}',
-                  'segments' => [
-                    [
-                      'lit' => 'app',
-                    ],
-                    [
-                      'lit' => 'collections',
-                    ],
-                    [
-                      'var' => 'collection_id',
-                    ],
-                    [
-                      'lit' => 'records',
-                    ],
-                    [
-                      'var' => 'record_id',
-                    ],
-                  ],
-                  'parts' => [
-                    'app',
-                    'collections',
-                    '{collection_id}',
-                    'records',
-                    '{record_id}',
-                  ],
-                  'rename' => [
-                    'param' => [
-                      'recordId' => 'record_id',
-                      'slug' => 'collection_id',
-                    ],
-                  ],
-                  'transform' => [
-                    'req' => '`reqdata`',
-                    'res' => '`body`',
-                  ],
-                  'args' => [
-                    'params' => [
-                      [
-                        'name' => 'collection_id',
-                        'orig' => 'slug',
-                        'type' => '`$STRING`',
-                        'kind' => 'param',
-                        'reqd' => true,
-                      ],
-                      [
-                        'name' => 'record_id',
-                        'orig' => 'recordId',
-                        'type' => '`$STRING`',
-                        'kind' => 'param',
-                        'reqd' => true,
-                      ],
-                    ],
-                  ],
-                  'select' => [
-                    'exist' => [
-                      'collection_id',
-                      'record_id',
-                    ],
-                  ],
-                ],
                 [
                   'kind' => 'http',
                   'method' => 'DELETE',
@@ -1022,6 +982,10 @@ class HostedRestConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1071,16 +1035,16 @@ class HostedRestConfig
                       'id',
                     ],
                   ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
           ],
           'relations' => [
-            'ancestors' => [
-              [
-                '$.main.kit.entity.collection',
-              ],
-            ],
+            'ancestors' => [],
           ],
         ],
         'app_user_login' => [
@@ -1136,6 +1100,10 @@ class HostedRestConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -1179,6 +1147,10 @@ class HostedRestConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
                 [
                   'kind' => 'http',
@@ -1203,6 +1175,10 @@ class HostedRestConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -1285,8 +1261,11 @@ class HostedRestConfig
                   'select' => [
                     'exist' => [
                       'project_id',
-                      'x_reqres_env',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1338,6 +1317,10 @@ class HostedRestConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -1377,6 +1360,10 @@ class HostedRestConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -1492,10 +1479,10 @@ class HostedRestConfig
                       ],
                     ],
                   ],
-                  'select' => [
-                    'exist' => [
-                      'x_reqres_env',
-                    ],
+                  'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1535,10 +1522,10 @@ class HostedRestConfig
                       ],
                     ],
                   ],
-                  'select' => [
-                    'exist' => [
-                      'x_reqres_env',
-                    ],
+                  'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
                 [
@@ -1564,6 +1551,10 @@ class HostedRestConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -1622,8 +1613,11 @@ class HostedRestConfig
                   'select' => [
                     'exist' => [
                       'id',
-                      'x_reqres_env',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
                 [
@@ -1671,6 +1665,10 @@ class HostedRestConfig
                       'id',
                     ],
                   ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -1678,78 +1676,6 @@ class HostedRestConfig
               'input' => 'data',
               'name' => 'remove',
               'points' => [
-                [
-                  'kind' => 'http',
-                  'method' => 'DELETE',
-                  'orig' => '/api/collections/{slug}/records/{recordId}',
-                  'segments' => [
-                    [
-                      'lit' => 'api',
-                    ],
-                    [
-                      'lit' => 'collections',
-                    ],
-                    [
-                      'var' => 'collection_id',
-                    ],
-                    [
-                      'lit' => 'records',
-                    ],
-                    [
-                      'var' => 'record_id',
-                    ],
-                  ],
-                  'parts' => [
-                    'api',
-                    'collections',
-                    '{collection_id}',
-                    'records',
-                    '{record_id}',
-                  ],
-                  'rename' => [
-                    'param' => [
-                      'recordId' => 'record_id',
-                      'slug' => 'collection_id',
-                    ],
-                  ],
-                  'transform' => [
-                    'req' => '`reqdata`',
-                    'res' => '`body`',
-                  ],
-                  'args' => [
-                    'header' => [
-                      [
-                        'name' => 'x_reqres_env',
-                        'orig' => 'X-Reqres-Env',
-                        'type' => '`$STRING`',
-                        'kind' => 'header',
-                      ],
-                    ],
-                    'params' => [
-                      [
-                        'name' => 'collection_id',
-                        'orig' => 'slug',
-                        'type' => '`$STRING`',
-                        'kind' => 'param',
-                        'reqd' => true,
-                      ],
-                      [
-                        'name' => 'record_id',
-                        'orig' => 'recordId',
-                        'type' => '`$STRING`',
-                        'kind' => 'param',
-                        'reqd' => true,
-                      ],
-                    ],
-                  ],
-                  'select' => [
-                    'exist' => [
-                      'collection_id',
-                      'record_id',
-                      'x_reqres_env',
-                    ],
-                  ],
-                ],
                 [
                   'kind' => 'http',
                   'method' => 'DELETE',
@@ -1801,7 +1727,6 @@ class HostedRestConfig
                   'select' => [
                     'exist' => [
                       'id',
-                      'x_reqres_env',
                     ],
                   ],
                 ],
@@ -1862,8 +1787,11 @@ class HostedRestConfig
                   'select' => [
                     'exist' => [
                       'id',
-                      'x_reqres_env',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1987,8 +1915,11 @@ class HostedRestConfig
                   'select' => [
                     'exist' => [
                       'slug',
-                      'x_reqres_env',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
                 [
@@ -2035,6 +1966,10 @@ class HostedRestConfig
                     'exist' => [
                       'slug',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -2143,17 +2078,12 @@ class HostedRestConfig
                   ],
                   'select' => [
                     'exist' => [
-                      'created_after',
-                      'created_before',
-                      'data_contain',
-                      'include_deleted',
-                      'limit',
-                      'order',
-                      'page',
-                      'search',
                       'slug',
-                      'x_reqres_env',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
                 [
@@ -2201,6 +2131,10 @@ class HostedRestConfig
                       'slug',
                     ],
                   ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -2220,7 +2154,7 @@ class HostedRestConfig
                       'lit' => 'collections',
                     ],
                     [
-                      'var' => 'collection_id',
+                      'var' => 'slug',
                     ],
                     [
                       'lit' => 'records',
@@ -2232,14 +2166,13 @@ class HostedRestConfig
                   'parts' => [
                     'api',
                     'collections',
-                    '{collection_id}',
+                    '{slug}',
                     'records',
                     '{id}',
                   ],
                   'rename' => [
                     'param' => [
                       'recordId' => 'id',
-                      'slug' => 'collection_id',
                     ],
                   ],
                   'transform' => [
@@ -2257,15 +2190,15 @@ class HostedRestConfig
                     ],
                     'params' => [
                       [
-                        'name' => 'collection_id',
-                        'orig' => 'slug',
+                        'name' => 'id',
+                        'orig' => 'recordId',
                         'type' => '`$STRING`',
                         'kind' => 'param',
                         'reqd' => true,
                       ],
                       [
-                        'name' => 'id',
-                        'orig' => 'recordId',
+                        'name' => 'slug',
+                        'orig' => 'slug',
                         'type' => '`$STRING`',
                         'kind' => 'param',
                         'reqd' => true,
@@ -2274,10 +2207,13 @@ class HostedRestConfig
                   ],
                   'select' => [
                     'exist' => [
-                      'collection_id',
                       'id',
-                      'x_reqres_env',
+                      'slug',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
                 [
@@ -2292,7 +2228,7 @@ class HostedRestConfig
                       'lit' => 'collections',
                     ],
                     [
-                      'var' => 'collection_id',
+                      'var' => 'slug',
                     ],
                     [
                       'lit' => 'records',
@@ -2304,14 +2240,13 @@ class HostedRestConfig
                   'parts' => [
                     'app',
                     'collections',
-                    '{collection_id}',
+                    '{slug}',
                     'records',
                     '{id}',
                   ],
                   'rename' => [
                     'param' => [
                       'recordId' => 'id',
-                      'slug' => 'collection_id',
                     ],
                   ],
                   'transform' => [
@@ -2321,15 +2256,15 @@ class HostedRestConfig
                   'args' => [
                     'params' => [
                       [
-                        'name' => 'collection_id',
-                        'orig' => 'slug',
+                        'name' => 'id',
+                        'orig' => 'recordId',
                         'type' => '`$STRING`',
                         'kind' => 'param',
                         'reqd' => true,
                       ],
                       [
-                        'name' => 'id',
-                        'orig' => 'recordId',
+                        'name' => 'slug',
+                        'orig' => 'slug',
                         'type' => '`$STRING`',
                         'kind' => 'param',
                         'reqd' => true,
@@ -2338,8 +2273,150 @@ class HostedRestConfig
                   ],
                   'select' => [
                     'exist' => [
-                      'collection_id',
                       'id',
+                      'slug',
+                    ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
+                ],
+              ],
+            ],
+            'remove' => [
+              'input' => 'data',
+              'name' => 'remove',
+              'points' => [
+                [
+                  'kind' => 'http',
+                  'method' => 'DELETE',
+                  'orig' => '/api/collections/{slug}/records/{recordId}',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'collections',
+                    ],
+                    [
+                      'var' => 'slug',
+                    ],
+                    [
+                      'lit' => 'records',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
+                  ],
+                  'parts' => [
+                    'api',
+                    'collections',
+                    '{slug}',
+                    'records',
+                    '{id}',
+                  ],
+                  'rename' => [
+                    'param' => [
+                      'recordId' => 'id',
+                    ],
+                  ],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body`',
+                  ],
+                  'args' => [
+                    'header' => [
+                      [
+                        'name' => 'x_reqres_env',
+                        'orig' => 'X-Reqres-Env',
+                        'type' => '`$STRING`',
+                        'kind' => 'header',
+                      ],
+                    ],
+                    'params' => [
+                      [
+                        'name' => 'id',
+                        'orig' => 'recordId',
+                        'type' => '`$STRING`',
+                        'kind' => 'param',
+                        'reqd' => true,
+                      ],
+                      [
+                        'name' => 'slug',
+                        'orig' => 'slug',
+                        'type' => '`$STRING`',
+                        'kind' => 'param',
+                        'reqd' => true,
+                      ],
+                    ],
+                  ],
+                  'select' => [
+                    'exist' => [
+                      'id',
+                      'slug',
+                    ],
+                  ],
+                ],
+                [
+                  'kind' => 'http',
+                  'method' => 'DELETE',
+                  'orig' => '/app/collections/{slug}/records/{recordId}',
+                  'segments' => [
+                    [
+                      'lit' => 'app',
+                    ],
+                    [
+                      'lit' => 'collections',
+                    ],
+                    [
+                      'var' => 'slug',
+                    ],
+                    [
+                      'lit' => 'records',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
+                  ],
+                  'parts' => [
+                    'app',
+                    'collections',
+                    '{slug}',
+                    'records',
+                    '{id}',
+                  ],
+                  'rename' => [
+                    'param' => [
+                      'recordId' => 'id',
+                    ],
+                  ],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body`',
+                  ],
+                  'args' => [
+                    'params' => [
+                      [
+                        'name' => 'id',
+                        'orig' => 'recordId',
+                        'type' => '`$STRING`',
+                        'kind' => 'param',
+                        'reqd' => true,
+                      ],
+                      [
+                        'name' => 'slug',
+                        'orig' => 'slug',
+                        'type' => '`$STRING`',
+                        'kind' => 'param',
+                        'reqd' => true,
+                      ],
+                    ],
+                  ],
+                  'select' => [
+                    'exist' => [
+                      'id',
+                      'slug',
                     ],
                   ],
                 ],
@@ -2361,7 +2438,7 @@ class HostedRestConfig
                       'lit' => 'collections',
                     ],
                     [
-                      'var' => 'collection_id',
+                      'var' => 'slug',
                     ],
                     [
                       'lit' => 'records',
@@ -2373,14 +2450,13 @@ class HostedRestConfig
                   'parts' => [
                     'api',
                     'collections',
-                    '{collection_id}',
+                    '{slug}',
                     'records',
                     '{id}',
                   ],
                   'rename' => [
                     'param' => [
                       'recordId' => 'id',
-                      'slug' => 'collection_id',
                     ],
                   ],
                   'transform' => [
@@ -2398,15 +2474,15 @@ class HostedRestConfig
                     ],
                     'params' => [
                       [
-                        'name' => 'collection_id',
-                        'orig' => 'slug',
+                        'name' => 'id',
+                        'orig' => 'recordId',
                         'type' => '`$STRING`',
                         'kind' => 'param',
                         'reqd' => true,
                       ],
                       [
-                        'name' => 'id',
-                        'orig' => 'recordId',
+                        'name' => 'slug',
+                        'orig' => 'slug',
                         'type' => '`$STRING`',
                         'kind' => 'param',
                         'reqd' => true,
@@ -2415,10 +2491,13 @@ class HostedRestConfig
                   ],
                   'select' => [
                     'exist' => [
-                      'collection_id',
                       'id',
-                      'x_reqres_env',
+                      'slug',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
                 [
@@ -2433,7 +2512,7 @@ class HostedRestConfig
                       'lit' => 'collections',
                     ],
                     [
-                      'var' => 'collection_id',
+                      'var' => 'slug',
                     ],
                     [
                       'lit' => 'records',
@@ -2445,14 +2524,13 @@ class HostedRestConfig
                   'parts' => [
                     'app',
                     'collections',
-                    '{collection_id}',
+                    '{slug}',
                     'records',
                     '{id}',
                   ],
                   'rename' => [
                     'param' => [
                       'recordId' => 'id',
-                      'slug' => 'collection_id',
                     ],
                   ],
                   'transform' => [
@@ -2462,15 +2540,15 @@ class HostedRestConfig
                   'args' => [
                     'params' => [
                       [
-                        'name' => 'collection_id',
-                        'orig' => 'slug',
+                        'name' => 'id',
+                        'orig' => 'recordId',
                         'type' => '`$STRING`',
                         'kind' => 'param',
                         'reqd' => true,
                       ],
                       [
-                        'name' => 'id',
-                        'orig' => 'recordId',
+                        'name' => 'slug',
+                        'orig' => 'slug',
                         'type' => '`$STRING`',
                         'kind' => 'param',
                         'reqd' => true,
@@ -2479,9 +2557,13 @@ class HostedRestConfig
                   ],
                   'select' => [
                     'exist' => [
-                      'collection_id',
                       'id',
+                      'slug',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -2558,6 +2640,10 @@ class HostedRestConfig
                       'id',
                     ],
                   ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -2610,6 +2696,10 @@ class HostedRestConfig
                       'id',
                     ],
                   ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -2661,6 +2751,10 @@ class HostedRestConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -2714,6 +2808,10 @@ class HostedRestConfig
                       'id',
                     ],
                   ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -2766,6 +2864,10 @@ class HostedRestConfig
                       'id',
                     ],
                   ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -2774,13 +2876,19 @@ class HostedRestConfig
             'ancestors' => [],
           ],
         ],
-        'legacy' => [
+        'legacy_mutation' => [
           'fields' => [
             [
               'name' => 'avatar',
               'title' => 'Avatar',
               'type' => '`$STRING`',
               'req' => true,
+            ],
+            [
+              'name' => 'createdAt',
+              'title' => 'Created At',
+              'type' => '`$STRING`',
+              'format' => 'date-time',
             ],
             [
               'name' => 'email',
@@ -2798,8 +2906,13 @@ class HostedRestConfig
             [
               'name' => 'id',
               'title' => 'Id',
-              'type' => '`$INTEGER`',
-              'req' => true,
+              'type' => '`$STRING`',
+              'op' => [
+                'list' => [
+                  'req' => true,
+                  'type' => '`$INTEGER`',
+                ],
+              ],
             ],
             [
               'name' => 'last_name',
@@ -2807,12 +2920,18 @@ class HostedRestConfig
               'type' => '`$STRING`',
               'req' => true,
             ],
+            [
+              'name' => 'updatedAt',
+              'title' => 'Updated At',
+              'type' => '`$STRING`',
+              'format' => 'date-time',
+            ],
           ],
           'id' => [
             'field' => 'id',
             'name' => 'id',
           ],
-          'name' => 'legacy',
+          'name' => 'legacy_mutation',
           'op' => [
             'create' => [
               'input' => 'data',
@@ -2841,6 +2960,10 @@ class HostedRestConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -2886,94 +3009,14 @@ class HostedRestConfig
                       ],
                     ],
                   ],
-                  'select' => [
-                    'exist' => [
-                      'page',
-                      'per_page',
-                    ],
+                  'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
             ],
-            'remove' => [
-              'input' => 'data',
-              'name' => 'remove',
-              'points' => [
-                [
-                  'kind' => 'http',
-                  'method' => 'DELETE',
-                  'orig' => '/api/users/{id}',
-                  'segments' => [
-                    [
-                      'lit' => 'api',
-                    ],
-                    [
-                      'lit' => 'users',
-                    ],
-                    [
-                      'var' => 'id',
-                    ],
-                  ],
-                  'parts' => [
-                    'api',
-                    'users',
-                    '{id}',
-                  ],
-                  'rename' => [],
-                  'transform' => [
-                    'req' => '`reqdata`',
-                    'res' => '`body`',
-                  ],
-                  'args' => [
-                    'params' => [
-                      [
-                        'name' => 'id',
-                        'orig' => 'id',
-                        'type' => '`$INTEGER`',
-                        'kind' => 'param',
-                        'reqd' => true,
-                      ],
-                    ],
-                  ],
-                  'select' => [
-                    'exist' => [
-                      'id',
-                    ],
-                  ],
-                ],
-              ],
-            ],
-          ],
-          'relations' => [
-            'ancestors' => [],
-          ],
-        ],
-        'legacy_mutation' => [
-          'fields' => [
-            [
-              'name' => 'createdAt',
-              'title' => 'Created At',
-              'type' => '`$STRING`',
-              'format' => 'date-time',
-            ],
-            [
-              'name' => 'id',
-              'title' => 'Id',
-              'type' => '`$STRING`',
-            ],
-            [
-              'name' => 'updatedAt',
-              'title' => 'Updated At',
-              'type' => '`$STRING`',
-              'format' => 'date-time',
-            ],
-          ],
-          'id' => [
-            'field' => 'id',
-            'name' => 'id',
-          ],
-          'name' => 'legacy_mutation',
-          'op' => [
             'patch' => [
               'input' => 'data',
               'name' => 'patch',
@@ -3018,6 +3061,10 @@ class HostedRestConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -3066,6 +3113,10 @@ class HostedRestConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -3167,11 +3218,10 @@ class HostedRestConfig
                       ],
                     ],
                   ],
-                  'select' => [
-                    'exist' => [
-                      'page',
-                      'per_page',
-                    ],
+                  'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -3221,6 +3271,10 @@ class HostedRestConfig
                       'id',
                     ],
                   ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -3261,6 +3315,58 @@ class HostedRestConfig
                 [
                   'kind' => 'http',
                   'method' => 'GET',
+                  'orig' => '/api/users/{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'api',
+                    ],
+                    [
+                      'lit' => 'users',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
+                  ],
+                  'parts' => [
+                    'api',
+                    'users',
+                    '{id}',
+                  ],
+                  'rename' => [],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body`',
+                  ],
+                  'args' => [
+                    'params' => [
+                      [
+                        'name' => 'id',
+                        'orig' => 'id',
+                        'type' => '`$INTEGER`',
+                        'kind' => 'param',
+                        'reqd' => true,
+                      ],
+                    ],
+                  ],
+                  'select' => [
+                    'exist' => [
+                      'id',
+                    ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
+                ],
+              ],
+            ],
+            'remove' => [
+              'input' => 'data',
+              'name' => 'remove',
+              'points' => [
+                [
+                  'kind' => 'http',
+                  'method' => 'DELETE',
                   'orig' => '/api/users/{id}',
                   'segments' => [
                     [
@@ -3358,6 +3464,10 @@ class HostedRestConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -3426,6 +3536,10 @@ class HostedRestConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],

@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { HostedRestSDK, BaseFeature, stdutil } from '../../..'
+import { HostedRestSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,17 +41,29 @@ describe('AppUserTotalEntity', async () => {
   })
 
 
+  test('validate', async (t) => {
+    if (null == (config as any).feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = HostedRestSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.AppUserTotal().load({"project_id":1} as any),
+      (err: any) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.HOSTED_REST_TEST_LIVE
-    for (const op of ['load']) {
+    for (const op of []) {
       if (!live && maybeSkipControl(t, 'entityOp', 'app_user_total.' + op, live)) return
     }
 
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"total":{"a":true,"h":"Total","n":"total","r":true,"t":"`$INTEGER`","key$":"total","index$":0}},"name":"app_user_total","op":{"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /api/projects/{projectId}/app-users/total","source":"openapi3","version":2},"g":{"header":[{"a":true,"k":"header","n":"x_reqres_env","or":"X-Reqres-Env","r":false,"t":"`$STRING`","index$":0}],"params":[{"a":true,"k":"param","n":"project_id","or":"projectId","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"GET","o":"/api/projects/{projectId}/app-users/total","q":{"exist":["project_id","x_reqres_env"]},"r":{"param":{"projectId":"project_id"}},"s":[{"lit":"api"},{"lit":"projects"},{"var":"project_id"},{"lit":"app-users"},{"lit":"total"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"app_user_total","name__orig":"app_user_total","Name":"AppUserTotal","name_":"app_user_total","name-":"app-user-total","NAME":"APP_USER_TOTAL","index$":6}, {"active":true,"entity":"app_user_total","key$":"BasicAppUserTotalFlow","kind":"basic","name":"BasicAppUserTotalFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"app_user_total_ref01","srcdatavar":"app_user_total_ref01_data","suffix":"_dt0"},"m":{"id":"app_user_total01"},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-app_user_total_ref01"}}],"index$":0}]}, 'AppUserTotal', {"GET /api/projects/{projectId}/app-users/total":{"protocol":"http","parameters":[{"name":"X-Reqres-Env","in":"header","description":"Environment key (for example: prod or dev).","required":false,"schema":{"type":"string"},"index$":0},{"name":"projectId","in":"path","description":"Project id.","required":true,"schema":{"type":"string"},"index$":1}]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"total":{"a":true,"h":"Total","n":"total","r":true,"t":"`$INTEGER`","key$":"total","index$":0}},"name":"app_user_total","op":{"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /api/projects/{projectId}/app-users/total","source":"openapi3","version":2},"g":{"header":[{"a":true,"k":"header","n":"x_reqres_env","or":"X-Reqres-Env","r":false,"t":"`$STRING`","index$":0}],"params":[{"a":true,"k":"param","n":"project_id","or":"projectId","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"GET","o":"/api/projects/{projectId}/app-users/total","q":{"exist":["project_id"]},"r":{"param":{"projectId":"project_id"}},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"api"},{"lit":"projects"},{"var":"project_id"},{"lit":"app-users"},{"lit":"total"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"app_user_total","name__orig":"app_user_total","Name":"AppUserTotal","name_":"app_user_total","name-":"app-user-total","NAME":"APP_USER_TOTAL","index$":6}, {"active":true,"entity":"app_user_total","key$":"BasicAppUserTotalFlow","kind":"basic","name":"BasicAppUserTotalFlow","param":{},"step":[{"a":false,"d":{},"i":{"ref":"app_user_total_ref01","srcdatavar":"app_user_total_ref01_data","suffix":"_dt0"},"m":{"id":"app_user_total01"},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-app_user_total_ref01"}}],"unreachable":true}]}, 'AppUserTotal', {"GET /api/projects/{projectId}/app-users/total":{"protocol":"http","parameters":[{"name":"X-Reqres-Env","in":"header","description":"Environment key (for example: prod or dev).","required":false,"schema":{"type":"string"},"index$":0},{"name":"projectId","in":"path","description":"Project id.","required":true,"schema":{"type":"string"},"index$":1}]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -61,15 +73,16 @@ describe('AppUserTotalEntity', async () => {
 
     let app_user_total_ref01_data = Object.values(setup.data.existing.app_user_total)[0] as any
 
-    // LOAD: skipped — no entity id field and load requires path params.
-    // Entity-var is declared here so later flow steps still compile.
-    const app_user_total_ref01_ent = client.AppUserTotal()
-
-
   })
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options

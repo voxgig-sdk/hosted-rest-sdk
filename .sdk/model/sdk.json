@@ -152,6 +152,10 @@
                   "o": "/agent/v1/health",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "agent"
@@ -205,6 +209,10 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "email",
+                    "password"
+                  ],
                   "co": {
                     "id": "POST /agent/v1/auth/login",
                     "source": "openapi3",
@@ -216,6 +224,10 @@
                   "o": "/agent/v1/auth/login",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "agent"
@@ -241,79 +253,6 @@
               "input": "data",
               "name": "load",
               "points": [
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /agent/v1/orders",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "query": [
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "cursor",
-                        "or": "cursor",
-                        "r": false,
-                        "t": "`$STRING`"
-                      },
-                      {
-                        "a": true,
-                        "ex": 20,
-                        "k": "query",
-                        "n": "limit",
-                        "or": "limit",
-                        "r": false,
-                        "t": "`$INTEGER`"
-                      },
-                      {
-                        "a": true,
-                        "ex": 42,
-                        "k": "query",
-                        "n": "seed",
-                        "or": "seed",
-                        "r": false,
-                        "t": "`$INTEGER`"
-                      },
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "status",
-                        "or": "status",
-                        "r": false,
-                        "t": "`$STRING`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/agent/v1/orders",
-                  "q": {
-                    "exist": [
-                      "cursor",
-                      "limit",
-                      "seed",
-                      "status"
-                    ]
-                  },
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "agent"
-                    },
-                    {
-                      "lit": "v1"
-                    },
-                    {
-                      "lit": "orders"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
                 {
                   "a": true,
                   "co": {
@@ -364,6 +303,76 @@
                 {
                   "a": true,
                   "co": {
+                    "id": "GET /agent/v1/orders",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "query": [
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "cursor",
+                        "or": "cursor",
+                        "r": false,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "ex": 20,
+                        "k": "query",
+                        "n": "limit",
+                        "or": "limit",
+                        "r": false,
+                        "t": "`$INTEGER`"
+                      },
+                      {
+                        "a": true,
+                        "ex": 42,
+                        "k": "query",
+                        "n": "seed",
+                        "or": "seed",
+                        "r": false,
+                        "t": "`$INTEGER`"
+                      },
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "status",
+                        "or": "status",
+                        "r": false,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/agent/v1/orders",
+                  "q": {},
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "agent"
+                    },
+                    {
+                      "lit": "v1"
+                    },
+                    {
+                      "lit": "orders"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "a": true,
+                  "co": {
                     "id": "GET /agent/v1/scenarios",
                     "source": "openapi3",
                     "version": 2
@@ -374,6 +383,10 @@
                   "o": "/agent/v1/scenarios",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "agent"
@@ -535,15 +548,12 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/agent/v1/users",
-                  "q": {
-                    "exist": [
-                      "cursor",
-                      "field",
-                      "limit",
-                      "seed"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "agent"
@@ -600,11 +610,14 @@
                   "o": "/agent/v1/users/{id}",
                   "q": {
                     "exist": [
-                      "expand",
                       "id"
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "agent"
@@ -701,6 +714,7 @@
               "points": [
                 {
                   "a": true,
+                  "bf": false,
                   "co": {
                     "id": "POST /api/app-users/{id}/sessions/simulate",
                     "source": "openapi3",
@@ -728,6 +742,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -752,6 +770,10 @@
                 },
                 {
                   "a": true,
+                  "bf": [
+                    "email",
+                    "metadata"
+                  ],
                   "co": {
                     "id": "POST /api/app-users",
                     "source": "openapi3",
@@ -763,6 +785,10 @@
                   "o": "/api/app-users",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -826,15 +852,17 @@
                   "o": "/api/projects/{projectId}/app-users",
                   "q": {
                     "exist": [
-                      "project_id",
-                      "status",
-                      "x_reqres_env"
+                      "project_id"
                     ]
                   },
                   "r": {
                     "param": {
                       "projectId": "project_id"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -887,13 +915,12 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/api/app-users",
-                  "q": {
-                    "exist": [
-                      "limit",
-                      "x_reqres_env"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -941,6 +968,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -963,70 +994,6 @@
               "input": "data",
               "name": "remove",
               "points": [
-                {
-                  "a": true,
-                  "co": {
-                    "id": "DELETE /app/collections/{slug}/records/{recordId}",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "params": [
-                      {
-                        "a": true,
-                        "k": "param",
-                        "n": "collection_id",
-                        "or": "slug",
-                        "r": true,
-                        "t": "`$STRING`"
-                      },
-                      {
-                        "a": true,
-                        "k": "param",
-                        "n": "record_id",
-                        "or": "recordId",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "DELETE",
-                  "o": "/app/collections/{slug}/records/{recordId}",
-                  "q": {
-                    "exist": [
-                      "collection_id",
-                      "record_id"
-                    ]
-                  },
-                  "r": {
-                    "param": {
-                      "recordId": "record_id",
-                      "slug": "collection_id"
-                    }
-                  },
-                  "s": [
-                    {
-                      "lit": "app"
-                    },
-                    {
-                      "lit": "collections"
-                    },
-                    {
-                      "var": "collection_id"
-                    },
-                    {
-                      "lit": "records"
-                    },
-                    {
-                      "var": "record_id"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
                 {
                   "a": true,
                   "co": {
@@ -1055,6 +1022,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -1079,6 +1050,11 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "email",
+                    "metadata",
+                    "status"
+                  ],
                   "co": {
                     "id": "PUT /api/app-users/{id}",
                     "source": "openapi3",
@@ -1105,6 +1081,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -1125,11 +1105,7 @@
             }
           },
           "relations": {
-            "ancestors": [
-              [
-                "$.main.kit.entity.collection"
-              ]
-            ]
+            "ancestors": []
           }
         },
         "app_user_login": {
@@ -1174,6 +1150,11 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "email",
+                    "metadata",
+                    "project_id"
+                  ],
                   "co": {
                     "id": "POST /api/app-users/login",
                     "source": "openapi3",
@@ -1185,6 +1166,10 @@
                   "o": "/api/app-users/login",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -1233,6 +1218,10 @@
                   "o": "/api/app-users/me",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -1262,6 +1251,10 @@
                   "o": "/app/me",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "app"
@@ -1336,14 +1329,17 @@
                   "o": "/api/projects/{projectId}/app-users/total",
                   "q": {
                     "exist": [
-                      "project_id",
-                      "x_reqres_env"
+                      "project_id"
                     ]
                   },
                   "r": {
                     "param": {
                       "projectId": "project_id"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -1396,6 +1392,9 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "token"
+                  ],
                   "co": {
                     "id": "POST /api/app-users/verify",
                     "source": "openapi3",
@@ -1407,6 +1406,10 @@
                   "o": "/api/app-users/verify",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -1455,6 +1458,10 @@
                   "o": "/api/logout",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -1575,6 +1582,13 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "name",
+                    "project_id",
+                    "schema",
+                    "slug",
+                    "visibility"
+                  ],
                   "co": {
                     "id": "POST /api/collections",
                     "source": "openapi3",
@@ -1595,12 +1609,12 @@
                   "k": "http",
                   "m": "POST",
                   "o": "/api/collections",
-                  "q": {
-                    "exist": [
-                      "x_reqres_env"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -1642,12 +1656,12 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/api/collections",
-                  "q": {
-                    "exist": [
-                      "x_reqres_env"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -1674,6 +1688,10 @@
                   "o": "/app/collections",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "app"
@@ -1727,14 +1745,17 @@
                   "o": "/api/collections/{slug}",
                   "q": {
                     "exist": [
-                      "id",
-                      "x_reqres_env"
+                      "id"
                     ]
                   },
                   "r": {
                     "param": {
                       "slug": "id"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -1784,6 +1805,10 @@
                       "slug": "id"
                     }
                   },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "app"
@@ -1806,81 +1831,6 @@
               "input": "data",
               "name": "remove",
               "points": [
-                {
-                  "a": true,
-                  "co": {
-                    "id": "DELETE /api/collections/{slug}/records/{recordId}",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "header": [
-                      {
-                        "a": true,
-                        "k": "header",
-                        "n": "x_reqres_env",
-                        "or": "X-Reqres-Env",
-                        "r": false,
-                        "t": "`$STRING`"
-                      }
-                    ],
-                    "params": [
-                      {
-                        "a": true,
-                        "k": "param",
-                        "n": "collection_id",
-                        "or": "slug",
-                        "r": true,
-                        "t": "`$STRING`"
-                      },
-                      {
-                        "a": true,
-                        "k": "param",
-                        "n": "record_id",
-                        "or": "recordId",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "DELETE",
-                  "o": "/api/collections/{slug}/records/{recordId}",
-                  "q": {
-                    "exist": [
-                      "collection_id",
-                      "record_id",
-                      "x_reqres_env"
-                    ]
-                  },
-                  "r": {
-                    "param": {
-                      "recordId": "record_id",
-                      "slug": "collection_id"
-                    }
-                  },
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "collections"
-                    },
-                    {
-                      "var": "collection_id"
-                    },
-                    {
-                      "lit": "records"
-                    },
-                    {
-                      "var": "record_id"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
                 {
                   "a": true,
                   "co": {
@@ -1915,8 +1865,7 @@
                   "o": "/api/collections/{slug}",
                   "q": {
                     "exist": [
-                      "id",
-                      "x_reqres_env"
+                      "id"
                     ]
                   },
                   "r": {
@@ -1948,6 +1897,12 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "name",
+                    "schema",
+                    "slug",
+                    "visibility"
+                  ],
                   "co": {
                     "id": "PUT /api/collections/{slug}",
                     "source": "openapi3",
@@ -1980,14 +1935,17 @@
                   "o": "/api/collections/{slug}",
                   "q": {
                     "exist": [
-                      "id",
-                      "x_reqres_env"
+                      "id"
                     ]
                   },
                   "r": {
                     "param": {
                       "slug": "id"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -2097,6 +2055,9 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "data"
+                  ],
                   "co": {
                     "id": "POST /api/collections/{slug}/records",
                     "source": "openapi3",
@@ -2129,11 +2090,14 @@
                   "o": "/api/collections/{slug}/records",
                   "q": {
                     "exist": [
-                      "slug",
-                      "x_reqres_env"
+                      "slug"
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -2155,6 +2119,9 @@
                 },
                 {
                   "a": true,
+                  "bf": [
+                    "data"
+                  ],
                   "co": {
                     "id": "POST /app/collections/{slug}/records",
                     "source": "openapi3",
@@ -2181,6 +2148,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "app"
@@ -2306,19 +2277,14 @@
                   "o": "/api/collections/{slug}/records",
                   "q": {
                     "exist": [
-                      "created_after",
-                      "created_before",
-                      "data_contain",
-                      "include_deleted",
-                      "limit",
-                      "order",
-                      "page",
-                      "search",
-                      "slug",
-                      "x_reqres_env"
+                      "slug"
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -2366,6 +2332,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "app"
@@ -2413,16 +2383,16 @@
                       {
                         "a": true,
                         "k": "param",
-                        "n": "collection_id",
-                        "or": "slug",
+                        "n": "id",
+                        "or": "recordId",
                         "r": true,
                         "t": "`$STRING`"
                       },
                       {
                         "a": true,
                         "k": "param",
-                        "n": "id",
-                        "or": "recordId",
+                        "n": "slug",
+                        "or": "slug",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -2433,16 +2403,18 @@
                   "o": "/api/collections/{slug}/records/{recordId}",
                   "q": {
                     "exist": [
-                      "collection_id",
                       "id",
-                      "x_reqres_env"
+                      "slug"
                     ]
                   },
                   "r": {
                     "param": {
-                      "recordId": "id",
-                      "slug": "collection_id"
+                      "recordId": "id"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -2452,7 +2424,7 @@
                       "lit": "collections"
                     },
                     {
-                      "var": "collection_id"
+                      "var": "slug"
                     },
                     {
                       "lit": "records"
@@ -2478,16 +2450,16 @@
                       {
                         "a": true,
                         "k": "param",
-                        "n": "collection_id",
-                        "or": "slug",
+                        "n": "id",
+                        "or": "recordId",
                         "r": true,
                         "t": "`$STRING`"
                       },
                       {
                         "a": true,
                         "k": "param",
-                        "n": "id",
-                        "or": "recordId",
+                        "n": "slug",
+                        "or": "slug",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -2498,15 +2470,18 @@
                   "o": "/app/collections/{slug}/records/{recordId}",
                   "q": {
                     "exist": [
-                      "collection_id",
-                      "id"
+                      "id",
+                      "slug"
                     ]
                   },
                   "r": {
                     "param": {
-                      "recordId": "id",
-                      "slug": "collection_id"
+                      "recordId": "id"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -2516,7 +2491,7 @@
                       "lit": "collections"
                     },
                     {
-                      "var": "collection_id"
+                      "var": "slug"
                     },
                     {
                       "lit": "records"
@@ -2532,12 +2507,157 @@
                 }
               ]
             },
+            "remove": {
+              "input": "data",
+              "name": "remove",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "DELETE /api/collections/{slug}/records/{recordId}",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "header": [
+                      {
+                        "a": true,
+                        "k": "header",
+                        "n": "x_reqres_env",
+                        "or": "X-Reqres-Env",
+                        "r": false,
+                        "t": "`$STRING`"
+                      }
+                    ],
+                    "params": [
+                      {
+                        "a": true,
+                        "k": "param",
+                        "n": "id",
+                        "or": "recordId",
+                        "r": true,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "k": "param",
+                        "n": "slug",
+                        "or": "slug",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "DELETE",
+                  "o": "/api/collections/{slug}/records/{recordId}",
+                  "q": {
+                    "exist": [
+                      "id",
+                      "slug"
+                    ]
+                  },
+                  "r": {
+                    "param": {
+                      "recordId": "id"
+                    }
+                  },
+                  "s": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "collections"
+                    },
+                    {
+                      "var": "slug"
+                    },
+                    {
+                      "lit": "records"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "a": true,
+                  "co": {
+                    "id": "DELETE /app/collections/{slug}/records/{recordId}",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "params": [
+                      {
+                        "a": true,
+                        "k": "param",
+                        "n": "id",
+                        "or": "recordId",
+                        "r": true,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "k": "param",
+                        "n": "slug",
+                        "or": "slug",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "DELETE",
+                  "o": "/app/collections/{slug}/records/{recordId}",
+                  "q": {
+                    "exist": [
+                      "id",
+                      "slug"
+                    ]
+                  },
+                  "r": {
+                    "param": {
+                      "recordId": "id"
+                    }
+                  },
+                  "s": [
+                    {
+                      "lit": "app"
+                    },
+                    {
+                      "lit": "collections"
+                    },
+                    {
+                      "var": "slug"
+                    },
+                    {
+                      "lit": "records"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
             "update": {
               "input": "data",
               "name": "update",
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "data"
+                  ],
                   "co": {
                     "id": "PUT /api/collections/{slug}/records/{recordId}",
                     "source": "openapi3",
@@ -2558,16 +2678,16 @@
                       {
                         "a": true,
                         "k": "param",
-                        "n": "collection_id",
-                        "or": "slug",
+                        "n": "id",
+                        "or": "recordId",
                         "r": true,
                         "t": "`$STRING`"
                       },
                       {
                         "a": true,
                         "k": "param",
-                        "n": "id",
-                        "or": "recordId",
+                        "n": "slug",
+                        "or": "slug",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -2578,16 +2698,18 @@
                   "o": "/api/collections/{slug}/records/{recordId}",
                   "q": {
                     "exist": [
-                      "collection_id",
                       "id",
-                      "x_reqres_env"
+                      "slug"
                     ]
                   },
                   "r": {
                     "param": {
-                      "recordId": "id",
-                      "slug": "collection_id"
+                      "recordId": "id"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -2597,7 +2719,7 @@
                       "lit": "collections"
                     },
                     {
-                      "var": "collection_id"
+                      "var": "slug"
                     },
                     {
                       "lit": "records"
@@ -2613,6 +2735,9 @@
                 },
                 {
                   "a": true,
+                  "bf": [
+                    "data"
+                  ],
                   "co": {
                     "id": "PUT /app/collections/{slug}/records/{recordId}",
                     "source": "openapi3",
@@ -2623,16 +2748,16 @@
                       {
                         "a": true,
                         "k": "param",
-                        "n": "collection_id",
-                        "or": "slug",
+                        "n": "id",
+                        "or": "recordId",
                         "r": true,
                         "t": "`$STRING`"
                       },
                       {
                         "a": true,
                         "k": "param",
-                        "n": "id",
-                        "or": "recordId",
+                        "n": "slug",
+                        "or": "slug",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -2643,15 +2768,18 @@
                   "o": "/app/collections/{slug}/records/{recordId}",
                   "q": {
                     "exist": [
-                      "collection_id",
-                      "id"
+                      "id",
+                      "slug"
                     ]
                   },
                   "r": {
                     "param": {
-                      "recordId": "id",
-                      "slug": "collection_id"
+                      "recordId": "id"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -2661,7 +2789,7 @@
                       "lit": "collections"
                     },
                     {
-                      "var": "collection_id"
+                      "var": "slug"
                     },
                     {
                       "lit": "records"
@@ -2712,6 +2840,7 @@
               "points": [
                 {
                   "a": true,
+                  "bf": false,
                   "co": {
                     "id": "POST /api/custom/{path}",
                     "source": "openapi3",
@@ -2741,6 +2870,10 @@
                     "param": {
                       "path": "id"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -2796,6 +2929,10 @@
                       "path": "id"
                     }
                   },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -2820,6 +2957,7 @@
               "points": [
                 {
                   "a": true,
+                  "bf": false,
                   "co": {
                     "id": "PATCH /api/custom/{path}",
                     "source": "openapi3",
@@ -2849,6 +2987,10 @@
                     "param": {
                       "path": "id"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -2904,6 +3046,10 @@
                       "path": "id"
                     }
                   },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -2928,6 +3074,7 @@
               "points": [
                 {
                   "a": true,
+                  "bf": false,
                   "co": {
                     "id": "PUT /api/custom/{path}",
                     "source": "openapi3",
@@ -2958,6 +3105,10 @@
                       "path": "id"
                     }
                   },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -2981,7 +3132,7 @@
             "ancestors": []
           }
         },
-        "legacy": {
+        "legacy_mutation": {
           "active": true,
           "alias": {
             "field": {}
@@ -2992,6 +3143,14 @@
               "h": "Avatar",
               "n": "avatar",
               "r": true,
+              "t": "`$STRING`"
+            },
+            "createdAt": {
+              "a": true,
+              "fo": "date-time",
+              "h": "Created At",
+              "n": "createdAt",
+              "r": false,
               "t": "`$STRING`"
             },
             "email": {
@@ -3013,8 +3172,14 @@
               "a": true,
               "h": "Id",
               "n": "id",
-              "r": true,
-              "t": "`$INTEGER`"
+              "op": {
+                "list": {
+                  "req": true,
+                  "type": "`$INTEGER`"
+                }
+              },
+              "r": false,
+              "t": "`$STRING`"
             },
             "last_name": {
               "a": true,
@@ -3022,13 +3187,21 @@
               "n": "last_name",
               "r": true,
               "t": "`$STRING`"
+            },
+            "updatedAt": {
+              "a": true,
+              "fo": "date-time",
+              "h": "Updated At",
+              "n": "updatedAt",
+              "r": false,
+              "t": "`$STRING`"
             }
           },
           "id": {
             "field": "id",
             "name": "id"
           },
-          "name": "legacy",
+          "name": "legacy_mutation",
           "op": {
             "create": {
               "input": "data",
@@ -3036,6 +3209,7 @@
               "points": [
                 {
                   "a": true,
+                  "bf": false,
                   "co": {
                     "id": "POST /api/users",
                     "source": "openapi3",
@@ -3047,6 +3221,10 @@
                   "o": "/api/users",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -3097,13 +3275,12 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/api/users",
-                  "q": {
-                    "exist": [
-                      "page",
-                      "per_page"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -3119,103 +3296,13 @@
                 }
               ]
             },
-            "remove": {
-              "input": "data",
-              "name": "remove",
-              "points": [
-                {
-                  "a": true,
-                  "co": {
-                    "id": "DELETE /api/users/{id}",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "params": [
-                      {
-                        "a": true,
-                        "k": "param",
-                        "n": "id",
-                        "or": "id",
-                        "r": true,
-                        "t": "`$INTEGER`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "DELETE",
-                  "o": "/api/users/{id}",
-                  "q": {
-                    "exist": [
-                      "id"
-                    ]
-                  },
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "users"
-                    },
-                    {
-                      "var": "id"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                }
-              ]
-            }
-          },
-          "relations": {
-            "ancestors": []
-          }
-        },
-        "legacy_mutation": {
-          "active": true,
-          "alias": {
-            "field": {}
-          },
-          "fields": {
-            "createdAt": {
-              "a": true,
-              "fo": "date-time",
-              "h": "Created At",
-              "n": "createdAt",
-              "r": false,
-              "t": "`$STRING`"
-            },
-            "id": {
-              "a": true,
-              "h": "Id",
-              "n": "id",
-              "r": false,
-              "t": "`$STRING`"
-            },
-            "updatedAt": {
-              "a": true,
-              "fo": "date-time",
-              "h": "Updated At",
-              "n": "updatedAt",
-              "r": false,
-              "t": "`$STRING`"
-            }
-          },
-          "id": {
-            "field": "id",
-            "name": "id"
-          },
-          "name": "legacy_mutation",
-          "op": {
             "patch": {
               "input": "data",
               "name": "patch",
               "points": [
                 {
                   "a": true,
+                  "bf": false,
                   "co": {
                     "id": "PATCH /api/users/{id}",
                     "source": "openapi3",
@@ -3242,6 +3329,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -3266,6 +3357,7 @@
               "points": [
                 {
                   "a": true,
+                  "bf": false,
                   "co": {
                     "id": "PUT /api/users/{id}",
                     "source": "openapi3",
@@ -3292,6 +3384,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -3412,13 +3508,12 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/api/unknown",
-                  "q": {
-                    "exist": [
-                      "page",
-                      "per_page"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -3466,6 +3561,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -3555,6 +3654,60 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "users"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "remove": {
+              "input": "data",
+              "name": "remove",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "DELETE /api/users/{id}",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "params": [
+                      {
+                        "a": true,
+                        "k": "param",
+                        "n": "id",
+                        "or": "id",
+                        "r": true,
+                        "t": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "DELETE",
+                  "o": "/api/users/{id}",
+                  "q": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "r": {},
                   "s": [
                     {
                       "lit": "api"
@@ -3615,6 +3768,10 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "email",
+                    "password"
+                  ],
                   "co": {
                     "id": "POST /api/login",
                     "source": "openapi3",
@@ -3626,6 +3783,10 @@
                   "o": "/api/login",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -3694,6 +3855,10 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "email",
+                    "password"
+                  ],
                   "co": {
                     "id": "POST /api/register",
                     "source": "openapi3",
@@ -3705,6 +3870,10 @@
                   "o": "/api/register",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -4048,6 +4217,7 @@
             },
             "optspec": {
               "clearTimer": "`$FUNCTION`",
+              "now": "`$FUNCTION`",
               "setTimer": "`$FUNCTION`"
             },
             "strict": false
@@ -4271,7 +4441,6 @@
                 "ref": "app_user_ref01"
               },
               "m": {
-                "collection_id": "collection01",
                 "project_id": "project01"
               },
               "o": "create",
@@ -4510,9 +4679,7 @@
               "i": {
                 "ref": "collection_ref01"
               },
-              "m": {
-                "collection_id": "collection01"
-              },
+              "m": {},
               "o": "create",
               "s": [],
               "v": []
@@ -4625,7 +4792,6 @@
                 "ref": "collection_record_ref01"
               },
               "m": {
-                "collection_id": "collection01",
                 "slug": "slug01"
               },
               "o": "create",
@@ -4653,7 +4819,7 @@
             {
               "a": true,
               "d": {
-                "collection_id": "collection01"
+                "slug": "slug01"
               },
               "i": {
                 "ref": "collection_record_ref01",
@@ -4682,8 +4848,8 @@
                 "suffix": "_dt0"
               },
               "m": {
-                "collection_id": "collection01",
-                "id": "collection_record01"
+                "id": "collection_record01",
+                "slug": "slug01"
               },
               "o": "load",
               "s": [],
@@ -4692,6 +4858,41 @@
                   "apply": "TextFieldMark",
                   "def": {
                     "mark": "Mark01-collection_record_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "ref": "collection_record_ref01",
+                "suffix": "_rm0"
+              },
+              "m": {
+                "id": "collection_record01",
+                "slug": "slug01"
+              },
+              "o": "remove",
+              "s": [],
+              "v": []
+            },
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "suffix": "_rt0"
+              },
+              "m": {
+                "slug": "slug01"
+              },
+              "o": "list",
+              "s": [],
+              "v": [
+                {
+                  "apply": "ItemNotExists",
+                  "def": {
+                    "ref": "collection_record_ref01"
                   }
                 }
               ]
@@ -4777,19 +4978,19 @@
             }
           ]
         },
-        "BasicLegacyFlow": {
+        "BasicLegacyMutationFlow": {
           "active": true,
-          "entity": "legacy",
-          "key$": "BasicLegacyFlow",
+          "entity": "legacy_mutation",
+          "key$": "BasicLegacyMutationFlow",
           "kind": "basic",
-          "name": "BasicLegacyFlow",
+          "name": "BasicLegacyMutationFlow",
           "param": {},
           "step": [
             {
               "a": true,
               "d": {},
               "i": {
-                "ref": "legacy_ref01"
+                "ref": "legacy_mutation_ref01"
               },
               "m": {},
               "o": "create",
@@ -4807,53 +5008,11 @@
                 {
                   "apply": "ItemExists",
                   "def": {
-                    "ref": "legacy_ref01"
+                    "ref": "legacy_mutation_ref01"
                   }
                 }
               ]
             },
-            {
-              "a": true,
-              "d": {},
-              "i": {
-                "ref": "legacy_ref01",
-                "suffix": "_rm0"
-              },
-              "m": {
-                "id": "legacy01"
-              },
-              "o": "remove",
-              "s": [],
-              "v": []
-            },
-            {
-              "a": true,
-              "d": {},
-              "i": {
-                "suffix": "_rt0"
-              },
-              "m": {},
-              "o": "list",
-              "s": [],
-              "v": [
-                {
-                  "apply": "ItemNotExists",
-                  "def": {
-                    "ref": "legacy_ref01"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        "BasicLegacyMutationFlow": {
-          "active": true,
-          "entity": "legacy_mutation",
-          "key$": "BasicLegacyMutationFlow",
-          "kind": "basic",
-          "name": "BasicLegacyMutationFlow",
-          "param": {},
-          "step": [
             {
               "a": true,
               "d": {},
@@ -4861,7 +5020,7 @@
                 "ref": "legacy_mutation_ref01",
                 "srcdatavar": "legacy_mutation_ref01_data",
                 "suffix": "_up0",
-                "textfield": "createdAt"
+                "textfield": "avatar"
               },
               "m": {},
               "o": "update",
@@ -5013,6 +5172,17 @@
         },
         "meta_source": "https://www.freepublicapis.com",
         "security": {
+          "alternatives": [
+            [
+              {
+                "in": "header",
+                "name": "Authorization",
+                "prefix": "Bearer",
+                "scheme": "BearerAuth",
+                "type": "http"
+              }
+            ]
+          ],
           "in": "header",
           "name": "x-api-key",
           "prefix": "",
@@ -5038,7 +5208,7 @@
       "optspec": {
         "allow": {
           "method": "GET,PUT,POST,PATCH,DELETE,OPTIONS",
-          "op": "create,update,load,list,remove,command,direct,graphql"
+          "op": "create,update,patch,load,list,remove,command,direct,graphql"
         },
         "apikey": "",
         "auth": {
@@ -5091,6 +5261,11 @@
         "top": {
           "active": true
         }
+      },
+      "publisher": {
+        "name": "",
+        "security": "",
+        "url": ""
       },
       "repo": {
         "host": "github.com",
@@ -5321,7 +5496,10 @@
             "version": "0.0.1"
           },
           "superseded": [],
-          "title": "Go MCP server"
+          "title": "Go MCP server",
+          "tool": {
+            "write": false
+          }
         },
         "lua": {
           "active": true,
@@ -5698,6 +5876,17 @@
           "base": "",
           "strict": true
         }
+      },
+      "text": {
+        "about_md": "",
+        "docs_url": "",
+        "entity_desc": {},
+        "homepage": "",
+        "meta_source": "",
+        "summary": "",
+        "tagline": "",
+        "title": "",
+        "website": ""
       }
     }
   },

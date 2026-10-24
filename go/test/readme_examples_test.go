@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"regexp"
 	"runtime"
 	"strconv"
 	"strings"
@@ -22,10 +23,14 @@ import (
 // entries in a single compilation unit, and `compile` grew ~15 MB per fragment
 // to ~16 GB — the same superlinear-composite-literal blowup the L1 config data
 // path fixed for core/config.go. One shared var is O(1) in the snippet count.
-const testSeed = `map[string]any{"entity": map[string]any{"agent_health": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "agent_sandbox": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "agent_user": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "app_user": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "app_user_login": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "app_user_session": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "app_user_total": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "app_user_verify": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "authentication": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "collection": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "collection_record": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "custom": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "legacy": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "legacy_mutation": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "legacy_unknown": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "legacy_user": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "login": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "register": map[string]any{"example_id": map[string]any{"id": "example_id"}}}}`
+const testSeed = `map[string]any{"entity": map[string]any{"agent_health": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "agent_sandbox": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "agent_user": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "app_user": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "app_user_login": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "app_user_session": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "app_user_total": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "app_user_verify": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "authentication": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "collection": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "collection_record": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "custom": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "legacy_mutation": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "legacy_unknown": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "legacy_user": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "login": map[string]any{"example_id": map[string]any{"id": "example_id"}}, "register": map[string]any{"example_id": map[string]any{"id": "example_id"}}}}`
 
 // seedRef is how a snippet names the shared fixture; seedFile declares it.
 const seedRef = "readmeTestSeed"
+
+// The client variable, not the word: an import path carries the word between
+// hyphens (github.com/voxgig-sdk/multifon-client-sdk/go).
+var clientVar = regexp.MustCompile(`(^|[^\w.\-/"])client([^\w\-/"]|$)`)
 
 func seedFile(pkg string) []byte {
 	return []byte("package " + pkg + "\n\nvar " + seedRef + " = " + testSeed + "\n")
@@ -498,7 +503,7 @@ func wrapFragment(name, block, modulePath string) string {
 	}
 
 	declaresClient := strings.Contains(block, "client :=")
-	injectClient := !declaresClient && strings.Contains(block, "client")
+	injectClient := !declaresClient && clientVar.MatchString(block)
 
 	needSdk := injectClient || strings.Contains(block, "sdk.")
 	usesFmt := strings.Contains(block, "fmt.")

@@ -15,6 +15,13 @@ import (
 	vs "github.com/voxgig-sdk/hosted-rest-sdk/go/utility/struct"
 )
 
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const customEntityLiveStrict = true
+
+
 func TestCustomEntity(t *testing.T) {
 	t.Run("instance", func(t *testing.T) {
 		testsdk := sdk.TestSDK(nil, nil)
@@ -24,7 +31,21 @@ func TestCustomEntity(t *testing.T) {
 		}
 	})
 
-	t.Run("basic", func(t *testing.T) {
+	t.Run("validate", func(t *testing.T) {
+		if !fhHasFeature("validate") {
+			t.Skip("feature not present in this SDK: validate")
+		}
+		client := sdk.TestSDK(nil, map[string]any{
+			"feature": map[string]any{"validate": map[string]any{"active": true}},
+		})
+		_, err := client.Custom(nil).Load(map[string]any{"id": 1}, nil)
+		if sdkerr, ok := err.(*core.HostedRestError); !ok || "validate_failed" != sdkerr.Code {
+			t.Fatalf("expected validate_failed, got %v", err)
+		}
+	})
+
+	t.Run("basic", func(tt *testing.T) {
+		var t testing.TB = tt
 		setup := customBasicSetup(nil)
 		// Per-op sdk-test-control.json skip — basic test exercises a flow
 		// with multiple ops; skipping any op skips the whole flow.
@@ -32,7 +53,7 @@ func TestCustomEntity(t *testing.T) {
 		if setup.live {
 			_mode = "live"
 		}
-		for _, _op := range []string{"create", "update", "load", "remove"} {
+		for _, _op := range []string{"update", "load", "remove"} {
 			if _shouldSkip, _reason := isControlSkipped("entityOp", "custom." + _op, _mode); _shouldSkip {
 				if _reason == "" {
 					_reason = "skipped via sdk-test-control.json"
@@ -41,33 +62,24 @@ func TestCustomEntity(t *testing.T) {
 				return
 			}
 		}
-		// The basic flow consumes synthetic IDs from the fixture. In live mode
-		// without an *_ENTID env override, those IDs hit the live API and 4xx.
-		if setup.syntheticOnly {
-			t.Skip("live entity test uses synthetic IDs from fixture — set HOSTED_REST_TEST_CUSTOM_ENTID JSON to run live")
-			return
+		if setup.live {
+			liveMiss(t, customEntityLiveStrict, "Live entity test blocked: %s", "the flow updates a custom record it did not create")
 		}
 		client := setup.client
+		_ = client
 
-		// CREATE
-		customRef01Ent := client.Custom(nil)
-		customRef01Data := core.ToMapAny(vs.GetProp(
-			vs.GetPath(setup.data, []any{"new", "custom"}), "custom_ref01"))
-		customRef01Data["path"] = setup.idmap["path01"]
-
-		customRef01DataResult, err := customRef01Ent.Create(customRef01Data, nil)
-		if err != nil {
-			t.Fatalf("create failed: %v", err)
+		// Bootstrap entity data from existing test data (no create step in flow).
+		customRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.custom")))
+		var customRef01Data map[string]any
+		if len(customRef01DataRaw) > 0 {
+			customRef01Data = core.ToMapAny(customRef01DataRaw[0][1])
 		}
-		customRef01Data = core.ToMapAny(entityData(customRef01DataResult))
-		if customRef01Data == nil {
-			t.Fatal("expected create result to be a map")
-		}
-		if customRef01Data["id"] == nil {
-			t.Fatal("expected created entity to have an id")
-		}
+		// Discard guards against Go's unused-var check when the flow's steps
+		// happen not to consume the bootstrap data (e.g. list-only flows).
+		_ = customRef01Data
 
 		// UPDATE
+		customRef01Ent := client.Custom(nil)
 		customRef01DataUp0Up := map[string]any{
 			"id": customRef01Data["id"],
 		}
@@ -100,15 +112,6 @@ func TestCustomEntity(t *testing.T) {
 			t.Fatal("expected load result id to match")
 		}
 
-		// REMOVE
-		customRef01MatchRm0 := map[string]any{
-			"id": customRef01Data["id"],
-		}
-		_, err = customRef01Ent.Remove(customRef01MatchRm0, nil)
-		if err != nil {
-			t.Fatalf("remove failed: %v", err)
-		}
-
 	})
 }
 
@@ -137,7 +140,7 @@ func customBasicSetup(extra map[string]any) *entityTestSetup {
 
 	// Generate idmap via transform, matching TS pattern.
 	idmap, _ := vs.Transform(
-		[]any{"custom01", "custom02", "custom03", "path01"},
+		[]any{"custom01", "custom02", "custom03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
 				"`$KEY`": "`$COPY`",
@@ -146,9 +149,8 @@ func customBasicSetup(extra map[string]any) *entityTestSetup {
 		},
 	)
 
-	// Detect ENTID env override before envOverride consumes it. When live
-	// mode is on without a real override, the basic test runs against synthetic
-	// IDs from the fixture and 4xx's. Surface this so the test can skip.
+	// Whether *_ENTID supplied the idmap, read before envOverride consumes it:
+	// without it, the ids a live flow binds are the fixture's synthetic ones.
 	entidEnvRaw := os.Getenv("HOSTED_REST_TEST_CUSTOM_ENTID")
 	idmapOverridden := entidEnvRaw != "" && strings.HasPrefix(strings.TrimSpace(entidEnvRaw), "{")
 

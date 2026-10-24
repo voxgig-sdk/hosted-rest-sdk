@@ -86,11 +86,9 @@ main: kit: entity: legacy_unknown: {
           }
           m: "GET"
           o: "/api/unknown"
-          q: {
-            exist: [
-              "page"
-              "per_page"
-            ]
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -133,6 +131,10 @@ main: kit: entity: legacy_unknown: {
             exist: [
               "id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

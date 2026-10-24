@@ -6,10 +6,34 @@ require_relative "../HostedRest_sdk"
 require_relative "runner"
 
 class AppUserEntityTest < Minitest::Test
+  # main.kit.test.live.strict is true (the default is true): a live
+  # request that fails, or a live test missing an input it needs,
+  # fails the test.
+  # An account with no record for a test to read skips it either way.
+  LIVE_STRICT = true
+
   def test_create_instance
     testsdk = HostedRestSDK.test(nil, nil)
     ent = testsdk.AppUser(nil)
     assert !ent.nil?
+  end
+
+  def test_list_entities
+    seed = {
+      "entity" => {
+        "app_user" => {
+          "l1" => { "id" => "l1" },
+          "l2" => { "id" => "l2" },
+        },
+      },
+    }
+    items = HostedRestSDK.test(seed, nil).AppUser(nil).list(nil, nil)
+    # list resolves to one entity per record; data_get reads the record.
+    assert_equal 2, items.length
+    items.each do |item|
+      assert item.respond_to?(:data_get)
+      assert item.data_get.is_a?(Hash)
+    end
   end
 
   # Feature #4: the entity stream(action, ...) method runs the op pipeline and
@@ -48,6 +72,94 @@ class AppUserEntityTest < Minitest::Test
     end
   end
 
+  class FailHook < HostedRestBaseFeature
+    attr_reader :unexpected
+
+    def initialize
+      super()
+      @name = "failhook"
+      @unexpected = 0
+    end
+
+    def PreSpec(ctx)
+      raise "app_user hook failed"
+    end
+
+    def PreUnexpected(ctx)
+      @unexpected += 1
+    end
+  end
+
+  def test_stream_error
+    offline = { "net" => { "offline" => true } }
+    err = assert_raises(StandardError) do
+      HostedRestSDK.test(offline, nil).AppUser(nil).stream("list", nil, nil).to_a
+    end
+    assert_match(/offline/, err.message)
+
+    HostedRestSDK.test(offline, nil).AppUser(nil)
+      .stream("list", nil, { "ctrl" => { "throw" => false } }).to_a
+
+    cfg = HostedRestConfig.shared_config
+    if cfg["feature"].is_a?(Hash) && cfg["feature"].key?("rbac")
+      denied = HostedRestSDK.test(nil, { "feature" => { "rbac" => { "active" => true, "deny" => true } } })
+      err = assert_raises(StandardError) do
+        denied.AppUser(nil).stream("list", nil, nil).to_a
+      end
+      assert_equal "rbac_denied", err.code
+    end
+  end
+
+  def test_stream_ctrl
+    explain = {}
+    ctrl = { "explain" => explain }
+    HostedRestSDK.test(nil, nil).AppUser(nil).stream("list", nil, { "ctrl" => ctrl }).to_a
+    assert_equal ["explain"], ctrl.keys
+    assert_same explain, ctrl["explain"]
+    refute_empty explain
+  end
+
+  def test_unexpected
+    hook = FailHook.new
+    client = HostedRestSDK.new({ "feature" => { "test" => { "active" => true } }, "extend" => [hook] })
+
+    err = assert_raises(StandardError) do
+      client.AppUser(nil).list(nil, nil)
+    end
+    assert_match(/hook failed/, err.message)
+    assert_operator hook.unexpected, :>, 0
+
+    fired = hook.unexpected
+    assert_nil client.AppUser(nil).list(nil, { "throw" => false })
+    assert_operator hook.unexpected, :>, fired
+  end
+
+  def test_validate_list_response
+    cfg = HostedRestConfig.shared_config
+    unless cfg["feature"].is_a?(Hash) && cfg["feature"].key?("validate")
+      skip("feature not present in this SDK: validate")
+    end
+    opts = { "feature" => { "validate" => { "active" => true, "request" => false, "response" => true } } }
+    listed = HostedRestSDK.test({ "entity" => { "app_user" => { "v1" => { "email" => "x" } } } }, opts).AppUser(nil).list(nil, nil)
+    assert_equal ["v1"], listed.map { |ent| ent.data_get["id"] }
+    err = assert_raises(StandardError) do
+      HostedRestSDK.test({ "entity" => { "app_user" => { "v1" => { "email" => "x", "created_at" => 1 } } } }, opts).AppUser(nil).list(nil, nil)
+    end
+    assert_equal "validate_failed", err.code
+  end
+
+  def test_validate
+    cfg = HostedRestConfig.shared_config
+    unless cfg["feature"].is_a?(Hash) && cfg["feature"].key?("validate")
+      skip("feature not present in this SDK: validate")
+    end
+    client = HostedRestSDK.test(nil, { "feature" => { "validate" => { "active" => true } } })
+    err = assert_raises(StandardError) do
+      client.AppUser(nil).list({ "limit" => "x" }, nil)
+    end
+    assert_equal "validate_failed", err.code
+  end
+
   def test_basic_flow
     setup = app_user_basic_setup(nil)
     # Per-op sdk-test-control.json skip.
@@ -59,11 +171,12 @@ class AppUserEntityTest < Minitest::Test
         return
       end
     end
-    # The basic flow consumes synthetic IDs from the fixture. In live mode
-    # without an *_ENTID env override, those IDs hit the live API and 4xx.
-    if setup[:synthetic_only]
-      skip "live entity test uses synthetic IDs from fixture — set HOSTED_REST_TEST_APP_USER_ENTID JSON to run live"
-      return
+    if setup[:live]
+      ["project01"].each do |_live_key|
+        if setup[:synthetic_only] || setup[:idmap][_live_key].nil?
+          Runner.live_miss(LIVE_STRICT, "Live entity test blocked: needs #{_live_key} via HOSTED_REST_TEST_APP_USER_ENTID")
+        end
+      end
     end
     client = setup[:client]
 
@@ -71,7 +184,6 @@ class AppUserEntityTest < Minitest::Test
     app_user_ref01_ent = client.AppUser(nil)
     app_user_ref01_data = Helpers.to_map(Vs.getprop(
       Vs.getpath(setup[:data], "new.app_user"), "app_user_ref01"))
-    app_user_ref01_data["collection_id"] = setup[:idmap]["collection01"]
     app_user_ref01_data["project_id"] = setup[:idmap]["project01"]
 
     app_user_ref01_data_result = app_user_ref01_ent.create(app_user_ref01_data, nil)
@@ -138,7 +250,7 @@ def app_user_basic_setup(extra)
   Runner.load_env_local
 
   entity_data_file = File.join(__dir__, "..", "..", ".sdk", "test", "entity", "app_user", "AppUserTestData.json")
-  entity_data_source = File.read(entity_data_file)
+  entity_data_source = File.read(entity_data_file, encoding: "UTF-8")
   entity_data = JSON.parse(entity_data_source)
 
   options = {}
@@ -148,7 +260,7 @@ def app_user_basic_setup(extra)
 
   # Generate idmap via transform.
   idmap = Vs.transform(
-    ["app_user01", "app_user02", "app_user03", "collection01", "collection02", "collection03", "project01"],
+    ["app_user01", "app_user02", "app_user03", "project01"],
     {
       "`$PACK`" => ["", {
         "`$KEY`" => "`$COPY`",
@@ -157,9 +269,8 @@ def app_user_basic_setup(extra)
     }
   )
 
-  # Detect ENTID env override before envOverride consumes it. When live
-  # mode is on without a real override, the basic test runs against synthetic
-  # IDs from the fixture and 4xx's. Surface this so the test can skip.
+  # Whether *_ENTID supplied the idmap, read before env_override consumes
+  # it: without it, the ids a live flow binds are the fixture's synthetic ones.
   entid_env_raw = ENV["HOSTED_REST_TEST_APP_USER_ENTID"]
   idmap_overridden = !entid_env_raw.nil? && entid_env_raw.strip.start_with?("{")
 
